@@ -29,6 +29,7 @@ to_trs srs = RS
 	, rules     = do
 	      (l,r) <- srs
 	      return ( to_term l, to_term r )
+	, separate = False
 	}
 
 to_term = foldr ( \ c t -> Node c [ t ] ) ( Var $ mknullary "x" )

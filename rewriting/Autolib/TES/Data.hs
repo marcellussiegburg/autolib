@@ -33,6 +33,7 @@ data RS t  = RS
 	 , strategy  :: Maybe Sexp
 --	 , variables :: Set v -- ^ nullary symbols
 --	 , signature :: Set c -- ^ all symbols (not including variables, I hope)
+	 , separate :: Bool
 	 , rules :: [ ( t, t ) ]
 	 }
 
@@ -65,7 +66,8 @@ instance ( ToDoc (t, t), Show (t, t) )
 		   , case theory t of Just x -> toDoc x ; Nothing -> empty
 		   , case strategy t of Just x -> toDoc x ; Nothing -> empty
 		   -- , toDoc ( wrap "VAR" $ setToList $ variables t )
-		   , toDoc ( wrap "RULES" $ rules t )
+		   , toDoc $ ( if separate t then wrap_sep "," else wrap )
+                             "RULES" $ rules t 
 		   ]
 
 instance ( ToDoc (t, t), Show (t, t) ) 
@@ -77,7 +79,8 @@ instance Read SES where
 
 instance Reader SES where
     readerPrec p = do
-        plain_reader
+        ses <- plain_reader
+	return $ ses { separate = True }
 
 instance Read TES where
     readsPrec = parsec_readsPrec
@@ -86,7 +89,8 @@ instance Reader TES where
     readerPrec p = do
 	tes <- plain_reader
         return $ check_arities
-	       $ repair_variables tes
+	       $ repair_variables 
+	       $ tes { separate = False }
 
 plain_reader :: Reader (t, t) => Parser ( RS t )
 plain_reader =  do
@@ -97,6 +101,7 @@ plain_reader =  do
 		     -- , variables = emptySet
 		     -- , signature = emptySet
 		     , rules = []
+		     , separate = False
 		     }
         fs <- many line
 	return $ foldr (.) id fs trs0

@@ -4,6 +4,7 @@
 module TES.Sexp where
 
 import qualified TES.Parsec
+import Data.List (intersperse)
 import ToDoc
 import Reader
 
@@ -14,6 +15,11 @@ wrap :: Show a => String ->  [a] -> Sexp
 wrap f args = List
 	    $ Leaf f 
 	    : map ( Leaf . show ) args 
+
+wrap_sep :: Show a => String -> String ->  [a] -> Sexp
+wrap_sep sep f args = List
+	    $ Leaf f 
+	    : ( intersperse ( Leaf sep ) $ map ( Leaf . show ) args  )
 
 instance ToDoc Sexp where
     toDoc ( Leaf x ) = text x
