@@ -46,6 +46,7 @@ data ( NFTAC c s ) => NFTA c s =
 	  -- | and this is always the inverse of above
 	  , inv_eps :: Relation.Type s s
 	  }
+     deriving Eq
 
 lstates :: NFTAC c s => NFTA c s -> [s]
 lstates = setToList . states

@@ -23,11 +23,25 @@ pos t = do
     ( p, s ) <- positions t
     return p
 
+{-# inline subterms #-}
+
 subterms :: Term v c 
 	 -> [ Term v c ]
-subterms t = do
-    ( p, s ) <- positions t
-    return s
+subterms t = t : case t of
+    Node c args -> do arg <- args
+		      subterms arg
+    _ -> []
+
+
+-- | compute new symbol from *reverse* position and previous symbol
+pmap :: ( Position -> c -> d )
+     -> Term v c
+     -> Term v d
+pmap f t = helper [] t where
+    helper p ( Node c args ) = Node ( f p c ) $ do
+	     ( k, arg ) <- zip [0..] args
+	     return $ helper ( k : p ) arg
+    helper p ( Var v) = Var v
 
 peek :: Term v c 
      -> Position 

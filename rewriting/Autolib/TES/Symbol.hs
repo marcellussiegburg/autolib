@@ -11,10 +11,12 @@ import SRS.Aged
 import Data.Maybe ( isJust )
 import Sets
 import Hash
+import Util.Size
 
 import GHC.Int ( Int16 )
 
-class ( Hash s, Eq s, Ord s, ToDoc s, Show s, Reader s ) => Symbol s where
+class ( Size s, Hash s, Eq s, Ord s, ToDoc s, Show s, Reader s ) 
+      => Symbol s where
     arity :: s -> Int
     arity s = 1
 

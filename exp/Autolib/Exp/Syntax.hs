@@ -11,7 +11,7 @@ import Util.Size
 import ToDoc
 
 
-subtrees :: Exp -> [ Exp ]
+subtrees :: RX c -> [ RX c ]
 subtrees x = x : case x of
  
     Ref c -> []
@@ -30,9 +30,9 @@ subtrees x = x : case x of
     Plus x -> subtrees x
     Power i x -> subtrees x
 
-instance Size Exp where size = length . subtrees
+instance Size (RX c) where size = length . subtrees
 
-constructor :: Exp -> String
+constructor :: RX c -> String
 constructor x = case x of
 
     Ref n -> "Ref"

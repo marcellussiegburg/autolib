@@ -2,7 +2,9 @@ module NFTA.Insert
 
 --  $Id$
 
-( insert )
+( insert , inserts
+, links
+)
 
 where
 
@@ -14,13 +16,20 @@ import Data.List ( partition )
 import Control.Monad.State
 
 -- | add transitions (using all new states)
+inserts :: NFTAC c Int 
+       => NFTA c Int
+       -> [ (Int, Term Int c) ] -- ^ ( top, term )
+       -> NFTA c Int
+inserts ( a :: NFTA c Int ) pts = evalState 
+       ( do mapM_ ins pts ; (a, n) <- get ; return a )
+       ( a , succ $ maximum $ lstates a )
+
 insert :: NFTAC c Int 
        => NFTA c Int
        -> (Int, Term Int c) -- ^ ( top, term )
        -> NFTA c Int
-insert ( a :: NFTA c Int ) pt = evalState 
-       ( do ins pt ; (a, n) <- get ; return a )
-       ( a , succ $ maximum $ lstates a )
+insert a pt = inserts a [ pt ]
+
 
 type ST c = State ( NFTA c Int, Int )
 
@@ -79,3 +88,15 @@ add_eps (x,y) = do
 	, n 
 	)    
 
+
+links :: NFTAC c s
+	  => NFTA c s
+	  -> [ ( s, (c, [s])) ]
+	  -> NFTA c s
+links a pcqs = 
+    let sts = mkSet $ do (p,(c,qs)) <- pcqs ; p : qs
+    in a { states = states a `union` sts
+	 , trans = Relation.plus ( trans a ) ( Relation.make pcqs )
+	 , inv_trans = Relation.plus ( inv_trans a ) 
+		 ( Relation.make $ map (\ (p,(c,qs))->((qs,c),p))  pcqs )
+	 }	 

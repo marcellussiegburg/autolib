@@ -28,16 +28,20 @@ identic s = ( make0 $ do x <- setToList s ; return (x, x) )
 
 rightmap :: ( Ord a, Ord b, Ord c)
 	 => (b -> c) -> Type a b -> Type a c
-rightmap f r = 
-    ( make0 $ do (x, y) <- pairs r ; return (x, f y) )
-    { source = source r, target = smap f $ target r }
+rightmap f = bothmap id f
 
 leftmap :: ( Ord a, Ord b, Ord c)
 	 => (a -> b) -> Type a c -> Type b c
-leftmap f r = 
-    ( make0 $ do (x, y) <- pairs r ; return (f x, y) )
-    { source = smap f $ source r, target = target r }
+leftmap f = bothmap f id
 
+bothmap :: ( Ord a, Ord b, Ord c, Ord d)
+	 => (a -> b) -> (c -> d) 
+	-> Type a c -> Type b d
+bothmap f g r = 
+    ( make0 $ do (x, y) <- pairs r ; return (f x, g y) )
+    { source = smap f $ source r
+    , target = smap g $ target r 
+    }
 
 
 times :: (Ord a, Ord b, Ord c)

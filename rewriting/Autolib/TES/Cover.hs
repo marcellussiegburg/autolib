@@ -34,6 +34,15 @@ type Covers d v s =  Config d
 
 {-# SPECIALIZE covers :: Covers d Identifier Int #-}
 
+{- TODO
+relative_covers conf a =
+     let conf' = if   clamp conf
+                   then conf { bound_type = Label Zero }
+                   else conf
+       in    covers conf  ( base_srs  conf ) a
+          ++ covers conf' ( extra_srs conf ) a
+-}
+
 covers :: ( TRSC v Identifier, NFTAC (Aged Identifier) s )
       => Covers d v s
 covers conf trs a = do
