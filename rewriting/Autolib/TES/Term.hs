@@ -44,11 +44,10 @@ unvar ( Var v ) = v
 
 instance ( ToDoc c, ToDoc v ) => ToDoc (Term v c) where
     toDoc ( Var v ) = toDoc v
-    toDoc ( Node t xs ) = toDoc t <> 
+    toDoc ( Node t xs ) = toDoc t <+> 
 	if null xs 
 	then ToDoc.empty 
-	else ( text " " <+> ) 
-    	     $ ToDoc.parens $ hcat $ punctuate ( text ", " )
+	else ToDoc.parens $ hcat $ punctuate ( text ", " )
 			    $ map toDoc xs
 
 instance ( ToDoc c, ToDoc v ) => Show (Term v c) where 
