@@ -14,6 +14,9 @@ eins xs =  do
     k <- randomRIO (1, length xs)
     return $ xs !! (k - 1)
 
+einige :: Int -> [a] -> IO [a]
+einige n xs = sequence $ replicate n $ eins xs
+
 
 repeat_until :: IO a -> (a -> Bool) -> IO a
 repeat_until act p = 

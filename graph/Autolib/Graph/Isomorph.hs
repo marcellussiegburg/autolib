@@ -1,5 +1,5 @@
 -- | vergleicht zwei graphen auf isomorphie
---
+
 -- autor m.lindemeyer
 -- stinfwww.informatik.uni-leipzig.de/~psy99hvr
 -- (8484955)

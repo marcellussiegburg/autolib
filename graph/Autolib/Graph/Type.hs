@@ -1,5 +1,5 @@
 -- | Graph Datenstruktur mit elementaren Klasseninstanzen
---
+
 -- autor Georg Martius
 -- mai99dgf@studserv.uni-leipzig.de
 

@@ -1,4 +1,5 @@
 -- | zum visualisieren eines Graphen mittels graphiz-tools
+
 --  - gerichtet graphen: dot -Tformat -o output.format 
 --  - unrichtet graphen: neato -Tformat -o output.format 
 --
