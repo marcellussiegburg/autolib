@@ -51,8 +51,8 @@ toDot_layered a xss = do
 instance ( NFAC c a , Show a, Show c )
      => ToDot ( NFA c a ) where
     toDot a = helper (numeric a) a
-    toDotProgram a = "neato"
-    toDotOptions a = "-s"
+    toDotProgram a = "dot" -- "neato"
+    toDotOptions a = "-Grankdir=LR" -- "-s"
 
 helper num a = 
         let 
