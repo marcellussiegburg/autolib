@@ -13,21 +13,17 @@ where
 
 import NFA
 import Exp
-import qualified Ops
-import qualified Minus
-import qualified Shuffle
-import qualified Quotient
+import qualified NFA.Ops      as Ops
+import qualified NFA.Minus    as Minus
+import qualified NFA.Shuffle  as Shuffle
+import qualified NFA.Quotient as Quotient
 
 import qualified Exp.Env as E
 
-import Normalize
-import Minimize
-
-import qualified Det
-import qualified Trim
-import qualified Mirror
-
-import qualified Basic
+import qualified NFA.Det      as Det
+import qualified NFA.Trim     as Trim
+import qualified NFA.Mirror   as Mirror
+import qualified NFA.Basic    as Basic
 
 import ToDoc ( toDoc )
 
@@ -58,6 +54,7 @@ std_sigma alpha = E.plus std
 --------------------------------------------------------------------------
 
 -- backwards compatibility
+inter ::  E -> Exp -> NFA Char Int
 inter = inter_det 
 
 inter_det ::  E -> Exp -> NFA Char Int
@@ -69,7 +66,8 @@ inter_nondet e a = ( inter_with ( normalize ) e a )
 		   { nfa_info = toDoc a }
 
 
-inter_with :: (forall a . Ord a => NFA Char a -> NFA Char Int) -> E -> Exp -> NFA Char Int
+inter_with :: (forall a . NFAC Char a => NFA Char a -> NFA Char Int) 
+	   -> E -> Exp -> NFA Char Int
 inter_with norm e (Ref v)    = case E.look e v of
       Just x -> x
       Nothing -> error $ "Name " ++ show v ++ " nicht gebunden"
