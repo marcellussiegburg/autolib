@@ -28,4 +28,5 @@ instance ToDoc ( Term v c ) => ToDoc ( Rule v c ) where
 instance ToDoc ( Term v c ) => Show ( Rule v c ) where
     show = render . toDoc
 
+    
 

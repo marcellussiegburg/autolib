@@ -6,7 +6,7 @@ import Prelude hiding ( reverse )
 import Exp.Type
 
 -- | construct expression for reverse image of language
-reverse :: Exp -> Exp
+reverse :: RX c -> RX c
 reverse x = case x of
 	
      -- only those are direction dependent:

@@ -23,12 +23,15 @@ import Informed
 import ToDoc
 import Reader
 
+import TES.Symbol
+
 import Control.Monad (guard)
 
 -- mal sehen
 type NFA_Char s = NFA Char s
 
 class ( Ord c, Ord s
+      , Symbol c
       , ToDoc c, ToDoc [c]
                 , ToDoc s
       , Reader c, Reader s
@@ -39,6 +42,7 @@ class ( Ord c, Ord s
 
 
 instance ( Ord c, Ord s
+	 , Symbol c
       , ToDoc c, ToDoc [c]
       ,          ToDoc s
       , Reader c, Reader s

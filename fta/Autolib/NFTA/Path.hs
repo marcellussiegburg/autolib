@@ -1,4 +1,4 @@
--- | the path automaton contains to kinds of states:
+-- | the path automaton contains two kinds of states:
 -- state nodes and transition nodes
 --
 -- a transition node q0 -> c(q1, .., qn) 
@@ -17,7 +17,11 @@ import Sets
 import ToDoc
 import Reader
 
+import TES.Symbol
+
 ----------------------------------------------------------------------------
+
+instance Symbol Edge
 
 make :: ( T.NFTAC c s )
      => T.NFTA c s

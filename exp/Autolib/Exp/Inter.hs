@@ -25,19 +25,22 @@ import qualified NFA.Trim     as Trim
 import qualified NFA.Mirror   as Mirror
 import qualified NFA.Basic    as Basic
 
-import ToDoc ( toDoc )
+import TES.Symbol
+import ToDoc
 
 ---------------------------------------------------------------------------
 
-type E = E.Env (NFA Char Int)
+type E c = E.Env (NFA c Int)
 
-std :: E
+std :: NFAC c Int
+    => E c
 std =  E.make 
 	  [ ("Eps", Basic.epsilon)
 	  , ("Empty", Basic.empty)
 	  ]
 
-std_sigma :: String -> E
+std_sigma :: NFAC c Int
+	  => [c] -> E c
 std_sigma alpha = E.plus std 
 		$ E.make [ ( "Sigma", Basic.sigma alpha )
 			 , ( "All"  , Basic.sigmastar alpha )
@@ -54,20 +57,24 @@ std_sigma alpha = E.plus std
 --------------------------------------------------------------------------
 
 -- backwards compatibility
-inter ::  E -> Exp -> NFA Char Int
+inter :: NFAC c Int
+      => E c -> RX c -> NFA c Int
 inter = inter_det 
 
-inter_det ::  E -> Exp -> NFA Char Int
+inter_det :: NFAC c Int
+	  => E c -> RX c -> NFA c Int
 inter_det e a = ( inter_with ( minimize . normalize ) e a )
 	      { nfa_info = toDoc a }
 
-inter_nondet ::  E -> Exp -> NFA Char Int
+inter_nondet :: NFAC c Int
+	     =>  E c -> RX c -> NFA c Int
 inter_nondet e a = ( inter_with ( normalize ) e a )
 		   { nfa_info = toDoc a }
 
 
-inter_with :: (forall a . NFAC Char a => NFA Char a -> NFA Char Int) 
-	   -> E -> Exp -> NFA Char Int
+inter_with :: ( Symbol c, ToDoc [c] )
+	   => (forall a . NFAC c a => NFA c a -> NFA c Int) 
+	   -> E c -> RX c -> NFA c Int
 inter_with norm e (Ref v)    = case E.look e v of
       Just x -> x
       Nothing -> error $ "Name " ++ show v ++ " nicht gebunden"

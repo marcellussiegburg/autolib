@@ -1,4 +1,11 @@
-module TES.Identifier where
+module TES.Identifier 
+
+( Identifier -- abstract
+, mknullary
+, mkunary
+)
+
+where
 
 --   $Id$
 
@@ -11,27 +18,44 @@ import Reader
 import TES.Parsec
 import TES.Symbol
 
+import Data.List (intersperse)
 
--- | don't derive Egq and Ord since arity should be ignored
-data Identifier = Identifier { name :: String
-		     , i_arity :: Int
-		     }
+import Hash
+
+-- | don't derive Eq and Ord since arity should be ignored
+data Identifier = Identifier 
+		{ hash_code :: Int
+		, i_arity :: Int
+		, name :: String
+		}
+
+mk :: Int -> String -> Identifier
+mk a cs = Identifier
+	{ hash_code = hash cs
+	, i_arity = a
+	, name = cs
+	}
 
 instance Eq Identifier where 
-   x == y = name x == name y
+   x == y = ( hash_code x , name x ) == ( hash_code y , name y )
 
 instance Ord Identifier where
-   compare x y = compare (name x) (name y)    
+   compare x y = compare ( hash_code x , name x ) ( hash_code y , name y )
 
 instance Symbol Identifier where
      arity = i_arity
      set_arity a x = x { i_arity = a }
+     pool = do c <- pool :: [ Char ]
+	       return $ mknullary [c]
+     stringify    = concat 
+		  . intersperse "+"
+		  . map name
 
 mknullary :: String -> Identifier
-mknullary c = Identifier { name = c, i_arity = 0 }
+mknullary = mk 0 
 
 mkunary :: String -> Identifier
-mkunary c = Identifier { name = c, i_arity = 1 }
+mkunary = mk 1
 
 type Signature = Set Identifier
 
@@ -48,7 +72,7 @@ instance Reader Identifier where
         i <- identifier trs 
 	     <|> fmap show ( natural trs )
 	     <|> operator trs
-	return $ Identifier { name = i , i_arity = error "undefined arity" }
+	return $ mk ( error "undefined arity" ) i
 
 instance Show Identifier where show = render . toDoc
 instance Read Identifier where readsPrec = parsec_readsPrec

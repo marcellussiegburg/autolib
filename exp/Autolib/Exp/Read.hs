@@ -3,6 +3,7 @@ module Exp.Read where
 -- -- $Id$
 
 import Exp.Type
+import TES.Symbol
 
 import Char
 
@@ -15,13 +16,15 @@ import Exp.MyTokens
 
 --------------------------------------------------------------------------
 
-express :: Parser (Exp, String)
+express :: Symbol c
+	=> Parser (RX c, String)
 express = do 
     whiteSpace
     x <- expression
     rest <- getInput
     return (x, rest)
 
+expression :: Symbol c => Parser (RX c)
 expression =  buildExpressionParser operators catenation
 
 operators =
@@ -41,12 +44,12 @@ operators =
 	 Infix ( do { symbol name; return f } 
 		 <?> "operator" ) assoc
 
-catenation :: Parser Exp
+catenation :: Symbol c => Parser (RX c)
 catenation = do
     ps <- many1 monomial
     return $ foldr1 Dot ps
 
-monomial :: Parser Exp
+monomial :: Symbol c => Parser (RX c)
 monomial = do
     x <- atom
     fs <- many $
@@ -59,25 +62,24 @@ monomial = do
 		 ) 
     return $ foldl (.) id (reverse fs) $ x
 
-atom :: Parser Exp
+atom :: Symbol c => Parser (RX c)
 atom =      parens expression 
        <|>  do b <- basic ; whiteSpace; return b
        <?>  "atomic expression"
 
-basic :: Parser Exp
-basic = do
-    c <-  alphaNum
-    if isUpper c
-       then do cs <- many alphaNum
-	       return $ Ref (c : cs)
-       else    return $ Letter c
+basic :: Symbol c => Parser (RX c)
+basic = do c <- satisfy isUpper 
+	   cs <- many alphaNum
+	   return $ Ref (c : cs)
+    <|> do x <- symbol_reader
+	   return $ Letter x
 
 --------------------------------------------------------------------------
 
-instance Reader Exp where
+instance Symbol c => Reader (RX c) where
     readerPrec p = expression
 
-instance Read Exp where
+instance Symbol c => Read (RX c) where
     readsPrec = parsec_readsPrec
 
 

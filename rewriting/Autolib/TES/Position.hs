@@ -5,6 +5,7 @@ module TES.Position where
 import TES.Term
 import Util.Size
 import Sets
+import Letters
 
 type Position = [ Int ]
 
@@ -83,6 +84,10 @@ symsl t = do
 
 syms :: Ord c => Term v c -> Set c
 syms = mkSet . symsl
+
+instance Ord c => Letters ( Term v c ) c where
+    letters = syms
+
 
 lsyms :: Ord c => Term v c -> [ c ]
 lsyms = setToList . syms

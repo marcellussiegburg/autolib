@@ -12,7 +12,7 @@ import qualified TES.Rule
 import Util.Size
 import Sets
 
-import SRS.Label.Type
+import SRS.Label.Class
 
 import SRS.Interface.Config
 

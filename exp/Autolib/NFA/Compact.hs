@@ -3,16 +3,37 @@ module NFA.Compact where
 -- -- $Id$
 
 import NFA.Type
+import Exp
+import TES.Symbol
 
 import Data.FiniteMap
 import Sets
 import Letters
 import Control.Monad ( guard )
 
+import Reader
+import ToDoc
+
+make :: ( NFAC c s, NFAC [c] s, NFAC [[c]] s, NFAC (RX c) s )
+     => NFA c s
+     -> NFA (RX c) s
+make  = alphamap rxify
+      . parallel
+      . sequential
+
+instance Symbol c => Symbol (RX c)
+instance ( Symbol c, Reader [c], ToDoc [c] ) => Symbol [c]
+
+-- | fold into regexp
+rxify :: Symbol c => [[c]] -> RX c
+rxify = foldr1 Union 
+      . map ( foldr1 Dot )
+      . map ( map Letter )
+
 -- | collect all edges between same pair of states
-parallel_compact :: ( NFAC c s, NFAC [c] s )
+parallel :: ( NFAC c s, NFAC [c] s )
 		 => NFA c s -> NFA [c] s
-parallel_compact a = 
+parallel a = 
     let accu = addListToFM_C union emptyFM $ do
 	    ( p, c, q ) <- unCollect $ trans a
 	    return ( (p, q), unitSet c )
@@ -24,9 +45,9 @@ parallel_compact a =
 
 -- | replace unique path over several states 
 -- by single edge labelled with sequence of letters
-sequential_compact :: ( NFAC c s, NFAC [c] s )
+sequential :: ( NFAC c s, NFAC [c] s )
 	=> NFA c s -> NFA [c] s
-sequential_compact a =
+sequential a =
     let sigma = letters a
 
         indegrees  = addListToFM_C (+) emptyFM $ do

@@ -9,10 +9,16 @@ import Text.ParserCombinators.Parsec.Expr
 import SRS.Aged
 
 import Data.Maybe ( isJust )
+import Sets
+
+import GHC.Int ( Int16 )
 
 class ( Eq s, Ord s, ToDoc s, Show s, Reader s ) => Symbol s where
     arity :: s -> Int
+    arity s = 1
+
     set_arity :: Int -> s -> s
+    set_arity a s = error "Symbol.set_arity undefined"
 
     precedence :: s -> Maybe Int
     precedence _ = Nothing -- default: not as operator
@@ -20,15 +26,59 @@ class ( Eq s, Ord s, ToDoc s, Show s, Reader s ) => Symbol s where
     assoc :: s -> Assoc
     assoc _ = AssocNone
 
+    pool :: [ s ]
+    pool = error "Symbol.pool undefined"
+
+    symbol_toDoc :: s -> Doc
+    symbol_toDoc = toDoc
+
+    symbol_reader :: Parser s
+    symbol_reader = reader
+
+    -- | use to create a directory name
+    stringify :: [ s ] -> String
+    stringify = error "Symbol.stringify not implemented"
+
+    -- | used for SRS output
+    toDoc_list :: [ s ] -> Doc
+    toDoc_list = hsep . map toDoc 
+
+
+unused :: Symbol s
+       => Int -> Set s -> [s]
+unused n cs =
+        let fs = filter ( \ c -> not $ c `elementOf` cs ) pool
+        in  if length fs < n 
+	    then error "no more unused symbols available"
+	    else take n fs
+
 is_operator :: Symbol s => s -> Bool
 is_operator = isJust . precedence 
 
 is_constant :: Symbol s => s -> Bool
 is_constant = (== 0) . arity
 
+------------------------------------------------------------------------
+
 instance ( Show a, Symbol a ) => Symbol (Aged a) where
     arity = arity . it
     set_arity a = fmap (set_arity a)  
+
+------------------------------------------------------------------------
+
+instance Symbol Char where
+    arity c = 1
+    set_arity a c = error "instance Symbol Char has no set_arity"
+    symbol_toDoc = ToDoc.char
+    symbol_reader = alphaNum
+    pool = [ '#', '%' ] ++ ['a' .. 'z' ] ++ ['A' .. 'Z' ] ++ [ '0' .. '9' ]
+    stringify  = id
+    toDoc_list = text
+
+
+
+
+
 
 
     

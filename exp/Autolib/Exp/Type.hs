@@ -2,23 +2,25 @@ module Exp.Type where
 
 --  $Id$
 
-data Exp 
-	= Ref String  -- reference to value in evironment
-	| Letter Char
+-- | regular expressions
+data RX c
+	= Ref String  -- ^ reference to value in evironment
+	| Letter c
 
-	| Dot Exp Exp
-	| Union Exp Exp
-	| Intersection Exp Exp
-	| Difference Exp Exp
-	| SymDiff Exp Exp
-	| Shuffle Exp Exp
+	| Dot (RX c) (RX c)
+	| Union (RX c) (RX c)
+	| Intersection (RX c) (RX c)
+	| Difference (RX c) (RX c)
+	| SymDiff (RX c) (RX c)
+	| Shuffle (RX c) (RX c)
 
-	| Left_Quotient Exp Exp
-	| Right_Quotient Exp Exp
+	| Left_Quotient (RX c) (RX c)
+	| Right_Quotient (RX c) (RX c)
 
-	| Star Exp
-	| Plus Exp
-	| Power Integer Exp 
+	| Star (RX c)
+	| Plus (RX c)
+	| Power Integer (RX c) 
     deriving ( Eq, Ord )
 
-
+-- | for  backward compatibility
+type Exp = RX Char 
