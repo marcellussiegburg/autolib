@@ -20,6 +20,7 @@ independent = independent0 . setToList
 independent0 :: Ord a => [a] -> Graph a
 independent0 xs = Graph 
     { graph_info = text $ "E_" ++ show (length xs)
+    , show_labels = False
     , graph_texinfo = "{E_{" ++ show (length xs) ++ "}}"
     , knoten = mkSet xs
     , kanten = emptySet
