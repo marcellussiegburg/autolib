@@ -24,7 +24,7 @@ import Autolib.Informed
 
 ----------------------------------------------------------------------------
 
-make :: ( T.NFTAC c s )
+make :: ( T.NFTAC c s, Show s )
      => T.NFTA c s
      -> W.NFA Edge (Node c s)
 make t = 
@@ -56,8 +56,7 @@ instance ( Show c, Show s ) => Show (Node c s) where
     show ( Transition (q, c, qs) ) = show c
     show ( State s ) = show s
 
-instance Reader (Node c s) -- no methods
-instance ToDoc (Node c s)
+instance Read (Node c s)
 
 instance ( Hash c, Hash s ) => Hash ( Node c s ) where
     hash ( Transition t ) = hash t
@@ -71,12 +70,11 @@ instance Show Edge where
     show (Edge i) = show i
     show Nil = ""
 
+instance Read Edge
+
 instance Hash ( Edge ) where
     hash ( Edge x ) = hash x
     hash Nil = 4711
-
-instance Reader Edge -- no methods
-instance ToDoc Edge 
 
 instance Symbol Edge -- dummy
 instance Size Edge where size = error "Edge.size"

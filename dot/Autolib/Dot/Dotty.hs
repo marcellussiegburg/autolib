@@ -14,6 +14,7 @@ import qualified Autolib.Dot.Graph
 import Autolib.Size
 
 import System.IO
+import System.Directory
 import Control.Exception ( catch )
 
 -- | write output as png to file,
@@ -28,12 +29,15 @@ peng :: ( Hash a, Show a, ToDot a )
       => a
       -> Reporter ()
 peng a = do
-    let it = toDot a
-        pre = "../pics/" ++ ( show $ abs $ hash a )
+    let pics = "../pics"
+        it = toDot a
+        pre = pics ++ "/" ++ ( show $ abs $ hash a )
     let objfile = pre ++ ".obj"
         dotfile = pre ++ ".dot" 
         pngfile = pre ++ ".png"
     execute $ do
+        flag <- doesDirectoryExist pics
+        when ( not flag ) $ createDirectory pics
         done <- do
            cs <- readFile objfile
            return $ show a == cs
