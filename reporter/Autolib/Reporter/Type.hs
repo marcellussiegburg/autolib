@@ -10,8 +10,8 @@ import qualified Pretty
 
 import Maybe (isJust, fromMaybe)
 
-import Right
-import Wrong
+-- import Right
+-- import Wrong
 
 data Reporter a = 
      Reporter { result :: Maybe a 
@@ -25,10 +25,7 @@ data Reporter a =
 -- ist also nur sinnvoll für reine ausgaben (tracing usw.)
 
 instance Functor Reporter where
-    fmap f r = Reporter { result = fmap f $ result r
-			, kommentar = kommentar r 
-			, action = action r
-			}
+    fmap f r = r { result = fmap f $ result r }
 
 -- kommentiere :: Output -> Reporter a -> Reporter a
 -- fügt neuen kommentar (am anfang) hinzu
@@ -97,14 +94,6 @@ run r = do
     return $ export r
 
 -----------------------------------------------------------
-
--- for use in classical autotool problems
-reporter :: Reporter Int -> IO String
-reporter r = do
-    print ( render ( kommentar r ) :: Pretty.Doc )
-    case result r of
-        Just i -> right_with $ "OK # Size: " ++ show i
- 	Nothing -> wrong
 
 -- for use in challenger problems
 -- flag is true  iff  reporter returns at all (with any value)
