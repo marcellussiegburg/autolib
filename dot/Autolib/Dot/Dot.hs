@@ -12,17 +12,17 @@ class ToDot a where
 -- gleicher argument/resultat-typ wie Graph.Viz.getGraphviz
 
 mkDot :: ToDot a 
-      => a -> String -> FilePath 
+      => a -> String -> String -> FilePath 
       -> IO ( FilePath, String, ExitCode )
-mkDot a prog path = do
+mkDot a prog fmt path = do
 
     let dotfile = path ++ ".dot"
     writeFile dotfile $ show $ toDot a
 
-    let fmt = "png"
     let fmtfile = path ++ "." ++ fmt
 
-    if not $ prog `elem` [ "dot", "neato" ] 
+    if    ( not $ prog `elem` [ "dot", "neato" ]  )
+       || ( not $ fmt  `elem` [ "png", "ps"    ]  )
        then do   
           return ( fmtfile, fmt, ExitFailure 1 )
        else do
