@@ -4,6 +4,7 @@ import GVKnoten.Type
 import Set
 import Monad (guard)
 import Maybe
+import Char  (isDigit)
 
 data Field =   Label  String
              | Pos    ( Int, Int )
@@ -12,33 +13,34 @@ data Field =   Label  String
              | Unknown
              deriving Show
 
--- parse ein File in eine GVKnoten-Liste
-parse15 :: String -> IO ( [ GVKnoten ] )
-parse15 file = do
+-- parse file to GVNode-List
+parse :: String -> IO ( [ GVKnoten ] )
+parse file = do
 	string <- readFile file
-	return ( parse14 string )	
+	return ( parse_all string )	
 
--- parse ein File (als String) in eine GVKnoten-Liste
-parse14 :: String -> [ GVKnoten ]
-parse14 string
-	| string == [] = []
-	| otherwise    = if ( isJust parse_line )
-	                  then [ GVKnoten { ident  = show       id
-							                , label  = showLabel  l
-												 , pos    = showPos    p
-												 , width  = showWidth  w
-												 , height = showHeight h
-												 }
-								  ] ++ parse_next_line
-							else parse_next_line 
-							where 
-									(id,(l:p:w:h:rest)) = fromJust(parse5 $ head $ lines string)
-									line                = head $ lines string
-									parse_line          = parse5 line
-									parse_next_line     = parse14 $ unlines $ tail $ lines string
+-- parse file as String to GVNode-List
+parse_all :: String -> [ GVKnoten ]
+parse_all string
+   | string == [] = []
+   | otherwise    
+      = if ( isJust parseline )
+         then [ GVKnoten { ident  = id
+                         , label  = showLabel  l
+                         , pos    = showPos    p
+                         , width  = showWidth  w
+                         , height = showHeight h
+                         }
+               ] ++ parse_next_line
+         else parse_next_line 
+        where 
+           (id,(l:p:w:h:rest)) = fromJust(parseline)
+           line                = head $ lines string
+           parseline           = parse_line line
+           parse_next_line     = parse_all $ unlines $ tail $ lines string
 
-parse :: String -> [(Field,String)]
-parse str = 
+parse_joe :: String -> [(Field,String)]
+parse_joe str = 
     let ( pre, '=' : post ) = span (/= '=') str
     in  case pre of
 	     "label" -> do ( z, rest) <- reads post
@@ -52,7 +54,9 @@ parse7 :: String -> [ Field ]
 parse7 str = let ( pre, '=' : post ) = span (/= '=') str
    	       in case pre of
 	     "label" -> let ( pre2, ',' : post2 ) = span (/= ',') post
-		             in [ Label pre2 ] ++ parse7 post2 
+		             in if ( (head pre2) == '\"' )
+						     then [ Label ( init $ tail pre2 ) ] ++ parse7 post2
+							  else [ Label pre2 ] ++ parse7 post2 
 	     "pos"   -> let 
                        ( pre2 , ' ' : post2 ) = span (/= ' ') post
                        ('\"' : px , ',' : py) = span (/= ',') 
@@ -65,26 +69,21 @@ parse7 str = let ( pre, '=' : post ) = span (/= '=') str
 	     _       -> parse7 $ tail str 
 
 -- bekommt eine Zeile aus dem File und splittet die vordere Zahl ab
-parse5 :: String -> Maybe ( Int , [ Field ] )
-parse5 str =
-	let ( pre, post ) = span (/= '['	) str
-	in if ( ( (mkSet str) `intersect` (mkSet "width=" )) == (mkSet "width=") )
-	    then (Just( (read pre)::Int , parse7 (tail post) ))
+parse_line :: String -> Maybe ( String , [ Field ] )
+parse_line str =
+	let 
+		( pre, post ) = span (/= '['	) str  -- geht mit lex viel besser!!
+		( pre2, post2)= head $ lex str
+		( lbl, l_po ) = span (/= '='  ) post
+	in if ( and [ ( length $ words pre ) == 1 , isDigit $ head pre2 ] )
+	    then 
+		    if ( (length lbl) < 5 ) -- dann kein label enthalten
+			 then (Just( pre2 , (Label pre2 ) : (parse7 post2)))
+			 else (Just( pre2 , parse7 (tail post2) ))
 	    else Nothing
 
-parse12 :: String -> [ GVKnoten ]
-parse12 string = do
-	guard (isJust $ parse5 $ head $ lines string) 
-	return GVKnoten { ident  = show       id
-	                , label  = showLabel  l
-						 , pos    = showPos    p
-						 , width  = showWidth  w
-						 , height = showHeight h
-						 } ++ (parse12 $ unlines $ tail $ lines string)
-	where (id,(l:p:w:h:rest)) = fromJust(parse5 $ head $ lines string)
-
 instance Read Field where 
-    readsPrec p str = parse str
+    readsPrec p str = parse_joe str
 
 build :: String -> [ Field ] -> GVKnoten	
 build = error "build undef."
@@ -96,7 +95,11 @@ readline str = do
     return $ build i fields
 
 showLabel  :: Field -> String
-showLabel  (Label string) = string
+showLabel  (Label string) = 
+           let ( pre , post ) = span (/= '\\') string
+			  in if (and [( length post ) > 2, (take 2 post) == "\\n" ] )
+			      then ( pre ++ "\n" ++ ( drop 2 post ) )
+					else string
 
 showPos    :: Field -> (Int, Int)
 showPos    (Pos pos) = pos
