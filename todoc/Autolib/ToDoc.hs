@@ -5,7 +5,10 @@
 -- hugs: -98 +o
 
 -- $Log$
--- Revision 1.3  2002-06-29 18:44:02  joe
+-- Revision 1.4  2002-10-23 06:50:45  joe
+-- max_lengths reduziert
+--
+-- Revision 1.3  2002/06/29 18:44:02  joe
 -- max_lengths hochgesetzt
 --
 -- Revision 1.2  2002/06/17 10:52:19  joe
@@ -53,8 +56,8 @@ showDoc :: Doc -> String
 showDoc = unwords . words . render
 
 
-max_list_length = 100 :: Int
-max_string_length = 100 :: Int
+max_list_length = 30 :: Int
+max_string_length = 30 :: Int
 
 class ToDoc a where toDoc :: a -> Doc
 
