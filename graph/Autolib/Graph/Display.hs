@@ -18,6 +18,7 @@ import Maybe
 
 instance ( Show a, Ord a ) => ToDot ( Graph a ) where
     toDotProgram g = "neato"
+--    toDotProgram g = "dot"
     toDot g =
         let vs = setToList $ knoten g
 	    fm = listToFM $ zip vs $ [ 0 :: Int .. ] 
