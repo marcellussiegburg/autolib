@@ -18,10 +18,10 @@ deterministisch a = do
        [ text "Diese Regeln sind nicht deterministisch:"
        , nest 4 $ toDoc non
        ]
-    let c = cardinality $ states a
+    let c = cardinality $ starts a
     when ( 1 /= c ) $ reject $ vcat
        [ text "Der Automat hat nicht genau einen Startzustand,"
-       , nest 4 ( text "sondern" <+> toDoc ( states a ) )
+       , nest 4 ( text "sondern" <+> toDoc ( starts a ) )
        ]
     inform $ text "Er ist es."
 
