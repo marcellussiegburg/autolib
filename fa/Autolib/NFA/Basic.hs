@@ -1,11 +1,15 @@
 module NFA.Basic where
 
--- -- $Id$
+--  $Id$
 
 import NFA.Type
+import NFA.Shortest (accepted)
 import Data.Set
 import Data.FiniteMap
 import ToDoc hiding ( empty )
+
+is_empty :: NFAC c s => NFA c s -> Bool
+is_empty a = null $ accepted a
 
 empty :: NFAC c Int => NFA c Int
 empty = NFA { nfa_info = text "Empty"

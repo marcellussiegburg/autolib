@@ -1,4 +1,4 @@
--- -- $Id$
+--  $Id$
 
 module NFA.Shortest where
 
@@ -32,6 +32,9 @@ computations a = comps ( smap ( \ p -> ( [], p ) ) $ starts a ) where
 	  let next = unionManySets $ setToList $ smap (succs a) todo
 	  in  if isEmptySet next then [] else comps next
 
+-- | (infinite) list of accepted words
+-- does correctly output empty list
+-- iff language is empty
 accepted :: (NFAC c s, Ord (Set (State c s))) 
 	 => NFA c s -> [ [c] ]
 accepted a = 
