@@ -72,3 +72,11 @@ tfold fvar fnode = fun where
     fun ( Var v ) = fvar v
     fun ( Node f args ) = fnode f ( map fun args )
 
+-- | apply to unary symbols only
+nullmap :: ( c -> Term v c ) 
+	-> Term v c 
+	-> Term v c
+nullmap f =
+    let fnode c [] = f c
+	fnode c args = Node c args
+    in  tfold Var fnode

@@ -16,6 +16,7 @@ import Control.Monad.State
 -- | class that describes choice:
 class Monad g => Pick g where
     pick :: [a] -> g a
+    
 
 instance Pick [] where
     -- take all
@@ -32,6 +33,10 @@ instance RandomGen g => Pick (State g) where
 -- | class that describes choosables
 class Choose a b where
       choose :: Pick p => a -> Int -> p b
+
+-- | lazy infinite list
+cache  :: ( Chose a b, Pick p ) => a -> [ p b ]
+cache a = do s <- [ 0 .. ] ; return $ choose a s
 
 instance ( Choose a b, Choose a c ) => Choose a (b, c) where
     choose a s = do
@@ -90,4 +95,5 @@ instance ( Symbol c , Choose a (Term Identifier c) )
 		   ]
 	return $ trs { annotations = anno }
 
+-------------------------------------------------------------------------
 

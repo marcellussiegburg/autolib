@@ -115,6 +115,7 @@ vsize :: Term v c -> Int
 vsize = size . smash
 
 
+-- | in preorder 
 symsl :: Term v c -> [ c ]
 symsl t = do
     Node c _ <- subterms t
