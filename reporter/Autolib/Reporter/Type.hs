@@ -53,6 +53,12 @@ silent r = r { kommentar = if isJust ( result r )
 			   then empty else kommentar r
 	     }
 
+wrap :: Reporter a -> Reporter ( Maybe a )
+-- a reporter who always returns
+wrap r = Reporter { result = Just $ result r 
+		  , kommentar = kommentar r 
+		  }
+
 -- for use in classical autotool problems
 reporter :: Reporter Int -> IO String
 reporter r = do
