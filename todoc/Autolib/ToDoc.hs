@@ -11,6 +11,7 @@ where
 import ToDoc.Class
 import ToDoc.Manual
 import ToDoc.Derived
+import ToDoc.Typeable
 import ToDoc.Dutch
 
 
