@@ -37,16 +37,4 @@ kk ns = informed ( funni "K" $ map toDoc ns )
       $ foldr1 ( \ x y -> Graph.Ops.normalize $ Graph.Ops.times x y ) 
       $ do n <- ns ; return $ e n
 
-herschel :: Graph Int
-herschel = informed ( text "Herschel" )
-	 $ Graph.Ops.normalize
-	 $ Graph.Ops.union ( Graph.Ops.grid (path [1..3]) (path [1 .. 3]) )
-                 ( independent $ mkSet [1 , 3 ] )
-	   `Graph.Ops.links0` do 
-		v <- [1, 3 ]
-		let other v = 4 - v
-		[ kante (Left (v,v)) (Right v)
-		   , kante (Left (v,v)) (Right $ other v)
-		   , kante (Left (v, other v)) (Right v)
-		   ]
 
