@@ -25,8 +25,8 @@ expression =  buildExpressionParser operators catenation
 
 operators =
     [ [ op "*" Dot          AssocLeft 
-      , op "\\" Right_Quotient     AssocLeft 
-      , op "/" Left_Quotient     AssocLeft 
+      , op "\\" Left_Quotient     AssocLeft 
+      , op "/" Right_Quotient     AssocLeft 
       ]
     , [ op "$" Shuffle      AssocLeft ]
     , [ op "&" Intersection AssocLeft ]
