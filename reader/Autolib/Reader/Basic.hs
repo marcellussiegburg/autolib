@@ -7,7 +7,9 @@ module Reader.Basic
 , (<|>)
 , my_braces, my_comma
 , my_reserved, my_equals
+, my_commaSep
 , listify
+, parsed_info
 )
 
 where
@@ -20,6 +22,8 @@ import TypeOf
 import Parsec
 import ParsecToken
 import ParsecLanguage ( haskell )
+
+import qualified Pretty
 
 import Monad ( guard )
 
@@ -39,14 +43,21 @@ my_braces = braces haskell
 my_comma = comma haskell
 my_equals = reservedOp haskell "="
 my_reserved = reserved haskell
+my_commaSep = commaSep haskell
 
 
 readerParen man p =
     my_parens p <|> do	guard $ not man ; p
 
+-- das schreiben wir in alle *_info - komponenten
+-- die werden nicht geparst
+parsed_info :: Parser Pretty.Doc
+parsed_info = return $ Pretty.doubleQuotes $ Pretty.text "parsed_info"
+
 --------------------------------------------------------------------------
 
 instance Reader Integer where reader = integer haskell
+instance Reader Int where reader = fmap fromIntegral $ integer haskell
 instance Reader Char    where reader = charLiteral haskell
 instance Reader String  where reader = stringLiteral haskell
 

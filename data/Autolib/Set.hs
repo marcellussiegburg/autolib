@@ -18,13 +18,13 @@ import Util.Teilfolgen
 instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)
 
-instance ( Ord a, Reader a ) => Reader ( Set a ) where
+instance ( Ord a, Reader [a] ) => Reader ( Set a ) where
     reader = do
         my_reserved "mkSet"
-	xs <- listify reader
+	xs <- reader
 	return $ mkSet xs
 
-instance (Ord a, Reader a) => Read (Set a) where
+instance (Ord a, Reader [a]) => Read (Set a) where
     readsPrec = parsec_readsPrec
 
 
