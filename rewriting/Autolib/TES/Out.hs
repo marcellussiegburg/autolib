@@ -12,7 +12,7 @@ instance ( Symbol c, ToDoc v ) => ToDoc (Term v c) where
     toDocPrec _ ( Var v ) = toDoc v
     toDocPrec p ( Node t xs ) = 
 	case ( arity t, precedence t ) of
-             ( 2, Just q ) -> ( if p > q then ToDoc.parens else id )
+             ( 2, Just q ) -> ( if p >= q then ToDoc.parens else id )
 			    $ fsep [ toDocPrec q ( xs !! 0)
 				   , toDoc t <+> toDocPrec q ( xs !! 1)
 				   ]
