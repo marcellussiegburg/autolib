@@ -20,6 +20,7 @@ eltsFM = elems
 keysFM = keys
 fmToList = assocs
 listToFM = fromList
+delFromFM = flip delete
 
 -- | explicit signature is necessary
 -- because the new type would not use Maybe but Monad m => m instead
