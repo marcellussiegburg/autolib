@@ -30,6 +30,7 @@ independent0 xs = Graph
 		 , Position { width  = 1 + cos phi , height = 1 + sin phi } 
 		 )
     , bounding = Position { width = 2, height = 2 }
+    , layout_hints = ""
     }
 
 clique :: Ord a => Set a -> Graph a
@@ -59,6 +60,7 @@ path xs =
 	       (i, x) <- zip [0..] $ xs
 	       return ( x , Position { width = w, height = 0 } )
 	  , bounding = 1
+    , layout_hints = ""
 	  }
 
 circle :: Ord a => [ a ] -> Graph a

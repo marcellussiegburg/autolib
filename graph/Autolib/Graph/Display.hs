@@ -17,6 +17,7 @@ import qualified Dot.Edge
 
 import FiniteMap
 import Maybe
+import Monad ( guard )
 
 instance ( Show a, Ord a ) => ToDot ( Graph a ) where
     toDotProgram g = "neato"
@@ -26,6 +27,7 @@ instance ( Show a, Ord a ) => ToDot ( Graph a ) where
 	    fm = listToFM $ zip vs $ [ 0 :: Int .. ] 
             num = fromMaybe (error "Graph.Display.num") . lookupFM fm
 	in  dot_numbered g num
+    toDotOptions g = layout_hints g
 
 dot_numbered :: ( Show a, Ord a, Show b ) 
 	     => Graph a -> ( a -> b ) -> Dot.Graph.Type
@@ -40,7 +42,8 @@ dot_numbered g num =
             ns = do v <- setToList $ knoten g
                     return $ Dot.Node.blank
                            { Dot.Node.ident = show $ num v
-                           , Dot.Node.label = Just $ tricky $ show v
+                           , Dot.Node.label = 
+			         return $ tricky $ show v
                            }
 
             es = do Kante { von = p, nach = q } <- setToList $ kanten g

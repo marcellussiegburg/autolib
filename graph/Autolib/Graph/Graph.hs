@@ -11,6 +11,7 @@ module Graph.Graph (
       , module Informed
     ,  Graph (..), mkGraph
     , Kante (..), kante
+    , small_labels 
 ) where
 
 import Sets
@@ -29,12 +30,17 @@ data Graph a  = Graph
 	      , graph_info :: Doc
 	      , graph_layout  :: FiniteMap a Position
 	      , bounding :: Position
+	      , layout_hints :: String
 	      } 
 
 instance Informed ( Graph a) where
     info = graph_info
     informed i g = g { graph_info = i }
 
+small_labels :: Graph a -> Graph a
+-- TODO: wie schaltet man das labelling ab,
+-- so daß man nur dicken punkte als knoten sieht?
+small_labels g = g { layout_hints = "-Elen=3" }
 
 
 mkGraph :: Set a -> Set (Kante a) -> Graph a
@@ -44,6 +50,7 @@ mkGraph v e = Graph
 	    , graph_info = text "mkGraph"
 	    , graph_layout = emptyFM
 	    , bounding = 0
+	    , layout_hints = ""
 	    }
 
 instance (Ord a, Read a) => Read (Graph a) where

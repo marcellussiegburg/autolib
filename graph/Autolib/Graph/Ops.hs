@@ -8,12 +8,14 @@ import Graph.Basic
 import Graph.Display
 
 import Boxing
+import ToDoc hiding (empty)
 
 import qualified Set
 import qualified List
 import FiniteMap
 import Maybe
 import Monad ( guard )
+import Util.Teilfolgen
 
 --------------------------------------------------------------------------
 
@@ -42,6 +44,7 @@ gmap f g = Graph
 	       ( v, p ) <- fmToList $ graph_layout g
 	       return ( f v, p ) -- bei kontraktionen mittelwert bilden?
 	 , bounding = bounding g
+    , layout_hints = ""
 	 }
 
 
@@ -65,6 +68,7 @@ union0 g1 g2 =
 	    , kanten = Set.union (kanten g1) (kanten g2)
 	    , graph_layout = plusFM (graph_layout g1) (graph_layout g2)
 	    , bounding = larger (bounding g1) (bounding g2)
+    , layout_hints = ""
 	    }
 
 unions0 :: Ord a => [ Graph a ] -> Graph a
@@ -81,20 +85,43 @@ union  :: ( Ord a, Ord b) => Graph a -> Graph b -> Graph (Either a b)
 -- richtig disjunkte union
 union g1 g2 = union1 (gmap Left g1) (gmap Right g2)
 
-times0 :: Ord a => Graph a -> Graph a -> Graph a
+times0 :: (Ord a) 
+       => Graph a -> Graph a -> Graph a
 -- knotenmengen gemeinsam (benutzt in partit)
 times0 l r = informed ( funni "times" [ info l, info r ] )
-	  $ union0 l r  `links` do
+	  $ union0 l r  `links0` do
               u <- setToList $ knoten l 
 	      v <- setToList $ knoten r
 	      return $ kante u v
 
-times :: ( Ord a, Ord b ) => Graph a -> Graph b -> Graph (Either a b)
+times ::  (Ord a, Ord b ) 
+      => Graph a -> Graph b -> Graph (Either a b)
 -- knotenmengen disjunkt machen
 times l r = times0 ( gmap Left l ) ( gmap Right r )
 
-partit :: Ord a => [Set a] -> Graph a
+partit :: ( ToDoc a, Ord a)
+        => [Set a] -> Graph a
 partit xss = foldr1 times0 $ map independent xss
+
+---------------------------------------------------------------------------
+
+grid :: ( Ord a, Ord b ) 
+     => Graph a -> Graph b
+     -> Graph (a, b)
+-- gibt es dafür einen namen? 
+-- es ist nicht das lexikografische produkt.
+grid l r = informed ( funni "grid" [ info l, info r ] )
+	 $ let vs = cross (knoten l) (knoten r)
+	       es = do
+	              u <- setToList $ knoten l
+		      k <- setToList $ kanten r
+		      return $ kante ( u, von k ) ( u, nach k )
+		 ++ do     
+	              u <- setToList $ knoten r
+		      k <- setToList $ kanten l
+		      return $ kante ( von k, u ) ( nach k, u )
+	   in mkGraph vs (mkSet es)
+
 
 ---------------------------------------------------------------------------
 
@@ -117,17 +144,28 @@ line_graph g =
 			     (graph_layout g) (error "edge_graph")
 		   return ( k, 0.5 * (pos u + pos v) )
 	     , bounding = bounding g         
+    , layout_hints = ""
 	     }	       
 
 ---------------------------------------------------------------------------
 
-link :: Ord a => Graph a -> Kante a -> Graph a
+link :: ( ToDoc a, Ord a) 
+     => Graph a -> Kante a -> Graph a
 -- addiert eine kante
-link g k = g { kanten = Set.union (kanten g) (Set.unitSet k) }
+link g k = informed ( fsep [info g, text "+" ,toDoc (von k), toDoc( nach k) ] )
+         $ link0 g k
 
-links ::  Ord a => Graph a -> [ Kante a ] -> Graph a
+link0 :: Ord a => Graph a -> Kante a -> Graph a
+link0 g k = g { kanten = Set.union (kanten g) (Set.unitSet k) }
+
+links ::  ( ToDoc a, Ord a)
+       => Graph a -> [ Kante a ] -> Graph a
 -- addiert mehrere kanten
-links = foldl link
+links g ks = informed ( fsep [info g, text "+" , toDoc ks ] )
+           $ links0 g ks 
+
+links0 :: Ord a => Graph a -> [Kante a] -> Graph a
+links0 = foldl link0
 
 
 unlink :: Ord a => Graph a -> Kante a  -> Graph a
@@ -139,11 +177,3 @@ unlinks :: Ord a => Graph a -> [ Kante a ]  -> Graph a
 unlinks g ks = g { kanten = kanten g `Set.minusSet` mkSet ks }
 
 --------------------------------------------------------------------
-
-
-teilfolgen :: Int -> [a] -> [[a]]
-teilfolgen k xs | k > length xs = []
-teilfolgen 0 xs = [[]]
-teilfolgen k (x : xs) 
-    =  teilfolgen k xs
-    ++ do ys <- teilfolgen (k-1) xs ; return $ x : ys

@@ -11,6 +11,9 @@ where
 import Set
 import ToDoc
 
+import Util.Teilfolgen
+
+
 instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)
 
@@ -44,4 +47,6 @@ nonempty s = not (isEmptySet s)
 cross :: (Ord a, Ord b) => Set a -> Set b -> Set (a, b)
 cross xs ys = mkSet $ do x <- setToList xs; y <- setToList ys; return (x, y)
 
-
+teilmengen :: Ord a => Int -> Set a -> [ Set a ]
+teilmengen n = map mkSet . teilfolgen n . setToList
+    
