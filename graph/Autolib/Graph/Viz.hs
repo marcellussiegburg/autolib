@@ -131,33 +131,23 @@
 
 
 module Graph.Viz
-	( GVTrans
-		( getGVProg
-		, getGVFormat
-		, isGVDirected
-		, getGVNID
-		, getGVNName
-		, getGVNLabel
-		, getGVNColor
-		, getGVNXAtts
-		, getGVELabel
-		, getGVEXAtts
-		)
+	( GVTrans (..)
 	, GVName, GVLabel, GVColor, GVXAtts
-	, GVProg, GVFormat
-	, Default, Dot, Neato
+	, GVProg (..), GVFormat
 	, getGraphviz
+	, ExitCode
 	, Graphviz   -- braucht man eigentlich nicht außerhalb
 	, transGtoGV -- braucht man eigentlich nicht außerhalb
 	, ShowText, showText
-	)
-	where
+) where
 
 import Graph.Graph
 import FiniteMap
 import Set
 import ToDoc -- wegen Show Set und Show FiniteMap - FIX!
 import System
+
+import Char (showLitChar)
 
 -------------------------------------------------------------------------------
 -- hier folgen Datenstrukturen
@@ -284,7 +274,7 @@ transGNtoGVN getGVNName getGVNLabel getGVNColor getGVNXAtts node = GVNode
 	}
 
 -- eine Kante eines Graphen in eine Kante eines Graphviz transformieren
-transGEtoGVE :: Ord GVEdge => (GVTrans a) -> (Kante a) -> GVEdge
+transGEtoGVE :: (GVTrans a) -> (Kante a) -> GVEdge
 transGEtoGVE trans edge = GVEdge
 	{ idGVN1 = (getGVNID trans) (von edge)
 	, idGVN2 = (getGVNID trans) (nach edge)

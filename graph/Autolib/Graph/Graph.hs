@@ -7,9 +7,9 @@
 module Graph.Graph ( 
       module Set
     , module ReadSet
-    ,  Graph (knoten, kanten),Kante (von, nach), kante
-    )
-where
+    ,  Graph (..)
+    , Kante (..), kante
+) where
 
 import Set
 import ReadSet
@@ -30,6 +30,9 @@ data Kante a  = Kante
 
 kante :: a -> a -> (Kante a)
 kante x y = Kante { von = x, nach = y }
+
+
+
 
 
 -- ToDoc implementation for Graph and Kante
@@ -55,7 +58,7 @@ instance Read a => Read (Kante a) where
     readsPrec p cs = do
         ( k, cs ) <- lex cs
 	if k == "Kante" then do
-	   -- dieser Zwei deprecated
+	   -- dieser Zweig deprecated
 	   ( "{", cs ) <- lex cs
 	   ( "von", cs ) <- lex cs
 	   ( "=", cs ) <- lex cs
