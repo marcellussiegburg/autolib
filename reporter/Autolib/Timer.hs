@@ -33,8 +33,9 @@ timed d def action = do
 	 writeChan ch def
 
     x <- readChan ch
-    -- killThread apid    
-    -- killThread tpid
+    let ignore act = catch act ( \ _ -> return () ) 
+    ignore $ killThread apid 
+    ignore $ killThread tpid 
     return x
 
 sleep d = sequence_ $ do

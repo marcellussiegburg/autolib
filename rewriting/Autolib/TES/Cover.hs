@@ -18,6 +18,7 @@ import SRS.Interface.Config
 
 import Control.Monad ( guard )
 import Data.FiniteMap
+import Data.List ( nub )
 
 -- | list of ( redex, Right reducts )
 -- such that redex patch is (RPO-) smaller than reduct path
@@ -40,7 +41,7 @@ covers conf trs a = do
     ( l, r ) <- rules trs
     redex @ ( p, t, fm ) <- matches a l
 
-    let reducts = do
+    let reducts = take 1 $ do -- DANGER
 	    reduct @ ( p', t', fm' ) <- TES.Match.from a r p
 	    guard $ mkSet (fmToList fm') `subseteq` mkSet ( fmToList fm )
 	    -- if clamping, then don't check heights of border rules
