@@ -66,6 +66,7 @@ instance Reader Integer where reader = integer haskell
 instance Reader Int where reader = fmap fromIntegral $ integer haskell
 instance Reader Char    where reader = charLiteral haskell
 instance Reader String  where reader = stringLiteral haskell
+instance Reader Double where reader = float haskell
 
 
 instance Reader () where 
