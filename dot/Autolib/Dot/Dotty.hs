@@ -32,7 +32,7 @@ peng :: ( Hash a, Show a, ToDot a )
 peng a = do
     let pics = "../pics"
         it = toDot a
-        pre = pics ++ "/" ++ ( show $ abs $ hash a )
+        pre = pics ++ "/" ++ ( show $ abs $ hash a ) ++ "." ++ ( show $ toDotProgram a )
     let objfile = pre ++ ".obj"
         dotfile = pre ++ ".dot" 
         pngfile = pre ++ ".png"
