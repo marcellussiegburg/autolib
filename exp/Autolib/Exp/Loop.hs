@@ -11,6 +11,8 @@ import Exp.Env
 import NFA.Shortest
 import NFA.Type
 import NFA.Dot
+import NFA.Compact
+import NFA.Basic
 
 import Parsec ( parse, Parser )
 import System.Console.Readline
@@ -29,7 +31,7 @@ eval env (Display x) = do
      let v = inter env x
      putStr " == "
      inform v
-     display v
+     display $ sequential_compact v
      return env
 eval env (Let n x) = do
      putStrLn $ "-- assignment statement"
@@ -54,7 +56,7 @@ main :: IO ()
 main = do
      putStrLn $ "-- $Id$"
      putStrLn $ "-- welcome"
-     loop $ make []
+     loop $ make [ ( "Eps", NFA.Basic.epsilon) ]
 
 loop e = do
     mst <- consume statement Quit
