@@ -1,4 +1,4 @@
-module TES.Auto where
+module Autolib.TES.Auto where
 
 --  $Id$
 

@@ -1,4 +1,4 @@
-module TES.Identifier 
+module Autolib.TES.Identifier 
 
 ( Identifier -- abstract
 , mknullary
@@ -17,7 +17,7 @@ import qualified Autolib.ToTex
 import Autolib.ToDoc
 import Autolib.Reader
 
-import TES.Parsec
+import Autolib.TES.Parsec
 import Autolib.Symbol
 
 import Data.List (intersperse)

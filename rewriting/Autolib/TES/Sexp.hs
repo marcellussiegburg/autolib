@@ -1,9 +1,9 @@
 -- | 'S Expressions' as used in WST04 syntax
 --  (for comments and such)
 
-module TES.Sexp where
+module Autolib.TES.Sexp where
 
-import qualified TES.Parsec
+import qualified Autolib.TES.Parsec
 import Data.List (intersperse)
 import Autolib.ToDoc
 import Autolib.Reader
@@ -31,8 +31,8 @@ instance ToDoc Sexp where
 instance Show Sexp where show = render . toDoc
 
 instance Reader Sexp where
-    reader = do f <- TES.Parsec.pseudo_identifier ; return $ Leaf f
-         <|> TES.Parsec.parens TES.Parsec.trs ( 
+    reader = do f <- Autolib.TES.Parsec.pseudo_identifier ; return $ Leaf f
+         <|> Autolib.TES.Parsec.parens Autolib.TES.Parsec.trs ( 
                       do ts <- many reader 
 			 return $ List ts
 		    )

@@ -1,8 +1,8 @@
-module TES.Out where
+module Autolib.TES.Out where
 
 --  $Id$
 
-import TES.Type
+import Autolib.TES.Type
 import Autolib.Symbol
 
 import Autolib.ToDoc

@@ -1,6 +1,6 @@
 -- | Syntax for WST04 competition
 
-module TES.TRS where
+module Autolib.TES.TRS where
 
 --  $Id$
 

@@ -1,6 +1,6 @@
 -- | fixme: wrong name (TES/Term confusion)
 
-module TES.Raw where
+module Autolib.TES.Raw where
 
 --  $Id$
 

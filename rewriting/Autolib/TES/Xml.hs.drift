@@ -1,6 +1,6 @@
 -- -*- mode: haskell -*-
 
-module TES.Xml where
+module Autolib.TES.Xml where
 
 --  $Id$
 

@@ -1,9 +1,9 @@
 -- | Terms
 
-module TES.Type 
+module Autolib.TES.Type 
 
-( module TES.Type
-, module TES.Raw
+( module Autolib.TES.Type
+, module Autolib.TES.Raw
 )
 
 where
@@ -12,8 +12,8 @@ where
 
 import Autolib.Util.Size
 import Autolib.Symbol
-import TES.Raw
-import TES.Xml
+import Autolib.TES.Raw
+import Autolib.TES.Xml
 
 import Text.XML.HaXml.Haskell2Xml
 import Autolib.ToDoc

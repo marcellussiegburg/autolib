@@ -2,7 +2,7 @@
 -- using straightforward algorithm (not efficient)
 --  $Id$
 
-module TES.Unify 
+module Autolib.TES.Unify 
 
 ( mgu
 , match
@@ -10,9 +10,9 @@ module TES.Unify
 
 where
 
-import TES.Term
-import TES.Symbol
-import TES.Position
+import Autolib.TES.Term
+import Autolib.TES.Symbol
+import Autolib.TES.Position
 
 import Data.FiniteMap
 import Data.Maybe
@@ -70,7 +70,7 @@ mgus xxs @ (x : xs) yys @ (y : ys) = do
 	ys' = map fu ys
     us <- mgus xs' ys'
     let u' = mapFM ( \ v t -> apply_partial us t ) u
-    return $ plusFM_C (error $ "TES.Unify.mgus: clash" ) u' us
+    return $ plusFM_C (error $ "Autolib.TES.Unify.mgus: clash" ) u' us
 mgus _ _ = mzero -- different lengths, doesn't unify
 
 

@@ -2,13 +2,13 @@
 -- ideally, complete enumeration
 -- and random generation should share almost all code
 
-module TES.Enum where
+module Autolib.TES.Enum where
 
-import TES.Term
-import TES.Data
-import TES.Identifier
-import TES.Position
-import TES.Sexp
+import Autolib.TES.Term
+import Autolib.TES.Data
+import Autolib.TES.Identifier
+import Autolib.TES.Position
+import Autolib.TES.Sexp
 
 import Autolib.Util.Splits
 import Autolib.Util.Zufall
@@ -185,12 +185,12 @@ rules v = do
     rs <- insert_variable v (l0, r0)
     guard $ or $ do 
        -- some variables at least at depth 2
-       (l, r) <- TES.Data.rules rs
+       (l, r) <- Autolib.TES.Data.rules rs
        p <- varpos r 
        return $ 1 < length p
     guard $ or $ do
        -- some symbols have arity > 1
-       (l, r) <- TES.Data.rules rs
+       (l, r) <- Autolib.TES.Data.rules rs
        c <- symsl r
        return $ 1 < arity c
 

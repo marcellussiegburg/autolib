@@ -1,8 +1,8 @@
-module TES.Position where
+module Autolib.TES.Position where
 
 --  $Id$
 
-import TES.Term
+import Autolib.TES.Term
 import Autolib.Util.Size
 import Autolib.Sets
 import Autolib.Letters
@@ -86,7 +86,7 @@ peek_symbol :: Term v c
 peek_symbol t p = 
     case peek t p of
          Node c args -> c
-	 _ -> error "TES.Position.peek_symbol called for non-symbol"
+	 _ -> error "Autolib.TES.Position.peek_symbol called for non-symbol"
 
 -- | warning: don't check arity
 poke_symbol ::  Term v c 
@@ -95,7 +95,7 @@ poke_symbol ::  Term v c
 poke_symbol t ( p, c ) =  
     case peek t p of
          Node _ args -> poke t ( p, Node c args )
-	 _ -> error "TES.Position.poke_symbol called for non-symbol"
+	 _ -> error "Autolib.TES.Position.poke_symbol called for non-symbol"
 
 poke :: Term v c 
      -> ( Position , Term v c )

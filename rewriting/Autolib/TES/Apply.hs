@@ -1,9 +1,9 @@
-module TES.Apply where
+module Autolib.TES.Apply where
 
 --  $Id$
 
-import TES.Type
-import TES.Out
+import Autolib.TES.Type
+import Autolib.TES.Out
 
 import Data.FiniteMap
 import Data.Maybe
@@ -17,7 +17,7 @@ applyvar :: ( TRSC a c, TRSC b c )
          -> Term a c -> Term b c
 applyvar fm t = vmap 
 	    ( lookupWithDefaultFM fm 
-	      ( error $ "TES.Term.applyvar" ++ show fm ++ " to " ++  show t )
+	      ( error $ "Autolib.TES.Term.applyvar" ++ show fm ++ " to " ++  show t )
 	    ) t
 
 -- | replace variables by terms
@@ -26,7 +26,7 @@ apply :: Ord v
       => FiniteMap v ( Term u c ) 
       -> Term v c 
       -> Term u c
-apply fm ( Var v ) = lookupWithDefaultFM fm (error "TES.Term.apply") v
+apply fm ( Var v ) = lookupWithDefaultFM fm (error "Autolib.TES.Term.apply") v
 apply fm ( Node c args ) = Node c $ map ( apply fm ) args
 
 

@@ -4,17 +4,17 @@
 -- both prefix and infix function symbols
 -- and some of them may be user-defined.
 
-module TES.In where
+module Autolib.TES.In where
 
 --  $Id$
 
-import TES.Type
+import Autolib.TES.Type
 import Autolib.Symbol
-import TES.Identifier
+import Autolib.TES.Identifier
 
 import Autolib.Reader
 
-import TES.Parsec
+import Autolib.TES.Parsec
 import Text.ParserCombinators.Parsec.Combinator (option)
 import Text.ParserCombinators.Parsec.Expr
 import Text.ParserCombinators.Parsec.Token
@@ -86,7 +86,7 @@ atomic :: ( Symbol c, Reader v )
 atomic conf = 
   let tp = token_parser conf 
   in
-          TES.Parsec.parens tp (treader conf)
+          Autolib.TES.Parsec.parens tp (treader conf)
       <|> choice ( do op <- reserved_symbols conf
       	              guard $ is_constant op
       	              return $ do reserved tp (show op)
@@ -96,7 +96,7 @@ atomic conf =
           then do 
               t <- readerPrec 0 
       	      xs <- option []
-                        $ TES.Parsec.parens tp
+                        $ Autolib.TES.Parsec.parens tp
       		        $ commaSep tp
       	                $ treader conf
       	      return $ Node ( set_arity (length xs) t ) xs

@@ -1,14 +1,14 @@
-module TES.Rule where
+module Autolib.TES.Rule where
 
 --   $Id$
 
 import Autolib.Symbol
-import TES.Term
+import Autolib.TES.Term
 
 import Autolib.ToDoc
 import Autolib.Reader
 
-import TES.Parsec
+import Autolib.TES.Parsec
 
 type Rule v c = ( Term v c, Term v c )
 

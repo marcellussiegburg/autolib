@@ -1,16 +1,16 @@
-module TES 
+module Autolib.TES 
 
 --   $Id$
 
-( module TES.Term
-, module TES.Position
-, module TES.Rule
-, module TES.Data
+( module Autolib.TES.Term
+, module Autolib.TES.Position
+, module Autolib.TES.Rule
+, module Autolib.TES.Data
 )
 
 where
 
-import TES.Term
-import TES.Position
-import TES.Rule
-import TES.Data
+import Autolib.TES.Term
+import Autolib.TES.Position
+import Autolib.TES.Rule
+import Autolib.TES.Data

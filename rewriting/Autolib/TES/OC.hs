@@ -1,16 +1,16 @@
 -- | overlap closures
 
-module TES.OC where
+module Autolib.TES.OC where
 
 --  $Id$
 
-import TES.Identifier
-import TES.Term
-import TES.Rule
-import TES.Data
-import TES.Position
-import TES.Unify
-import TES.Hull
+import Autolib.TES.Identifier
+import Autolib.TES.Term
+import Autolib.TES.Rule
+import Autolib.TES.Data
+import Autolib.TES.Position
+import Autolib.TES.Unify
+import Autolib.TES.Hull
 
 import Util.Size
 import Sets

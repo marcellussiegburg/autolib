@@ -1,4 +1,4 @@
-module TES.Draw 
+module Autolib.TES.Draw 
 
 ( draw )
 
@@ -6,7 +6,7 @@ where
 
 --  $Id$
 
-import TES.Type
+import Autolib.TES.Type
 import qualified Data.Tree as D
 import Autolib.ToDoc
 

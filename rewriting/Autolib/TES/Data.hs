@@ -1,17 +1,17 @@
 -- | implements term rewriting systems
 -- as represented in the .trs-format
 
-module TES.Data where
+module Autolib.TES.Data where
 
 --  $Id$
 
 import Autolib.Symbol
-import TES.Term
-import TES.Position (syms, vars)
-import TES.Rule
-import TES.Identifier
+import Autolib.TES.Term
+import Autolib.TES.Position (syms, vars)
+import Autolib.TES.Rule
+import Autolib.TES.Identifier
 
-import qualified SRS.Rule -- only for instances
+import qualified Autolib.SRS.Rule -- only for instances
 
 import Autolib.Sets
 
@@ -21,9 +21,9 @@ import Data.List ( partition )
 import Data.FiniteMap
 import Control.Monad ( guard )
 
-import TES.Sexp
-import TES.Parsec
-import TES.Position (symsl)
+import Autolib.TES.Sexp
+import Autolib.TES.Parsec
+import Autolib.TES.Position (symsl)
 
 import Autolib.Letters
 
@@ -127,8 +127,8 @@ plain_reader =  do
 	return $ foldr (.) id fs trs0
 
 line :: Reader (t, t) =>  Parser ( RS t -> RS t )
-line = TES.Parsec.parens TES.Parsec.trs $  do
-     f <- identifier  TES.Parsec.trs 
+line = Autolib.TES.Parsec.parens Autolib.TES.Parsec.trs $  do
+     f <- identifier  Autolib.TES.Parsec.trs 
      case f of
 	  "RULES" -> do
 	      rs <- many reader

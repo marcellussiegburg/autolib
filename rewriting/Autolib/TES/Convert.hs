@@ -1,12 +1,12 @@
-module TES.Convert where
+module Autolib.TES.Convert where
 
 --   $Id$
 
 import TES
 
-import TES.Path
-import TES.Identifier
-import TES.Sexp
+import Autolib.TES.Path
+import Autolib.TES.Identifier
+import Autolib.TES.Sexp
 import SRS.Type
 
 import Sets

@@ -1,10 +1,10 @@
-module SRS.Rule where
+module Autolib.SRS.Rule where
 
 --  $Id$
 
 
 import Autolib.Symbol
-import TES.Parsec
+import Autolib.TES.Parsec
 
 import Autolib.ToDoc
 import Autolib.Reader

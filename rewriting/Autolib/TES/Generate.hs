@@ -3,7 +3,7 @@
 --   $Id$
 
 import SRS.Data
-import TES.Convert
+import Autolib.TES.Convert
 import System
 
 target :: FilePath

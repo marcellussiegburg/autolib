@@ -1,12 +1,12 @@
-module TES.Over where
+module Autolib.TES.Over where
 
 --  $Id$
 
-import TES.Term
-import TES.Position
-import TES.Over.Lap
-import TES.Unify
-import TES.Data
+import Autolib.TES.Term
+import Autolib.TES.Position
+import Autolib.TES.Over.Lap
+import Autolib.TES.Unify
+import Autolib.TES.Data
 
 import Reporter
 import ToDoc

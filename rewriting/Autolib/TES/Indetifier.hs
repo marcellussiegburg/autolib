@@ -1,4 +1,4 @@
-module TES.Identifier where
+module Autolib.TES.Identifier where
 
 --   $Id$
 
@@ -9,7 +9,7 @@ import Reader
 
 import Parsec
 import ParsecToken
-import TES.Parsec
+import Autolib.TES.Parsec
 
 
 data Symbol = Symbol { name :: String

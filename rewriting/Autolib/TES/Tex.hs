@@ -1,8 +1,8 @@
-module TES.Tex where
+module Autolib.TES.Tex where
 
 --  $Id$
 
-import TES.Term
+import Autolib.TES.Term
 import ToTex
 import ToDoc
 

@@ -4,7 +4,7 @@ module Autolib.NFA.Compact where
 
 import Autolib.NFA.Type
 import Autolib.Exp
-import Autolib.TES.Symbol
+import Autolib.Symbol
 
 import Data.FiniteMap
 import Autolib.Sets

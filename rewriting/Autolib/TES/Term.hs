@@ -1,9 +1,9 @@
-module TES.Term 
+module Autolib.TES.Term 
 
-( module TES.Type
+( module Autolib.TES.Type
 , module Autolib.Symbol
-, module TES.Apply
-, module TES.Draw
+, module Autolib.TES.Apply
+, module Autolib.TES.Draw
 )
 
 where
@@ -11,15 +11,15 @@ where
 --   $Id$
 
 import Autolib.Symbol
-import TES.Identifier
+import Autolib.TES.Identifier
 
-import TES.Type
-import TES.In
-import TES.Out
-import TES.Apply
-import TES.Draw
+import Autolib.TES.Type
+import Autolib.TES.In
+import Autolib.TES.Out
+import Autolib.TES.Apply
+import Autolib.TES.Draw
 
-import TES.Xml
+import Autolib.TES.Xml
 import Text.XML.HaXml.Haskell2Xml
 
 instance ( Read (Term v c), TRSC v c ) 

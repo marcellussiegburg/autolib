@@ -1,6 +1,6 @@
-module TES.Parsec 
+module Autolib.TES.Parsec 
 
-( module TES.Parsec
+( module Autolib.TES.Parsec
 , module Text.ParserCombinators.Parsec
 -- , module Text.ParserCombinators.Parsec.Combinator
 -- , module Text.ParserCombinators.Parsec.Language

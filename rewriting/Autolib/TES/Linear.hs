@@ -1,10 +1,10 @@
-module TES.Linear where
+module Autolib.TES.Linear where
 
 --  $Id$
 
-import TES.Term
-import TES.Position
-import TES.Data
+import Autolib.TES.Term
+import Autolib.TES.Position
+import Autolib.TES.Data
 import Reporter
 import ToDoc
 import Data.FiniteMap
