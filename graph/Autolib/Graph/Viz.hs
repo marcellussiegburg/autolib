@@ -249,7 +249,7 @@ getGraphviz graph trans path = do
 			" -o " ++ outFile ++ " " ++ inFile
 			
 	writeFile inFile (makeGVIntput $ transGtoGV graph trans)		
-	putStrLn $ "running command: " ++ show command
+	-- putStrLn $ "running command: " ++ show command
 
 	exitCode <- system command	
 	
