@@ -5,7 +5,7 @@ where
 -- $Id$
 
 import ToDoc
-import Maybe (isJust)
+import Maybe (isJust, fromMaybe)
 
 import Right
 import Wrong
@@ -47,11 +47,13 @@ newline = inform ( text " " )
 reject :: Doc -> Reporter a
 reject doc = Reporter { result = Nothing,   kommentar = doc }
 
+
 silent :: Reporter a -> Reporter a
 silent r = r { kommentar = if isJust ( result r ) 
 			   then empty else kommentar r
 	     }
 
+-- for use in classical autotool problems
 reporter :: Reporter Int -> IO String
 reporter r = do
     print $ kommentar r
@@ -59,5 +61,10 @@ reporter r = do
         Just i -> right_with $ "OK # Size: " ++ show i
 	Nothing -> wrong
 
-       
-    
+-- for use in challenger problems
+cheporter :: Reporter Bool -> ( Bool, Doc )
+cheporter r = 
+    ( fromMaybe False $ result r
+    , kommentar r
+    )    
+
