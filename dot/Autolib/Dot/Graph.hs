@@ -22,6 +22,25 @@ data Type = Type { directed :: Bool
 	       , edges	  :: [ Dot.Edge.Type ]
 	       }
 
+gmap :: ( String -> String ) -> ( Type -> Type )
+gmap f g = g { nodes = map (Dot.Node.nmap f) $ nodes g
+	     , edges = map (Dot.Edge.emap f) $ edges g
+	     }
+
+beside :: Type -> Type -> Type
+beside l r = 
+    let ll = gmap ('L' : ) l
+	rr = gmap ('R' : ) r
+    in	Type
+	{ directed = directed l
+	, name = name l ++ name r
+	, nodes = nodes ll ++ nodes rr
+	, edges = edges ll ++ edges rr
+	}
+
+besides :: [ Type ] -> Type
+besides = foldr1 beside
+
 instance ToDoc Type where
     toDoc d = 
         let header = text $ case directed d of 

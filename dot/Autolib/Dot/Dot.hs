@@ -12,6 +12,10 @@ class ToDot a where
       toDotProgram :: a -> String
       toDotProgram a = "dot" -- default für gerichtete graphen
 
+instance ToDot a => ToDot [a] where
+    toDotProgram xs = toDotProgram ( head xs )
+    toDot xs = Dot.Graph.besides $ map toDot xs
+
 
 -- gleicher argument/resultat-typ wie Graph.Viz.getGraphviz
 

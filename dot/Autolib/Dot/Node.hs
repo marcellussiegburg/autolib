@@ -13,6 +13,9 @@ data Type = Type { ident :: String
 		 , style :: Maybe String
 		 }
 
+nmap :: ( String -> String ) -> ( Type -> Type )
+nmap f n = n { ident = f $ ident n }
+
 blank :: Type
 blank =  Type {  ident = error "Dot.Edge.ident"
 		 , label = Nothing

@@ -15,6 +15,9 @@ data Type = Type { from	      :: String
 		 , directed  :: Bool
 		 }
 
+emap :: ( String -> String ) -> ( Type -> Type )
+emap f e = e { from = f $ from e , to = f $ to e }
+
 blank :: Type
 blank = Type {  from = error "Dot.Edge.from"
 		 , to = error "Dot.Edge.to"
