@@ -46,6 +46,23 @@ isvar _ = False
 unvar :: Term v c -> v
 unvar ( Var v ) = v
 
+-- | replace each const subtree by Node ()
+smash :: Term v c -> Term v Bool
+smash = tfold ( \ v -> Var v )
+	      ( \ f args -> if    and ( map ( not . isvar ) args )
+			       && and ( map top args ) -- all const
+			    then Node True []
+			    else Node False args
+	      )
+
+tfold :: ( v -> a )
+      -> ( c -> [a] -> a )
+      -> Term v c 
+      -> a
+tfold fvar fnode = fun where
+    fun ( Var v ) = fvar v
+    fun ( Node f args ) = fnode f ( map fun args )
+
 instance ( ToDoc c, ToDoc v ) => ToDoc (Term v c) where
     toDoc ( Var v ) = toDoc v
     toDoc ( Node t xs ) = toDoc t <+> 

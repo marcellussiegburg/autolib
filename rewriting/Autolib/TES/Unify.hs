@@ -20,6 +20,7 @@ import Data.Set
 import Control.Monad
 
 import ToDoc
+import Util.Size
 
 -- | view variables as symbols
 pack :: Term v c -> Term any (Either v c)
@@ -36,6 +37,7 @@ match :: ( Ord v, Ord w, Eq c )
       -> Term w c
       -> Maybe ( FiniteMap v ( Term w c ) )
 match l r = do
+    guard $ size l <= size r
     u <- mgu ( fmap Right l ) ( pack r )
     return $ mapFM ( \ v t -> unpack t ) u
 

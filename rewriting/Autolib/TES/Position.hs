@@ -71,6 +71,11 @@ instance Size (Term v c) where
 	 Node _ _ <- subterms t
 	 return ()
 
+-- | size w/ each constant subtree replaced by one node
+vsize :: Term v c -> Int
+vsize = size . smash
+
+
 syms :: Ord c => Term v c -> Set c
 syms t = mkSet $ do
     Node c _ <- subterms t
@@ -84,5 +89,10 @@ vars t = mkSet $ do
     Var v <- subterms t
     return v
 
+-- | list of variables (each occurs once, unspecified ordering)
 lvars :: Ord v => Term v c -> [ v ]
 lvars = setToList . vars
+
+-- | list of variables (in pre-order, with duplicates)
+voccs :: Ord v => Term v c -> [ v ]
+voccs t = do ( p, Var v ) <- positions t ; return v

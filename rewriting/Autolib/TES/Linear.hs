@@ -31,6 +31,13 @@ is_left_linear_trs trs = do
     inform $ text "system should be left linear:"
     mapM_ is_linear_term $ lhss trs
 
+is_right_linear_trs :: TRSC v c
+	     => TRS v c
+	     -> Reporter ()
+is_right_linear_trs trs = do
+    inform $ text "system should be right linear"
+    mapM_ is_linear_term $ rhss trs
+
 -- | check if system is linear
 -- if not: fail, if yes: return ()
 is_linear_trs :: TRSC v c
