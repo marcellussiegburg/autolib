@@ -5,9 +5,9 @@ module NFA.Language where
 import Exp -- for debugging
 import Exp.Inter
 
-import NFA_Type
-import Shortest ( accepted, is_accepted )
-import qualified Minus
+import NFA.Type
+import NFA.Shortest ( accepted, is_accepted )
+import qualified NFA.Minus
 import Letters
 
 import Language.Type
@@ -17,11 +17,14 @@ import Set
 import List (nub)
 import Util.Zufall
 
-language :: NFA Char Int -> Language
-language a = 
+language :: String  -- nametag
+	 -> NFA Char Int 
+	 -> Language
+language tag a = 
    let cs = letters a
    in  Language
-       { abbreviation = render $ info a
+       { nametag      = tag
+       , abbreviation = render $ info a
        , alphabet     = cs
        , contains     = is_accepted a
 
@@ -32,7 +35,7 @@ language a =
 	    return $ nub ws
 
        , anti_sample  = 
-	     sample ( language $ Minus.complement ( setToList cs ) a )
-
+	     sample $ language ( "Com" ++ tag )
+		    $ NFA.Minus.complement (setToList cs) a 
        }
 
