@@ -71,11 +71,16 @@ reporter r = do
 
 -- for use in challenger problems
 -- flag is true  iff  reporter returns at all (with any value)
-cheporter :: Reporter a -> ( Bool, Doc )
-cheporter r = 
+lazy_cheporter :: Reporter a -> ( Bool, Doc )
+lazy_cheporter r = 
     ( isJust $ result r
     , kommentar r
     )    
+
+cheporter :: Reporter Bool -> ( Bool, Doc )
+cheporter r = lazy_cheporter $ do
+    f <- r
+    assert f $ text "Bedingung erfüllt?"
 
 porterche :: ( Bool, Doc ) -> Reporter ()
 porterche ( p, d ) = if p then inform d else reject d 
