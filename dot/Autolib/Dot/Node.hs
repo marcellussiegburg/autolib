@@ -29,7 +29,7 @@ nmap f n = n { ident = f $ ident n }
 blank :: Type
 blank =  Type {  ident = error "Dot.Node.ident"
 		 , label = Nothing
-		 , shape = Just "circle"
+		 , shape = Nothing
 		 , color = Nothing
 		 , node_style = Nothing
 		 , pinned = Nothing
