@@ -79,6 +79,7 @@ instance Reader Edge -- no methods
 instance ToDoc Edge 
 
 instance Symbol Edge -- dummy
+instance Size Edge where size = error "Edge.size"
 
 
 

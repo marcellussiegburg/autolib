@@ -10,14 +10,14 @@ import Autolib.FiniteMap
 class Size a where 
     size :: a -> Int
 
-instance Size a where
-    size = const 1 -- default
+-- instance Size a where
+--     size = const 1 -- default
 
 instance Size (Set a) where 
     size = cardinality
 
 instance Size (FiniteMap a b) where
-    size = length . eltsFM 
+    size = sizeFM 
 
 instance Size a => Size [a] where
     size = sum . map size
