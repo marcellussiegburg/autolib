@@ -1,8 +1,9 @@
-
 -- | implements term rewriting systems
 -- as represented in the .tes-format
 
 module TES.Data where
+
+--  $Id$
 
 import TES.Symbol
 import TES.Term
