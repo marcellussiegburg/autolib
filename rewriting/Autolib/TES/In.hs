@@ -112,5 +112,4 @@ instance ( Symbol c, Reader v ) => Reader ( Term v c ) where
 				     , allow_new_symbols = True
 				     }
 
-instance Read (Term Identifier Identifier) where
-    readsPrec = parsec_readsPrec
+

@@ -24,9 +24,6 @@ instance ( Symbol c, ToDoc v ) => ToDoc (Term v c) where
 		else Autolib.ToDoc.parens $ hcat $ punctuate ( text ", " )
 			    $ map toDoc xs
 
-instance ( Symbol c, ToDoc v ) => Show (Term v c) where 
-    show = render . toDoc
-
 instance ( ToDoc v, Symbol c, ToTex v, ToTex c ) 
          => ToTex ( Term v c ) where
     toTex ( Var v ) = toTex v

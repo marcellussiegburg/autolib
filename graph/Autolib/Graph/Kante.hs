@@ -24,10 +24,6 @@ instance ToDoc a => ToDoc (Kante a) where
 		  $ text "kante" <+> 
 		    sep ( map ( toDocPrec fcp )  [ von k, nach k ] )
 
-instance (ToDoc a) => Show (Kante a) where
-  show = render . toDoc
-
-
 instance (Ord a, Reader a) => Reader (Kante a) where
     readerPrec d = readerParen (d > 9) 
       $ do my_reserved "kante"
@@ -35,6 +31,4 @@ instance (Ord a, Reader a) => Reader (Kante a) where
 	   n <- readerPrec 10
 	   return $ kante v n
     
-instance  (Ord a, Reader a ) => Read ( Kante a ) where
-     readsPrec = parsec_readsPrec
 

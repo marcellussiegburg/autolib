@@ -6,7 +6,6 @@ import Autolib.NFA.Type
 
 import Autolib.Util.Size
 import Autolib.Set
-import Autolib.OrdFM
 import Autolib.FiniteMap
 import Autolib.ToDoc
 import Autolib.Reporter

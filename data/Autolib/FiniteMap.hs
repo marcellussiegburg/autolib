@@ -8,7 +8,7 @@ where
 
 import Autolib.Reader
 import Autolib.ToDoc
-
+import Autolib.Set
 
 import Data.FiniteMap
 
@@ -17,6 +17,10 @@ import Data.FiniteMap
 import Autolib.Xml
 
 import Data.Typeable
+
+
+instance ( Ord a, Ord b ) => Ord ( FiniteMap a b ) where
+    compare f g = compare (fmToList f) (fmToList g)
 
 instance ( Typeable a, Typeable b ) => Typeable (FiniteMap a b) where
     typeOf (_ :: FiniteMap a b) = 
@@ -42,4 +46,12 @@ instance (Ord a ) => Container (FiniteMap a b) [(a, b)] where
     unpack = listToFM
 
 
+mergeFM :: (Ord a, Ord b) => 
+        FiniteMap a (Set b) -> FiniteMap a (Set b) -> FiniteMap a (Set b)
+mergeFM l r = plusFM_C union l r
+
+{-# INLINE lookupset #-}
+lookupset :: Ord a => FiniteMap a (Set b) -> a -> Set b
+lookupset fm x = case lookupFM fm x of
+    Just m -> m; Nothing -> emptySet
 

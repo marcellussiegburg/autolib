@@ -10,7 +10,6 @@ where
 
 import Data.Set
 import Data.Typeable
-import Autolib.FiniteMap
 import Autolib.ToDoc
 import Autolib.Reader
 
@@ -63,8 +62,4 @@ teilmengen n = map mkSet . teilfolgen n . setToList
 subsets ::  Ord a => Set a -> [ Set a ]
 subsets s = do n <- [ 0 .. cardinality s ] ; teilmengen n s
  
-{-# INLINE lookupset #-}
-lookupset :: Ord a => FiniteMap a (Set b) -> a -> Set b
-lookupset fm x = case lookupFM fm x of
-    Just m -> m; Nothing -> emptySet
  
