@@ -1,9 +1,9 @@
-module Boxing.Ops where
+module Autolib.Boxing.Ops where
 
 --   $Id$
 
-import Boxing.Position
-import Boxing.Class
+import Autolib.Boxing.Position
+import Autolib.Boxing.Class
 
 import Data.List ( inits, transpose )
 

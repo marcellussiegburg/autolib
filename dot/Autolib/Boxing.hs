@@ -1,16 +1,16 @@
 --   $Id$
 
-module Boxing 
+module Autolib.Boxing 
 
-( module Boxing.Class
-, module Boxing.Ops
-, module Boxing.Position
+( module Autolib.Boxing.Class
+, module Autolib.Boxing.Ops
+, module Autolib.Boxing.Position
 )
 
 where
 
-import Boxing.Position
-import Boxing.Class
-import Boxing.Ops
+import Autolib.Boxing.Position
+import Autolib.Boxing.Class
+import Autolib.Boxing.Ops
 
 

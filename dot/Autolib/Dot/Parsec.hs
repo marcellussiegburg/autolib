@@ -1,8 +1,8 @@
-module Dot.Parsec where
+module Autolib.Dot.Parsec where
 
 -- -- $Id$
 
-import Reader
+import Autolib.Reader
 import Text.ParserCombinators.Parsec
 
 soi :: Parser String           

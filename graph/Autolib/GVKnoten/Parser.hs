@@ -1,10 +1,10 @@
-module GVKnoten.Parser where
+module Autolib.GVKnoten.Parser where
 
-import GVKnoten.Type
+import Autolib.GVKnoten.Type
 import Data.Set
 import Control.Monad (guard)
-import Maybe
-import Char  (isDigit)
+import Data.Maybe
+import Data.Char  (isDigit)
 
 data Field =   Label  String
              | Pos    ( Int, Int )

@@ -1,4 +1,4 @@
-module GVKnoten.Type where
+module Autolib.GVKnoten.Type where
 
 -- -- $Id$
 

@@ -1,23 +1,23 @@
-module GVKnoten.Layout where
+module Autolib.GVKnoten.Layout where
 
 -- -- $Id$
 
-import Graph.Graph
-import Graph.Display
-import Graph.Ops ( restrict )
-import qualified Boxing.Position as B
+import Autolib.Graph.Graph
+import Autolib.Graph.Display
+import Autolib.Graph.Ops ( restrict )
+import qualified Autolib.Boxing.Position as B
 
-import GVKnoten.Type
-import GVKnoten.Parser
+import Autolib.GVKnoten.Type
+import Autolib.GVKnoten.Parser
 
-import ToDoc
+import Autolib.ToDoc
 import Data.Set
 import Data.FiniteMap
-import Maybe
+import Data.Maybe
 import Control.Monad ( foldM )
 
-import qualified Dot.Node
-import qualified Dot.Graph
+import qualified Autolib.Dot.Node
+import qualified Autolib.Dot.Graph
 
 import Random
 import System

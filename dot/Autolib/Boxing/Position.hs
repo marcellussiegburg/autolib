@@ -1,8 +1,8 @@
-module Boxing.Position where
+module Autolib.Boxing.Position where
 
 --   $Id$
 
-import ToDoc
+import Autolib.ToDoc
 
 data Position = Position { width :: Double, height :: Double }
 	deriving ( Eq, Ord )

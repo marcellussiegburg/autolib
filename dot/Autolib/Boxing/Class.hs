@@ -1,10 +1,10 @@
 --   $Id$
 
-module Boxing.Class where
+module Autolib.Boxing.Class where
 
 -- anything that can be laid out in boxes (rectangles)
 
-import Boxing.Position
+import Autolib.Boxing.Position
 
 
 class Boxing b where
