@@ -42,10 +42,8 @@ mkDot a prog fmt path = do
 
 --------------------------------------------------------------------------
 
-display :: ToDot a => a -> IO ()
-display a = do
-    n <- randomRIO (0,10000 :: Int)
-    let fname = "/tmp/display." ++ show n
+meps :: ToDot a => FilePath -> a -> IO FilePath
+meps fname a = do
     let dotfile = fname ++ ".dot"
     let epsfile = fname ++ ".eps"
     writeFile dotfile $ show $ toDot $ a
@@ -55,6 +53,14 @@ display a = do
 	   , toDotOptions a
 	   , dotfile , "-o", epsfile ]
     system $ unwords [ "rm" , dotfile ]
+    return epsfile
+    
+
+display :: ToDot a => a -> IO ()
+display a = do
+    n <- randomRIO (0,10000 :: Int)
+    let fname = "/tmp/display." ++ show n
+    epsfile <- meps fname a
     system $ unwords
 	   [ "gv" , epsfile ]
     system $ unwords [ "rm" , epsfile ]

@@ -19,7 +19,7 @@ independent = independent0 . setToList
 
 independent0 :: Ord a => [a] -> Graph a
 independent0 xs = Graph 
-    { graph_info = text $ "co-K_" ++ show (length xs)
+    { graph_info = text $ "E_" ++ show (length xs)
     , knoten = mkSet xs
     , kanten = emptySet
     , graph_layout = listToFM $ do

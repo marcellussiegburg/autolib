@@ -25,6 +25,15 @@ instance Num Position where
     d @ Position { width = f, height = 0 } * e 
           = Position { width = width e * f, height = height e * f }
 
+instance Fractional Position where
+    -- damit wir 0.5 * p schreiben können
+    fromRational r = Position { width = fromRational r, height = 0 }
+
+larger :: Position -> Position -> Position
+larger p q = Position { width = max (width p) (width q)
+		      , height = max (height p) (height q)
+		      }
+
 no_height :: Position -> Position
 no_height d = d { height = 0 }
 
