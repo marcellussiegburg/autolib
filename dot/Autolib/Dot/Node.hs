@@ -1,18 +1,18 @@
-module Dot.Node where
+module Autolib.Dot.Node where
 
--- -- $Id$
+--  $Id$
 
 -- implement only those attribs that would be needed
 -- for drawing finite automata (= directed edge-labelled graphs)
 
-import Boxing.Position
+import Autolib.Boxing.Position
 
-import ToDoc
-import Reader 
+import Autolib.ToDoc
+import Autolib.Reader 
 import Text.ParserCombinators.Parsec ( option, Parser )
-import Dot.Parsec
+import Autolib.Dot.Parsec
 
-import Maybe ( maybeToList )
+import Data.Maybe ( maybeToList )
 
 data Type = Type { ident :: String
 		 , label :: Maybe String

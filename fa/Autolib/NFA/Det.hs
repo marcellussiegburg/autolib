@@ -11,9 +11,9 @@ import Autolib.Letters
 import Autolib.NFA.Hull
 
 import Data.Set
-import Sets (sfilter)
+import Autolib.Sets (sfilter)
 
-import Autolib.Control.Monad.State
+import Control.Monad.State
 
 import Data.FiniteMap
 import Autolib.ToDoc

@@ -1,11 +1,11 @@
-module Dot 
+module Autolib.Dot 
 
 --   $Id$
 
-( module Dot.Dot
+( module Autolib.Dot.Dot
 )
 
 where
 
-import Dot.Dot
+import Autolib.Dot.Dot
 

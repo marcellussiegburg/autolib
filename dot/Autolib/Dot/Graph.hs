@@ -1,6 +1,6 @@
--- -- $Id$
+--  $Id$
 
-module Dot.Graph where
+module Autolib.Dot.Graph where
 
 -- represents the contents of a .dot file
 -- file format: see http://www.graphviz.org/cgi-bin/man?dot
@@ -11,15 +11,15 @@ module Dot.Graph where
 -- no graph attributes
 -- resp. fixed defaults only
 
-import qualified Dot.Node
-import qualified Dot.Edge
-import qualified Boxing.Position as B
+import qualified Autolib.Dot.Node
+import qualified Autolib.Dot.Edge
+import qualified Autolib.Boxing.Position as B
 
-import ToDoc
-import Reader
+import Autolib.ToDoc
+import Autolib.Reader
 import Text.ParserCombinators.Parsec (Parser, option, many)
-import Dot.Parsec
-import Size
+import Autolib.Dot.Parsec
+import Autolib.Size
 
 data Type = Type { directed :: Bool 
 	       , name	  :: String

@@ -1,15 +1,15 @@
-module Dot.Edge where
+module Autolib.Dot.Edge where
 
 -- -- $Id$
 
 -- implement only those attribs that would be needed
 -- for drawing finite automata (= directed edge-labelled graphs)
 
-import ToDoc
-import Reader
+import Autolib.ToDoc
+import Autolib.Reader
 
 import Text.ParserCombinators.Parsec (option, Parser)
-import Dot.Parsec
+import Autolib.Dot.Parsec
 
 import Maybe ( maybeToList )
 

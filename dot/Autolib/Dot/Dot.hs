@@ -1,14 +1,14 @@
-module Dot.Dot where
+module Autolib.Dot.Dot where
 
 -- -- $Id$
 
-import qualified Dot.Graph
+import qualified Autolib.Dot.Graph
 import System
 import IO
 import Control.Monad ( when )
 import Random
 
-import Util.Datei 
+import Autolib.Util.Datei 
 
 class ToDot a where 
       toDot :: a -> Dot.Graph.Type

@@ -1,13 +1,13 @@
-module Dot.Arrange where
+module Autolib.Dot.Arrange where
 
 -- -- $Id$
 
-import qualified Dot.Graph
-import qualified Dot.Node
-import qualified Dot.Edge
-import Dot.Dot
-import qualified GVKnoten.Layout
-import Boxing.Position
+import qualified Autolib.Dot.Graph
+import qualified Autolib.Dot.Node
+import qualified Autolib.Dot.Edge
+import Autolib.Dot.Dot
+import qualified Autolib.GVKnoten.Layout
+import Autolib.Boxing.Position
 
 import Data.Set
 import Control.Monad ( foldM )

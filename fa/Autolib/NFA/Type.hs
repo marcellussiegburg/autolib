@@ -11,7 +11,7 @@ where
 import Autolib.Sets
 import Autolib.Letters
 
-import NFA.Data
+import Autolib.NFA.Data
 
 import Control.Monad (guard)
 import Autolib.ToDoc
