@@ -2,11 +2,14 @@
 
 module Autolib.Graph.Adj where
 
-import Autolib.Graph.Type ( Graph , knoten , kanten , kante )
-import Autolib.Set ( cardinality , setToList , elementOf )
+import Autolib.Graph.Type ( Graph , knoten , kanten , kante , mkGraph )
+import Autolib.Set ( mkSet , cardinality , setToList , elementOf )
 
 import Data.List ( groupBy , intersperse )
-import Data.Array ( Array , array , assocs )
+import Data.Array ( Array , array , bounds , assocs )
+
+import Control.Monad ( guard )
+
 import FiniteMap ( listToFM , lookupWithDefaultFM )
 
 -------------------------------------------------------------------------------
@@ -25,6 +28,18 @@ adjazenz_matrix g =
        j <- [1..n]
        let (x,y) = (kn i,kn j)
        return ((i,j),kante x y `elementOf` (kanten g))
+
+-------------------------------------------------------------------------------
+
+from_adjazenz_matrix :: AdjMatrix -> Graph Int
+from_adjazenz_matrix arr = 
+    let n = snd $ snd $ bounds arr
+    in mkGraph (mkSet [1..n])
+               (mkSet $ do
+		((i,j),inzident) <- assocs arr
+		guard inzident
+		return $ kante i j
+	       )
 
 -------------------------------------------------------------------------------
 

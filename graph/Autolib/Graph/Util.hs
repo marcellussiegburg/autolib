@@ -9,6 +9,8 @@ import Autolib.Graph.Beispiele
 import Autolib.FiniteMap
 import Autolib.Util.Sort
 
+------------------------------------------------------------------------------------------
+
 anzKnoten :: Graph a -> Int
 anzKnoten g = cardinality $ knoten g
 
@@ -82,7 +84,7 @@ loescheDoppelte [] = []
 --							then [] ++ loescheDoppelte (b:c)
 --                            else [a] ++ loescheDoppelte (b:c)
 loescheDoppelte a = setToList $ mkSet a 
-loescheDoppelte a = a
+-- loescheDoppelte a = a
 
 
 -- Ende Alexnder Kiel
