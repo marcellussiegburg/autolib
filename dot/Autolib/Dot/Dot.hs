@@ -11,7 +11,7 @@ import Random
 import Autolib.Util.Datei 
 
 class ToDot a where 
-      toDot :: a -> Dot.Graph.Type
+      toDot :: a -> Autolib.Dot.Graph.Type
       toDotProgram :: a -> String
       toDotProgram a = "dot" -- default für gerichtete graphen
       toDotOptions :: a -> String
@@ -19,7 +19,7 @@ class ToDot a where
 
 instance ToDot a => ToDot [a] where
     toDotProgram xs = toDotProgram ( head xs )
-    toDot xs = Dot.Graph.besides $ map toDot xs
+    toDot xs = Autolib.Dot.Graph.besides $ map toDot xs
 
 
 -- gleicher argument/resultat-typ wie Graph.Viz.getGraphviz

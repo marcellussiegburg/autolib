@@ -4,7 +4,7 @@ module Autolib.NFA.Ops where
 
 import Autolib.NFA.Type hiding ( cross, union )
 
-import qualified Autolib.Sets 
+import qualified Autolib.Sets  as Sets
 import Data.FiniteMap
 
 import Autolib.NFA.Trim

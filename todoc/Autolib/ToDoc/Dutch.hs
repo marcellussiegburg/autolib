@@ -17,7 +17,7 @@ dutch clip (op, sep, cl) ( x : xs ) =
 	over = if null lang then empty else sep <+> text "..."
 	its = ( op <+> x ) 
 	    : ( do y <- kurz ; return $ sep <+> y ) ++ [ over ]
-    in  ToDoc.Class.sep [ fcat its , cl ]
+    in  Autolib.ToDoc.Class.sep [ fcat its , cl ]
 
 max_list_length = 50 :: Int
 max_string_length = 70 :: Int

@@ -6,22 +6,22 @@
 -- -- $Id$
 
 
-module Graph.Graph ( 
-      module Sets
-      , module Informed
+module Autolib.Graph.Graph ( 
+      module  Autolib.Sets
+      , module Autolib.Informed
     ,  Graph (..), mkGraph
     , Kante (..), kante
 ) where
 
-import Graph.Kante
-import qualified Graph.Reading.Type as R
+import Autolib.Graph.Kante
+import qualified Autolib.Graph.Reading.Type as R
 
-import Sets
-import Informed
-import ToDoc
-import Reader
+import Autolib.Sets
+import Autolib.Informed
+import Autolib.ToDoc
+import Autolib.Reader
 
-import Boxing.Position
+import Autolib.Boxing.Position
 import Data.FiniteMap
 
 -------------------------------------------------------------------------------

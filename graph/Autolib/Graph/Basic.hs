@@ -1,18 +1,18 @@
-module Graph.Basic where
+module Autolib.Graph.Basic where
 
 -- -- $Id$
 
-import Graph.Graph hiding ( union )
-import Graph.Display
+import Autolib.Graph.Graph hiding ( union )
+import Autolib.Graph.Display
 
-import Boxing
+import Autolib.Boxing
 
 import qualified Data.Set as Set
 import qualified Data.List as List
 import Data.FiniteMap
 import Data.Maybe
 import Control.Monad ( guard )
-import ToDoc hiding ( empty )
+import Autolib.ToDoc hiding ( empty )
 
 independent :: Ord a => Set a -> Graph a
 independent = independent0 . setToList

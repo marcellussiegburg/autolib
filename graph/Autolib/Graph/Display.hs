@@ -1,24 +1,24 @@
-module Graph.Display 
+module Autolib.Graph.Display 
 
 -- -- $Id$
 
-( module Dot.Dot
+( module Autolib.Dot.Dot
 , dot_numbered
 )
 
 where
 
-import Graph.Graph
-import Dot.Dot
+import Autolib.Graph.Graph
+import Autolib.Dot.Dot
 
-import qualified Dot.Graph
-import qualified Dot.Node
-import qualified Dot.Edge
+import qualified Autolib.Dot.Graph
+import qualified Autolib.Dot.Node
+import qualified Autolib.Dot.Edge
 
-import Boxing.Position
+import Autolib.Boxing.Position
 
 import Data.FiniteMap
-import Maybe
+import Data.Maybe
 import Control.Monad ( guard )
 
 instance ( Show a, Ord a ) => ToDot ( Graph a ) where
@@ -31,7 +31,7 @@ instance ( Show a, Ord a ) => ToDot ( Graph a ) where
     toDotOptions = unwords . layout_hints 
 
 dot_numbered :: ( Show a, Ord a, Show b ) 
-	     => Graph a -> ( a -> b ) -> Dot.Graph.Type
+	     => Graph a -> ( a -> b ) -> Autolib.Dot.Graph.Type
 dot_numbered g num = 
     let 
             pins = graph_layout g
@@ -43,31 +43,31 @@ dot_numbered g num =
 		else cs
 
             ns = do v <- setToList $ knoten g
-                    let n  = Dot.Node.blank
-                           { Dot.Node.ident = show $ num v
-                           , Dot.Node.label = 
+                    let n  = Autolib.Dot.Node.blank
+                           { Autolib.Dot.Node.ident = show $ num v
+                           , Autolib.Dot.Node.label = 
 			        if show_labels g
 			        then return $ tricky $ show v
 			        else return ""
                            }
 		    return $ case lookupFM pins v of
 		        Nothing -> n
-			Just p  -> n { Dot.Node.pinned = Just True
-				     , Dot.Node.position = Just p
+			Just p  -> n { Autolib.Dot.Node.pinned = Just True
+				     , Autolib.Dot.Node.position = Just p
 				     }
 
             es = do Kante { von = p, nach = q } <- setToList $ kanten g
-                    return $ Dot.Edge.blank
-                           { Dot.Edge.from  = show $ num p
-                           , Dot.Edge.to    = show $ num q
-			   , Dot.Edge.directed = False
+                    return $ Autolib.Dot.Edge.blank
+                           { Autolib.Dot.Edge.from  = show $ num p
+                           , Autolib.Dot.Edge.to    = show $ num q
+			   , Autolib.Dot.Edge.directed = False
                            }
 
-        in  Dot.Graph.Type 
-            { Dot.Graph.directed = False
-            , Dot.Graph.name = "foo"
-            , Dot.Graph.nodes = ns 
-            , Dot.Graph.edges = es 
+        in  Autolib.Dot.Graph.Type 
+            { Autolib.Dot.Graph.directed = False
+            , Autolib.Dot.Graph.name = "foo"
+            , Autolib.Dot.Graph.nodes = ns 
+            , Autolib.Dot.Graph.edges = es 
             }
 
 

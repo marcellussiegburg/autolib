@@ -6,7 +6,7 @@ module Autolib.NFA.Data
 
 ( module Autolib.NFA.Data
 , module Autolib.Informed
-, module Autolib.Data.FiniteMap
+, module Data.FiniteMap
 , module Autolib.Sets
 )
 

@@ -69,8 +69,8 @@ param =
 
     
 
-pos_show :: Boxing.Position.Position -> String
-pos_show = Boxing.Position.zeige
+pos_show :: Autolib.Boxing.Position.Position -> String
+pos_show = Autolib.Boxing.Position.zeige
 
 pin_show :: Bool -> String
 pin_show f = case f of

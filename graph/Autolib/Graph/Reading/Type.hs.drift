@@ -1,11 +1,11 @@
 -- -*- mode: haskell -*-
 
-module Graph.Reading.Type where
+module Autolib.Graph.Reading.Type where
 
-import Graph.Kante
+import Autolib.Graph.Kante
 
-import ToDoc
-import Reader
+import Autolib.ToDoc
+import Autolib.Reader
 import Data.Set
 
 

@@ -1,9 +1,9 @@
-module Graph.Kante where
+module Autolib.Graph.Kante where
 
 -- -- $Id$
 
-import Reader
-import ToDoc
+import Autolib.Reader
+import Autolib.ToDoc
 
 
 data Kante a  = Kante

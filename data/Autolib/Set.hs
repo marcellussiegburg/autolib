@@ -1,6 +1,6 @@
 module Autolib.Sets
 
-( module Autolib.Data.Set
+( module Data.Set
 , module Autolib.Sets
 )
 

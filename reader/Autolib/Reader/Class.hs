@@ -1,7 +1,7 @@
 module Autolib.Reader.Class 
 
 ( module Autolib.Reader.Class
-, module Autolib.Text.ParserCombinators.Parsec
+, module Text.ParserCombinators.Parsec
 )
 
 where

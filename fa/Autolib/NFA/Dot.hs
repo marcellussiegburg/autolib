@@ -33,7 +33,7 @@ numeric a =
 toDot_layered :: ( NFAC c a , Show a, Show c )
 	      => NFA c a 
 	      -> [ Set a ] 
-              -> IO Dot.Graph.Type
+              -> IO Autolib.Dot.Graph.Type
 toDot_layered a xss = do
 
     let num = numeric a
@@ -41,7 +41,7 @@ toDot_layered a xss = do
         yss = do
 	      pre <- inits $ map (smap num) xss
 	      return $ unionManySets pre
-    Dot.Arrange.layered d yss
+    Autolib.Dot.Arrange.layered d yss
 
     
 -- zustände werden mit [0 .. ] durchnumeriert
@@ -71,39 +71,39 @@ helper num a =
 		    let sh = case p `elementOf` finals a of
 			      True  -> "doublecircle"
 			      False -> "ellipse"
-		    return $ Dot.Node.blank
-			   { Dot.Node.ident = num p
-			   , Dot.Node.label = Just $ show p
-			   , Dot.Node.shape = Just sh
+		    return $ Autolib.Dot.Node.blank
+			   { Autolib.Dot.Node.ident = num p
+			   , Autolib.Dot.Node.label = Just $ show p
+			   , Autolib.Dot.Node.shape = Just sh
 			   }
 
 
 	    -- unsichtbare knoten (für start-pfeile)
 	    uns = do p <- lstarts a
-		     return $ Dot.Node.blank
-			   { Dot.Node.ident = "U" ++ num p 
-			   , Dot.Node.node_style = Just "invis"
+		     return $ Autolib.Dot.Node.blank
+			   { Autolib.Dot.Node.ident = "U" ++ num p 
+			   , Autolib.Dot.Node.node_style = Just "invis"
 			   }
     
 	    -- tatsächliche zustandsübergänge
 	    es = do ( p, x, q ) <- unCollect $ trans a
-		    return $ Dot.Edge.blank
-			   { Dot.Edge.from  = num p
-			   , Dot.Edge.to    = num q
-			   , Dot.Edge.taillabel = Just $ quoted $ tricky $ show x
+		    return $ Autolib.Dot.Edge.blank
+			   { Autolib.Dot.Edge.from  = num p
+			   , Autolib.Dot.Edge.to    = num q
+			   , Autolib.Dot.Edge.taillabel = Just $ quoted $ tricky $ show x
 			   }
 	    -- start-pfeile
 	    ss = do p <- lstarts a
-		    return $ Dot.Edge.blank
-			   { Dot.Edge.from  = "U" ++ num p 
-			   , Dot.Edge.to    = num p
+		    return $ Autolib.Dot.Edge.blank
+			   { Autolib.Dot.Edge.from  = "U" ++ num p 
+			   , Autolib.Dot.Edge.to    = num p
 			   }
 
-	in  Dot.Graph.Type 
-	    { Dot.Graph.directed = True
-	    , Dot.Graph.name = "NFA"
-	    , Dot.Graph.nodes = ns ++ uns
-	    , Dot.Graph.edges = es ++ ss
+	in  Autolib.Dot.Graph.Type 
+	    { Autolib.Dot.Graph.directed = True
+	    , Autolib.Dot.Graph.name = "NFA"
+	    , Autolib.Dot.Graph.nodes = ns ++ uns
+	    , Autolib.Dot.Graph.edges = es ++ ss
 	    }
 
 

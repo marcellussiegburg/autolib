@@ -71,7 +71,7 @@ instance ( HeightC h, Show a, Symbol a ) => Symbol (Aged h a) where
 
 instance Symbol Char where
     arity c = 1
-    symbol_toDoc = ToDoc.char
+    symbol_toDoc = Autolib.ToDoc.char
     symbol_reader = alphaNum
     pool = [ '#', '%' ] ++ ['a' .. 'z' ] ++ ['A' .. 'Z' ] ++ [ '0' .. '9' ]
     stringify  = id
@@ -82,8 +82,9 @@ instance Symbol Int where
 
 instance ( Symbol a, Symbol b ) => Symbol (a, b)
 
+{-
 instance ( Size h, HeightC h ) => Symbol h
-
+-}
 
 
 

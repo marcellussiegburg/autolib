@@ -83,7 +83,7 @@ nested :: Int -> Reporter a -> Reporter a
 nested d r = r { kommentar = Nest $ kommentar r }
 
 repo :: Reporter a -> Pretty.Doc
-repo = Output.render .  kommentar
+repo = Autolib.Output.render .  kommentar
 
 silent :: Reporter a -> Reporter a
 -- wenn ok, dann nichts sagen, sonst fehler melden

@@ -23,22 +23,22 @@ import Autolib.Size
 
 data Type = Type { directed :: Bool 
 	       , name	  :: String
-	       , nodes	  :: [ Dot.Node.Type ]
-	       , edges	  :: [ Dot.Edge.Type ]
+	       , nodes	  :: [ Autolib.Dot.Node.Type ]
+	       , edges	  :: [ Autolib.Dot.Edge.Type ]
 	       }
 
 instance Size Type where size = length . nodes
 
 gmap :: ( String -> String ) -> ( Type -> Type )
-gmap f g = g { nodes = map (Dot.Node.nmap f) $ nodes g
-	     , edges = map (Dot.Edge.emap f) $ edges g
+gmap f g = g { nodes = map (Autolib.Dot.Node.nmap f) $ nodes g
+	     , edges = map (Autolib.Dot.Edge.emap f) $ edges g
 	     }
 
 scale :: Double -> Type -> Type
 scale s g = 
     let c = B.Position { B.width = s, B.height = 0 }
-        f n = n { Dot.Node.position = fmap (c *) $ Dot.Node.position n }
-    in  g { Dot.Graph.nodes = map f $ Dot.Graph.nodes g }
+        f n = n { Autolib.Dot.Node.position = fmap (c *) $ Autolib.Dot.Node.position n }
+    in  g { Autolib.Dot.Graph.nodes = map f $ Autolib.Dot.Graph.nodes g }
 	       
 
 beside :: Type -> Type -> Type
@@ -106,10 +106,10 @@ arg = do
     my_reserved "\"\\N\"" <|> do my_stringLiteral ; return ()
     
 
-thing :: Parser ( Either Dot.Edge.Type Dot.Node.Type )
+thing :: Parser ( Either Autolib.Dot.Edge.Type Autolib.Dot.Node.Type )
 thing = do
     a <- soi
-    fmap Left ( Dot.Edge.continue a ) <|> fmap Right ( Dot.Node.continue a )
+    fmap Left ( Autolib.Dot.Edge.continue a ) <|> fmap Right ( Autolib.Dot.Node.continue a )
 
 instance Read Type where
     readsPrec = parsec_readsPrec

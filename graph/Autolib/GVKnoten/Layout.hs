@@ -52,11 +52,11 @@ get_positions :: FilePath -> IO ( FiniteMap String B.Position )
 get_positions outfile = do
     cs <- readFile outfile
     system $ unwords [ "rm", outfile ]
-    let g = read cs :: Dot.Graph.Type
+    let g = read cs :: Autolib.Dot.Graph.Type
     return $ listToFM $ do 
-	  n <- Dot.Graph.nodes g
-	  Just p <- return $ Dot.Node.position n
-	  return ( Dot.Node.ident n, p )
+	  n <- Autolib.Dot.Graph.nodes g
+	  Just p <- return $ Autolib.Dot.Node.position n
+	  return ( Autolib.Dot.Node.ident n, p )
 
 get_positions_stefan :: FilePath -> IO ( FiniteMap String B.Position )
 get_positions_stefan outfile = do
