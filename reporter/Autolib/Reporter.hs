@@ -13,5 +13,5 @@ where
 import Autolib.Reporter.Type
 import Autolib.Reporter.Iterator
 import Autolib.Reporter.Parallel
-import Autolib.Control.Monad
+import Control.Monad
 

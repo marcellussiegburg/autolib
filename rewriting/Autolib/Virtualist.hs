@@ -10,7 +10,7 @@ where
 
 import Autolib.Reader
 import Autolib.ToDoc
-import Autolib.Letters
+import Autolib.Util.Letters
 import Autolib.Sets
 import Autolib.Hash
 import Autolib.Size
