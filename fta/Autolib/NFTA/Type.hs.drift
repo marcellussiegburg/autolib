@@ -1,0 +1,62 @@
+-- -*- mode: haskell -*-
+
+module NFTA.Type 
+
+( module NFTA.Type
+, module Sets
+, module TES.Symbol
+)
+
+where
+
+--  $Id$
+
+import Sets
+import Letters
+import Util.Size
+import TES.Symbol
+import Reader
+import ToDoc
+
+class ( Symbol c
+      , Ord s , ToDoc s
+      , ToDoc [s], Reader [s]
+      , Reader s
+      ) => NFTAC c s
+
+instance ( Symbol c
+      , Ord s , ToDoc s
+      , ToDoc [s], Reader [s]
+      , Reader s
+      ) => NFTAC c s
+
+data ( NFTAC c s ) => NFTA c s = 
+     NFTA { states :: Set s
+	  , finals :: Set s
+	  , trans  :: Set ( s, c, [s] )
+	  }
+
+lstates :: NFTAC c s => NFTA c s -> [s]
+lstates = setToList . states
+
+lfinals :: NFTAC c s => NFTA c s -> [s]
+lfinals = setToList . finals
+
+ltrans :: NFTAC c s => NFTA c s -> [(s, c, [s])]
+ltrans  = setToList . trans
+
+instance  NFTAC c s => Letters (NFTA c s) c where
+    letters a = mkSet $ do
+        ( p, c, qs ) <- ltrans a
+	return c
+
+instance NFTAC c s  => Size ( NFTA c s ) where
+    size = cardinality . states
+
+{-! for NFTA derive: Reader, ToDoc !-}
+
+instance NFTAC c s => Read (NFTA c s) where
+    readsPrec = parsec_readsPrec
+
+instance NFTAC c s => Show (NFTA c s) where
+    show = render . toDoc

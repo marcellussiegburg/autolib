@@ -1,4 +1,4 @@
--- -- $Id$
+--  $Id$
 
 module NFA.Type
 
@@ -121,18 +121,25 @@ alphamap f n =
 
 alphafilter :: NFAC c s
 	=> (c -> Bool) -> NFA c s -> NFA c s
-alphafilter f a =
-    	 a { nfa_info = funni "alphafilter" [ text "<<predicate>>" , info a ]
+alphafilter f a 
+    = informed ( funni "alphafilter" [ text "<<predicate>>" , info a ] )
+    $ transfilter ( \ (p, c, q) -> f c ) a 
+
+---------------------------------------------------------------------
+
+transfilter :: NFAC c s
+	    => ((s, c, s) -> Bool)
+	    -> NFA c s
+	    -> NFA c s
+transfilter f a =
+    	 a { nfa_info = funni "transfilter" [ text "<<predicate>>" , info a ]
 	   , states = states a
 	   , finals = finals a
 	   , starts = starts a
 	   , trans = collect $ do 
-	        (p, c, q) <- unCollect $ trans a
-	        guard $ f c
-	        return (p, c, q)
+	        t <- unCollect $ trans a
+	        guard $ f t
+	        return t
 	   } 
-
----------------------------------------------------------------------
-
 
 

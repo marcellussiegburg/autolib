@@ -5,6 +5,7 @@ module TES.Convert where
 import TES
 
 import TES.Path
+import TES.Identifier
 import SRS.Type
 
 import Sets
@@ -20,7 +21,7 @@ to_tes :: SRS Char -> TES
 to_tes srs = 
     let x = mknullary "x"
 	to_term = foldr ( \ c t -> Node (mkunary [c]) [ t ] ) ( Node x [] )
-    in TES 
+    in TRS 
 	{ comment   = "SRS: " ++ ( unwords $ words $ show srs )
 	, variables = mkSet [ x ]
 	, signature = mkusig $ map (:[]) $ setToList $ letters srs
