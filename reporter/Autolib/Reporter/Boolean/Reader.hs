@@ -23,9 +23,9 @@ star = do
 
 atomic :: Reader i
        => Parser ( Boolean i )
-atomic =   my_parens expression
-       <|> do unary_operators 
-       <|> do a <- reader ; return $ Atomic a
+atomic =    do a <- reader ; return $ Atomic a
+       <|>  my_parens expression
+       <|>  unary_operators 
        <?> "atomic expression"
 
 unary_operators :: Reader i

@@ -9,9 +9,9 @@ import Informed
 -- | for stepwise computations
 -- s is state type
 data Iterator a = forall s . 
-     Iterator Doc -- description
-              ( Reporter s ) -- produce initial state
-	      ( s -> Reporter (Either s a) ) -- stepper
+     Iterator Doc -- ^ description
+              ( Reporter s ) -- ^ produce initial state
+	      ( s -> Reporter (Either s a) ) -- ^ stepper
 
 instance Informed ( Iterator a ) where
     info ( Iterator doc start step ) = doc
@@ -29,9 +29,4 @@ instance Functor Iterator where
 		          Left s' -> return $ Left s'
 		          Right x -> return $ Right $ f x
                )
-
-
-
-
-
 
