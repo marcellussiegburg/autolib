@@ -2,15 +2,27 @@ module Inter.Timer where
 
 -- $Id$
 
-import qualified Concurrent
+import Concurrent
+ 
+-- if timer expires,
+-- write default value into channel
 
-timer :: Int -> IO ()
--- throws exception after specified number of seconds
+-- TODO: das ist eventuell zu lazy?
+-- wenn die action einen nicht ganz ausgewerteten wert schreibt?
 
--- by angelic parallelism (?),
--- if the main thread finishes earlier than the timer,
--- the timer is silently killed (I hope)
-timer d = do
-    Concurrent.threadDelay $ d * 10^6
-    error "timer expired"
+timed :: Int -> a -> IO a -> IO a
+timed d def action = do
+    ch <- newChan
+    apid <- forkIO $ do
+         x <- action
+	 writeChan ch x
+    tpid <- forkIO $ do
+         threadDelay $ d * 10^6
+	 writeChan ch def
+    x <- readChan ch
+    killThread apid
+    killThread tpid
+    return x
+
+
 
