@@ -8,4 +8,6 @@ module Autolib.Dot
 where
 
 import Autolib.Dot.Dot
+import Autolib.Dot.Dotty
+
 
