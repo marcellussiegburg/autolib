@@ -39,7 +39,7 @@ picks n (x : xs) = do
     flag <- pick $ [ True ] ++ [ False | length xs >= n ]
     if flag
        then do ys <- picks (n-1) xs ; return $ x : ys
-       else do ys <- picks (n  ) xs ; return $     xs
+       else do ys <- picks (n  ) xs ; return $     ys
 
 -------------------------------------------------------------------------
 
