@@ -31,8 +31,10 @@ top (Node c args ) = c
 children :: Term v c -> [ Term v c ]
 children (Node c args) = args
 
-class ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) => TRSC v c -- no methods
-instance ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) => TRSC v c 
+class ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) 
+      => TRSC v c -- no methods
+instance ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) 
+      => TRSC v c 
 
 
 isvar ( Var _ ) = True
@@ -45,7 +47,9 @@ instance ( ToDoc c, ToDoc v ) => ToDoc (Term v c) where
     toDoc ( Node t xs ) = toDoc t <> 
 	if null xs 
 	then ToDoc.empty 
-	else ToDoc.parens $ hcat $ punctuate ToDoc.comma $ map toDoc xs
+	else ( text " " <+> ) 
+    	     $ ToDoc.parens $ hcat $ punctuate ( text ", " )
+			    $ map toDoc xs
 
 instance ( ToDoc c, ToDoc v ) => Show (Term v c) where 
     show = render . toDoc

@@ -14,7 +14,14 @@ import TES.Symbol
 data Identifier = Identifier { name :: String
 		     , i_arity :: Int
 		     }
-     deriving ( Eq, Ord )
+-- don't derive Egq and Ord sind arity should be ignored
+
+instance Eq Identifier where 
+   x == y = name x == name y
+
+instance Ord Identifier where
+   compare x y = compare (name x) (name y)    
+
 
 instance Symbol Identifier where
      arity = i_arity
