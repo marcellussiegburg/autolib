@@ -1,4 +1,4 @@
-module Autolib.Reporter.Subset where
+obsolete module Autolib.Reporter.Subset where
 
 --  $Id$
 

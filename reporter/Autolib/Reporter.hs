@@ -16,7 +16,7 @@ import Autolib.Reporter.Parallel
 import Control.Monad
 
 import Autolib.Reporter.Result
-import Autolib.Reporter.Subset
+import Autolib.Reporter.Set
 import Autolib.Reporter.Checker
 import Autolib.Reporter.Stream
 import Autolib.Reporter.Proof

@@ -1,6 +1,6 @@
 module Autolib.Dot 
 
---   $Id$
+--  $Id$
 
 ( module Autolib.Dot.Dot
 , module Autolib.Dot.Dotty
