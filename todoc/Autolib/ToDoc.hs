@@ -25,8 +25,8 @@ showDoc :: Doc -> String
 showDoc = unwords . words . render
 
 
-max_list_length = 30 :: Int
-max_string_length = 30 :: Int
+max_list_length = 50 :: Int
+max_string_length = 50 :: Int
 
 class ToDoc a where toDoc :: a -> Doc
 
