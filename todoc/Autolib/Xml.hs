@@ -22,10 +22,9 @@ instance (Container a con , Haskell2Xml con) => Haskell2Xml a where
         aa = pack v
 	a = toHType aa
     fromContents (CElem (Elem constr [] cs):etc) 
-	     :: (a, [ Content ] )
         | label (undefined :: a) `isPrefixOf` constr =
             (\(aa,_)-> (unpack aa :: a, etc)) (fromContents cs)
-    toContents v :: [ Content ]  =
+    toContents v =
         let aa = pack v
         in [mkElemC (showConstr 0 (toHType v)) (toContents aa)]
 
