@@ -5,6 +5,8 @@ module Autolib.Schichten
 , bfs
 , bfs'
 , schichten_internal
+, schichten_with_loops
+, schichten_with_loops'
 )
 
 where
@@ -40,3 +42,18 @@ schichten_internal f schon jetzt =
 	     neu  = next `minusSet` alt
 	 in  jetzt : schichten_internal f alt neu
 
+-------------------------------------------------------------------------------
+
+-- | gibt immer unendliche liste, berücksichtigt keine schleifen, also
+-- | enthält das i-te element die menge der nachfolger, die in genau i
+-- | schritten erreichbar sind
+
+schichten_with_loops  :: Ord a => (a -> Set a) -> a -> [ Set a ]
+schichten_with_loops f = schichten_with_loops' f . unitSet
+
+schichten_with_loops' :: Ord a => (a -> Set a) -> Set a -> [ Set a ]
+schichten_with_loops' f xs = xs : schichten_with_loops' f sucs
+    where sucs = unionManySets [ f x | x <- setToList xs ]
+
+{-# specialize schichten_with_loops  :: (Int -> Set Int) -> Int -> [ Set Int ] #-}
+{-# specialize schichten_with_loops' :: (Int -> Set Int) -> Set Int -> [ Set Int ] #-}
