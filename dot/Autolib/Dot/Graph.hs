@@ -28,6 +28,7 @@ instance ToDoc Type where
 			  False -> "graph"
 			  True	-> "digraph" 
 	    nm = text ( name d )
+
 	    atts = map text 
 		 [ "rankdir = LR"
 		 , "center = 1"
@@ -36,7 +37,7 @@ instance ToDoc Type where
 	    ns  = map toDoc $ nodes d
 	    es  = map toDoc $ edges d
 	in      hsep [ header,  nm ]
-	    <+> braces ( vcat $ punctuate semi $ atts ++ ns ++ es )
+	    <+> braces ( vcat $ punctuate semi $ {- atts ++ -} ns ++ es )
 
 instance Show Type where
     show = render . toDoc
