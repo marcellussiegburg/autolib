@@ -1,4 +1,10 @@
-module TES.Term where
+module TES.Term 
+
+( module TES.Term
+, module Tree
+)
+
+where
 
 -- $Id$
 

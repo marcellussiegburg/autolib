@@ -23,7 +23,7 @@ handle fname = do
     let r = read cs :: TES
     -- hPutStrLn stderr $ show r
     when ( at_most_unary r && has_nullary r ) $ do
-        putStr fname
+        putStrLn fname
         print r
   `Exception.catch` \ any -> do
     hPutStrLn stderr $ show any

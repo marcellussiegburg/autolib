@@ -17,7 +17,19 @@ data Symbol = Symbol { name :: String
 		     }
      deriving ( Eq, Ord )
 
+mknullary :: String -> Symbol
+mknullary c = Symbol { name = c, arity = 0 }
+
+mkunary :: String -> Symbol
+mkunary c = Symbol { name = c, arity = 1 }
+
 type Signature = Set Symbol
+
+mkusig :: [ String ] -> Signature
+-- make unary signature ( for string rewriting )
+mkusig fs = mkSet $ do
+    f <- fs
+    return $ mkunary f
 
 instance ToDoc Symbol where 
     toDoc = text . name
