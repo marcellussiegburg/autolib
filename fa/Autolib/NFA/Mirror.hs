@@ -4,8 +4,8 @@ module NFA.Mirror where
 
 import NFA.Type
 
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 import ToDoc
 
 mirror :: NFAC c s

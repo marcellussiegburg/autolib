@@ -13,7 +13,7 @@ import NFA.Type
 import NFA.Mirror
 import Schichten
 
-import Monad (guard)
+import Control.Monad (guard)
 import Maybe
 import Fix
 import Letters

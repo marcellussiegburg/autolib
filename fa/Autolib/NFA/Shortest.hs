@@ -6,13 +6,13 @@ import NFA.Type
 import NFA.Trim
 
 import Sets
-import FiniteMap
+import Data.FiniteMap
 
 import Letters
 
 import ToDoc
-import Monad (guard)
-import List (nub)
+import Control.Monad (guard)
+import Data.List (nub)
 
 type State c s  = ([c], s)
 

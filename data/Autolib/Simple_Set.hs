@@ -1,4 +1,4 @@
--- -- $Id$
+--   $Id$
 
 module Simple_Set
 
@@ -26,10 +26,13 @@ module Simple_Set
 
 where
 
-import List ( nub, (\\) )
+import Data.List ( nub, (\\) )
 
 -- $Log$
--- Revision 1.2  2003-12-18 11:04:44  joe
+-- Revision 1.3  2003-12-18 13:10:30  joe
+-- kosmetik fuer haddock
+--
+-- Revision 1.2  2003/12/18 11:04:44  joe
 -- kosmetische aenderungen fuer haddock
 --
 -- Revision 1.1.1.1  2002/05/24 10:46:48  challenger

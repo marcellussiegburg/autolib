@@ -3,8 +3,8 @@ module NFA.Basic where
 -- -- $Id$
 
 import NFA.Type
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 import ToDoc hiding ( empty )
 
 empty :: NFAC c Int => NFA c Int

@@ -13,8 +13,8 @@ import Letters
 import Language.Type
 
 import ToDoc
-import Set
-import List (nub)
+import Data.Set
+import Data.List (nub)
 import Util.Zufall
 
 language :: String  -- nametag

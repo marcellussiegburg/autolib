@@ -9,7 +9,7 @@ import qualified Sets
 
 import NFA.Mirror ( mirror )
 
-import Monad ( guard )
+import Control.Monad ( guard )
 
 right_quotient :: (NFAC c s, NFAC c t) => NFA c s -> NFA c t -> NFA c s
 right_quotient a b =

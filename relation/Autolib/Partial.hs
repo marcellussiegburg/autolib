@@ -1,12 +1,12 @@
 module Partial where
 
--- -- $Id$
+--   $Id$
 
 -- Halbordnung
 
-import Set
-import Monad ( guard )
-import List ( isPrefixOf )
+import Data.Set
+import Control.Monad ( guard )
+import Data.List ( isPrefixOf )
 
 class Partial a where
 -- eine von beiden methoden muﬂ implementiert werden

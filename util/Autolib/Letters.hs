@@ -1,8 +1,8 @@
 module Letters where
 
--- -- $Id$
+--   $Id$
 
-import Set
+import Data.Set
 
 class Letters a b where
       letters :: a -> Set b

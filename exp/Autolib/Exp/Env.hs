@@ -1,7 +1,7 @@
 module Exp.Env where
 
-import FiniteMap
-import Set
+import Data.FiniteMap
+import Data.Set
 
 type Env a = FiniteMap String a
 

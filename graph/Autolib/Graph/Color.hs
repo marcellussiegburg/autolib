@@ -1,10 +1,10 @@
-module Graph_Color where
+module Graph.Color where
 
 import Graph
-import Graph_Util
+import Graph.Util
 
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 
 import Auswertung
 import Right

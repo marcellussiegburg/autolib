@@ -1,8 +1,8 @@
 module GVKnoten.Parser where
 
 import GVKnoten.Type
-import Set
-import Monad (guard)
+import Data.Set
+import Control.Monad (guard)
 import Maybe
 import Char  (isDigit)
 

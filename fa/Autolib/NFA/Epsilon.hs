@@ -3,8 +3,8 @@ module NFA.Epsilon where
 -- -- $Id$
 
 import NFA.Type
-import Set
-import Monad ( guard )
+import Data.Set
+import Control.Monad ( guard )
 import FiniteMap 
 
 import qualified Relation

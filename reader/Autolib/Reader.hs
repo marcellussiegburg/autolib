@@ -8,7 +8,7 @@ module Reader
 
 where
 
--- -- $Id$
+--   $Id$
 
 import Reader.Class
 import Reader.Basic

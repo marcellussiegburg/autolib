@@ -5,7 +5,7 @@ module NFA.Factors where
 import NFA.Type
 import NFA.Trim
 
-import Set
+import Data.Set
 
 -- bestimme die Sprache aller (zusammenhängenden) Teilwörter
 

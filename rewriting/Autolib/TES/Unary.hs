@@ -8,8 +8,8 @@ import TES
 import System
 import Exception
 import IO
-import Monad ( when )
-import Set
+import Control.Monad ( when )
+import Data.Set
 
 main :: IO ()
 main = do 

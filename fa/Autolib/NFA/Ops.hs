@@ -6,12 +6,12 @@ module NFA.Ops where
 import NFA.Type hiding ( cross, union )
 
 import qualified Sets 
-import FiniteMap
+import Data.FiniteMap
 
 import NFA.Trim
 import NFA.Basic
 
-import Monad (guard)
+import Control.Monad (guard)
 
 import ToDoc ( ToDoc, toDoc )
 

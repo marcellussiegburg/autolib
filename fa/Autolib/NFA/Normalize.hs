@@ -5,7 +5,7 @@ module NFA.Normalize where
 import NFA.Type
 
 import Sets
-import FiniteMap
+import Data.FiniteMap
 import ToDoc
 
 normalize :: NFAC c s

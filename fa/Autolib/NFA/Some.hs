@@ -8,7 +8,7 @@ import Util.Zufall
 
 import ToDoc
 import Random
-import Set
+import Data.Set
 
 some :: Set Char -> Int -> IO (NFA Char Int)
 -- erzeugt irgendeinen NFA mit s zuständen

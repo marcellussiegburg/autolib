@@ -12,8 +12,8 @@ where
 import LazyST
 import FiniteMap 
 
-import List (inits, tails)
-import Monad (guard)
+import Data.List (inits, tails)
+import Control.Monad (guard)
 
 
 type Cache s a b = STRef s (FiniteMap [a] b)

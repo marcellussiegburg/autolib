@@ -9,8 +9,8 @@ where
 
 import qualified Util.DPL as D
 import Simple_Set
-import Monad ( guard )
--- import Set
+import Control.Monad ( guard )
+-- import Data.Set
 
 lift ::  Ord b
      => ( (b,b) -> Set b )  

@@ -1,6 +1,6 @@
 module Boxing.Position where
 
--- -- $Id$
+--   $Id$
 
 import ToDoc
 

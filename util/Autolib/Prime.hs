@@ -1,6 +1,6 @@
 module Prime where
 
--- -- $Id$
+--   $Id$
 
 prime :: Integer -> Bool
 prime n | n < 2 = False

@@ -4,10 +4,10 @@ module NFA.Compact where
 
 import NFA.Type
 
-import FiniteMap
+import Data.FiniteMap
 import Sets
 import Letters
-import Monad ( guard )
+import Control.Monad ( guard )
 
 parallel_compact :: ( NFAC c s, NFAC [c] s )
 		 => NFA c s -> NFA [c] s

@@ -11,10 +11,10 @@ import GVKnoten.Type
 import GVKnoten.Parser
 
 import ToDoc
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 import Maybe
-import Monad ( foldM )
+import Control.Monad ( foldM )
 
 import qualified Dot.Node
 import qualified Dot.Graph

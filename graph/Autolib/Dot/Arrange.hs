@@ -9,10 +9,10 @@ import Dot.Dot
 import qualified GVKnoten.Layout
 import Boxing.Position
 
-import Set
-import Monad ( foldM )
+import Data.Set
+import Control.Monad ( foldM )
 import Random
-import FiniteMap
+import Data.FiniteMap
 import IO
 
 -- koordinaten der knoten bestimmen.

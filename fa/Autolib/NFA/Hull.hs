@@ -7,7 +7,7 @@ module NFA.Hull
 
 where
 
-import Set
+import Data.Set
 
 
 

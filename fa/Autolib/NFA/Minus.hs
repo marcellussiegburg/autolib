@@ -14,12 +14,12 @@ import NFA.Normalize
 
 import Letters
 
-import FiniteMap
+import Data.FiniteMap
 import qualified Sets
 import Set (setToList)
 
 import ToDoc ( ToDoc, toDoc )
-import Monad ( guard )
+import Control.Monad ( guard )
 
 
 

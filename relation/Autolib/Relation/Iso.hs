@@ -1,6 +1,6 @@
 module Relation.Iso where
 
--- -- $Id$
+--   $Id$
 
 -- isomorphie-test für Halbordnungen, vollständig
 -- nur für kleine bereiche sinnvoll

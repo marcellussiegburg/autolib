@@ -16,11 +16,11 @@ import qualified Dot.Node
 import qualified Dot.Edge
 import qualified Dot.Arrange
 
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 import Maybe
 import ToDoc
-import List (inits)
+import Data.List (inits)
 
 numeric :: NFAC c a 
 	=> NFA c a 

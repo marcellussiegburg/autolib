@@ -1,6 +1,6 @@
 module ToDoc 
 
--- -- $Id$
+--   $Id$
 
 ( module ToDoc
 , module Pretty 
@@ -10,8 +10,8 @@ where
 
 import Pretty 
 
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 
 showDoc :: Doc -> String
 -- zur ausgabe ohne zeilenschaltungen

@@ -5,7 +5,7 @@ module Dot.Dot where
 import qualified Dot.Graph
 import System
 import IO
-import Monad ( when )
+import Control.Monad ( when )
 import Random
 
 import Util.Datei 

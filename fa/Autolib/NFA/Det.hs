@@ -10,12 +10,12 @@ import NFA.Trim
 import Letters
 import NFA.Hull
 
-import Set
+import Data.Set
 import Sets (sfilter)
 
 import Control.Monad.State
 
-import FiniteMap
+import Data.FiniteMap
 import ToDoc
 
 

@@ -8,7 +8,7 @@ module Schichten
 
 where
 
-import Set
+import Data.Set
 
 bfs :: Ord a => ( a -> Set a ) -> a -> [a]
 bfs f x0 = bfs' f (unitSet x0)

@@ -1,6 +1,6 @@
 module Inter.Timer where
 
--- -- $Id$
+--   $Id$
 
 import Concurrent
 import Reporter.Type

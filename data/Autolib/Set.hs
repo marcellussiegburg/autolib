@@ -1,14 +1,14 @@
 module Sets
 
-( module Set
+( module Data.Set
 , module Sets
 )
 
 where
 
--- -- $Id$
+--   $Id$
 
-import Set
+import Data.Set
 import ToDoc
 import Reader
 

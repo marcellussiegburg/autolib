@@ -6,7 +6,7 @@ import NFA
 import NFA.Trim
 
 import Sets hiding ( subseteq )
-import FiniteMap
+import Data.FiniteMap
 
 
 shuffle :: (NFAC c s, NFAC c t) 

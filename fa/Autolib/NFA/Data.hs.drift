@@ -1,12 +1,12 @@
 -- -*- mode: haskell -*-
 
--- -- $Id$
+--   $Id$
 
 module NFA.Data
 
 ( module NFA.Data
 , module Informed
-, module FiniteMap
+, module Data.FiniteMap
 , module Sets
 )
 
@@ -16,14 +16,14 @@ import Sets
 import Size
 import Letters
 
-import FiniteMap
+import Data.FiniteMap
 import ReadFM
 
 import Informed
 import ToDoc
 import Reader
 
-import Monad (guard)
+import Control.Monad (guard)
 
 -- mal sehen
 type NFA_Char s = NFA Char s

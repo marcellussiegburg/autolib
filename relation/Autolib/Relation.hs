@@ -1,6 +1,6 @@
 module Relation 
 
--- -- $Id$
+--   $Id$
 
 ( Type -- abstrakt
 , source, target

@@ -1,9 +1,9 @@
 module LaTeX where
 
--- -- $Id$
+--   $Id$
 
 import ToDoc
-import List (intersperse)
+import Data.List (intersperse)
 
 class LaTeX a where latex :: a -> Doc
 

@@ -5,7 +5,7 @@ module NFA.Restrict where
 import NFA.Type
 
 import Sets
-import FiniteMap
+import Data.FiniteMap
 import Size
 
 import ToDoc

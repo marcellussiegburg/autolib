@@ -16,7 +16,7 @@ module Reader.Basic
 
 where
 
--- -- $Id$
+--   $Id$
 
 import Reader.Class
 import TypeOf -- TODO: what for? Idee ausbauen!
@@ -27,7 +27,7 @@ import ParsecLanguage ( haskell )
 
 import qualified Pretty
 
-import Monad ( guard )
+import Control.Monad ( guard )
 
 parsec_readsPrec :: Reader a => Int -> ReadS a
 parsec_readsPrec p input = 

@@ -13,7 +13,7 @@ import Letters
 
 import NFA.Data
 
-import Monad (guard)
+import Control.Monad (guard)
 import ToDoc
 
 ---------------------------------------------------------------------

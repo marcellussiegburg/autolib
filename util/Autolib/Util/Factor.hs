@@ -2,7 +2,7 @@ module Util.Factor where
 
 -- -- $Id$
 
-import List ( tails, isPrefixOf )
+import Data.List ( tails, isPrefixOf )
 
 factor :: Eq a => [a] -> [a] -> Bool
 factor x y = or $ do

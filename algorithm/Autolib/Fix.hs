@@ -1,4 +1,4 @@
--- -- $Id$
+--   $Id$
 
 module Fix where
 

@@ -1,6 +1,6 @@
 module TES.Convert where
 
--- -- $Id$
+--   $Id$
 
 import TES
 
@@ -11,10 +11,10 @@ import Sets
 import Letters
 
 import Util.Sort
-import Monad ( guard )
-import List ( isPrefixOf, partition, tails )
+import Control.Monad ( guard )
+import Data.List ( isPrefixOf, partition, tails )
 import Maybe ( isNothing, fromMaybe )
-import FiniteMap
+import Data.FiniteMap
 
 to_tes :: SRS Char -> TES
 to_tes srs = 

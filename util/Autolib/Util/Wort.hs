@@ -5,7 +5,7 @@ module Util.Wort where
 import Util.Sort
 import Util.Uniq
 
-import Set
+import Data.Set
 import Random
 
 import Data.List ( inits, tails )

@@ -16,7 +16,7 @@ import qualified NFA.Ops
 import qualified NFA.Basic
 import ToDoc hiding ( empty )
 
-import Set
+import Data.Set
 import Random
 
 nontrivial :: Set Char -> Int -> IO (Exp, NFA Char Int)

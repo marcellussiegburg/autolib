@@ -1,8 +1,8 @@
--- -- $Id$
+--   $Id$
 
 module Iso where
 
-import Set
+import Data.Set
 
 -- | Klasse fuer den Isomorphietest
 class Iso a where

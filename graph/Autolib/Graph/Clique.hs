@@ -1,7 +1,7 @@
-module Graph_Clique where
+module Graph.Clique where
 
 import Graph
-import Graph_Util
+import Graph.Util
 
 import Data.Set
 import Data.FiniteMap

@@ -4,7 +4,7 @@ module Util.Debug
 
 where
 
-import Monad (when)
+import Control.Monad (when)
 
 debugging :: Bool
 debugging = False
