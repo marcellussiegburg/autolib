@@ -1,4 +1,14 @@
-module Autolib.Dot.Dot where
+module Autolib.Dot.Dot 
+
+( ToDot (..)
+, Layout_Program (..)
+, display
+, system'
+, progname
+, mot, meps
+)
+
+where
 
 --  $Id$
 
@@ -14,7 +24,7 @@ import Autolib.Local
 import Autolib.Reader
 import Autolib.ToDoc
 
-data Program = Dot
+data Layout_Program = Dot
 	     | Neato
      deriving ( Eq, Ord, Read, Show )
 
@@ -24,7 +34,7 @@ progname p = case p of
 
 class ToDot a where 
       toDot :: a -> Autolib.Dot.Graph.Type
-      toDotProgram :: a -> Program
+      toDotProgram :: a -> Layout_Program
       -- default für gerichtete graphen:
       toDotProgram a = Dot
       toDotOptions :: a -> String
@@ -37,7 +47,7 @@ instance ToDot a => ToDot [a] where
 -- gleicher argument/resultat-typ wie Graph.Viz.getGraphviz
 
 mkDot :: ToDot a 
-      => a -> Program -> String -> FilePath 
+      => a -> Layout_Program -> String -> FilePath 
       -> IO ( FilePath, String, ExitCode )
 mkDot a prog fmt path = do
 

@@ -12,7 +12,7 @@ module Autolib.Graph.Graph (
       , GraphC 
      ,  Graph (..), mkGraph
     , Kante (..), kante
-    , Program (..)
+    , Layout_Program (..)
 ) where
 
 import Autolib.Graph.Kante
@@ -45,7 +45,7 @@ data Graph a  = Graph
 	      , graph_layout  :: FiniteMap a Position
 	      , bounding :: Position
 	      , layout_hints :: [ String ]
-	      , layout_program :: Program
+	      , layout_program :: Layout_Program
 	      , show_labels :: Bool
 	      } 
     deriving Typeable
