@@ -19,7 +19,7 @@ import Autolib.Util.Teilfolgen
 import Autolib.Xml
 
 instance Ord a => Container (Set a) [a] where
-    label _ = "set"
+    label _ = "Set"
     pack = setToList
     unpack = mkSet
 
