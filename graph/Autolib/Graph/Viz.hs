@@ -236,8 +236,13 @@ getGraphviz :: (Graph a) -> (GVTrans a) -> String ->
 	IO (String, GVFormat, ExitCode)
 getGraphviz graph trans path = do
 	let
-		inFile = path ++ ".dot"
+		inFile0 = path ++ ".dot"
 		outFile = path ++ "." ++ (getGVFormat trans)
+
+                inFile = if inFile0 == outfile
+			 then path ++ ".tmp"
+			 else inFile0
+
 		command = show (getGVProg trans) ++ " -T" ++ (getGVFormat trans) ++
 			" -o " ++ outFile ++ " " ++ inFile
 			
