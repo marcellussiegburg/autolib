@@ -1,6 +1,7 @@
--- | vergleicht zweier graphen auf isomorphie
+-- | vergleicht zwei graphen auf isomorphie
 --
 -- autor m.lindemeyer
+-- stinfwww.informatik.uni-leipzig.de/~psy99hvr
 -- (8484955)
 
 module Graph.Isomorph (isIsomorph) where 
@@ -9,17 +10,17 @@ import Graph.Graph
 import Sort
 import Set
 import Graph.Util
--- import Graph.Beispiele
+import Graph.Beispiele
 
 ---------------------------------------------------------------------------------------------------
 -- | prueft die Isomorphie 
-isIsomorph :: (Ord a, Eq a) => Graph a -> Graph a -> Bool
+isIsomorph :: (Ord a, Eq a, Ord b, Eq b) => Graph a -> Graph b -> Bool
 isIsomorph a b = case and[knotensetId a b, kantensetId a b] of
 			True -> isomorphgraph a b 
 			False -> False
 
 -- | vergleicht zwei graphen die nach knotenanzahl und kantenanzahl identisch sind
-isomorphgraph :: (Ord a, Eq a) => Graph a -> Graph a -> Bool
+isomorphgraph :: (Ord a, Eq a, Ord b, Eq b) => Graph a -> Graph b -> Bool
 isomorphgraph a b = 
   if (sort(gradliste a))==(sort(gradliste b)) 
     then (sort(grad2liste a))==(sort(grad2liste b))

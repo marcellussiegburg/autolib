@@ -20,12 +20,14 @@
 -- GVTrans:
 --
 --   data GVTrans a = GVTrans
---	     { getGVNID :: a -> GVNodeID
+--	     { getGVProg :: GVProg
+--       , getGVFormat :: GVFormat
+--       , isGVDirected :: Bool
+--       , getGVNID :: a -> GVNodeID
 --	     , getGVNName :: a -> GVName
 --       , getGVNLabel :: Maybe (a -> GVLabel)
 --       , getGVNColor :: Maybe (a -> GVColor)
 --       , getGVNXAtts :: Maybe (a -> GVXAtts)
---       , isGVEDirected :: Kante a -> Bool
 --       , getGVELabel :: Maybe (Kante a -> GVLabel)
 --       , getGVEXAtts :: Maybe (Kante a -> GVXAtts)
 --       }
@@ -38,6 +40,14 @@
 --
 --   Einzelne Funktionen:
 --
+--     getGVProg   - ist entweder Default, Dot oder Neato
+--                 - beschreibt welches Graphviz Tool genutzt werden soll
+--                 - Empfehlungen kann ich Zur Zeit noch nicht geben
+--     getGVFormat - Format in dem die Ausgabe sein soll.
+--                 - Möglich sind alle Formate, die Graphviz unterstützt
+--                 - Beispiele: "ps" "gif" "png"
+--                 - Bitte achte auf gültige Angaben.
+--     isGVDirected - True, falls der Graph gerichtet ist; False, falls nicht
 --     getGVNID    - soll eine möglichst kurze eindeutige ID eines Knotens
 --                   zurückgeben
 --                 - idealerweise "Kx" wobei x eine laufende Nummer ist
@@ -61,10 +71,6 @@
 --                   http://www.research.att.com/~erg/graphviz/info/colors.html
 --     getGVNXAtts - Beliebige Graphviz Attribute des Knotens.
 --                   Siehe Graphviz Docu.
---     getGVEDirected - Soll zurückgeben, ob die Kante gerichtet, oder nicht
---                      gerichtet ist.
---                    - Für die meißten sollte ein einfaches "(\x -> False)"
---                      reichen.
 --     getGVELabel - Das Label der Kante.
 --     getGVEXAtts - Beliebige Graphviz Attribute der Kante.
 --                   Siehe Graphviz Docu.
@@ -73,12 +79,14 @@
 --
 --   myTrans :: Show a => GVTrans a  -- Typangabe, falls Knotentyp frei
 --   myTrans = GVTrans
---	     { getGVNID :: show
+--	     { getGVProg :: Default
+--       , getGVFormat :: "gif"
+--       , isGVDirected :: False
+--       , getGVNID :: show
 --	     , getGVNName :: show
 --       , getGVNLabel :: Nothing
 --       , getGVNColor :: Nothing
 --       , getGVNXAtts :: Nothing
---       , isGVEDirected :: (\x -> False)
 --       , getGVELabel :: Nothing
 --       , getGVEXAtts :: Nothing
 --       }
@@ -88,12 +96,14 @@
 --   myTrans :: (Show knoten, Ord knoten)
 --       => (Labeling knoten) -> (GVTrans knoten)
 --   myTrans labeling = GVTrans
---	     { getGVNID = show
+--	     { getGVProg :: Default
+--       , getGVFormat :: "gif"
+--       , isGVDirected :: False
+--	     , getGVNID = show
 --	     , getGVNName = show
 --	     , getGVNLabel = Just (getNLabel labeling)
 --	     , getGVNColor = Nothing
 --	     , getGVNXAtts = Nothing
---	     , isGVEDirected = (\x -> False)
 --	     , getGVELabel = Just (getELabel labeling)
 --	     , getGVEXAtts = Nothing
 --	     }
@@ -115,32 +125,38 @@
 --   - "GVXAtts" sind Graphviz eXtended Attributes also eine Liste von
 --     "GVXAttr"'s
 --
--- Autor: Alexander Kiel
--- Version: 24.05.2002
+-- Autor: Alexander Kiel (mai99bxd@studserv.uni-leipzig.de)
+-- Version: 26.05.2002
 --------------------------------------------------------------------------------
 
 
 module Graph.Viz
-	( Graphviz -- braucht man eigentlich nicht außerhalb
-	, GVTrans
-		( getGVNID
+	( GVTrans
+		( getGVProg
+		, getGVFormat
+		, isGVDirected
+		, getGVNID
 		, getGVNName
 		, getGVNLabel
 		, getGVNColor
 		, getGVNXAtts
-		, isGVEDirected
 		, getGVELabel
 		, getGVEXAtts
 		)
 	, GVName, GVLabel, GVColor, GVXAtts
-	, transGtoGV -- braucht man eigentlich nicht außerhalb
+	, GVProg, GVFormat
+	, Default, Dot, Neato
 	, getGraphviz
+	, Graphviz   -- braucht man eigentlich nicht außerhalb
+	, transGtoGV -- braucht man eigentlich nicht außerhalb
+	, ShowText, showText
 	)
 	where
 
 import Graph.Graph
 import FiniteMap
 import Set
+import ToDoc -- wegen Show Set und Show FiniteMap - FIX!
 import System
 
 -------------------------------------------------------------------------------
@@ -163,11 +179,14 @@ type GVColor = String
 type GVXAttr = (String, String)
 type GVXAtts = [GVXAttr]
 type GVNodeMap = FiniteMap GVNodeID GVNode
+data GVProg = Default | Dot | Neato
+type GVFormat = String
 
 -- Datenstruktur des Graphviz
 data Graphviz = Graphviz
 	{ nodesGV :: GVNodeMap
 	, edgesGV :: Set GVEdge
+	, directedGV :: Bool
 	} deriving (Show)
 	
 data GVNode = GVNode
@@ -180,22 +199,25 @@ data GVNode = GVNode
 data GVEdge = GVEdge
 	{ idGVN1 :: GVNodeID
 	, idGVN2 :: GVNodeID
-	, directedGVE :: Bool
 	, labelGVE :: Maybe GVLabel
 	, xattsGVE :: Maybe GVXAtts
 	} deriving (Show, Eq, Ord)
-
-instance Show (FiniteMap GVNodeID GVNode) where
-	show fmap = "listToFM" ++ show (fmToList fmap)
+	
+instance Show GVProg where
+	show Default = "dot" 
+	show Dot = "dot"
+	show Neato = "neato"
 
 -- Datenstruktur der Transformationsmatrix
 data GVTrans a = GVTrans
-	{ getGVNID :: a -> GVNodeID
+	{ getGVProg :: GVProg
+	, getGVFormat :: GVFormat
+	, isGVDirected :: Bool
+	, getGVNID :: a -> GVNodeID
 	, getGVNName :: a -> GVName
 	, getGVNLabel :: Maybe (a -> GVLabel)
 	, getGVNColor :: Maybe (a -> GVColor)
 	, getGVNXAtts :: Maybe (a -> GVXAtts)
-	, isGVEDirected :: Kante a -> Bool
 	, getGVELabel :: Maybe (Kante a -> GVLabel)
 	, getGVEXAtts :: Maybe (Kante a -> GVXAtts)
 	}
@@ -209,30 +231,30 @@ transGtoGV :: (Graph a) -> (GVTrans a) -> Graphviz
 transGtoGV (Graph nodes edges) trans = Graphviz
 	{ nodesGV = makeGVNodes (setToList nodes) trans
 	, edgesGV = mapSet (transGEtoGVE trans) edges
+	, directedGV = (isGVDirected trans)
 	}
 
 -- die Eingabedatei für das Graphviz Tool erzeugen
 makeGVIntput :: Graphviz -> String
-makeGVIntput (Graphviz nodes edges) =
-	showsGV "G" (fmToList nodes) (setToList edges) ""
+makeGVIntput (Graphviz nodes edges directed) =
+	showsGV directed "G" (fmToList nodes) (setToList edges) ""
 	
 -- Graphviz erstellen und den Dateinamen der Graphviz Datei zurückgeben
 -- Graph -> GVTrans -> vollständiger Path mit Dateiname ohne Endung ->
 -- voller Path mit vollem Dateinamen (Endung wird angehangen)
-getGraphviz :: (Graph a) -> (GVTrans a) -> String -> String ->
-	IO (String, String, ExitCode)
-getGraphviz graph trans path typ = do
+getGraphviz :: (Graph a) -> (GVTrans a) -> String ->
+	IO (String, GVFormat, ExitCode)
+getGraphviz graph trans path = do
 	let
-		outFile = path ++ ".dot"
-		typFile = path ++ "." ++ typ
-	writeFile outFile (makeGVIntput $ transGtoGV graph trans)
-	let
-		command = 
-			"cat " ++ outFile ++ " | dot -T" ++ typ ++ " -o " ++ typFile
+		inFile = path ++ ".dot"
+		outFile = path ++ "." ++ (getGVFormat trans)
+		command = show (getGVProg trans) ++ " -T" ++ (getGVFormat trans) ++
+			" -o " ++ outFile ++ " " ++ inFile
 			
+	writeFile inFile (makeGVIntput $ transGtoGV graph trans)		
 	exitCode <- system command	
 	
-	return (typFile, command, exitCode)
+	return (outFile, (getGVFormat trans), exitCode)
 	
 -------------------------------------------------------------------------------
 -- hier folgen Funktionen der Transformation
@@ -266,7 +288,6 @@ transGEtoGVE :: Ord GVEdge => (GVTrans a) -> (Kante a) -> GVEdge
 transGEtoGVE trans edge = GVEdge
 	{ idGVN1 = (getGVNID trans) (von edge)
 	, idGVN2 = (getGVNID trans) (nach edge)
-	, directedGVE = (isGVEDirected trans) edge
 	, labelGVE = doMaybe (getGVELabel trans) edge
 	, xattsGVE = doMaybe (getGVEXAtts trans) edge
 	}
@@ -275,18 +296,22 @@ transGEtoGVE trans edge = GVEdge
 -- hier folgen Funktionen zum Erzeugen der Eingabedatei für das Graphviz Tool
 -------------------------------------------------------------------------------
 
-showsGV :: String -> [(GVNodeID, GVNode)] -> [GVEdge] -> ShowS
-showsGV graphID nodes edges =
-	showsGVHeader graphID .
+showsGV :: Bool -> String -> [(GVNodeID, GVNode)] -> [GVEdge] -> ShowS
+showsGV directed graphID nodes edges =
+	showsGVHeader directed graphID .
 	showsNodeDefs nodes .
 	("\n" ++) .
-	showsEdges edges .
+	showsEdges edges directed .
 	("}" ++)
 	
 
 -- showsGraphHeader (graphID)
-showsGVHeader :: String -> ShowS
-showsGVHeader graphID = ("graph " ++) . shows graphID . ("{\n" ++)
+showsGVHeader :: Bool -> String -> ShowS
+showsGVHeader directed graphID =
+	showsGraphKeyword directed . shows graphID . ("{\n" ++)
+	where
+	showsGraphKeyword True = ("digraph " ++)
+	showsGraphKeyword False = ("graph " ++)
 
 showsNodeDefs :: [(GVNodeID, GVNode)] -> ShowS
 showsNodeDefs ((nodeID, node):rest) =
@@ -308,11 +333,11 @@ showsNodeDef nodeID nodeName nodeLabel nodeColor =
 		showsColor Nothing = ("" ++)
 		showsColor (Just nodeColor) = (", color=" ++) . shows nodeColor
 
-showsEdges :: [GVEdge] -> ShowS
-showsEdges (edge:rest) =
-	showsEdge (idGVN1 edge) (idGVN2 edge) (directedGVE edge) (labelGVE edge) .
-	showsEdges rest
-showsEdges _ = ("" ++)
+showsEdges :: [GVEdge] -> Bool -> ShowS
+showsEdges (edge:rest) directed =
+	showsEdge (idGVN1 edge) (idGVN2 edge) directed (labelGVE edge) .
+	showsEdges rest directed
+showsEdges _ _ = ("" ++)
 
 -- showsEdge (node1ID, node2ID, directed, edgeLabel)
 showsEdge :: GVNodeID -> GVNodeID -> Bool -> Maybe GVLabel -> ShowS
@@ -339,3 +364,33 @@ doMaybe (Just f) a = Just (f a)
 makeNodeID :: Int -> String
 makeNodeID i = 'K' : show i
 
+-------------------------------------------------------------------------------
+-- hier folgt die Klasse ShowText
+-------------------------------------------------------------------------------
+
+-- Die Klasse ShowText macht fast das gleiche wie die Klasse Show.
+-- Der einzige Unterschied besteht darin, dass eingebettete Strings oder
+-- Chars nicht gequotet dargestellt werden, sondern die Zeichen " und '
+-- entfernt werden.
+-- ACHTUNG: showText ist keine eineindeutige Abbildung von a -> String
+--          showText (1, 2) == showText ("1", 2) == showText ('1', 2) ...
+
+class ShowText a where
+	showText :: a -> String
+	
+instance ShowText Char where
+	showText c = showLitChar c ""
+
+instance ShowText String where
+	showText cs = shows cs ""
+		where
+			shows :: String -> ShowS
+			shows "" = ("" ++)
+			shows ('"':cs) = shows cs
+			shows ('\'':cs) = shows cs
+			shows (c:cs) = showLitChar c . shows cs		
+		
+instance Show a => ShowText	a where
+	showText x = showText $ show x
+		
+		
