@@ -102,19 +102,6 @@ fcs trs = do
 
 
 
-----------------------------------------------------------------
-
-check :: [ Rule Int Identifier ]
-check = combine rule1 rule2
-
-rule1, rule2 :: Rule Int Identifier		  
-rule1 = ( mv $ read "f(f(0))" , mv $ read "g(g(0))" )
-rule2 = ( mv $ read "g(h(0))" , mv $ read "h(h(h(0)))" )
-
-mv :: Term c Identifier -> Term Int Identifier
-mv ( Node i [] ) | all isDigit ( name i ) = Var $ read $ name i
-mv ( Node f args ) = Node f ( map mv args )
-
 
 
 

@@ -25,6 +25,7 @@ instance Ord Identifier where
 
 instance Symbol Identifier where
      arity = i_arity
+     set_arity a x = x { i_arity = a }
 
 mknullary :: String -> Identifier
 mknullary c = Identifier { name = c, i_arity = 0 }
