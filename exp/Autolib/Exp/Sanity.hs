@@ -9,7 +9,7 @@ import Exp.Syntax
 
 import Report
 import Set
-import FAU
+-- import FAU
 import Wrong
 
 sanity :: Set Char -> Set String -> Exp -> Report ()
