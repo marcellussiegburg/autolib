@@ -91,6 +91,10 @@ insert r (x,y) = r
            addToFM_C union (inverse_unRelation r) y ( mkSet [x] ) 
        }
 
+inserts :: (Ord a, Ord b)
+       => Type a b -> [(a,b)] -> Type a b
+inserts r xys = plus r $ make xys
+
 {-# INLINE trans #-}
 
 -- | transitive closure (NB: not necessarily reflexive)

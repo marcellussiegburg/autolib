@@ -35,10 +35,10 @@ instance Size (Type a b) where
 instance ( Ord a, Ord b, Hash a, Hash b ) => Hash ( Type a b ) where
     hash = hash . unRelation
 
-instance ( Ord a, Ord b, ToDoc a, ToDoc b ) => ToDoc ( Type a b ) where
+instance ( Ord a, Ord b, ToDoc [(a, b)] ) => ToDoc ( Type a b ) where
     toDoc r = text "Relation.make" <+> toDoc ( pairs r )
 
-instance ( Ord a, Ord b, ToDoc a, ToDoc b ) => Show ( Type a b ) where
+instance ( Ord a, Ord b, ToDoc [(a,b)] ) => Show ( Type a b ) where
     show = render . toDoc
 
 instance ( Ord a, Ord b, Reader a, Reader b ) => Reader ( Type a b ) where

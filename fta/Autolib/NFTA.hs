@@ -18,6 +18,7 @@ import Autolib.NFTA.Ops
 import Autolib.NFTA.Path
 import Autolib.NFTA.Dot
 import Autolib.NFTA.Compact
+import Autolib.NFTA.Trim
 import Autolib.NFTA.Normalize
 
 
