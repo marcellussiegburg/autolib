@@ -9,9 +9,9 @@ import Sets
 import Letters
 import Control.Monad ( guard )
 
+-- | collect all edges between same pair of states
 parallel_compact :: ( NFAC c s, NFAC [c] s )
 		 => NFA c s -> NFA [c] s
--- sammelt verschieden beschriftete pfeil zwischen gleichen zuständen
 parallel_compact a = 
     let accu = addListToFM_C union emptyFM $ do
 	    ( p, c, q ) <- unCollect $ trans a
@@ -22,10 +22,10 @@ parallel_compact a =
 	          return ( p, setToList cs, q )
 	    }
 
-
+-- | replace unique path over several states 
+-- by single edge labelled with sequence of letters
 sequential_compact :: ( NFAC c s, NFAC [c] s )
 	=> NFA c s -> NFA [c] s
--- ersetze Pfade im automaten durch pfeile mit wörtern dran
 sequential_compact a =
     let sigma = letters a
 
