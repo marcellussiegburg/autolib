@@ -51,7 +51,7 @@ exec x = do
 -- | the stream of outputs of the iterator (lazily)
 make :: Doc -> Iterator Proof -> Type
 make d ( Iterator doc prod step ) =
-    let rep = do
+    let ( mx, rep ) = runs $ do
 	    start <- prod
             inform $ text "execute one step for iterator" $$ nest 4 doc
             res <- nested 4 $ step start
@@ -60,7 +60,7 @@ make d ( Iterator doc prod step ) =
     in  Cons { cons_info = d
 	  , message = kommentar rep
 	  , activity = action rep
-	  , continue = case result rep of
+	  , continue = case mx of
 	           Nothing -> Fail $ Above (Text "failed:") (Nest $ Doc doc)
 		   Just x -> case x of
 		       Left state -> Next $ make d

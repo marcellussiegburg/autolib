@@ -10,10 +10,18 @@ import qualified Text.PrettyPrint.HughesPJ as Pretty
 
 import Data.Maybe (isJust, fromMaybe)
 
+import System.Random
+
+import Control.Monad.State
+
+data Dontuse
+type Reporter_State = Reporter Dontuse
+
 data Reporter a = 
      Reporter { result :: Maybe a 
 	      , kommentar :: Output
 	      , action :: IO ()
+	      , transformer :: StdGen -> StdGen
 	      }
      
 -- die action wird (evtl.) ausgef¸hrt,
@@ -24,20 +32,18 @@ data Reporter a =
 instance Functor Reporter where
     fmap f r = r { result = fmap f $ result r }
 
--- kommentiere :: Output -> Reporter a -> Reporter a
--- f¸gt neuen kommentar (am anfang) hinzu
--- kommentiere doc r = r { kommentar = doc `Above` kommentar r }
-
 execute :: IO () -> Reporter ()
 execute act = Reporter { result = return ()
 		       , kommentar = Empty
 		       , action = act
+		       , transformer = id
 		       }
 
 instance Monad Reporter where
     return x = Reporter { result = return x 
 			, kommentar = Empty 
 			, action = return ()
+			, transformer = id
 			}
 
     -- ein biﬂchen um die ecke programmiert,
@@ -52,6 +58,7 @@ instance Monad Reporter where
 	in  Reporter { kommentar = k `Above` l
 		     , result = do r <- x ; result r
 		     , action = action m >> a
+		     , transformer = id
 		     }
 
     fail msg = reject $ Pretty.text $ "*** fail: " ++ msg
@@ -62,6 +69,7 @@ output o = Reporter
 	 { result = Just () 
 	 , action = return () 
 	 , kommentar = o 
+	 , transformer = id
 	 }
     
 reject :: Pretty.Doc -> Reporter a
@@ -69,6 +77,7 @@ reject d = Reporter
 	 { result = Nothing
 	 , action = return ()
 	 , kommentar = Doc d 
+	 , transformer = id
 	 }
 
 --------------------------------------------------------------------------
@@ -85,14 +94,14 @@ nested d r = r { kommentar = Nest $ kommentar r }
 repo :: Reporter a -> Pretty.Doc
 repo = Autolib.Output.render .  kommentar
 
+-- | wenn ok, dann nichts sagen, sonst fehler melden
 silent :: Reporter a -> Reporter a
--- wenn ok, dann nichts sagen, sonst fehler melden
 silent r = r { kommentar = if isJust ( result r ) 
 			   then Empty else kommentar r
 	     }
 
+-- | a reporter who always returns
 wrap :: Reporter a -> Reporter ( Maybe a )
--- a reporter who always returns
 wrap r = r { result = Just $ result r }
 
 export :: Render r => Reporter a -> ( Maybe a, r )
@@ -102,6 +111,15 @@ run :: Render r => Reporter a -> IO ( Maybe a, r )
 run r = do
     action r
     return $ export r
+
+runs :: Reporter a -> ( Maybe a, Reporter_State )
+runs r =
+    ( result r, fmap undefined r )
+
+initial :: Reporter_State
+initial = fmap undefined $ return ()
+
+runsIO r = return $ runs r
 
 -----------------------------------------------------------
 
