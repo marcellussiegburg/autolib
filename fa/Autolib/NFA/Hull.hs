@@ -9,6 +9,8 @@ where
 
 import Set
 
+
+
 hull :: (Ord c, Ord s) 
      => [ c ] -> (s -> c -> s) -> s -> [ ((s, c), s) ]
 hull alpha next start = inner emptySet [ start ] where

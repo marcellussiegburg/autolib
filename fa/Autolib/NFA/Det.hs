@@ -13,6 +13,8 @@ import NFA.Hull
 import Set
 import Sets (sfilter)
 
+import Control.Monad.State
+
 import FiniteMap
 import ToDoc
 
@@ -43,4 +45,8 @@ det0 a =
 		      not $ isEmptySet $ intersect xs (finals a) ) states'
 	    }
 
-       
+-------------------------------------------------------------------------
+				
+
+
+
