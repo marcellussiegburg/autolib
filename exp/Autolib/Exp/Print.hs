@@ -32,14 +32,14 @@ doc :: Int -> Exp -> Doc
 doc p (Ref cs) = text (" " ++ cs ++ " ")
 doc p (Letter c) = char c
 
-doc p (Union      l r) = oper 2 p "+"  l r
+doc p (Union      l r) = oper 1 p "+"  l r
 doc p (Difference l r) = oper 2 p "-"  l r
 doc p (SymDiff    l r) = oper 2 p "<>" l r
 
 doc p (Intersection l r) = oper 3 p "&" l r
 doc p (Shuffle      l r) = oper 4 p "$" l r
-doc p (Left_Quotient     l r) = oper 5 p "/" l r
-doc p (Right_Quotient     l r) = oper 5 p "\\" l r
+doc p (Right_Quotient     l r) = oper 5 p "/" l r
+doc p (Left_Quotient     l r) = oper 5 p "\\" l r
 doc p (Dot          l r) = noper 6 p l r
 
 doc p (Star x) = powered p (char '*') x
