@@ -35,17 +35,13 @@ gmap :: ( Ord a, Ord b ) => (a -> b ) -> ( Graph a -> Graph b )
 -- durch nicht injektive mappen
 -- kann man hier auch kontrahieren
 -- TODO: das layout geht dann aber kaputt 
-gmap f g = Graph 
-	 { graph_info = info g -- nichts anzeigen
-	 , graph_texinfo = graph_texinfo g
-	 , knoten = mapSet f $ knoten g
+gmap f g = g
+	 { knoten = mapSet f $ knoten g
 	 , kanten = mapSet ( \ k -> kante (f $ von k) (f $ nach k) )
 				   $ kanten g
 	 , graph_layout = listToFM $ do
 	       ( v, p ) <- fmToList $ graph_layout g
 	       return ( f v, p ) -- bei kontraktionen mittelwert bilden?
-	 , bounding = bounding g
-         , layout_hints = layout_hints g
 	 }
 
 
@@ -71,7 +67,7 @@ union0 g1 g2 =
 	    , kanten = Set.union (kanten g1) (kanten g2)
 	    , graph_layout = plusFM (graph_layout g1) (graph_layout g2)
 	    , bounding = larger (bounding g1) (bounding g2)
-    , layout_hints = ""
+    , layout_hints = []
 	    }
 
 unions0 :: Ord a => [ Graph a ] -> Graph a

@@ -20,15 +20,13 @@ import Maybe
 import Monad ( guard )
 
 instance ( Show a, Ord a ) => ToDot ( Graph a ) where
---    toDotProgram g = "neato"
---    toDotProgram g = "dot"
-    toDotProgram g = "twopi"
+    toDotProgram = layout_program
     toDot g =
         let vs = setToList $ knoten g
 	    fm = listToFM $ zip vs $ [ 0 :: Int .. ] 
             num = fromMaybe (error "Graph.Display.num") . lookupFM fm
 	in  dot_numbered g num
-    toDotOptions g = "-Goverlap=scale" -- layout_hints g
+    toDotOptions = unwords . layout_hints 
 
 dot_numbered :: ( Show a, Ord a, Show b ) 
 	     => Graph a -> ( a -> b ) -> Dot.Graph.Type
@@ -44,7 +42,9 @@ dot_numbered g num =
                     return $ Dot.Node.blank
                            { Dot.Node.ident = show $ num v
                            , Dot.Node.label = 
-			         return $ tricky $ show v
+			        if show_labels g
+			        then return $ tricky $ show v
+			        else return ""
                            }
 
             es = do Kante { von = p, nach = q } <- setToList $ kanten g

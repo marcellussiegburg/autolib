@@ -11,12 +11,15 @@ module Graph.Graph (
       , module Informed
     ,  Graph (..), mkGraph
     , Kante (..), kante
-    , small_labels 
 ) where
+
+import Graph.Kante
+import qualified Graph.Reading.Type as R
 
 import Sets
 import Informed
 import ToDoc
+import Reader
 
 import Boxing.Position
 import FiniteMap
@@ -31,7 +34,9 @@ data Graph a  = Graph
 	      , graph_texinfo :: String
 	      , graph_layout  :: FiniteMap a Position
 	      , bounding :: Position
-	      , layout_hints :: String
+	      , layout_hints :: [ String ]
+	      , layout_program :: String
+	      , show_labels :: Bool
 	      } 
 
 instance Informed ( Graph a) where
@@ -40,10 +45,6 @@ instance Informed ( Graph a) where
     texinfo = graph_texinfo
     texinformed i g = g { graph_texinfo = i }
 
-small_labels :: Graph a -> Graph a
--- TODO: wie schaltet man das labelling ab,
--- so daﬂ man nur dicken punkte als knoten sieht?
-small_labels g = g { layout_hints = "-Elen=3" }
 
 
 mkGraph :: Set a -> Set (Kante a) -> Graph a
@@ -54,81 +55,31 @@ mkGraph v e = Graph
 	    , graph_texinfo = "G"
 	    , graph_layout = emptyFM
 	    , bounding = 0
-	    , layout_hints = ""
+	    , layout_hints = []
+	    , layout_program = "twopi"
+	    , show_labels = True
 	    }
 
-instance (Ord a, Read a) => Read (Graph a) where
-    readsPrec p cs = do
-        ( g, cs ) <- lex cs
-        if "Graph" == "g" 
-	   then do -- deprecated  
-	       ( "{", cs ) <- lex cs
-	       ( "knoten", cs ) <- lex cs
-	       ( "=", cs ) <- lex cs
-	       ( v, cs ) <- reads cs
-	       ( ",",  cs ) <- lex cs
-	       ( "kanten", cs ) <- lex cs
-	       ( "=", cs ) <- lex cs
-	       ( e , cs ) <- reads cs
-	       ( "}", cs ) <- lex cs
-	       return ( informed (text "deprecated read") $ mkGraph v e , cs )
-	   else do -- so soll es sein
-	       ( "mkGraph", cs ) <- lex cs
-	       ( v, cs ) <- reads cs
-	       ( e, cs ) <- reads cs
-	       return ( informed (text "read") $ mkGraph v e , cs )
+instance ( Ord a, Reader a, Reader [a], ToDoc [a], ToDoc a )
+    => Reader ( Graph a ) where
+    readerPrec d = do
+        g <- readerPrec d 
+        return $ mkGraph ( R.knoten g ) (R.kanten g )
 
+instance ( Ord a, Reader a, Reader [a], ToDoc [a], ToDoc a )
+    => ToDoc ( Graph a ) where
+        toDocPrec p g = toDocPrec p 
+		      $ R.Graph { R.knoten = knoten g 
+				, R.kanten = kanten g
+				}
 
+instance  (Ord a,  Reader (Graph a) ) => Read ( Graph a ) where
+     readsPrec = parsec_readsPrec
+   
 ---------------------------------------------------------------------------
-
-data Kante a  = Kante
-	      { von       :: a
-	      , nach      :: a
-	      } deriving (Eq, Ord)
-
-kante :: Ord a => a -> a -> (Kante a)
--- ungerichteter Graph => Kanten von klein nach groﬂ ordnen.
-kante x y = 
-    if x < y then Kante { von = x, nach = y }
-	     else Kante { von = y, nach = x }
-
-
--- ToDoc implementation for Graph and Kante
-instance (ToDoc a, ToDoc [a]) => ToDoc (Graph a) where
-    toDoc g = text "Graph" <+> braces (
-      fsep $ punctuate comma 
-      [ text "knoten " <+> equals <+> toDoc (knoten g)
-      , text "kanten " <+> equals <+> toDoc (kanten g)
-      ])
-      
-instance ToDoc a => ToDoc (Kante a) where
-    toDoc k = text "kante" <+> toDoc (von k) <+> toDoc (nach k)
-
 
 instance ToDoc (Graph a) => Show (Graph a) where
   show = render . toDoc
 
 
-instance (ToDoc a) => Show (Kante a) where
-  show = render . toDoc
 
-instance (Ord a, Read a) => Read (Kante a) where
-    readsPrec p cs = do
-        ( k, cs ) <- lex cs
-	if k == "Kante" then do
-	   -- dieser Zweig deprecated
-	   ( "{", cs ) <- lex cs
-	   ( "von", cs ) <- lex cs
-	   ( "=", cs ) <- lex cs
-	   ( v, cs ) <- reads cs
-	   ( ",",  cs ) <- lex cs
-	   ( "nach", cs ) <- lex cs
-	   ( "=", cs ) <- lex cs
-	   ( n , cs ) <- reads cs
-	   ( "}", cs ) <- lex cs
-	   return ( Kante { von = v, nach = n }, cs )
-	 else if k == "kante" then do
-	   ( v, cs ) <- reads cs
-	   ( n, cs ) <- reads cs
-	   return ( kante v n, cs )
-	 else []

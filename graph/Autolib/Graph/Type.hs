@@ -7,6 +7,7 @@
 
 module Graph.Type (
       module Graph.Graph
+    , module Graph.Layout
     , module ToDoc
     , module Iso
     , module Number
@@ -20,6 +21,8 @@ module Graph.Type (
 import Graph.Graph
 import Graph.Isomorph
 import Graph.Display
+import Graph.Layout
+
 import GVKnoten.Layout
 
 import ToDoc

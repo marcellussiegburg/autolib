@@ -2,7 +2,7 @@ module Graph.Kneser where
 
 -- $Id$
 
-import Graph.Graph 
+import Graph.Type
 import Graph.Basic
 import Graph.Ops
 import Graph.Display
