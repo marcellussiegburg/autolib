@@ -7,6 +7,9 @@ import Fix
 
 lookupset fm = lookupWithDefaultFM fm emptySet
 
+holds :: ( Ord a, Ord b) => Type a b -> a -> b -> Bool
+holds rel x y = y `elementOf` images rel x
+
 images :: ( Ord a, Ord b ) => Type a b -> a -> Set b
 images rel x = lookupset (unRelation rel) x
 

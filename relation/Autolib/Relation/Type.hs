@@ -13,6 +13,7 @@ where
 
 
 import Sets
+import Size
 import Data.FiniteMap
 
 import ToDoc
@@ -25,6 +26,9 @@ data Type a b = Make { source :: Set a
 		     , target :: Set b
 		     , unRelation :: FiniteMap a (Set b) 
 		     }
+
+instance Size (Type a b) where
+    size = cardinality . source
 
 instance ( Ord a, Ord b, ToDoc a, ToDoc b ) => ToDoc ( Type a b ) where
     toDoc r = text "Relation.make" <+> toDoc ( pairs r )
