@@ -1,37 +1,60 @@
--- $Header$
+module Relation 
 
-module Relation where
+( Type
+, make
+, pairs
+, times, plus, trans
+)
 
--- $Log$
--- Revision 1.1  2002-05-24 10:46:48  challenger
--- Initial revision
---
--- Revision 1.1  2001/11/18 23:55:23  autotool
--- neu: relation, fixpunkt
--- todoc: instance Either
---
+where
 
-import Set
+-- $Id$
+
+import Sets
 import FiniteMap
 import Fix
+import ToDoc
 
-type Relation a b = FiniteMap a (Set b)
+data Type a b = Relation { unRelation :: FiniteMap a (Set b) }
+
+instance ( Ord a, Ord b, ToDoc a, ToDoc b ) => ToDoc ( Type a b ) where
+    toDoc r = text "Relation.make" <+> toDoc ( pairs r )
+
+instance ( Ord a, Ord b, ToDoc a, ToDoc b ) => Show ( Type a b ) where
+    show = render . toDoc
+
+instance ( Ord a, Ord b ) => Eq ( Type a b ) where
+    r == s = unRelation r == unRelation s
+
+make :: (Ord a, Ord b) => [(a,b)] -> Type a b
+make xys = Relation $ addListToFM_C union emptyFM $ do
+	   (x, y) <- xys 
+	   return (x, unitSet y)
+
+pairs :: (Ord a, Ord b) => Type a b -> [(a,b)] 
+pairs rel = do
+    (x, ys) <- fmToList $ unRelation rel
+    y <- setToList ys
+    return (x, y)
 
 lookupset fm = lookupWithDefaultFM fm emptySet
 
+images :: ( Ord a, Ord b ) => Type a b -> a -> Set b
+images rel x = lookupset (unRelation rel) x
+
 times :: (Ord a, Ord b, Ord c)
-      =>  Relation a b -> Relation b c -> Relation a c
-times r s = listToFM $  do 
-    (x, ys) <- fmToList r
-    return ( x, mkSet $ do
-	       y <- setToList ys
-	       setToList $ lookupset s y
-	   )
+      =>  Type a b -> Type b c -> Type a c
+times r s = make $  do 
+    (x, y) <- pairs r
+    z <- setToList $ images s y
+    return (x, z)
 
 plus :: (Ord a, Ord b)
-     => Relation a b -> Relation a b -> Relation a b
-plus r s = addListToFM_C union r $ fmToList s
+     => Type a b -> Type a b -> Type a b
+plus r s = Relation 
+	 $ plusFM_C union (unRelation r) (unRelation s)
 
 
-trans :: Ord a => Relation a a -> Relation a a
+trans :: Ord a => Type a a -> Type a a
+-- transitive hülle (nicht reflexive)
 trans r = fix ( \ s -> plus r $ times r s ) r

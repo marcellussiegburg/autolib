@@ -61,6 +61,8 @@ instance Monad Reporter where
 		     , action = action m >> a
 		     }
 
+    fail msg = reject $ Pretty.text $ "*** fail: " ++ msg
+
 output :: Output -> Reporter ()
 output o = Reporter { result = Just () , action = return () , kommentar = o }
     
