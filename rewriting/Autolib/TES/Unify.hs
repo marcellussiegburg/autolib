@@ -1,31 +1,48 @@
-module TES.Unify where
-
+-- | term unification
+-- using straightforward algorithm (not efficient)
 --  $Id$
+
+module TES.Unify 
+
+( mgu
+)
+
+where
 
 import TES.Term
 import TES.Position
 
 import Data.FiniteMap
+import Data.Set
+import Control.Monad
 
-type Substitution v c = FiniteMap v ( Term v c )
-
-mgu :: Term v c 
+-- | find most general unifier
+mgu :: TRSC v c
+    => Term v c 
     -> Term v c 
-    -> Maybe ( Subsitution v c )
-mgu s t = gu emptyFM (s, t)
+    -> Maybe ( Substitution v c )
+mgu s t | s == t = return $ emptyFM
 
-gu :: Substitution v c
-    -> ( Term v c , Term v c )
-    -> Maybe ( Subsitution v c )
-gu fm ( s, t ) | s == t = return fm
-
-gu fm ( Var v , t ) = do
+mgu ( Var v ) t = do
     guard $ not $ v `elementOf` vars t
-    return $ combine fm $ listToFM [ (v, t) ]
-gu fm ( s , Var v ) = gu fm v s
+    return $ listToFM [ (v, t) ]
+mgu s ( Var v ) = mgu ( Var v ) s
 
-gu fm ( s , t ) = do BROKEN
+mgu s  t = do 
     guard $ top s == top t
-    guard $ length (children s) == length (children t)
-    foldM gu fm $ zip ( children s ) ( children t ) 
+    mgus ( children s ) ( children t )
+
+mgus :: TRSC v c
+     => [ Term v c ]
+     -> [ Term v c ]
+     -> Maybe ( Substitution v c )
+mgus [] [] = return emptyFM
+mgus (x : xs) (y : ys) = do
+    u <- mgu x y
+    let xs' = map (apply_partial u) xs
+	ys' = map (apply_partial u) ys
+    us <- mgus xs' ys'
+    return $ plusFM_C (error "TES.Unify.mgus: clash") u us
+mgus _ _ = mzero -- different lengths, doesn't unify
+
 

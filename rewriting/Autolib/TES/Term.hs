@@ -105,3 +105,15 @@ apply :: Ord v
 apply fm ( Var v ) = lookupWithDefaultFM fm (error "TES.Term.apply") v
 apply fm ( Node c args ) = Node c $ map ( apply fm ) args
 
+
+type Substitution v c = FiniteMap v ( Term v c )
+
+-- | replace variables by terms
+-- here, fm may be partial
+apply_partial :: Ord v
+      => Substitution v c
+      -> Term v c 
+      -> Term v c
+apply_partial fm t @ ( Var v ) = lookupWithDefaultFM fm t v
+apply_partial fm ( Node c args ) = Node c $ map ( apply_partial fm ) args
+

@@ -25,6 +25,12 @@ data TRS v c  = TRS
 	 , rules :: [ Rule v c ]
 	 }
 
+lhss :: TRS v c -> [ Term v c ]
+lhss trs = do (l,r) <- rules trs ; return l
+
+rhss :: TRS v c -> [ Term v c ]
+rhss trs = do (l,r) <- rules trs ; return r
+
 type TES = TRS Identifier Identifier
 
 instance ( TRSC v c ) 

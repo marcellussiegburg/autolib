@@ -29,7 +29,17 @@ is_left_linear_trs :: TRSC v c
 	  -> Reporter ()
 is_left_linear_trs trs = do
     inform $ text "system should be left linear:"
-    mapM_ ( \ (l,r) -> is_linear_term l ) $ rules trs
+    mapM_ is_linear_term $ lhss trs
+
+-- | check if system is linear
+-- if not: fail, if yes: return ()
+is_linear_trs :: TRSC v c
+	  => TRS v c
+	  -> Reporter ()
+is_linear_trs trs = do
+    inform $ text "system should be linear:"
+    mapM_ is_linear_term $ lhss trs
+    mapM_ is_linear_term $ rhss trs
 
 nonlinearities :: TRSC v c
 	  => Term v c 

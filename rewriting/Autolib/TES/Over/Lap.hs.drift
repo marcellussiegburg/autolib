@@ -1,0 +1,22 @@
+-- -*- mode: haskell -*-
+
+module TES.Over.Lap where
+
+import Reader
+import ToDoc
+
+import TES.Term
+import TES.Position
+
+data TRSC v c => Lap v c = 
+     Lap { l :: Term v c
+	     , r :: Term v c
+	     , p :: Position
+	     , s :: Substitution v c
+	     }
+
+{-! for Lap derive: ToDoc !-}
+
+instance TRSC v c => Show ( Lap v c ) where
+    show = render . toDoc
+
