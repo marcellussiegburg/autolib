@@ -11,6 +11,7 @@ import TES.Position
 import TES.Sexp
 
 import Util.Splits
+import Util.Zufall
 
 import Data.FiniteMap
 import System.Random
@@ -32,6 +33,10 @@ instance RandomGen g => Pick (State g) where
 	let ( i, g' ) = randomR (0, pred $ length xs) g
 	put g'
 	return $ xs !! i
+
+instance Pick IO where
+    pick = eins
+
 
 -- | class that describes choosables
 class Choose a b where
