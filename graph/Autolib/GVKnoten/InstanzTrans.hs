@@ -1,8 +1,8 @@
 module InstanzTrans where
 
-import Graph.Viz 
-import Graph.Graph
-import Testgraph
+import Autolib.Graph.Viz 
+import Autolib.Graph.Graph
+import Autolib.GVKnoten.Testgraph
 
 -- myTrans instead of instanzTrans
 --

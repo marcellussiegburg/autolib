@@ -7,7 +7,7 @@ import Autolib.Exp.Env
 import Autolib.Exp.Type
 import Autolib.Exp.Syntax
 
-import Autolib.Report
+import Autolib.Reporter
 import Autolib.Set
 import Autolib.Wrong
 

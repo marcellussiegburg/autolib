@@ -1,6 +1,6 @@
 module Main ( main ) where
 
-import qualified GVKnoten ( main )
+-- import qualified  Autolib.GVKnoten.GVKnoten ( main )
 
 main :: IO ()
-main = GVKnoten.main
+main = undefined -- GVKnoten.main

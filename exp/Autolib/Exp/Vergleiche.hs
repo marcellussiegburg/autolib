@@ -5,8 +5,8 @@
 module Autolib.Vergleiche where
 
 import Autolib.NFA
-import Autolib.Minus ( minus )
-import Autolib.Inter
+import Autolib.NFA.Minus ( minus )
+import Autolib.Exp.Inter
 import Autolib.ToDoc
 
 import Autolib.Wrong

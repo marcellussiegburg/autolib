@@ -2,7 +2,7 @@ module Main where
 
 --  $Id$
 
-import Statement
+import Autolib.Exp.Statement
 
 import Autolib.Exp.Type
 import Autolib.Exp.Inter

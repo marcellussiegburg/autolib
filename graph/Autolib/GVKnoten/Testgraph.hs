@@ -1,6 +1,6 @@
-module Testgraph where
+module Autolib.GVKnoten.Testgraph where
 
-import Graph.Graph
+import Autolib.Graph.Graph
 
 test_graph_int :: Graph Int
 test_graph_int = Graph (mkSet[0, 1, 2])	
