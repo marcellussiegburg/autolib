@@ -30,7 +30,7 @@ some alpha s | s <= 1 = do
 	   return ( Letter x, Basic.word [x] )
 some alpha s = 
     entweder ( do (x, a) <- binary alpha (s - 1)
-	          return ( Star x, Ops.star a )
+	          return ( Star x, minimize $ normalize $ Ops.star a )
 	     )
              ( binary alpha s )
 
@@ -49,9 +49,11 @@ binary alpha s = do
        let x = opx xl xr ; a = opa al ar
        -- wenn das resultat zu groß ist,
        -- dann reicht eines der argumente.
-       if size a > 3 * s 
-	  then do putStr "CUT "
-	          eins [ l, r ]
+       if size a >  s + 2 
+	  then do
+		  -- putStr "CUT "
+		  if size al > s `div` 2 
+		     then return l else return r
 	  else return (x, a)
 
 stars :: Exp -> Int
@@ -63,7 +65,7 @@ nontrivial :: Set Char -> Int -> IO (Exp, NFA Int)
 nontrivial alpha s = 
     repeat_until ( some alpha (2 * s) )
 	( \ (x,a) -> 2 <= stars x
-	             && cardinality (states a) >= s )
+	             && size a >= s )
 
 
 

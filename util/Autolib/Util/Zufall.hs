@@ -18,4 +18,5 @@ eins xs =  do
 repeat_until :: IO a -> (a -> Bool) -> IO a
 repeat_until act p = 
     do x <- act
+       -- putStr " * "
        if p x then return x else repeat_until act p
