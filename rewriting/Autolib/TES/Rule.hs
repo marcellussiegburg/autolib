@@ -8,8 +8,6 @@ import TES.Term
 import ToDoc
 import Reader
 
-import Parsec
-import ParsecToken
 import TES.Parsec
 
 type Rule v c = ( Term v c, Term v c )

@@ -6,8 +6,8 @@ import Exp.Type
 import Exp.Print
 
 import Reporter
-import Set 
-import Size
+import Sets
+import Util.Size
 import ToDoc
 
 

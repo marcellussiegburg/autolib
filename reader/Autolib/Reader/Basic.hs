@@ -21,11 +21,11 @@ where
 import Reader.Class
 import TypeOf -- TODO: what for? Idee ausbauen!
 
-import Parsec
-import ParsecToken
-import ParsecLanguage ( haskell )
+import Text.ParserCombinators.Parsec
+import Text.ParserCombinators.Parsec.Token
+import Text.ParserCombinators.Parsec.Language ( haskell )
 
-import qualified Pretty
+import qualified Text.PrettyPrint.HughesPJ as Pretty
 
 import Control.Monad ( guard )
 

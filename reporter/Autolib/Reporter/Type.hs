@@ -6,7 +6,7 @@ where
 
 import Output
 
-import qualified Pretty
+import qualified Text.PrettyPrint.HughesPJ as Pretty
 
 import Maybe (isJust, fromMaybe)
 

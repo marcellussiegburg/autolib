@@ -7,10 +7,10 @@ import Graph.Display
 
 import Boxing
 
-import qualified Set
-import qualified List
+import qualified Data.Set as Set
+import qualified Data.List as List
 import Data.FiniteMap
-import Maybe
+import Data.Maybe
 import Control.Monad ( guard )
 import ToDoc hiding ( empty )
 

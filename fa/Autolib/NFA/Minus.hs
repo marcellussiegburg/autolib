@@ -16,7 +16,7 @@ import Letters
 
 import Data.FiniteMap
 import qualified Sets
-import Set (setToList)
+import Sets (setToList)
 
 import ToDoc ( ToDoc, toDoc )
 import Control.Monad ( guard )

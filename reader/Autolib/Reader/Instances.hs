@@ -5,9 +5,9 @@ module Reader.Instances where
 import Reader.Class
 import Reader.Basic
 
-import Parsec
-import ParsecToken
-import ParsecLanguage ( haskell )
+import Text.ParserCombinators.Parsec
+import Text.ParserCombinators.Parsec.Token
+import Text.ParserCombinators.Parsec.Language ( haskell )
 
 import Data.FiniteMap
 

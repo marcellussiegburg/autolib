@@ -4,7 +4,7 @@ module Output.Type where
 
 -- hier steht nur der Typ und die Pretty-Instanz
 
-import qualified Pretty
+import qualified Text.PrettyPrint.HughesPJ as Pretty
 
 data Output = Text String
 	    | Doc  Pretty.Doc

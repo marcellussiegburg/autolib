@@ -3,12 +3,12 @@ module ToDoc
 --   $Id$
 
 ( module ToDoc
-, module Pretty 
+, module Text.PrettyPrint.HughesPJ 
 )
 
 where
 
-import Pretty 
+import Text.PrettyPrint.HughesPJ 
 
 import Data.Set
 import Data.FiniteMap

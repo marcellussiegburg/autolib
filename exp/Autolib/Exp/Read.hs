@@ -8,8 +8,8 @@ import Char
 
 import Reader
 
-import Parsec
-import ParsecExpr
+import Text.ParserCombinators.Parsec
+import Text.ParserCombinators.Parsec.Expr
 
 import Exp.MyTokens
 

@@ -3,7 +3,7 @@ module Output.Html where
 --   $Id$
 
 import Output.Type
-import qualified Html
+import qualified Text.Html as Html
 
 instance Render Html.Html where
     render (Text t) = Html.stringToHtml t

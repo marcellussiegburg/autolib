@@ -7,8 +7,6 @@ import Sets
 import ToDoc
 import Reader
 
-import Parsec
-import ParsecToken
 import TES.Parsec
 import TES.Symbol
 

@@ -2,7 +2,7 @@ module Inter.Timer where
 
 --   $Id$
 
-import Concurrent
+import Control.Concurrent
 import Reporter.Type
 import Output
 

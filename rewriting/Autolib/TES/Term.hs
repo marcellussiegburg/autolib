@@ -15,9 +15,8 @@ import Sets
 import ToDoc
 import Reader
 
-import Parsec
-import ParsecToken
 import TES.Parsec
+import Text.ParserCombinators.Parsec.Combinator (option)
 
 import Util.Size
 import Data.FiniteMap
@@ -28,6 +27,9 @@ data Term v c = Node c [ Term v c ]
 
 top :: Term v c -> c
 top (Node c args ) = c 
+
+children :: Term v c -> [ Term v c ]
+children (Node c args) = args
 
 class ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) => TRSC v c -- no methods
 instance ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) => TRSC v c 
@@ -51,7 +53,7 @@ instance ( ToDoc c, ToDoc v ) => Show (Term v c) where
 instance Reader (Term a Identifier ) where
     readerPrec p = do
         t <- readerPrec 0 -- symbol
-	xs <- option [] $ ParsecToken.parens tes
+	xs <- option [] $ TES.Parsec.parens tes
 		        $ commaSep tes 
 	                $ readerPrec 0 
 	return $ Node ( t { i_arity = length xs } ) xs

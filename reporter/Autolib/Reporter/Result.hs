@@ -29,7 +29,7 @@ import ToDoc
 import Right
 import Wrong
 
-import qualified Exception
+import qualified Control.Exception
 
 wrapper :: Reporter Int -> IO ( Maybe Int )
 wrapper r = do
@@ -55,7 +55,7 @@ get :: FilePath -> IO ( Maybe Int )
 get fpath = do
        cs <- readFile $ fpath
        return $ read cs
-  `Exception.catch` 
+  `Control.Exception.catch` 
        \ any -> return Nothing
 
     

@@ -17,7 +17,7 @@ import qualified Boxing.Position as B
 
 import ToDoc
 import Reader
-import Parsec (Parser, option, many)
+import Text.ParserCombinators.Parsec (Parser, option, many)
 import Dot.Parsec
 import Size
 

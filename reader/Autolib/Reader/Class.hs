@@ -2,7 +2,7 @@ module Reader.Class where
 
 --   $Id$
 
-import Parsec
+import Text.ParserCombinators.Parsec
 
 class Reader a where
 

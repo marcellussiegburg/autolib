@@ -8,7 +8,7 @@ module Dot.Edge where
 import ToDoc
 import Reader
 
-import Parsec (option, Parser)
+import Text.ParserCombinators.Parsec (option, Parser)
 import Dot.Parsec
 
 import Maybe ( maybeToList )

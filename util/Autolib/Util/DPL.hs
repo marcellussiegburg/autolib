@@ -9,8 +9,9 @@ where
 -- dynamic programming on lists
 
 
-import LazyST
-import FiniteMap 
+import Data.STRef.Lazy
+import Control.Monad.ST.Lazy
+import Data.FiniteMap 
 
 import Data.List (inits, tails)
 import Control.Monad (guard)
