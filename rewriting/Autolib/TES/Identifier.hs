@@ -21,6 +21,7 @@ import TES.Symbol
 import Data.List (intersperse)
 import Util.Size
 import Hash
+import Data.Char
 
 -- | don't derive Eq and Ord since arity should be ignored
 data Identifier = Identifier 
@@ -73,9 +74,9 @@ instance ToDoc Identifier where
     toDoc = text . name
 instance Reader Identifier where 
     readerPrec p = do
-        i <- identifier trs 
-	     <|> fmap show ( natural trs )
+        i <- many1 (satisfy isAlphaNum)
 	     <|> operator trs
+	whiteSpace trs
 	return $ mk ( error "undefined arity" ) i
 
 instance Show Identifier where show = render . toDoc

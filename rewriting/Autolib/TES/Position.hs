@@ -133,5 +133,5 @@ lvars :: Ord v => Term v c -> [ v ]
 lvars = setToList . vars
 
 -- | list of variables (in pre-order, with duplicates)
-voccs :: Ord v => Term v c -> [ v ]
+voccs :: Term v c -> [ v ]
 voccs t = do ( p, Var v ) <- positions t ; return v

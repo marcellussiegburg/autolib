@@ -81,6 +81,9 @@ instance Symbol Char where
 instance Symbol Int where
     pool = [ 0 .. ]
 
+instance ( Symbol a, Symbol b ) => Symbol (a, b)
+
+instance ( Size h, HeightC h ) => Symbol h
 
 
 

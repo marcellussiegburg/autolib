@@ -11,17 +11,18 @@ instance Is_Top Int where
 
 instance Sub (Virtualist v) where
     top = top . unVirtualist
-    children = map Virtualist . children . unVirtualist
-    build x [xs] = Virtualist $ x : unVirtualist xs
-    replace xs x = Virtualist $ replace ( unVirtualist xs ) x
-    substructures = map Virtualist . substructures . unVirtualist
+    children xs = map ( virtualist ( plug xs )) $ children $ unVirtualist xs
+    build x [xs] = virtualist (plug xs) $ x : unVirtualist xs
+    replace xs x = virtualist (plug xs) $ replace ( unVirtualist xs ) x
+    substructures xs = map (virtualist ( plug xs))
+		     $ substructures $ unVirtualist xs
 
 instance Address (Virtualist v) Int where
     addresses = addresses . unVirtualist
-    peek xs k = Virtualist $ peek ( unVirtualist xs ) k
-    poke xs (k, ys) = Virtualist 
+    peek xs k = virtualist (plug xs) $ peek ( unVirtualist xs ) k
+    poke xs (k, ys) = virtualist (plug xs)
 		    $ poke ( unVirtualist xs ) ( k, unVirtualist ys )
-    pmap f xs = Virtualist $ pmap f $ unVirtualist xs
+    pmap f xs = virtualist (plug xs) $ pmap f $ unVirtualist xs
 
 instance Sub [] where
     --  top (leftmost) symbol

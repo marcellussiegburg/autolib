@@ -32,18 +32,21 @@ instance ( Symbol c, ToDoc [c]
       ) => FAC c s
 
 class  Automaton a where
+    lstates  :: ( FAC c s ) => a c s -> [s]
     statemap :: ( FAC c s, FAC c t ) => ( s -> t ) -> a c s -> a c t
     alphamap :: ( FAC c s, FAC d s ) => ( c -> d ) -> a c s -> a d s
     complete :: ( FAC c Int ) => Set c -> a c Int
     normalize :: ( FAC c s, FAC c Int ) => a c s -> a c Int
 
 instance Automaton NFTA.NFTA where
+    lstates  = NFTA.lstates
     statemap = NFTA.statemap
     alphamap = NFTA.alphamap
     complete = NFTA.Basic.complete
     normalize = NFTA.Normalize.normalize
 
 instance Automaton NFA.NFA where
+    lstates  = NFA.lstates
     statemap = NFA.statemap
     alphamap = NFA.alphamap
     complete = NFA.Basic.sigmastar . setToList
