@@ -41,7 +41,7 @@ graph_to_FM_a_gvnode graph = do
 		then do
 			system command
 			parsed_things <- parse outFile
-			system ("rm " ++ file ++ ".tmp")
+--			system ("rm " ++ file ++ ".tmp")
 			system ("rm " ++ file ++ ".dot")
 			return ( listToFM $ zip xs $ parsed_things )
 		else error "Problem mit dem Graph-Viz"
