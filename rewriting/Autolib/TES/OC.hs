@@ -100,10 +100,8 @@ fcs trs = do
 	$ map normalize
 	$ rules trs 
 
-------------------------------------------------------------------
 
-trs :: TES
-trs = read "(RULES a -> a)"
+
 
 
 
