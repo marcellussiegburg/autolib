@@ -3,9 +3,9 @@ module Relation.Ops where
 --   $Id$
 
 import Relation.Type
-import Fix
 
-lookupset fm = lookupWithDefaultFM fm emptySet
+import Sets
+import Fix
 
 holds :: ( Ord a, Ord b) => Type a b -> a -> b -> Bool
 holds rel x y = y `elementOf` images rel x

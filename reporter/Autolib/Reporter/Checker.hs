@@ -1,11 +1,10 @@
 module Reporter.Checker where
 
--- -- $Id$
+--  $Id$
 
-import Grammatik.Type
 import Reporter.Type
 import ToDoc
-
+import Data.Maybe ( isJust )
 
 data Type a =
      Make { nametag :: String
@@ -13,21 +12,33 @@ data Type a =
 	     , investigate :: a -> Reporter ()
 	     }
 
+instance Show ( Type a ) where 
+    show = nametag
+
 make :: String
 	-> Doc 
 	-> ( a -> Reporter () ) 
 	-> Type a
 make tag doc inv = Make { nametag = tag, condition = doc, investigate = inv }
 
+wahr :: Type a
+wahr = make "wahr" empty ( const $ return () )
+
+-- | condition drucken, dann auswerten
 run :: Type a -> a -> Reporter ()
 run c g = do
     inform $ condition c
     nested 4 $ investigate c g
 
+eval :: Type a -> a -> Bool
+eval c g = 
+    let ( mr, _ :: Doc ) = export $ investigate c g
+    in	isJust mr
+
+-- | beides ausführen, 
+-- aber kurznamen nur vom rechten anzeigen
 and_then :: Type a -> Type a
      -> Type a
--- beides ausführen, 
--- aber kurznamen nur vom rechten anzeigen
 and_then l r = Make
 	 { nametag = nametag r
 	 , condition = condition r
