@@ -126,7 +126,7 @@
 --     "GVXAttr"'s
 --
 -- Autor: Alexander Kiel (mai99bxd@studserv.uni-leipzig.de)
--- Version: 26.05.2002
+-- Version: 28.05.2002 - 1
 --------------------------------------------------------------------------------
 
 
@@ -331,24 +331,39 @@ showsNodeDef nodeID nodeName nodeLabel nodeColor =
 		showsNameAndLabel nodeName (Just nodeLabel) =
 			shows (nodeName ++ "(" ++ nodeLabel ++ ")")
 		showsColor Nothing = ("" ++)
-		showsColor (Just nodeColor) = (", color=" ++) . shows nodeColor
+		showsColor (Just nodeColor) = (",style=filled,color=" ++) . shows nodeColor
 
 showsEdges :: [GVEdge] -> Bool -> ShowS
 showsEdges (edge:rest) directed =
-	showsEdge (idGVN1 edge) (idGVN2 edge) directed (labelGVE edge) .
-	showsEdges rest directed
-showsEdges _ _ = ("" ++)
+	showsEdge (idGVN1 edge) (idGVN2 edge) directed (labelGVE edge)
+	(xattsGVE edge) . showsEdges rest directed
+showsEdges [] _ = ("" ++)
 
 -- showsEdge (node1ID, node2ID, directed, edgeLabel)
-showsEdge :: GVNodeID -> GVNodeID -> Bool -> Maybe GVLabel -> ShowS
-showsEdge node1ID node2ID directed edgeLabel =
+showsEdge :: GVNodeID -> GVNodeID -> Bool -> Maybe GVLabel -> Maybe GVXAtts ->
+	ShowS
+showsEdge node1ID node2ID directed edgeLabel edgeXAtts =
 	("\t" ++) . (node1ID ++) . (' ':) . (showsArrow directed) .
-	(' ':) . (node2ID ++) . (showsLabel edgeLabel) . (";\n" ++)
+	(' ':) . (node2ID ++) . (showsAtts edgeLabel edgeXAtts) . (";\n" ++)
 	where
+		showsArrow :: Bool -> ShowS
 		showsArrow False = ("--" ++)
 		showsArrow True = ("->" ++)
-		showsLabel Nothing = ("" ++)
-		showsLabel (Just edgeLabel) = (" [label=" ++) . shows edgeLabel . (']':)
+		
+		showsAtts :: Maybe GVLabel -> Maybe GVXAtts -> ShowS
+		showsAtts Nothing Nothing = ("" ++)
+		showsAtts (Just edgeLabel) Nothing =
+			(" [label=" ++) . shows edgeLabel . (']':)
+		showsAtts Nothing (Just edgeXAtts) =
+			("[label=\"\"" ++) . showsXAtts edgeXAtts . (']':)
+		showsAtts (Just edgeLabel) (Just edgeXAtts) =
+			(" [label=" ++) . shows edgeLabel . showsXAtts edgeXAtts . (']':)
+		
+		showsXAtts :: GVXAtts -> ShowS
+		showsXAtts (xAttr:xAtts) =
+			(", " ++) . (fst xAttr ++) . ("=\"" ++) . (snd xAttr ++) . ("\"" ++) .
+			showsXAtts xAtts
+		showsXAtts [] = ("" ++) 
 
 -------------------------------------------------------------------------------
 -- hier folgen Hilfsfunktionen
