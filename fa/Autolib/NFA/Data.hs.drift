@@ -1,0 +1,76 @@
+-- -*- mode: haskell -*-
+
+-- $Id$
+
+module NFA.Data
+
+( module NFA.Data
+, module Informed
+, module FiniteMap
+, module Sets
+)
+
+where
+
+import Sets
+import Size
+import Letters
+
+import FiniteMap
+import ReadFM
+
+import Informed
+import ToDoc
+import Reader
+
+import Monad (guard)
+
+-- mal sehen
+type NFA_Char s = NFA Char s
+
+class ( Ord c, Ord s
+      , ToDoc c, ToDoc s
+      , Reader c, Reader s
+                , Reader [s]
+	        , ToDoc [s]
+      ) => NFAC c s 
+-- ohne methoden, nur constraints sammeln
+
+instance ( Ord c, ToDoc c, Reader c) => NFAC c Int
+instance ( NFAC c s ) => NFAC c (Set s)
+instance ( NFAC c s, NFAC c t ) => NFAC c (s, t)
+instance ( NFAC c s, NFAC c t, NFAC c u ) => NFAC c (s, t, u)
+instance ( NFAC c s, NFAC c t ) => NFAC c (Either s t)
+
+
+
+data NFAC c s => NFA c s = 
+     NFA { nfa_info   :: Doc   -- wird nicht gelesen und auch nicht geprintet
+	 , states :: Set s
+	 , starts :: Set s
+	 , finals :: Set s
+	 , trans  :: FiniteMap (s, c) (Set s)
+	 }
+
+{-! for NFA derive : ToDoc, Reader !-}
+
+instance NFAC c s
+    => Show ( NFA c s ) where
+        show = render . toDoc
+
+instance NFAC c s
+    => Read ( NFA c s ) where
+        readsPrec = parsec_readsPrec
+
+instance NFAC c s
+    => Informed (NFA c s) where
+    info = nfa_info
+    informed i a = a { nfa_info = i }
+
+instance NFAC c s
+    => Size (NFA c s) where 
+    size = cardinality . states
+
+
+
+
