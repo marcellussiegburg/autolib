@@ -131,7 +131,10 @@ line = Autolib.TES.Parsec.parens Autolib.TES.Parsec.trs $  do
      f <- identifier  Autolib.TES.Parsec.trs 
      case f of
 	  "RULES" -> do
-	      rs <- many reader
+	      rs <- many $ do
+		   r <- reader
+		   option "?" my_comma
+		   return r
 	      return $ \ t -> t { rules = rules t ++ rs }
 	  "THEORY" -> do
               args <- many reader
