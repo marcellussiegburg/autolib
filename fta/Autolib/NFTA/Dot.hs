@@ -1,14 +1,19 @@
--- -- $Id$
+-- | the picture contains to kinds of nodes:
+-- state nodes and transition nodes
+--
+-- a transition node q0 -> c(q1, .., qn) 
+-- is labelled with c
+-- and has an incoming edge from the state node q0
+-- and outgoing edges to state nodes qi
+--
+-- note that it is important to keep the ordering for outgoing edges
+-- or else it is necessary to label them (by their argument position) 
 
-module NFA.Dot
+module NFTA.Dot where
 
-( module Dot.Dot
-, toDot_layered
-)
+--  $Id$
 
-where
-
-import NFA.Type
+import NFTA.Type
 import Dot.Dot
 
 import qualified Dot.Graph
@@ -16,49 +21,25 @@ import qualified Dot.Node
 import qualified Dot.Edge
 import qualified Dot.Arrange
 
-import ToDoc
-
 import Data.Set
 import Data.FiniteMap
-import Data.Maybe
-import Data.List (inits)
 
-numeric :: NFAC c a 
-	=> NFA c a 
-	-> ( a -> String )
-numeric a = 
-    let fm = listToFM $ zip (lstates a) $ map show [ 0 :: Int .. ] 
-    in  fromMaybe (error "NFA.Dot.numeric") . lookupFM fm
-
-toDot_layered :: ( NFAC c a , Show a, Show c )
-	      => NFA c a 
-	      -> [ Set a ] 
-              -> IO Dot.Graph.Type
-toDot_layered a xss = do
-
-    let num = numeric a
-        d = helper num a
-        yss = do
-	      pre <- inits $ map (smap num) xss
-	      return $ unionManySets pre
-    Dot.Arrange.layered d yss
-
-    
--- zustände werden mit [0 .. ] durchnumeriert
--- akzeptierende zustände bekommen doppelkreis drumrum
--- startzustände bekommen pfeil dran,
--- dieser kommt aus unsichtbarem zustand mit idents U0, U1, ..
-
-instance ( NFAC c a , Show a, Show c )
-     => ToDot ( NFA c a ) where
+instance ( NFTAC c s , Show s, Show c )
+     => ToDot ( NFTA c s ) where
     toDot a = helper (numeric a) a
     toDotProgram a = "dot" -- "neato"
     toDotOptions a = "-Grankdir=LR" -- "-s"
 
-helper num a = 
-        let 
+numeric :: NFTAC c s
+	=> NFTA c s
+	-> ( s -> String )
+numeric a = 
+    let fm = listToFM $ zip (lstates a) $ map show [ 0 :: Int .. ] 
+    in  fromMaybe (error "NFTA.Dot.numeric") . lookupFM fm
 
-	    tricky cs = 
+
+helper num a = 
+        let tricky cs = 
 	        if take 1 cs `elem` [ "\"", "'" ]  
 		   -- dann ist es Show String|Char
 		then tail ( init cs )	  -- und eine "-klammer kann weg
@@ -105,5 +86,3 @@ helper num a =
 	    , Dot.Graph.nodes = ns ++ uns
 	    , Dot.Graph.edges = es ++ ss
 	    }
-
-
