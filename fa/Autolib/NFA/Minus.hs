@@ -28,7 +28,8 @@ complete alpha a =
     let n = neu a
 	ns = Sets.union (states a) (Sets.unitSet n)
     in	NFA { nfa_info = funni "complete" [ info alpha , info a ]
-	    , alphabet = alphabet a
+	    -- , alphabet = alphabet a
+	    , alphabet = mkSet alpha
 	    , states = ns
 	    , starts = if Sets.isEmptySet (starts a) 
 		       then Sets.unitSet n else starts a

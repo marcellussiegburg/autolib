@@ -10,14 +10,14 @@ import Autolib.Output
 -- insert default result
 
 timed_run :: Render r
-	  => Int -- wait that many seconds
-	  -> Reporter a -- default reporter
-	  -> Reporter a -- time-consuming reporter
+	  => Int -- ^ wait that many seconds
+	  -> Reporter a -- ^ default reporter
+	  -> Reporter a -- ^ time-consuming reporter
 	  -> IO ( Maybe a, r )
 timed_run d def r = 
     timed d ( export def) $ run r
 
--- TODO: das ist eventuell zu lazy?
+-- | TODO: das ist eventuell zu lazy?
 -- wenn die action einen nicht ganz ausgewerteten wert schreibt?
 
 timed :: Int -> a -> IO a -> IO a
