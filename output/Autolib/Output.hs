@@ -66,9 +66,12 @@ instance Monad m => Render ( HTMLMonad.WithHTML m () ) where
 	HTMLMonad.a $ HTMLMonad.attr "href" ref
 
     render (Above x y) = do 
-        render x :: HTMLMonad.WithHTML m ()
-        render y :: HTMLMonad.WithHTML m ()
+        () <- render x 
+        () <- render y
+	return ()
     render (Itemize xs) = HTMLMonad.ul $ sequence_ $ do
 	x <- xs
-	return ( HTMLMonad.li $ render x :: HTMLMonad.WithHTML m () )
+	return $ do
+	    () <- HTMLMonad.li ( render x )
+	    return ()
     render (Nest x) = HTMLMonad.blockquote $ render x

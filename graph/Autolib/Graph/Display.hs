@@ -28,7 +28,7 @@ instance ( Show a, Ord a ) => ToDot ( Graph a ) where
 	    fm = listToFM $ zip vs $ [ 0 :: Int .. ] 
             num = fromMaybe (error "Graph.Display.num") . lookupFM fm
 	in  dot_numbered g num
-    toDotOptions g = layout_hints g
+    toDotOptions g = "-Goverlap=scale" -- layout_hints g
 
 dot_numbered :: ( Show a, Ord a, Show b ) 
 	     => Graph a -> ( a -> b ) -> Dot.Graph.Type

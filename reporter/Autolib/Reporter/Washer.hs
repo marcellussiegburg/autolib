@@ -4,14 +4,16 @@ module Reporter.Washer where
 
 import Reporter.Type
 import Output
-import HTMLMonad -- wash
 
-washer :: FilePath -> Reporter a -> IO (Maybe a)
--- schreibt HTLM in file
--- malt auch bilder (in extra files)
-washer fname r = do
-    ( mres , out :: WithHTML IO () ) <- run r
-    h <- build_document $ out
-    writeFile fname $ show h
-    return mres
+-- wash
+import qualified HTMLMonad  as H
+import qualified CGI        as C
+
+washer :: Reporter a -> IO ( H.WithHTML C.CGI ( Maybe a ))
+-- malt evtl. bilder (in extra files)
+washer r = do
+    ( mres , out :: H.WithHTML C.CGI () ) <- run r
+    return $ do
+        out
+	return mres
 

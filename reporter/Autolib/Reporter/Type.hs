@@ -106,7 +106,7 @@ reporter r = do
     print ( render ( kommentar r ) :: Pretty.Doc )
     case result r of
         Just i -> right_with $ "OK # Size: " ++ show i
-	Nothing -> wrong
+ 	Nothing -> wrong
 
 -- for use in challenger problems
 -- flag is true  iff  reporter returns at all (with any value)
@@ -123,6 +123,16 @@ cheporter r = lazy_cheporter $ do
 
 porterche :: ( Bool, Pretty.Doc ) -> Reporter ()
 porterche ( p, d ) = if p then inform d else reject d 
+
+-- for use  with wash/cgi
+embed :: Monad m => Reporter a -> HTMLMonad.WithHTML m ( Maybe a )
+embed r = do
+    let ( res, com :: m () ) = export r
+    com
+    return res
+
+
+------------------------------------------------------------------
 
 assert :: Bool -> Pretty.Doc -> Reporter ()
 assert p doc = do

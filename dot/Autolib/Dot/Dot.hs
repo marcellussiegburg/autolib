@@ -31,7 +31,7 @@ mkDot a prog fmt path = do
 
     let fmtfile = path ++ "." ++ fmt
 
-    if    ( not $ prog `elem` [ "dot", "neato" ]  )
+    if    ( not $ prog `elem` [ "dot", "neato", "twopi" ]  )
        || ( not $ fmt  `elem` [ "png", "ps"    ]  )
        then do   
           return ( fmtfile, fmt, ExitFailure 1 )
