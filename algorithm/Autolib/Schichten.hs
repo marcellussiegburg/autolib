@@ -4,6 +4,7 @@ module Autolib.Schichten
 , schichten'
 , bfs
 , bfs'
+, schichten_internal
 )
 
 where
@@ -20,17 +21,17 @@ schichten :: Ord a => (a -> Set a) -> a -> [ Set a ]
 schichten f x0 = schichten' f (unitSet x0)
 
 schichten' :: Ord a => (a -> Set a) -> (Set a) -> [ Set a ]
-schichten' f xs = sch f emptySet xs
+schichten' f xs = schichten_internal f emptySet xs
 
 {-# specialize schichten  :: (Int -> Set Int) -> Int -> [ Set Int ] #-}
 {-# specialize schichten' :: (Int -> Set Int) -> Set Int -> [ Set Int ] #-}
 
-sch f schon jetzt =
+schichten_internal f schon jetzt =
     if isEmptySet jetzt 
     then [] 
     else let alt = schon `union` jetzt
 	     next = unionManySets [ f w
 				  | w <- setToList jetzt ]
 	     neu  = next `minusSet` alt
-	 in  jetzt : sch f alt neu
+	 in  jetzt : schichten_internal f alt neu
 

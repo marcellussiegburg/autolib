@@ -65,7 +65,6 @@ helper num a =
 		else cs
 	    quoted cs = "\"" ++ cs ++ "\""
 
-
 	    -- tatsächliche knoten (zustände)
 	    ns = do p <- lstates a
 		    let sh = case p `elementOf` finals a of
@@ -73,10 +72,11 @@ helper num a =
 			      False -> "ellipse"
 		    return $ Autolib.Dot.Node.blank
 			   { Autolib.Dot.Node.ident = num p
-			   , Autolib.Dot.Node.label = Just $ show p
-			   , Autolib.Dot.Node.shape = Just sh
+			   , Autolib.Dot.Node.label = case show p of
+			            "" -> Nothing ; cs -> Just cs
+			   , Autolib.Dot.Node.shape = case show p of
+			            "" -> Nothing ; cs -> Just sh
 			   }
-
 
 	    -- unsichtbare knoten (für start-pfeile)
 	    uns = do p <- lstarts a
