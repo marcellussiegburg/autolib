@@ -35,10 +35,10 @@ class ( Ord c, Ord s
       , Hash c, Hash s
       , Symbol c
       , ToDoc c, ToDoc [c]
-                , ToDoc s
-      , Reader c, Reader s
-                , Reader [s]
-	        , ToDoc [s]
+      , ToDoc s, ToDoc [s]
+      , Reader c, Reader [c]
+      , Reader s, Reader [s]
+	        
       ) => NFAC c s 
 -- ohne methoden, nur constraints sammeln
 
@@ -47,10 +47,9 @@ instance ( Ord c, Ord s
 	 , Symbol c
 	 , Hash c, Hash s
       , ToDoc c, ToDoc [c]
-      ,          ToDoc s
-      , Reader c, Reader s
-                , Reader [s]
-	        , ToDoc [s]
+      , ToDoc s, ToDoc [s]
+      , Reader c, Reader [c]
+      , Reader s, Reader [s]
       ) => NFAC c s
 
 
@@ -65,6 +64,7 @@ instance ( NFAC c s, NFAC c t ) => NFAC c (Either s t)
 
 data NFAC c s => NFA c s = 
      NFA { nfa_info   :: Doc   -- wird nicht gelesen und auch nicht geprintet
+	 , alphabet :: Set c
 	 , states :: Set s
 	 , starts :: Set s
 	 , finals :: Set s

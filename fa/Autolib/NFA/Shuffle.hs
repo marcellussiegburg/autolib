@@ -1,4 +1,4 @@
--- -- $Id$
+--  $Id$
 
 module Autolib.NFA.Shuffle ( shuffle ) where
 
@@ -13,6 +13,7 @@ shuffle :: (NFAC c s, NFAC c t)
 	=> NFA c s -> NFA c t -> NFA c (s, t)
 shuffle a b = trim $ 
     NFA { nfa_info = funni "shuffle" [ info a, info b ]
+	, alphabet = union ( alphabet a ) ( alphabet b )
         , states = cross (states a) (states b)
 	, starts = cross (starts a) (starts b)
 	, finals = cross (finals a) (finals b)

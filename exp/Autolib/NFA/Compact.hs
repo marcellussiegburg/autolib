@@ -1,6 +1,6 @@
 module Autolib.NFA.Compact where
 
--- -- $Id$
+--  $Id$
 
 import Autolib.NFA.Type
 import Autolib.Exp.Type
@@ -41,10 +41,13 @@ parallel a =
     let accu = addListToFM_C union emptyFM $ do
 	    ( p, c, q ) <- unCollect $ trans a
 	    return ( (p, q), unitSet c )
-    in  a   { nfa_info = funni "parallel_compact" [ info a ]
-	    , trans = collect $ do
+	trs = do
 	          (( p, q ), cs ) <- fmToList accu
 	          return ( p, setToList cs, q )
+        lts = do ( p, c, q ) <- trs ; return c
+    in  a   { nfa_info = funni "parallel_compact" [ info a ]
+	    , alphabet = mkSet lts
+	    , trans = collect trs
 	    }
 
 -- | replace unique path over several states 
@@ -82,15 +85,17 @@ sequential a =
 		      ( cs, r ) <- paths q
 	              return (c : cs, r)
   
-        trans' = collect $ do
+        trans' = do
 	    p <- setToList $ keep
 	    ( cs, q ) <- paths p
 	    return ( p, cs, q )
+	lts = do ( p, c, q ) <- trans' ; return c
 
     in  NFA { nfa_info = funni "sequential_compact" [ info a ]
+	    , alphabet = mkSet lts
 	    , states = keep
 	    , starts = starts a
 	    , finals = finals a
-	    , trans = trans'
+	    , trans = collect trans'
 	    }
 

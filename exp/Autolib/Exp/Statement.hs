@@ -1,6 +1,7 @@
-module Autolib.Exp.Statement 
+-- module Autolib.Exp.Statement 
+module Statement 
 
--- -- $Id$
+--  $Id$
 
 where
 

@@ -20,6 +20,7 @@ import Autolib.Reader
 import Autolib.Symbol
 import Autolib.Util.Size
 import Autolib.Hash
+import Autolib.Informed
 
 ----------------------------------------------------------------------------
 
@@ -29,7 +30,9 @@ make :: ( T.NFTAC c s )
 make t = 
     let states = T.lstates t
 	trans  = T.ltrans  t
-    in  W.NFA { W.nfa_info = text "Autolib.NFTA.Path.make ()"
+        ar     = maximum $ map arity $ setToList $ T.alphabet t
+    in  W.NFA { W.nfa_info = funni "Autolib.NFTA.Path.make" [ info t ]
+	      , W.alphabet = mkSet $ Nil : map Edge [ 1 .. ar ]
 	      , W.states = mkSet $  map State      states
 		                 ++ map Transition trans 
 	      , W.starts = smap State $ T.finals t

@@ -20,14 +20,14 @@ import Autolib.Hash
 import Autolib.Sets
 import Autolib.Util.Size
 
-class ( Symbol c, ToDoc [c]
+class ( Symbol c, ToDoc [c], Reader [c]
       , Ord s , ToDoc s
       , ToDoc [s], Reader [s]
       , Reader s
       , Hash c, Hash s
       ) => FAC c s
 
-instance ( Symbol c, ToDoc [c]
+instance ( Symbol c, ToDoc [c], Reader [c]
       , Ord s , ToDoc s
       , ToDoc [s], Reader [s]
       , Reader s

@@ -28,16 +28,20 @@ dtrans alpha starts tab =
 		return $ lookupWithDefaultFM tab emptySet (x, c)
     in	listToFM $ hull alpha next starts
     
-
-det, det0 :: ( NFAC c s, NFAC c (Set s) ) => NFA c s -> NFA c (Set s)
+-- | power set construction
+-- prune junk states (that won't lead to acceptance)
+det :: ( NFAC c s, NFAC c (Set s) ) => NFA c s -> NFA c (Set s)
 det = trim . det0
 
+-- | power set construction (only reachable states)
+det0 :: ( NFAC c s, NFAC c (Set s) ) => NFA c s -> NFA c (Set s)
 det0 a = 
     let alpha = setToList $ letters a
 	trans' = dtrans alpha (starts a) (trans a)
 	states' = mkSet $ starts a : ( map fst $ keysFM trans' )
     in	
 	NFA { nfa_info = funni "det" [ info a ]
+	    , alphabet = letters a
 	    , states = states'
 	    , starts = unitSet $ starts a
 	    , trans = mapFM ( \ k xs -> unitSet xs ) trans'

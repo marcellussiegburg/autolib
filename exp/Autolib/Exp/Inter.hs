@@ -31,6 +31,7 @@ import qualified Autolib.NFA.Basic    as Basic
 
 import Autolib.Symbol
 import Autolib.ToDoc
+import Autolib.Reader
 
 ---------------------------------------------------------------------------
 
@@ -83,7 +84,7 @@ inter_nondet e a = ( inter_with ( normalize ) e a )
 		   { nfa_info = toDoc a }
 
 
-inter_with :: ( Symbol c, ToDoc [c] )
+inter_with :: ( Symbol c, ToDoc [c], Reader [c] )
 	   => (forall a . NFAC c a => NFA c a -> NFA c Int) 
 	   -> E c -> RX c -> NFA c Int
 inter_with norm e (Ref v)    = case E.look e v of

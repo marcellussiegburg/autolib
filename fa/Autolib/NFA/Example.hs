@@ -13,7 +13,8 @@ example_sigma :: Set Char -> NFA Char Int
 example_sigma s =
     let a : b : _ = setToList s
     in  NFA 
-    { nfa_info = text "example"
+    { nfa_info = funni "example" [ info s ]
+    , alphabet = s
     , states = mkSet [ 1, 2, 3]
     , starts = mkSet [ 2]
     , finals = mkSet [ 2]

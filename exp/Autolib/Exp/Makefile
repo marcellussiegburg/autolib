@@ -3,7 +3,7 @@
 MAIN = Loop
 
 GHC = ghc --make -O2
-INC =  -i../util -i../
+
 FLAGS = -fglasgow-exts \
 	-fallow-overlapping-instances \
 	-fallow-undecidable-instances
@@ -11,5 +11,5 @@ FLAGS = -fglasgow-exts \
 all : $(MAIN)
 
 $(MAIN) : $(wildcard *.hs)
-	$(GHC) $(FLAGS) $(INC) $(MAIN).hs -o $(MAIN) $(PACKS)
+	$(GHC) $(FLAGS) $(MAIN).hs -o $(MAIN) $(PACKS)
 

@@ -22,6 +22,8 @@ links :: NFAC c a
      -> NFA c a
 links a ls =
      a { nfa_info = funni "links" [ info a, toDoc ls ]
+       , alphabet = union (alphabet a) 
+		  $ mkSet $ do (_, c, _) <- ls ; return c
        , states = union ( states a ) $ mkSet $ do 
 	    (p, c, q) <- ls
 	    [p, q]

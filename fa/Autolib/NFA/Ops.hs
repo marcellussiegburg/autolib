@@ -10,6 +10,7 @@ import Data.FiniteMap
 import Autolib.NFA.Trim
 import Autolib.NFA.Basic
 import Autolib.NFA.Normalize
+import Autolib.Letters
 
 import Control.Monad (guard)
 
@@ -20,10 +21,13 @@ normalize_cross :: (NFAC c s, NFAC c t, NFAC c Int)
       => NFA c s -> NFA c t -> NFA c Int
 normalize_cross a b = normalize $ cross a b
 
+-- | cross product construction
+-- note: final states are undefined
 cross :: (NFAC c s, NFAC c t, NFAC c (s, t))
       => NFA c s -> NFA c t -> NFA c (s, t)
 cross a b =
     NFA { nfa_info = funni "cross" [ info a, info a ]
+	, alphabet = Sets.intersect (letters a) (letters b)
 	, states = Sets.cross (states a) (states b)
 	, starts = Sets.cross (starts a) (starts b)
 	, finals = error "cross.finals unspecified"
@@ -39,12 +43,14 @@ normalize_union :: (NFAC c s, NFAC c t, NFAC c Int)
       => NFA c s -> NFA c t -> NFA c Int
 normalize_union a b = normalize $ union a b
 
+-- | union
 union :: (NFAC c s, NFAC c t, NFAC c (Either s t))
       => NFA c s -> NFA c t -> NFA c (Either s t)
 union a b = 
     let a' = statemap Left a
 	b' = statemap Right b
     in	NFA { nfa_info = funni "union" [ info a, info b ]
+	    , alphabet = Sets.union ( letters a ) ( letters b )
 	    , states = states a' `Sets.union` states b'
 	    , starts = starts a' `Sets.union` starts b'
 	    , finals = finals a' `Sets.union` finals b'
@@ -55,6 +61,7 @@ normalize_intersection :: (NFAC c s, NFAC c t, NFAC c Int)
              => NFA c s -> NFA c t -> NFA c Int
 normalize_intersection a b = normalize $ intersection a b
 
+-- | intersection
 intersection :: (NFAC c s, NFAC c t, NFAC c (s, t))
              => NFA c s -> NFA c t -> NFA c (s, t)
 intersection a b = 
@@ -72,6 +79,7 @@ punkt :: (NFAC c s )
       => s -> NFA c s -> NFA c s
 punkt t a = 
     a { nfa_info = funni "punkt" [ toDoc t, info a ]
+      , alphabet = letters a
       , states = Sets.union (states a) (Sets.unitSet t)
       , starts = Sets.unitSet t
       , finals = if not $ Sets.isEmptySet $ Sets.intersect (starts a) (finals a) 
@@ -88,7 +96,7 @@ neu :: NFAC c Int
     => NFA c Int -> Int
 neu a = 1 + maximum (0 : Sets.setToList (states a))
 
-
+-- | concatenation
 dot :: NFAC c Int 
     => NFA c Int -> NFA c Int -> NFA c Int
 dot a b =
@@ -96,6 +104,7 @@ dot a b =
 	b' = statemap (+ n) b
     in	trim $
 	NFA { nfa_info = funni "dot" [ info a, info b ]
+	    , alphabet = Sets.union ( letters a ) ( letters b )
 	    , states = Sets.union (states a) (states b')
 	    , starts = if ceps a
 		       then Sets.union (starts a) (starts b')

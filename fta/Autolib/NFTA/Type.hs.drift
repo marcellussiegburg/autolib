@@ -19,15 +19,16 @@ import Autolib.Reader
 import Autolib.ToDoc
 import qualified Autolib.Relation as Relation
 import Autolib.Hash
+import Autolib.Informed
 
-class ( Symbol c
+class ( Symbol c, ToDoc [c], Reader [c]
       , Ord s , ToDoc s
       , ToDoc [s], Reader [s]
       , Reader s
       , Hash c, Hash s
       ) => NFTAC c s
 
-instance ( Symbol c
+instance ( Symbol c, ToDoc [c], Reader [c]
       , Ord s , ToDoc s
       , ToDoc [s], Reader [s]
       , Reader s
@@ -35,7 +36,10 @@ instance ( Symbol c
       ) => NFTAC c s
 
 data ( NFTAC c s ) => NFTA c s = 
-     NFTA { states :: Set s
+     NFTA { nfta_info :: Doc
+
+	  , alphabet :: Set c
+	  , states :: Set s
 	  -- | if we think Top-Down, the name should be 'starts'
 	  , finals :: Set s
 
@@ -54,10 +58,21 @@ data ( NFTAC c s ) => NFTA c s =
 	  -- and this is always the inverse of above
 	  -- @, inv_eps :: Relation.Type s s@
 	  }
-     deriving Eq
+
+
+
+instance NFTAC c s
+    => Informed (NFTA c s) where
+    info = nfta_info
+    informed i a = a { nfta_info = i }
+
+essence a = ( finals a, trans a , eps a )
+
+instance NFTAC c s => Eq ( NFTA c s ) where
+    a == b = essence a == essence b
 
 instance ( NFTAC c s ) => Hash ( NFTA c s ) where
-    hash a = hash ( finals a, trans a , eps a )
+    hash = hash . essence
 
 self_eps :: NFTAC c s
 	 => NFTA c s -> Relation.Type s s

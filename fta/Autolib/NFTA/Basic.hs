@@ -8,6 +8,8 @@ import Autolib.TES.Term
 
 import Autolib.Util.Wort ( alle )
 import qualified Autolib.Relation as Relation
+import Autolib.Informed
+import Autolib.ToDoc
 
 -- | automaton the recognizes all trees
 complete :: NFTAC c Int
@@ -18,7 +20,10 @@ complete cs =
 	pcqs = do
 	       c <- setToList $ cs
 	       return ( 0, c, replicate (arity c) 0 )
-    in NFTA { states = stats
+    in NFTA 
+         { nfta_info = funni "complete" [ info cs ]
+	 , alphabet = cs
+         , states = stats
 	 , finals = stats
 	 , trans  = mach pcqs
 	 , eps     = Relation.empty $ stats
@@ -32,7 +37,9 @@ split ::  NFTAC c Int
 split s = 
     let ics = zip [ 1 .. ] $ setToList s
 	its = map fst ics
-    in NFTA { states = mkSet $ its
+    in NFTA { nfta_info = funni "split" [ info s ]
+	    , alphabet = s
+	    , states = mkSet $ its
 	    , finals = mkSet $ its
 	    , eps = Relation.empty $ mkSet $ its
 	    , trans  = Relation.make $ do
@@ -50,7 +57,9 @@ split_eps s =
     let top = 0
         ics = zip [ 1 .. ] $ setToList s
 	its = map fst ics
-    in NFTA { states = mkSet $ top : its
+    in NFTA { nfta_info = funni "split_eps" [ info s ]
+	    , alphabet = s
+	    , states = mkSet $ top : its
 	    , finals = mkSet [ top ]
 	    , eps = Relation.make $ do 
 	          it <- its
