@@ -4,7 +4,7 @@ module ToDoc.Dutch where
 
 import ToDoc.Class
 
--- output sequences in "dutcjh style"
+-- output sequences in "dutch style"
 -- i. e. wrapped lines start (instead of end) with separators 
 
 dutch :: Int -- ^ clipping
@@ -36,4 +36,10 @@ clipped_dutch_list c  = dutch c ( text "[", comma, text "]" )
 
 dutch_list :: [ Doc ] -> Doc
 dutch_list = clipped_dutch_list max_list_length
+
+-------------------------------------------------------------------
+
+-- | this is missing in the library
+dot :: Doc
+dot = char '.'
 
