@@ -7,7 +7,8 @@ import Random
 
 class ToDot a where 
       toDot :: a -> Dot.Graph.Type
-
+      toDotProgram :: a -> String
+      toDotProgram a = "dot" -- default für gerichtete graphen
 
 
 -- gleicher argument/resultat-typ wie Graph.Viz.getGraphviz
@@ -39,8 +40,9 @@ display a = do
     let dotfile = fname ++ ".dot"
     let epsfile = fname ++ ".eps"
     writeFile dotfile $ show $ toDot $ a
+    let p = toDotProgram a
     system $ unwords 
-	   [ "dot" , "-Tps" , "-Grankdir=LR", dotfile , "-o", epsfile ]
+	   [ p , "-Tps" , "-Grankdir=LR", dotfile , "-o", epsfile ]
     system $ unwords [ "rm" , dotfile ]
     system $ unwords
 	   [ "gv" , epsfile ]

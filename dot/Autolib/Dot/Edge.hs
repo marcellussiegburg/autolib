@@ -12,6 +12,7 @@ data Type = Type { from	      :: String
 		 , label :: Maybe String
 		 , headlabel :: Maybe String
 		 , taillabel :: Maybe String
+		 , directed  :: Bool
 		 }
 
 blank :: Type
@@ -20,11 +21,15 @@ blank = Type {  from = error "Dot.Edge.from"
 		 , label = Nothing
 		 , headlabel = Nothing
 		 , taillabel = Nothing
+		 , directed = True -- default (?)
 		 }
 
 
 instance ToDoc Type where
-    toDoc n = hsep [ text (from n), text "->", text (to n) ]
+    toDoc n = hsep [ text (from n)
+		   , text ( if directed n then "->" else "--" )
+		   , text (to n) 
+		   ]
 	<+> brackets ( fsep $ punctuate comma $ do
 	    ( name, fun ) <- [ ("label", label)
 			     , ("headlabel", headlabel)
