@@ -14,7 +14,7 @@ main :: IO ()
 main = do
 	argv <- getArgs
 	case argv of
-		_        -> info
+		_        -> GVKnoten.info
 
 
 test_graph_tre = undefined :: Graph Int

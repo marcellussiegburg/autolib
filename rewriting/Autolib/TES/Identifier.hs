@@ -25,12 +25,17 @@ import Util.Size
 import Hash
 import Data.Char
 
+import Data.Typeable
+
 -- | don't derive Eq and Ord since arity should be ignored
 data Identifier = Identifier 
 		{ hash_code :: {-# UNPACK #-} ! Int
 		, name	    :: {-# UNPACK #-} ! String
 		, i_arity   :: {-# UNPACK #-} ! Int
 		}
+
+instance Typeable Identifier where
+    typeOf _ = mkAppTy (mkTyCon "Identifier") [] -- ??
 
 instance Hash Identifier where hash = hash_code
 

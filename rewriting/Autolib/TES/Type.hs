@@ -10,11 +10,12 @@ import ToDoc
 import Reader
 import Hash
 
+import Data.Typeable
 
 -- | TODO: include 'hash' data field in record (cached)
 data Term v c = Node !c ![ Term v c ]
 	      | Var  !v
-     deriving ( Eq, Ord )
+     deriving ( Eq, Ord, Typeable )
 
 class ( Hash v,  Show v, Show c
       , Ord v, ToDoc v, ToDoc [v]

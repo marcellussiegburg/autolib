@@ -2,6 +2,8 @@ module Exp.Type where
 
 --  $Id$
 
+import Data.Typeable
+
 -- | regular expressions
 data RX c
 	= Ref String  -- ^ reference to value in evironment
@@ -24,6 +26,14 @@ data RX c
 
 -- | for  backward compatibility
 type Exp = RX Char 
+
+instance Typeable c => Typeable (RX c) where
+    typeOf (_ :: RX c) = 
+	mkAppTy (mkTyCon "RX") 
+	       [ typeOf (undefined :: c) ]
+
+instance Typeable Exp where
+    typeOf _ = mkAppTy (mkTyCon "Exp") []
 
 
     
