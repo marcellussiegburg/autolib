@@ -31,11 +31,11 @@ insert :: NFTAC c Int
 insert a pt = inserts a [ pt ]
 
 
-type ST c = State ( NFTA c Int, Int )
+type ST c s = State ( NFTA c s, s )
 
 ins :: NFTAC c Int
     =>  ( Int, Term Int c ) 
-    -> ST c Int
+    -> ST c Int Int
 ins (p, Node c args ) = do
     qs  <- mapM ( \ arg -> case arg of
 			 Var v -> return v
@@ -54,7 +54,7 @@ ins (p, Var q) = do
 
 -- | get a fresh state
 next :: NFTAC c Int 
-     =>  ST c Int
+     =>  ST c Int Int
 next = do 
     ( a, n ) <- get
     put ( a { states = states a `union` mkSet [n] }
@@ -63,12 +63,13 @@ next = do
     return n
 
 -- | add transition
-add_trans :: NFTAC c Int
-    => ( Int, c, [Int] ) 
-    -> ST c ()
+add_trans :: NFTAC c s
+    => ( s, c, [s] ) 
+    -> ST c s ()
 add_trans t @ ( p, c, qs ) = do 
     ( a, n ) <- get
-    put ( a { trans = Relation.insert (trans a) ( p, (c, qs)) 
+    put ( a { states = union ( states a ) $ unitSet p
+	    , trans = Relation.insert (trans a) ( p, (c, qs)) 
 	    , inv_trans = Relation.insert (inv_trans a) ( (qs, c), p) 
 	    , eps = Relation.insert (eps a) (p, p)
 	    , inv_eps = Relation.insert (inv_eps a) (p, p)
@@ -77,9 +78,9 @@ add_trans t @ ( p, c, qs ) = do
 	)    
 
 -- | add epsilon transition
-add_eps :: NFTAC c Int
-    => ( Int, Int ) 
-    -> ST c ()
+add_eps :: NFTAC c s
+    => ( s, s ) 
+    -> ST c s ()
 add_eps (x,y) = do 
     ( a, n ) <- get
     put ( a { eps = Relation.trans $ Relation.insert (eps a) (x,y) 
@@ -93,10 +94,10 @@ links :: NFTAC c s
 	  => NFTA c s
 	  -> [ ( s, (c, [s])) ]
 	  -> NFTA c s
-links a pcqs = 
-    let sts = mkSet $ do (p,(c,qs)) <- pcqs ; p : qs
-    in a { states = states a `union` sts
-	 , trans = Relation.plus ( trans a ) ( Relation.make pcqs )
-	 , inv_trans = Relation.plus ( inv_trans a ) 
-		 ( Relation.make $ map (\ (p,(c,qs))->((qs,c),p))  pcqs )
-	 }	 
+links a pcqss = 
+    let trs = do (p, (c, qs)) <- pcqss
+		 return (p, c, qs)
+    in	evalState 
+       ( do mapM_ add_trans trs ; (a, n) <- get ; return a )
+       ( a , error "NFTA.Insert.links should not need new states" )
+

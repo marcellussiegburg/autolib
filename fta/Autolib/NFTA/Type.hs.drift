@@ -18,17 +18,20 @@ import TES.Symbol
 import Reader
 import ToDoc
 import qualified Relation
+import Hash
 
 class ( Symbol c
       , Ord s , ToDoc s
       , ToDoc [s], Reader [s]
       , Reader s
+      , Hash c, Hash s
       ) => NFTAC c s
 
 instance ( Symbol c
       , Ord s , ToDoc s
       , ToDoc [s], Reader [s]
       , Reader s
+      , Hash c, Hash s
       ) => NFTAC c s
 
 data ( NFTAC c s ) => NFTA c s = 
@@ -47,6 +50,9 @@ data ( NFTAC c s ) => NFTA c s =
 	  , inv_eps :: Relation.Type s s
 	  }
      deriving Eq
+
+instance ( NFTAC c s ) => Hash ( NFTA c s ) where
+    hash a = hash ( finals a, trans a , eps a )
 
 lstates :: NFTAC c s => NFTA c s -> [s]
 lstates = setToList . states

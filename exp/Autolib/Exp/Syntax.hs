@@ -8,6 +8,7 @@ import Exp.Print
 import Reporter
 import Sets
 import Util.Size
+import Hash
 import ToDoc
 
 
@@ -31,6 +32,9 @@ subtrees x = x : case x of
     Power i x -> subtrees x
 
 instance Size (RX c) where size = length . subtrees
+
+instance Hash c => Hash ( RX c ) where
+    hash = hash . map constructor . subtrees
 
 constructor :: RX c -> String
 constructor x = case x of

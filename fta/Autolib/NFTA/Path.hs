@@ -23,10 +23,6 @@ import Hash
 
 ----------------------------------------------------------------------------
 
-instance Symbol Edge -- dummy
-instance Size Edge where size = error "dummy instance Size NFTA.Edge"
-instance Hash Edge where hash = error "dummy instance Hash NFTA.Edge"
-
 make :: ( T.NFTAC c s )
      => T.NFTA c s
      -> W.NFA Edge (Node c s)
@@ -60,6 +56,10 @@ instance ( Show c, Show s ) => Show (Node c s) where
 instance Reader (Node c s) -- no methods
 instance ToDoc (Node c s)
 
+instance ( Hash c, Hash s ) => Hash ( Node c s ) where
+    hash ( Transition t ) = hash t
+    hash ( State s ) = hash s
+
 data Edge = Edge Int
 	  | Nil
      deriving ( Eq, Ord )
@@ -68,6 +68,15 @@ instance Show Edge where
     show (Edge i) = show i
     show Nil = ""
 
+instance Hash ( Edge ) where
+    hash ( Edge x ) = hash x
+    hash Nil = 4711
+
 instance Reader Edge -- no methods
 instance ToDoc Edge 
+
+instance Symbol Edge -- dummy
+
+instance Size Edge 
+
 

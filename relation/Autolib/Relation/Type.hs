@@ -16,6 +16,7 @@ import Sets
 import Size
 import Data.FiniteMap
 
+import Hash
 import ToDoc
 import Reader
 
@@ -25,10 +26,14 @@ import Reader
 data Type a b = Make { source :: Set a
 		     , target :: Set b
 		     , unRelation :: FiniteMap a (Set b) 
+		     -- TODO: add FM for inverse relation as well
 		     }
 
 instance Size (Type a b) where
     size = cardinality . source
+
+instance ( Ord a, Ord b, Hash a, Hash b ) => Hash ( Type a b ) where
+    hash = hash . unRelation
 
 instance ( Ord a, Ord b, ToDoc a, ToDoc b ) => ToDoc ( Type a b ) where
     toDoc r = text "Relation.make" <+> toDoc ( pairs r )
