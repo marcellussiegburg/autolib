@@ -17,20 +17,6 @@ data Iterator a = forall s .
 instance Informed ( Iterator a ) where
     info ( Iterator doc step start ) = doc
 
--- execute iterator until result occurs
-exec :: ToDoc a => Iterator a -> Reporter a
-exec ( Iterator doc step start ) = helper start where
-    helper state = do
-        inform $ text "execute one step for iterator" <+> doc
-        next <- nested 4 $ step state
-        inform $ text "... one step for iterator" <+> doc
-	case next of 
-	     Left  state' -> do
-	         inform $ text "continue"
-                 helper state'
-	     Right result -> do
-		 inform $ text "got result" <+> toDoc result     
-                 return result
 
 instance Functor Iterator where
     fmap f ( Iterator doc step start ) 
