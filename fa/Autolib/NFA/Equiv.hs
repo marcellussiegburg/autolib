@@ -61,6 +61,17 @@ anwende xss ts =
 
 ----------------------------------------------------------------------
 
+compact :: Ord s => NFA s -> Klassen s -> NFA (Set s)
+compact a xss =
+    let fm = listToFM $ do
+	     xs <- setToList xss
+	     x <- setToList xs
+	     return ( x, xs )
+        fun = fromMaybe (error "NFA.Equiv.compact") . lookupFM fm
+    in  amap fun a
+
+----------------------------------------------------------------------
+
 trenner :: Ord s => Set Char -> NFA s -> Klassen s -> [ Trenner s ]
 -- das berechnet alle
 trenner sigma a xss = do
@@ -147,7 +158,7 @@ equiv :: ( Ord s , ToDoc s, ToDoc [s] )
 	=> String
 	 -> Set Char -> NFA s 
 	-> [[ Trenner s ]]
-	-> Reporter ()
+	-> Reporter (Klassen s)
 equiv url sigma a tss = do
     inform $ vcat $ map text 
 	          [ "Sie sollen die Äquivalenzklassen"
@@ -155,7 +166,6 @@ equiv url sigma a tss = do
 		  , url
 		  ]
     foldM ( schritt sigma a ) ( start a ) $ zip [0..] $ tss ++ [[]]
-    return ()
 
 
 start :: Ord s => NFA s -> Klassen s
@@ -165,6 +175,9 @@ zerlege :: Ord s => Set Char -> NFA s -> [Klassen s]
 zerlege sigma a = 
     let f xss = anwende xss $ trenner sigma a xss
     in	fixes f $ start a
+
+-------------------------------------------------------------------
+
 
 
 

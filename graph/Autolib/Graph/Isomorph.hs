@@ -7,7 +7,7 @@
 module Graph.Isomorph (isIsomorph) where 
 
 import Graph.Graph
-import Sort
+import Util.Sort
 import Set
 import Graph.Util
 import Graph.Beispiele
