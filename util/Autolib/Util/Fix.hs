@@ -13,3 +13,6 @@ fixesBy select f x0 = x0 :
     let x1 = f x0
     in	if select x1 == select x0 then [] 
 	else fixesBy select f x1
+
+fixes :: Eq a => (a -> a) -> a -> [a]
+fixes = fixesBy id
