@@ -13,7 +13,9 @@ import TES.Identifier
 import Sets
 
 import ToDoc
+import ToTex
 import Reader
+
 
 import TES.Parsec
 import Text.ParserCombinators.Parsec.Combinator (option)
@@ -54,6 +56,13 @@ instance ( ToDoc c, ToDoc v ) => ToDoc (Term v c) where
 
 instance ( ToDoc c, ToDoc v ) => Show (Term v c) where 
     show = render . toDoc
+
+instance ( ToDoc v, ToDoc c, ToTex v, ToTex c ) 
+         => ToTex ( Term v c ) where
+    toTex ( Var v ) = toTex v
+    toTex ( Node c [] ) = toTex c
+    toTex ( Node c [l, r] ) = 
+        Macro "tree" [ Opt $ toTex c, Req $ toTex l, Req $ toTex r ]
 
 instance Reader (Term a Identifier ) where
     readerPrec p = do

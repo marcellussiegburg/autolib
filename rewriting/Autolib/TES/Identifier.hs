@@ -4,6 +4,7 @@ module TES.Identifier where
 
 import Sets
 
+import qualified ToTex
 import ToDoc
 import Reader
 
@@ -51,3 +52,6 @@ instance Reader Identifier where
 
 instance Show Identifier where show = render . toDoc
 instance Read Identifier where readsPrec = parsec_readsPrec
+
+instance ToTex.ToTex Identifier where
+    toTex i = ToTex.Macro "mathit" [ ToTex.Req $ ToTex.Direct $ name i ]
