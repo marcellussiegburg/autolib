@@ -10,6 +10,7 @@ where
 
 import Set
 import ToDoc
+import Reader
 
 import Util.Teilfolgen
 
@@ -17,15 +18,20 @@ import Util.Teilfolgen
 instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)
 
-instance (Ord a, Read a) => Read (Set a) where
-    readsPrec p cs = do
-        ( "mkSet", cs ) <- lex cs
-	( arg, cs ) <- reads cs
-	return (mkSet arg, cs)
+instance ( Ord a, Reader a ) => Reader ( Set a ) where
+    reader = do
+        my_reserved "mkSet"
+	xs <- listify reader
+	return $ mkSet xs
+
+instance (Ord a, Reader a) => Read (Set a) where
+    readsPrec = parsec_readsPrec
+
 
 
 instance ToDoc [a] => ToDoc (Set a)
-    where toDoc s = text "mkSet" <+> toDoc (setToList s)
+    where toDocPrec p s = docParen (p >= fcp) 
+			$ text "mkSet" <+> toDocPrec fcp (setToList s)
 
 instance ToDoc [a] => Show (Set a)
     where show = render . toDoc

@@ -1,0 +1,13 @@
+-- -*- mode: haskell -*-
+
+module Reader.Derived where
+
+-- $Id$
+
+import Reader.Class
+import Reader.Basic
+
+{-! for Bool   derive : Reader !-}
+{-! for Maybe  derive : Reader !-}
+{-! for Either derive : Reader !-}
+

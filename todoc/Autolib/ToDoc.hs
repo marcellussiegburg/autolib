@@ -1,12 +1,6 @@
--- $Header$
-
--- ghc:  -fallow-overlapping-instances -fallow-undecidable-instances
---       -fglasgow-exts
--- hugs: -98 +o
-
-
-
 module ToDoc 
+
+-- $Id$
 
 ( module ToDoc
 , module Pretty 
@@ -28,48 +22,61 @@ showDoc = unwords . words . render
 max_list_length = 50 :: Int
 max_string_length = 50 :: Int
 
-class ToDoc a where toDoc :: a -> Doc
+-- funcall precedence
+fcp = 10 :: Int
 
-instance ToDoc Int where toDoc = int
-instance ToDoc Integer where toDoc = integer
-instance ToDoc Float where toDoc = float
-instance ToDoc Double where toDoc = double
+class ToDoc a where 
+    toDoc :: a -> Doc
+    -- default:
+    toDoc = toDocPrec 0 -- useful?
 
-instance ToDoc Bool where toDoc = text . show
-instance ToDoc Char where toDoc = text . show
+    toDocPrec :: Int -> a -> Doc
+    -- default:
+    toDocPrec p = toDoc -- dangerous?
 
-instance ToDoc () where toDoc = text . show
+instance ToDoc Int where toDocPrec p = int
+instance ToDoc Integer where toDocPrec p = integer
+instance ToDoc Float where toDocPrec p = float
+instance ToDoc Double where toDocPrec p = double
+
+instance ToDoc Bool where toDocPrec p = text . show
+instance ToDoc Char where toDocPrec p = text . show
+
+instance ToDoc () where toDocPrec p = text . show
 
 instance (ToDoc a, ToDoc b) => ToDoc (a, b) where
-    toDoc (x,y) = parens 
+    toDocPrec p (x,y) = parens 
 	      $ fsep 
 	      $ punctuate comma
-	      $ [ toDoc x, toDoc y ]
+	      $ [ toDocPrec 0 x, toDocPrec 0 y ]
 
 instance (ToDoc a, ToDoc b, ToDoc c) => ToDoc (a, b, c) where
-    toDoc (x,y,z) = parens 
+    toDocPrec p (x,y,z) = parens 
 	      $ fsep 
 	      $ punctuate comma
-	      $ [ toDoc x, toDoc y, toDoc z]
-
+	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z]
 
 instance ToDoc a => ToDoc [a] where
-    toDoc xs = 
+    toDocPrec p xs = 
         let (kurz, lang) = splitAt max_list_length xs
-	    kdocs = map toDoc kurz
+	    kdocs = map (toDocPrec 0) kurz
 	    alles = kdocs ++  [ text "..." |  not $ null lang ]
 	in  brackets $ fsep $ punctuate comma $ alles
 
 instance (ToDoc a, ToDoc b) => ToDoc (Either a b) where
-    toDoc (Left  x) = text "Left " <+> toDoc x
-    toDoc (Right x) = text "Right" <+> toDoc x
+    toDocPrec p (Left  x) = docParen (p >= fcp) $ text "Left " <+> toDocPrec fcp x
+    toDocPrec p (Right x) = docParen (p >= fcp) $ text "Right" <+> toDocPrec fcp x
+
+docParen :: Bool -> Doc -> Doc
+docParen f = if f then parens else id
+
 
 instance ToDoc (a -> b) where
-    toDoc f = text "<<function>>"
+    toDocPrec p f = text "<<function>>"
 
 -- overlapping
 instance ToDoc String where
-    toDoc cs = 
+    toDocPrec p cs = 
 	  let (kurz, lang) = splitAt max_string_length cs
 	      alles = kurz ++ if null lang then "" else "..."
 	  in  char '"' <> text alles <> char '"'
@@ -79,7 +86,8 @@ putz :: ToDoc [a] => [a] -> IO ()
 putz = putStrLn . render . toDoc 
 
 instance (ToDoc a, ToDoc b) => ToDoc (FiniteMap a b)
-    where toDoc fm = text "listToFM" <+> toDoc (fmToList fm)
+    where toDocPrec p fm = 
+	      docParen (p >= fcp) $ text "listToFM" <+> toDocPrec fcp (fmToList fm)
 
 --instance (ToDoc a, ToDoc b) => Show (FiniteMap a b)
 --    where show = render . toDoc
@@ -89,9 +97,9 @@ instance (Show a, Show b) => Show (FiniteMap a b)
 
 
 instance ToDoc a => ToDoc (Maybe a) where
-    toDoc Nothing = text "Nothing"
-    -- vorsicht, da fehlen eventuell klammern:
-    toDoc ( Just x ) = text "Just" <+> toDoc x
+    toDocPrec p Nothing = text "Nothing"
+    -- vorsicht, da fehlen eventuell klammern (now fixed)
+    toDocPrec p ( Just x ) = docParen (p >= fcp) $ text "Just" <+> toDocPrec fcp x
 
 
 
