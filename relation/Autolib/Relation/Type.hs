@@ -55,6 +55,10 @@ make xys =
     in   ( make0 xys )
 	 { source = xs , target = ys }
 
+make_on :: (Ord a, Ord b) => (Set a, Set b) -> [(a,b)] -> Type a b
+make_on (xs, ys) pairs = 
+    ( make0 pairs ) { source = xs, target = ys }
+
 make0 :: (Ord a, Ord b) => [(a,b)] -> Type a b
 make0 xys = Make
 	 { source = error "Relation.Type.make_unsafe"

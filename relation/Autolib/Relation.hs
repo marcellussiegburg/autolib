@@ -4,7 +4,7 @@ module Relation
 
 ( Type -- abstrakt
 , source, target
-, make, pairs
+, make, make_on, pairs
 , module Relation.Ops
 , module Relation.Basic
 )
