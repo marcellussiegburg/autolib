@@ -1,4 +1,10 @@
-module Relation.Ops where
+module Relation.Ops 
+
+( module Relation.Ops
+, inverse
+)
+
+where
 
 --   $Id$
 
@@ -15,6 +21,11 @@ holds rel x y = y `elementOf` images rel x
 images :: ( Ord a, Ord b ) => Type a b -> a -> Set b
 images rel x = lookupset (unRelation rel) x
 
+{-# INLINE pre_images #-}
+
+pre_images :: ( Ord a, Ord b ) => Type a b -> b -> Set a
+pre_images rel = images ( inverse rel )
+
 {-# INLINE simages #-}
 
 simages :: ( Ord a, Ord b ) => Type a b -> Set a -> Set b
@@ -22,9 +33,10 @@ simages rel xs = unionManySets $ do
     x <- setToList xs
     return $ images rel x
 
-inverse :: ( Ord a, Ord b ) => Type a b -> Type b a
-inverse r = ( make0 $ do ( x, y) <- pairs r ; return (y, x) )
-	    { source = target r, target = source r }
+{-# INLINE pre_simages #-}
+
+pre_simages :: ( Ord a, Ord b ) => Type a b -> Set b -> Set a
+pre_simages rel = simages ( inverse rel )
 
 identic :: Ord a => Set a -> Type a a
 identic s = ( make0 $ do x <- setToList s ; return (x, x) )
@@ -47,7 +59,7 @@ bothmap f g r =
     , target = smap g $ target r 
     }
 
-{-# inline times #-}
+{-# INLINE times #-}
 
 times :: (Ord a, Ord b, Ord c)
       =>  Type a b -> Type b c -> Type a c
@@ -59,7 +71,7 @@ times r s = ( make0 $  do
 	 , target = target s
        }
 
-{-# inline plus #-}
+{-# INLINE plus #-}
 
 plus :: (Ord a, Ord b)
      => Type a b -> Type a b -> Type a b
@@ -67,25 +79,32 @@ plus r s = Make
 	 { source = source r `union` source s
 	 , target = target r `union` target s
 	 , unRelation = plusFM_C union (unRelation r) (unRelation s)
+	 , inverse_unRelation = 
+               plusFM_C union (inverse_unRelation r) (inverse_unRelation s)
 	 }
 
 insert :: (Ord a, Ord b)
        => Type a b -> (a,b) -> Type a b
 insert r (x,y) = r
-       { unRelation = addToFM_C union (unRelation r) x ( mkSet [y] ) }
+       { unRelation = addToFM_C union (unRelation r) x ( mkSet [y] ) 
+       , inverse_unRelation = 
+           addToFM_C union (inverse_unRelation r) y ( mkSet [x] ) 
+       }
 
-{-# inline trans #-}
+{-# INLINE trans #-}
 
--- | transitive hülle (nicht reflexive)
+-- | transitive closure (NB: not necessarily reflexive)
 trans :: Ord a => Type a a -> Type a a
 trans r = fix ( \ s -> plus r $ times r s ) r
 
+-- |  reflexive closure
 reflex :: Ord a => Type a a -> Type a a
 reflex r = ( make0 $ do x <- setToList $ source r ; return (x, x) )
 	 { source = source r
 	 , target = source r -- ??
 	 }
 
+-- | reflexive and transitive closure
 reflex_trans :: Ord a => Type a a -> Type a a
 reflex_trans r = plus (reflex r) (trans r) 
 

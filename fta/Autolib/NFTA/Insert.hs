@@ -127,7 +127,6 @@ add_trans t @ ( p, c, qs ) = do
     ( a, n ) <- get
     put ( a { states = union ( states a ) $ unitSet p
 	    , trans = Relation.insert (trans a) ( p, (c, qs)) 
-	    , inv_trans = Relation.insert (inv_trans a) ( (qs, c), p) 
 	    }
 	, n 
 	)    
@@ -141,7 +140,6 @@ add_eps :: NFTAC c s
 add_eps (x,y) = do 
     ( a, n ) <- get
     put ( a { eps = Relation.trans $ Relation.insert (eps a) (x,y) 
-	    , inv_eps = Relation.trans $ Relation.insert (inv_eps a) (y,x) 
 	    } 
 	, n 
 	)    

@@ -7,7 +7,9 @@ import Relation.Ops
 
 
 empty :: Ord a => Set a -> Type a a
-empty s = Make { source = s, target = s, unRelation = emptyFM }
+empty s = Make { source = s, target = s
+	       , unRelation = emptyFM, inverse_unRelation = emptyFM
+	       }
 
 flat :: Ord a => Set a -> Type a a
 flat s = reflex $ empty s

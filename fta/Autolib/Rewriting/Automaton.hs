@@ -5,6 +5,9 @@ module Rewriting.Automaton where
 import qualified NFTA
 import qualified NFTA.Basic
 import qualified NFTA.Normalize
+import qualified NFTA.Compact
+import qualified NFTA.Epsilon
+
 import qualified NFA
 import qualified NFA.Basic
 import qualified NFA.Normalize
@@ -38,12 +41,16 @@ class  Automaton a where
     complete :: ( FAC c Int ) => Set c -> a c Int
     normalize :: ( FAC c s, FAC c Int ) => a c s -> a c Int
 
+    compact   :: ( FAC c s ) => a c s -> a c s
+    compact = id
+
 instance Automaton NFTA.NFTA where
     lstates  = NFTA.lstates
     statemap = NFTA.statemap
     alphamap = NFTA.alphamap
     complete = NFTA.Basic.complete
     normalize = NFTA.Normalize.normalize
+    compact  = NFTA.Compact.compact . NFTA.Epsilon.uneps
 
 instance Automaton NFA.NFA where
     lstates  = NFA.lstates

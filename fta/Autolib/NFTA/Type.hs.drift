@@ -36,23 +36,36 @@ instance ( Symbol c
 
 data ( NFTAC c s ) => NFTA c s = 
      NFTA { states :: Set s
+	  -- | if we think Top-Down, the name should be 'starts'
 	  , finals :: Set s
-	  -- | ( p, f, [q1, .. ] ) means transition p <- f [q1, .. ]
-	  -- , trans  :: Set ( s, c, [s] )
 
+	  -- | @( p, f, [q1, .. ] )@ means @transition p <- f [q1, .. ]@
 	  , trans :: Relation.Type s (c,  [s]) 
-	  , inv_trans :: Relation.Type ([s] , c) s
 
-	  -- | ( p, q ) means transition  p <- q (in accepting bottom-up comp.)
+	  -- | the following can now be obtained from Relation.Type directly:
+	  -- @, inv_trans :: Relation.Type ([s] , c) s@
+
+	  --  @( p, q )@ means transition  @p <- q@ 
+	  --  (in accepting bottom-up computation)
 	  -- this relation is always kept transitive
+	  -- self-loops are not normally included
 	  , eps     :: Relation.Type s s 
-	  -- | and this is always the inverse of above
-	  , inv_eps :: Relation.Type s s
+	  -- ^ the following can now be obtained from Relation.Type directly:
+	  -- and this is always the inverse of above
+	  -- @, inv_eps :: Relation.Type s s@
 	  }
      deriving Eq
 
 instance ( NFTAC c s ) => Hash ( NFTA c s ) where
     hash a = hash ( finals a, trans a , eps a )
+
+self_eps :: NFTAC c s
+	 => NFTA c s -> Relation.Type s s
+self_eps a = Relation.flat ( states a ) `Relation.plus` eps a
+
+inv_self_eps :: NFTAC c s
+	 => NFTA c s -> Relation.Type s s
+inv_self_eps a = Relation.inverse $ self_eps a
 
 lstates :: NFTAC c s => NFTA c s -> [s]
 lstates = setToList . states

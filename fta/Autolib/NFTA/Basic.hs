@@ -21,9 +21,7 @@ complete cs =
     in NFTA { states = stats
 	 , finals = stats
 	 , trans  = mach pcqs
-	 , inv_trans = cham  pcqs
 	 , eps     = Relation.empty $ stats
-	 , inv_eps = Relation.empty $ stats
 	 }
 
 -- | recognize all terms
@@ -40,13 +38,10 @@ split s =
 	          return (i, c, args)
     in NFTA { states = mkSet its
 	    , finals = mkSet its -- all are accepting
-	    , eps = Relation.flat $ mkSet its
-	    , inv_eps = Relation.flat $ mkSet its
+	    , eps = Relation.empty $ mkSet its
 	    , trans  = mach pcqs
-	    , inv_trans = cham pcqs
             }
 
 mach pcqs =  Relation.make
 		  $ do (p,c,qs) <- pcqs; return (p,(c,qs))
-cham pcqs =  Relation.make
-		     $ do (p,c,qs) <- pcqs; return ((qs,c),p)
+

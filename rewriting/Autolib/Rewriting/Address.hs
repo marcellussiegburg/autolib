@@ -9,7 +9,7 @@ class Functor c => Sub c where
     -- | immediate (left-to-right)
     children :: c a -> [ c a ]
     
-    -- |  with the idea that 't = build (top t) (children t)'
+    -- |  with the idea that @t = build (top t) (children t)@
     build :: a -> [ c a ] -> c a 
 
     -- | replace top symbol

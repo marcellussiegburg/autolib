@@ -26,7 +26,7 @@ import Reader
 data Type a b = Make { source :: Set a
 		     , target :: Set b
 		     , unRelation :: FiniteMap a (Set b) 
-		     -- ^ TODO: add 'FiniteMap' for inverse relation as well
+		     , inverse_unRelation :: FiniteMap b (Set a)
 		     }
 
 instance Size (Type a b) where
@@ -71,6 +71,9 @@ make0 xys = Make
 	 , unRelation = addListToFM_C union emptyFM $ do
 	       (x, y) <- xys 
 	       return (x, unitSet y)
+	 , inverse_unRelation = addListToFM_C union emptyFM $ do
+	       (x, y) <- xys 
+	       return (y, unitSet x)
 	 }
 
 pairs :: (Ord a, Ord b) => Type a b -> [(a,b)] 
@@ -79,4 +82,10 @@ pairs rel = do
     y <- setToList ys
     return (x, y)
 
-
+inverse :: (Ord a, Ord b) => Type a b -> Type b a
+inverse rel = Make
+	{ source = target rel
+	, target = source rel
+	, unRelation = inverse_unRelation rel
+	, inverse_unRelation = unRelation rel
+	}
