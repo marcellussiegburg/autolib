@@ -1,22 +1,22 @@
-module Graph.Ops where
+module Autolib.Graph.Ops where
 
 -- -- $Id$
 
-import Graph.Graph hiding ( union )
+import Autolib.Graph.Graph hiding ( union )
 
-import Graph.Basic
-import Graph.Display
+import Autolib.Graph.Basic
+import Autolib.Graph.Display
 
-import Boxing hiding ( grid )
-import ToDoc hiding (empty)
-import Sets
+import Autolib.Boxing hiding ( grid )
+import Autolib.ToDoc hiding (empty)
+import Autolib.Sets
 
 import qualified Data.Set as Set
 import qualified Data.List as List
 import Data.FiniteMap
 import Data.Maybe
 import Control.Monad ( guard )
-import Util.Teilfolgen
+import Autolib.Util.Teilfolgen
 
 --------------------------------------------------------------------------
 
