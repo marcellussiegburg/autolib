@@ -9,9 +9,12 @@ import Autolib.ToDoc.Class
 import Autolib.ToDoc.Dutch
 
 import Data.Set
+import Data.Int
 import Data.FiniteMap
 
-instance ToDoc Int where toDocPrec p = int
+instance ToDoc Int   where toDocPrec p = int
+instance ToDoc Int32 where toDocPrec p = int . fromIntegral
+instance ToDoc Int16 where toDocPrec p = int . fromIntegral
 instance ToDoc Integer where toDocPrec p = integer
 instance ToDoc Float where toDocPrec p = float
 instance ToDoc Double where toDocPrec p = double

@@ -25,11 +25,12 @@ import Autolib.Util.Size
 import Autolib.Hash
 
 import Data.Char
+import Data.Int
 import Data.Typeable
 
 -- | don't derive Eq and Ord since arity should be ignored
 data Identifier = Identifier 
-		{ hash_code :: {-# UNPACK #-} ! Int
+		{ hash_code :: {-# UNPACK #-} ! Int32
 		, name	    :: {-# UNPACK #-} ! String
 		, i_arity   :: {-# UNPACK #-} ! Int
 		}

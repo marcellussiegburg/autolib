@@ -2,13 +2,14 @@ module Autolib.Hash where
 
 --  $Id$
 
-import GHC.Int
+import Data.Int
+import Data.HashTable (hashInt)
 
 import Data.FiniteMap
 import Data.Set
 
 class Eq a => Hash a where
-      hash :: a -> Int	-- TODO: should be unboxed word or something
+      hash :: a -> Int32
 
 instance Hash () where
     hash () = 1855
@@ -36,21 +37,20 @@ instance Hash a => Hash ( Set a ) where
 instance ( Hash a, Hash b ) => Hash ( FiniteMap a b ) where
     hash = hash . fmToList
 
-instance Hash Int where hash = fromIntegral
-
-instance Hash Int16 where hash = fromIntegral
+instance Hash Int where hash = hashInt . fromIntegral
+instance Hash Int16 where hash = hashInt . fromIntegral
+instance Hash Int32 where hash = id
 
 instance Hash Char where 
-    hash = fromEnum
+    hash = fromIntegral . fromEnum
 
 instance ( Hash a, Hash b ) => Hash ( Either a b ) where
     hash ( Left a ) = hash ( 13 :: Int, a )
     hash ( Right b ) = hash ( 31 :: Int, b )
 
-instance Hash Bool where hash = fromEnum
+instance Hash Bool where hash = fromIntegral . fromEnum
 
 instance Hash a => Hash ( Maybe a ) where
     hash ( Just x ) = hash ( 41 :: Int, x )
     hash Nothing    = 14
 
-    
