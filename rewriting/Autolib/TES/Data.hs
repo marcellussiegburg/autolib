@@ -67,6 +67,9 @@ symbols rules = mkSet $ do
     (l, r) <- rules
     flatten l ++ flatten r
 
+is_variable :: TES -> Symbol -> Bool
+is_variable tes s = s `elementOf` variables tes
+
 at_most_unary :: TES -> Bool
 at_most_unary tes = and $ do
     s <- setToList $ signature tes
