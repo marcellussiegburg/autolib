@@ -5,8 +5,11 @@
 -- hugs: -98 +o
 
 -- $Log$
--- Revision 1.1  2002-05-24 10:46:48  challenger
--- Initial revision
+-- Revision 1.2  2002-06-17 10:52:19  joe
+-- neu: showDoc
+--
+-- Revision 1.1.1.1  2002/05/24 10:46:48  challenger
+-- start
 --
 -- Revision 1.10  2002/01/13 23:02:34  autotool
 -- instance ToDoc (Maybe *)
@@ -40,6 +43,12 @@ where
 import Pretty 
 import Set
 import FiniteMap
+
+showDoc :: Doc -> String
+-- zur ausgabe ohne zeilenschaltungen
+-- TODO: sollte besser gehen (anderen renderer wählen?)
+showDoc = unwords . words . render
+
 
 max_list_length = 20 :: Int
 max_string_length = 50 :: Int
