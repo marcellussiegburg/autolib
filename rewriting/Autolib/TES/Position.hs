@@ -71,7 +71,7 @@ instance Size (Term v c) where
 	 Node _ _ <- subterms t
 	 return ()
 
--- | size w/ each constant subtree replaced by one node
+-- | size w each constant subtree replaced by one node
 vsize :: Term v c -> Int
 vsize = size . smash
 
