@@ -24,6 +24,10 @@ import Autolib.Reader
 import Autolib.Boxing.Position
 import Autolib.FiniteMap
 
+import Autolib.Xml
+import Text.XML.HaXml.Haskell2Xml
+import Data.Typeable
+
 -------------------------------------------------------------------------------
 
 data Graph a  = Graph
@@ -39,14 +43,13 @@ data Graph a  = Graph
 	      , layout_program :: String
 	      , show_labels :: Bool
 	      } 
+    deriving Typeable
 
 instance Informed ( Graph a) where
     info = graph_info
     informed i g = g { graph_info = i }
     texinfo = graph_texinfo
     texinformed i g = g { graph_texinfo = i }
-
-
 
 mkGraph :: Set a -> Set (Kante a) -> Graph a
 mkGraph v e = Graph
@@ -61,26 +64,34 @@ mkGraph v e = Graph
 	    , show_labels = True
 	    }
 
-instance ( Ord a, Reader a, Reader [a], ToDoc [a], ToDoc a )
-    => Reader ( Graph a ) where
-    readerPrec d = do
-        g <- readerPrec d 
-        return $ mkGraph ( R.knoten g ) (R.kanten g )
+class (  Haskell2Xml a, Haskell2Xml (Kante a)
+      , Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+      ) => GraphC a 
 
-instance ( Ord a, Reader a, Reader [a], ToDoc [a], ToDoc a )
-    => ToDoc ( Graph a ) where
-        toDocPrec p g = toDocPrec p 
-		      $ R.Graph { R.knoten = knoten g 
+
+instance (  Haskell2Xml a, Haskell2Xml (Kante a)
+      , Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+      ) => GraphC a 
+
+
+instance GraphC a 
+    => Container ( Graph a ) ( R.Graph a ) where
+    label _ = "Graph"
+    pack g =  R.Graph { R.knoten = knoten g 
 				, R.kanten = kanten g
-				}
+   				}
+    unpack h = mkGraph ( R.knoten h ) (R.kanten h )
 
-instance  (Ord a,  Reader (Graph a) ) => Read ( Graph a ) where
-     readsPrec = parsec_readsPrec
-   
----------------------------------------------------------------------------
+instance GraphC a => Reader ( Graph a ) where
+    readerPrec d = do
+        h <- readerPrec d 
+        return $ unpack h
 
-instance ToDoc (Graph a) => Show (Graph a) where
-  show = render . toDoc
+instance GraphC a => ToDoc ( Graph a ) where
+        toDocPrec p g = toDocPrec p 
+		      $ pack g
+
+
 
 
 

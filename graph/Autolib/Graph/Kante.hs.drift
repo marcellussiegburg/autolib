@@ -1,3 +1,5 @@
+-- -*- mode: haskell -*-
+
 module Autolib.Graph.Kante where
 
 -- -- $Id$
@@ -5,11 +7,13 @@ module Autolib.Graph.Kante where
 import Autolib.Reader
 import Autolib.ToDoc
 
+import Data.Typeable
+import Text.XML.HaXml.Haskell2Xml
 
 data Kante a  = Kante
 	      { von       :: a
 	      , nach      :: a
-	      } deriving (Eq, Ord)
+	      } deriving (Eq, Ord, Typeable)
 
 kante :: Ord a => a -> a -> (Kante a)
 -- ungerichteter Graph => Kanten von klein nach groﬂ ordnen.
@@ -17,7 +21,7 @@ kante x y =
     if x < y then Kante { von = x, nach = y }
 	     else Kante { von = y, nach = x }
 
-
+{-! for Kante derive Haskell2Xml !-}
       
 instance ToDoc a => ToDoc (Kante a) where
     toDocPrec p k = docParen (p >= fcp) 

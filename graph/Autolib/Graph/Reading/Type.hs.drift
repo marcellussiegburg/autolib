@@ -1,25 +1,30 @@
 -- -*- mode: haskell -*-
 
+--  $Id$
+
 module Autolib.Graph.Reading.Type where
 
 import Autolib.Graph.Kante
 
 import Autolib.ToDoc
 import Autolib.Reader
-import Data.Set
+import Autolib.Set
 
+import Text.XML.HaXml.Haskell2Xml
 
 
 data ( Ord a
      , ToDoc ( Set (Kante a)), ToDoc ( Set a )
      , Reader ( Set (Kante a)), Reader ( Set a )
+     , Haskell2Xml ( Set a )
+     , Haskell2Xml ( Set (Kante a ))
      ) => 
      Graph a = 
      Graph { knoten :: Set a
 	   , kanten :: Set ( Kante a )
 	   }
 
-{-! for Graph derive: ToDoc, Reader !-}
+{-! for Graph derive: ToDoc, Reader, Haskell2Xml !-}
 
 
 				
