@@ -5,9 +5,8 @@ module ToDoc.Dutch where
 import ToDoc.Class
 import Data.List (intersperse)
 
--- output sequences in "dutch style"
+-- | output sequences in "dutch style"
 -- i. e. wrapped lines start (instead of end) with separators 
-
 dutch :: Int -- ^ clipping
       -> (Doc, Doc, Doc) -- ^ ( opening, separator, closing )
       -> [ Doc ] -- ^ input
@@ -17,8 +16,7 @@ dutch clip (op, sep, cl) ( x : xs ) =
     let ( kurz, lang ) = splitAt clip xs
 	over = if null lang then empty else sep <+> text "..."
     in  cat [ op <+> x
-	    , fsep -- cat 
-	    $ do y <- kurz ; return $ sep <+> y
+	    , ( fcat $ do y <- kurz ; return $ sep <+> y ) <> space
 	    , over
 	    , cl
 	    ]
