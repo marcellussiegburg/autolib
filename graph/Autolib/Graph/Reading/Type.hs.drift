@@ -1,0 +1,25 @@
+-- -*- mode: haskell -*-
+
+module Graph.Reading.Type where
+
+import Graph.Kante
+
+import ToDoc
+import Reader
+import Set
+
+
+
+data ( Ord a
+     , ToDoc ( Set (Kante a)), ToDoc ( Set a )
+     , Reader ( Set (Kante a)), Reader ( Set a )
+     ) => 
+     Graph a = 
+     Graph { knoten :: Set a
+	   , kanten :: Set ( Kante a )
+	   }
+
+{-! for Graph derive: ToDoc, Reader !-}
+
+
+				
