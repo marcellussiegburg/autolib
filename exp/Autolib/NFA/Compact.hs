@@ -11,6 +11,7 @@ import Sets
 import Letters
 import Control.Monad ( guard )
 
+import Hash
 import Reader
 import ToDoc
 
@@ -22,6 +23,7 @@ make  = alphamap rxify
       . sequential
 
 instance Symbol c => Symbol (RX c)
+instance Eq c => Hash (RX c) where hash = error "instance Hash (RX c)"
 instance ( Symbol c, Reader [c], ToDoc [c] ) => Symbol [c]
 
 -- | fold into regexp

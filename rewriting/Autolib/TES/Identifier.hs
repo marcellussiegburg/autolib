@@ -29,6 +29,8 @@ data Identifier = Identifier
 		, i_arity :: Int
 		}
 
+instance Hash Identifier where hash = hash_code
+
 mk :: Int -> String -> Identifier
 mk a cs = Identifier
 	{ hash_code = hash cs

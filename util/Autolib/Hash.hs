@@ -1,21 +1,8 @@
 module Hash where
 
--- $Log$
--- Revision 1.1  2004-04-03 20:00:22  joe
--- file
---
--- Revision 1.1  2002/12/12 22:01:55  joe
--- ground
---
--- Revision 1.3  2002/03/25 14:29:06  joe
--- phutball reorg, flankengott
---
--- Revision 1.2  2002/03/20 11:52:27  joe
--- sumpf
---
--- Revision 1.1  2002/03/03 14:10:36  joe
--- added
---
+--  $Id$
+
+import GHC.Int
 
 class Eq a => Hash a where
       hash :: a -> Int	-- TODO: should be unboxed word or something
@@ -33,8 +20,11 @@ instance (Hash a) => Hash [a] where
     hash [] = 314159
     hash (x : xs) = hash (x, xs) 
 
-instance Hash Int where 
-    hash = id
+instance Integral a => Hash a where
+    {-# SPECIALIZE instance Hash Int #-}
+    {-# SPECIALIZE instance Hash Int16 #-}
+    hash = fromIntegral
+
 
 instance Hash Char where 
     hash = fromEnum

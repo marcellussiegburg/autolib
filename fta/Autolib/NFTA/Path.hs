@@ -18,10 +18,12 @@ import ToDoc
 import Reader
 
 import TES.Symbol
+import Hash
 
 ----------------------------------------------------------------------------
 
-instance Symbol Edge
+instance Symbol Edge -- dummy
+instance Hash Edge where hash = error "instance Hash NFTA.Edge"
 
 make :: ( T.NFTAC c s )
      => T.NFTA c s

@@ -10,10 +10,11 @@ import SRS.Aged
 
 import Data.Maybe ( isJust )
 import Sets
+import Hash
 
 import GHC.Int ( Int16 )
 
-class ( Eq s, Ord s, ToDoc s, Show s, Reader s ) => Symbol s where
+class ( Hash s, Eq s, Ord s, ToDoc s, Show s, Reader s ) => Symbol s where
     arity :: s -> Int
     arity s = 1
 
@@ -62,7 +63,7 @@ is_constant = (== 0) . arity
 
 instance ( Show a, Symbol a ) => Symbol (Aged a) where
     arity = arity . it
-    set_arity a = fmap (set_arity a)  
+    set_arity a = itmap (set_arity a)  
 
 ------------------------------------------------------------------------
 
@@ -74,6 +75,10 @@ instance Symbol Char where
     pool = [ '#', '%' ] ++ ['a' .. 'z' ] ++ ['A' .. 'Z' ] ++ [ '0' .. '9' ]
     stringify  = id
     toDoc_list = text
+
+instance Symbol Int where
+    pool = [ 0 .. ]
+
 
 
 

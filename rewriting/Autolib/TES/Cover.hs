@@ -49,10 +49,10 @@ covers conf trs a = do
 	    return reduct
     let -- conservative approach: reset the clamping symbol
         down c = if it c `elem` clamped_symbols conf
-		 then Aged 0 $ it c
+		 then aged 0 $ it c
 		 else c
 	-- brutal approach: reset all symbols
-	full_down c = Aged 0 $ it c
+	full_down c = aged 0 $ it c
     return ( redex
 	   , if null reducts
 	     then Left ( p
