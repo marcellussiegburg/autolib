@@ -10,3 +10,7 @@ data Iterator a = forall s .
 	      ( s -> Reporter (Either s a) )
               s 
 
+no_iterator = Iterator ( text "no_iterator" )
+	              ( \ _ -> reject $ text "no_iterator" )
+		      undefined
+
