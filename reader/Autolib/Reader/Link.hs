@@ -1,3 +1,5 @@
+{-# OPTIONS -fallow-overlapping-instances -fallow-undecidable-instances -fglasgow-exts #-}
+
 module Autolib.Reader.Link where
 
 --  $Id$
