@@ -30,11 +30,11 @@ isKanteEmptyset :: Eq a => Graph a -> Bool
 isKanteEmptyset a = (anzKanten a == 0)
 
 -- | ueberprueft, ob Knotenanzahl zweier Graphen identisch
-knotensetId :: Eq a => Graph a -> Graph a -> Bool
+knotensetId :: (Eq a, Eq b) => Graph a -> Graph b -> Bool
 knotensetId a b = (anzKnoten a) == (anzKnoten b)
 
 -- | ueberprueft, ob Kantenanzahl zweier Graphen identisch 
-kantensetId :: Eq a => Graph a -> Graph a -> Bool
+kantensetId :: (Eq a, Eq b) => Graph a -> Graph b -> Bool
 kantensetId a b = (anzKanten a) == (anzKanten b)
 
 
