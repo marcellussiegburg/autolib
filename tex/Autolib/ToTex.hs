@@ -1,6 +1,6 @@
 module ToTex 
 
--- $Id$
+--  $Id$
 
 ( module ToTex
 , module Tex

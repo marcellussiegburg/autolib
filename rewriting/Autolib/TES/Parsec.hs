@@ -28,7 +28,7 @@ trs = makeTokenParser
 pseudo_identifier :: Parser String
 pseudo_identifier = do
     whiteSpace trs
-    many1 $ satisfy $ \ c -> not ( c `elem` "()" )
+    many1 $ satisfy $ \ c -> not ( c `elem` "() \t\n" )
            
 tes_prefix = makeTokenParser 
     $ emptyDef
