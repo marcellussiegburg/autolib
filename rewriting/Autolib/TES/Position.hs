@@ -1,3 +1,5 @@
+{-# OPTIONS -fallow-undecidable-instances -fglasgow-exts #-}
+
 module Autolib.TES.Position where
 
 --  $Id$

@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts -fallow-overlapping-instances -fallow-undecidable-instances #-}
+
 -- | Terms
 
 module Autolib.TES.Type 

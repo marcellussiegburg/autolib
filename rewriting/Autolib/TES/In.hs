@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts  #-}
+
 -- | Term parsing
 -- implementation is a bit complicated
 -- because the module should account for

@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts -fallow-undecidable-instances #-}
+
 -- | implements term rewriting systems
 -- as represented in the .trs-format
 
@@ -27,36 +29,37 @@ import Autolib.TES.Position (symsl)
 
 import Autolib.Letters
 
-data RS t  = RS
+data RS c t  = RS
 	 { annotations :: [ Sexp ]
 	 , theory    :: Maybe [ Sexp ]
 	 , strategy  :: Maybe [ Sexp ]
 
 --	 , variables :: Set v -- ^ nullary symbols
---	 , signature :: Set c -- ^ all symbols (not including variables, I hope)
+	 , signature :: Set c -- ^ all symbols (not including variables, I hope)
 	 , separate :: Bool
 	 , rules :: [ ( t, t ) ]
 	 }
     deriving ( Eq, Ord )
 
 
-from_rules :: Bool -> [ ( t,t ) ] -> RS t
+from_rules :: Bool -> [ ( t,t ) ] -> RS c t
 from_rules sep rs = RS { annotations = []
 		   , theory = Nothing
 		   , strategy = Nothing
+		   , signature = error "TES.Data.from_rules"
 		   , separate = sep
 		   , rules = rs
 		   }
 
 from_srs = from_rules True
 
-type TRS v c = RS ( Term v c )
+type TRS v c = RS c ( Term v c )
 
 type TES = TRS Identifier Identifier
 
-type SES = RS [ Identifier ]
+type SES = RS Identifier [ Identifier ]
 
-instance ( Ord c , Letters t c ) => Letters ( RS t ) c where
+instance ( Ord c , Letters t c ) => Letters ( RS c t ) c where
     letters rs = unionManySets $ do 
         (l, r) <- rules rs
 	return $ letters l `union` letters r
@@ -69,15 +72,15 @@ variables rs =  unionManySets $ do
         (l, r) <- rules rs
 	return $ vars l `union` vars r
 
-lhss :: RS t -> [ t ]
+lhss :: RS c t -> [ t ]
 lhss trs = do (l,r) <- rules trs ; return l
 
-rhss :: RS t -> [ t ]
+rhss :: RS c t -> [ t ]
 rhss trs = do (l,r) <- rules trs ; return r
 
 
 instance ( ToDoc (t, t), Show (t, t) ) 
-	 => ToDoc ( RS t ) where
+	 => ToDoc ( RS c t ) where
     toDoc t = vcat [ vcat $ map toDoc $ annotations t 
 		   , case theory t of 
 			  Just x -> toDoc $ List $ Leaf "THEORY"   :  x 
@@ -91,7 +94,7 @@ instance ( ToDoc (t, t), Show (t, t) )
 		   ]
 
 instance ( ToDoc (t, t), Show (t, t) ) 
-	 => Show ( RS t ) where show = render . toDoc
+	 => Show ( RS c t ) where show = render . toDoc
 
 
 instance Read SES where
@@ -110,23 +113,24 @@ instance Reader TES where
 	tes <- plain_reader
         return $ check_arities
 	       $ repair_variables 
+	       $ repair_signature
 	       $ tes { separate = False }
 
-plain_reader :: Reader (t, t) => Parser ( RS t )
+plain_reader :: Reader (t, t) => Parser ( RS c t )
 plain_reader =  do
         whiteSpace trs
 	let trs0 = RS { annotations = []
 		     , theory = Nothing
 		     , strategy = Nothing
 		     -- , variables = emptySet
-		     -- , signature = emptySet
+		     , signature = emptySet
 		     , rules = []
 		     , separate = False
 		     }
         fs <- many line
 	return $ foldr (.) id fs trs0
 
-line :: Reader (t, t) =>  Parser ( RS t -> RS t )
+line :: Reader (t, t) =>  Parser ( RS c t -> RS c t )
 line = Autolib.TES.Parsec.parens Autolib.TES.Parsec.trs $  do
      f <- identifier  Autolib.TES.Parsec.trs 
      case f of
@@ -162,6 +166,18 @@ repair_variables trs =
 	sig = sfilter ( \ s -> not (s `elementOf` vs)) $ symbols rs
     in  trs { rules = rs
            }
+
+-- | add nullary symbol (if not already there) to avoid confusion later
+-- e. g. if SRS considered as TRS, need Epsilon at the right end,
+-- otherwise no state of automaton is productive
+repair_signature :: TES -> TES
+repair_signature trs = 
+    let sig = symbols $ rules trs
+        has_nullary = not $ isEmptySet $ sfilter ( (==0) . arity ) sig
+    in  trs { signature = if has_nullary
+	                  then sig
+                          else union sig $ unitSet $ mknullary "eps"
+	    }
 
 check_arities :: ( Symbol c , Symbol v )
 	      => TRS v c -> TRS v c
@@ -204,17 +220,4 @@ symbols rules = unionManySets $ do
     (l, r) <- rules
     [ syms l , syms r ]
 
-signature :: Ord c => TRS v c -> Set c
-signature = symbols . rules
 
-{-
-at_most_unary :: TRSC v c => TRS v c -> Bool
-at_most_unary tes = and $ do
-    s <- setToList $ signature tes
-    return $ arity s <= 1
-
-has_nullary :: TRSC v c => TRS v c -> Bool
-has_nullary tes = or $ do
-    s <- setToList $ signature tes
-    return $ arity s == 0
--}

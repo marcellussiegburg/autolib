@@ -1,3 +1,5 @@
+{-# OPTIONS -fallow-overlapping-instances -fglasgow-exts -fallow-undecidable-instances #-}
+
 module Autolib.SRS.Rule where
 
 --  $Id$

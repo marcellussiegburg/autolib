@@ -88,7 +88,7 @@ instance Symbol c => Choose (Binu c) (Term a c) where
 
 -- | a single linear size-increasing rule
 instance ( Symbol c , Choose a (Term Identifier c) )
-    => Choose a (RS (Term Identifier c)) where
+    => Choose a (RS c (Term Identifier c)) where
     choose conf s = do
         sl <- pick  [ 1 .. s `div` 2 ]
         l <- choose conf sl 
@@ -99,7 +99,7 @@ instance ( Symbol c , Choose a (Term Identifier c) )
 insert_variable :: Pick p 
 		=> Identifier 
 	        -> ( Term Identifier c, Term Identifier c )
-		-> p ( RS (Term Identifier c))
+		-> p ( RS c (Term Identifier c))
 insert_variable v ( l, r ) = do
 	p <- pick $ leafpos l
 	q <- pick $ leafpos r
@@ -178,7 +178,7 @@ pairs s = do
     return ( vmap undefined l, vmap undefined r )
 
 rules :: Identifier
-      -> [ RS ( Term Identifier Identifier ) ]
+      -> [ RS Identifier ( Term Identifier Identifier ) ]
 rules v = do
     s <- [ 1 .. ]
     (l0, r0) <- pairs s

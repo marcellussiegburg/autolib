@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts -fallow-undecidable-instances #-}
+
 module Autolib.TES.Term 
 
 ( module Autolib.TES.Type
