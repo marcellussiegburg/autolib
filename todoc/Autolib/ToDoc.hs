@@ -78,16 +78,6 @@ putz :: ToDoc [a] => [a] -> IO ()
 -- benutzt implizit  take max_list_length
 putz = putStrLn . render . toDoc 
 
-
-instance ToDoc [a] => ToDoc (Set a)
-    where toDoc s = text "mkSet" <+> toDoc (setToList s)
-
---instance ToDoc [a] => Show (Set a)
---    where show = render . toDoc
-
-instance (Show a) => Show (Set a)
-    where show s = "mkSet " ++ show (setToList s)
-
 instance (ToDoc a, ToDoc b) => ToDoc (FiniteMap a b)
     where toDoc fm = text "listToFM" <+> toDoc (fmToList fm)
 

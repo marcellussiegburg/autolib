@@ -9,6 +9,7 @@ where
 -- $Id$
 
 import Set
+import ToDoc
 
 instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)
@@ -18,6 +19,14 @@ instance (Ord a, Read a) => Read (Set a) where
         ( "mkSet", cs ) <- lex cs
 	( arg, cs ) <- reads cs
 	return (mkSet arg, cs)
+
+
+instance ToDoc [a] => ToDoc (Set a)
+    where toDoc s = text "mkSet" <+> toDoc (setToList s)
+
+instance ToDoc [a] => Show (Set a)
+    where show = render . toDoc
+
 
 subseteq :: Ord a => Set a -> Set a -> Bool
 subseteq xs ys = isEmptySet $ xs `minusSet` ys
