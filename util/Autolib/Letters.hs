@@ -4,6 +4,6 @@ module Letters where
 
 import Data.Set
 
-class Letters a b where
+class Ord b => Letters a b | a -> b where
       letters :: a -> Set b
 

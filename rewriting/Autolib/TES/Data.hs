@@ -59,10 +59,13 @@ instance ( Ord c , Letters t c ) => Letters ( RS t ) c where
         (l, r) <- rules rs
 	return $ letters l `union` letters r
 
-instance ( Ord v , Letters ( Term v c ) v ) => Letters ( TRS v c ) v where
-    letters rs = unionManySets $ do 
+{-
+instance ( Ord v , Letters ( Term v c ) v ) => Letters ( TRS v c ) v where    letters  = variables
+-}
+
+variables rs =  unionManySets $ do 
         (l, r) <- rules rs
-	return $ letters l `union` letters r
+	return $ vars l `union` vars r
 
 lhss :: RS t -> [ t ]
 lhss trs = do (l,r) <- rules trs ; return l

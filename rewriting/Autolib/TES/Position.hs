@@ -32,16 +32,24 @@ subterms t = t : case t of
 		      subterms arg
     _ -> []
 
-
--- | compute new symbol from *reverse* position and previous symbol
-pmap :: ( Position -> c -> d )
+-- | compute new symbol at position, giving the position
+pmap:: ( Position -> c -> d )
      -> Term v c
      -> Term v d
-pmap f t = helper [] t where
+pmap f = rpmap ( \ p c -> f ( reverse p) c )
+
+-- | compute new symbol from *reverse* position and previous symbol
+-- this is more efficient (no reverse needed)
+rpmap :: ( Position -> c -> d )
+     -> Term v c
+     -> Term v d
+rpmap f t = helper [] t where
     helper p ( Node c args ) = Node ( f p c ) $ do
 	     ( k, arg ) <- zip [0..] args
 	     return $ helper ( k : p ) arg
     helper p ( Var v) = Var v
+
+
 
 peek :: Term v c 
      -> Position 
@@ -102,8 +110,6 @@ syms = mkSet . symsl
 instance Ord c => Letters ( Term v c ) c where
     letters = syms
 
-instance Ord v => Letters ( Term v c ) v where
-    letters = vars
 
 
 lsyms :: Ord c => Term v c -> [ c ]

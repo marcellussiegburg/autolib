@@ -1,15 +1,18 @@
+-- | insert new transitions (and states) into an automaton
+
 module NFTA.Insert 
 
 --  $Id$
 
-( insert , inserts
-, links
+( inserts, insert
+, extends
 )
 
 where
 
 import NFTA.Type
 import TES.Term
+import Rewriting.Path
 
 import qualified Relation
 import Data.List ( partition )
@@ -20,9 +23,16 @@ inserts :: NFTAC c Int
        => NFTA c Int
        -> [ (Int, Term Int c) ] -- ^ ( top, term )
        -> NFTA c Int
-inserts ( a :: NFTA c Int ) pts = evalState 
-       ( do mapM_ ins pts ; (a, n) <- get ; return a )
-       ( a , succ $ maximum $ lstates a )
+inserts a pqs = run 
+	      $ internal ( succ $ maximum $ lstates a )
+	                 ( \ c -> do ( a, n ) <- get
+		                     put (a, succ n)
+		                     return n
+		         )
+	                 id
+	                 a
+			 pqs
+
 
 insert :: NFTAC c Int 
        => NFTA c Int
@@ -30,42 +40,80 @@ insert :: NFTAC c Int
        -> NFTA c Int
 insert a pt = inserts a [ pt ]
 
+-- | add transitions (that contains symbols annotated with states)
+extends :: ( NFTAC c s , TRSC v (c, s), Show s )
+       => NFTA c s
+       -> [ Path Term v (c, s) s ]
+       -> NFTA c s
+extends a paths = run $ internal 
+           ()
+	   ( \ (c, s) -> do return s )
+           ( \ ( c, s) -> c )
+           a
+	   ( do p <- paths
+	        return ( from p, applyvar (to p) (walk p) )
+	   )
 
-type ST c s = State ( NFTA c s, s )
 
-ins :: NFTAC c Int
-    =>  ( Int, Term Int c ) 
-    -> ST c Int Int
-ins (p, Node c args ) = do
+
+
+
+run :: State s x -> x
+run action = evalState action undefined
+
+----------------------------------------------------------------
+
+internal :: NFTAC c s
+	 => t -- ^ initial accu
+	 -> ( d -> State ( NFTA c s , t ) s ) -- ^ get new state
+	 -> ( d -> c ) -- ^ get real symbol
+	 -> NFTA c s
+	 -> [ ( s, Term s d ) ]
+	 -> State (NFTA c s, t) ( NFTA c s )
+	 
+internal ( state0 :: t ) gen pick ( a :: NFTA c s ) pts = do 
+     put ( a, state0 )
+     mapM_ ( ins gen pick ) pts 
+     (a, _) <- get 
+     return a 
+
+ins :: NFTAC c s
+    => ( d -> State ( NFTA c s, t ) s )
+    -> ( d -> c )
+    -> ( s, Term s d ) 
+    -> State (NFTA c s, t) s
+ins gen pick (p, Node c args ) = do
     qs  <- mapM ( \ arg -> case arg of
 			 Var v -> return v
-			 _     -> do n <- next
-				     ins (n, arg)
+			 _     -> do n <- gen c
+                                     add_state n
+				     ins gen pick (n, arg)
 		 ) args
-    add_trans ( p, c, qs )
+    add_trans ( p, pick c, qs )
     return p
 
-ins (p, Var q) = do
+ins gen pick (p, Var q) = do
     ( a, n ) <- get
     add_eps (p, q)
     return p
 
 --------------------------------------------------------------------
 
--- | get a fresh state
-next :: NFTAC c Int 
-     =>  ST c Int Int
-next = do 
-    ( a, n ) <- get
-    put ( a { states = states a `union` mkSet [n] }
-	, succ n 
+add_state :: NFTAC c s
+     => s -> State ( NFTA c s, t) ()
+add_state s = do 
+    ( a, t ) <- get
+    put ( a { states = states a `union` unitSet s }
+	, t
 	)
-    return n
+
+
+-------------------------------------------------------------------
 
 -- | add transition
 add_trans :: NFTAC c s
     => ( s, c, [s] ) 
-    -> ST c s ()
+    -> State (NFTA c s, t) ()
 add_trans t @ ( p, c, qs ) = do 
     ( a, n ) <- get
     put ( a { states = union ( states a ) $ unitSet p
@@ -80,7 +128,7 @@ add_trans t @ ( p, c, qs ) = do
 -- | add epsilon transition
 add_eps :: NFTAC c s
     => ( s, s ) 
-    -> ST c s ()
+    -> State ( NFTA c s, t) ()
 add_eps (x,y) = do 
     ( a, n ) <- get
     put ( a { eps = Relation.trans $ Relation.insert (eps a) (x,y) 
@@ -88,16 +136,4 @@ add_eps (x,y) = do
 	    } 
 	, n 
 	)    
-
-
-links :: NFTAC c s
-	  => NFTA c s
-	  -> [ ( s, (c, [s])) ]
-	  -> NFTA c s
-links a pcqss = 
-    let trs = do (p, (c, qs)) <- pcqss
-		 return (p, c, qs)
-    in	evalState 
-       ( do mapM_ add_trans trs ; (a, n) <- get ; return a )
-       ( a , error "NFTA.Insert.links should not need new states" )
 

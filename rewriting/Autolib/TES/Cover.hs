@@ -7,6 +7,7 @@ import TES
 import SRS.Aged 
 
 import TES.Match
+import Rewriting.Path
 import TES.Identifier
 import qualified TES.Rule
 import Util.Size
@@ -14,7 +15,7 @@ import Sets
 
 import SRS.Label.Class
 
-import SRS.Interface.Config
+import SRS.Interface.Config hiding ( from, to)
 
 import Control.Monad ( guard )
 import Data.FiniteMap
@@ -27,13 +28,13 @@ import Data.List ( nub )
 type Covers d v s =  Config d
       -> TRS v Identifier
       -> NFTA (Aged Identifier) s
-      -> [ ( Path v Identifier s
-	   , Either ( Path v Identifier s ) -- not covered
-		    [ ( Bool, Path v Identifier s) ] -- already covered
+      -> [ ( Path Term v (Aged Identifier) s
+	   , Either ( Path Term v (Aged Identifier) s ) -- not covered
+		    [ ( Bool, Path Term v (Aged Identifier) s) ] -- already covered
 	   ) 
 	 ]
 
-{-# SPECIALIZE covers :: Covers d Identifier Int #-}
+{-# SPECIALIZE covers :: Covers d (Aged Identifier) Int #-}
 
 {- TODO
 relative_covers conf a =
@@ -49,7 +50,7 @@ covers :: ( TRSC v Identifier, NFTAC (Aged Identifier) s )
 covers conf trs a = do
     let lab = bound_type conf
     ( l, r ) <- rules trs
-    redex @ ( p, t, fm ) <- matches a l
+    redex @ Path { from= p,walk= t, to=fm } <- matches a l
     let fat = fmap age t 
 
     let ( clipper , unclipper ) = case clip conf of
@@ -59,7 +60,8 @@ covers conf trs a = do
 			   )
 
     let reducts = do 
-	    reduct @ ( p', t', fm' ) <- TES.Match.from a r p
+	    reduct @ Path { from= p', walk= t', to=fm' } 
+		<- TES.Match.mfrom a r p
 	    guard $ mkSet (fmToList fm') `subseteq` mkSet ( fmToList fm )
 	    let ct' = unclipper t'
             let ( ex, cex ) = ( term_is_covered_by lab fat $ fmap age t'
@@ -70,10 +72,10 @@ covers conf trs a = do
 	    return ( not ex, reduct ) 
     return ( redex
 	   , if null reducts
-	     then Left ( p
-		       , clipper $ term_cover lab fat r
-		       , fm 
-		       )
+	     then Left $ Path { from = p
+		       , walk = clipper $ term_cover lab fat r
+		       , to = fm 
+		       }
 	     else Right reducts
 	   )
 
