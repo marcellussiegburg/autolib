@@ -70,9 +70,18 @@ reporter r = do
 	Nothing -> wrong
 
 -- for use in challenger problems
-cheporter :: Reporter Bool -> ( Bool, Doc )
+-- flag is true  iff  reporter returns at all (with any value)
+cheporter :: Reporter a -> ( Bool, Doc )
 cheporter r = 
-    ( fromMaybe False $ result r
+    ( isJust $ result r
     , kommentar r
     )    
 
+porterche :: ( Bool, Doc ) -> Reporter ()
+porterche ( p, d ) = if p then inform d else reject d 
+
+assert :: Bool -> Doc -> Reporter ()
+assert p doc = do
+    inform doc
+    if p then inform $ nest 4 $ text "Ja."
+	 else reject $ nest 4 $ text "Nein."

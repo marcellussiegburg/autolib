@@ -5,14 +5,12 @@
 
 
 module Graph.Graph ( 
-      module Set
-    , module ReadSet
+      module Sets
     ,  Graph (..)
     , Kante (..), kante
 ) where
 
-import Set
-import ReadSet
+import Sets
 import ToDoc
 
 -------------------------------------------------------------------------------
