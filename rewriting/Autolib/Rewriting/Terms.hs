@@ -15,6 +15,10 @@ instance Sub ( Term v ) where
     top ( Node f _ ) = f
     top ( Var _ ) = error "top: Variable does not contain symbol"
 
+    children ( Node f args ) = args
+    children ( Var v )       = []
+    build f args = Node f args
+
     -- replace top symbol
     -- replace :: c a -> a -> c a
     replace ( Node _ args ) f = Node f args

@@ -11,6 +11,8 @@ instance Is_Top Int where
 
 instance Sub (Virtualist v) where
     top = top . unVirtualist
+    children = map Virtualist . children . unVirtualist
+    build x [xs] = Virtualist $ x : unVirtualist xs
     replace xs x = Virtualist $ replace ( unVirtualist xs ) x
     substructures = map Virtualist . substructures . unVirtualist
 
@@ -25,6 +27,9 @@ instance Sub [] where
     --  top (leftmost) symbol
     -- top :: c a -> a
     top = head
+
+    children = return . tail
+    build x [ xs ] = x : xs
 
     --  replace top symbol
     -- replace :: c a -> a -> c a

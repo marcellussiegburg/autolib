@@ -6,9 +6,16 @@ class Functor c => Sub c where
     -- | top (leftmost) symbol
     top :: c a -> a
 
+    -- | immediate (left-to-right)
+    children :: c a -> [ c a ]
+    
+    -- |  with the idea that 't = build (top t) (children t)'
+    build :: a -> [ c a ] -> c a 
+
     -- | replace top symbol
     replace :: c a -> a -> c a
 
+    -- | all of them
     substructures :: c a -> [ c a ]
 
     symbols :: c a -> [ a ]
