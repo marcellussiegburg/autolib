@@ -9,12 +9,13 @@
 module ToDoc 
 
 ( module ToDoc
-, module Pretty
+, module Pretty 
 )
 
 where
 
-import Pretty 
+import Pretty hiding ( style )
+
 import Set
 import FiniteMap
 
