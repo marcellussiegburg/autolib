@@ -10,7 +10,7 @@ class Size a where size :: a -> Int
 instance Size (Set a) where 
     size = cardinality
 
-instance Size b => Size (FiniteMap a b) where
+instance Size (FiniteMap a b) where
     size = length . eltsFM 
 
 instance Size a => Size [a] where
