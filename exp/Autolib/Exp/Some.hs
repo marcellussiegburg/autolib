@@ -12,25 +12,32 @@ import Exp.Inter
 import NFA
 
 import Size
-import qualified Ops
-import qualified Basic
+import qualified NFA.Ops
+import qualified NFA.Basic
 import ToDoc hiding ( empty )
 
 import Set
 import Random
 
-some :: Set Char -> Int -> IO (Exp, NFA Char Int)
--- erzeugt irgendeinen ausdruck
--- über dem alphabet
--- von gegebener DFA-größe
+nontrivial :: Set Char -> Int -> IO (Exp, NFA Char Int)
+-- erzeugt irgendeinen ausdruck  x  über gegebenem alphabet
+-- mit  size x  <= 2 * s
+-- mit wenigstens zwei sternen
+-- mit  DFA-größe >= s
 -- tatsächlich rechnen wir gleich den DFA mit aus
+nontrivial alpha s = 
+    repeat_until ( some alpha (2 * s) )
+	( \ (x,a) -> 2 <= stars x
+	             && size a >= s )
 
+
+some :: Set Char -> Int -> IO (Exp, NFA Char Int)
 some alpha s | s <= 1 = do 
 	   x <- eins (setToList alpha)
-	   return ( Letter x, Basic.word [x] )
+	   return ( Letter x, NFA.Basic.word [x] )
 some alpha s = 
     entweder ( do (x, a) <- binary alpha (s - 1)
-	          return ( Star x, minimize $ normalize $ Ops.star a )
+	          return ( Star x, minimize $ normalize $ NFA.Ops.star a )
 	     )
              ( binary alpha s )
 
@@ -38,8 +45,8 @@ both x = ( x, inter std x )
 
 binary alpha s = do 
        let mn op l r = minimize $ normalize $ op l r
-       (dist, opx, opa) <- eins [ (True, Dot, mn Ops.dot)
-				, (False, Union, mn Ops.union) 
+       (dist, opx, opa) <- eins [ (True, Dot, mn NFA.Ops.dot)
+				, (False, Union, mn NFA.Ops.union) 
 				]
        sl <- randomRIO (1, s - 2)
        let sr = s - 1 - sl
@@ -60,12 +67,6 @@ stars :: Exp -> Int
 stars x = sum $ do
     s <- subtrees x
     return $ case s of Star _ -> 1 ; _ -> 0
-
-nontrivial :: Set Char -> Int -> IO (Exp, NFA Char Int)
-nontrivial alpha s = 
-    repeat_until ( some alpha (2 * s) )
-	( \ (x,a) -> 2 <= stars x
-	             && size a >= s )
 
 
 

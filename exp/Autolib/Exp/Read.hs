@@ -1,11 +1,12 @@
-
--- $Header$
-
 module Exp.Read where
+
+-- $Id$
 
 import Exp.Type
 
 import Char
+
+import Reader
 
 import Parsec
 import ParsecExpr
@@ -73,12 +74,11 @@ basic = do
 
 --------------------------------------------------------------------------
 
-instance Read Exp where
-    readsPrec _ inp =
-        case parse express "<stdin>" inp of
-	     Right (x, rest) -> return (x, rest)
-	     Left err -> error ("\n" ++ inp ++ "\n" ++ show err)
+instance Reader Exp where
+    readerPrec p = expression
 
+instance Read Exp where
+    readsPrec = parsec_readsPrec
 
 --------------------------------------------------------------------------
 
