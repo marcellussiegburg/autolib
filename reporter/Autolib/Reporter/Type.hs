@@ -7,8 +7,6 @@ where
 import Output
 
 import qualified Pretty
--- import qualified Html
-import qualified HTMLMonad
 
 import Maybe (isJust, fromMaybe)
 
@@ -123,14 +121,6 @@ cheporter r = lazy_cheporter $ do
 
 porterche :: ( Bool, Pretty.Doc ) -> Reporter ()
 porterche ( p, d ) = if p then inform d else reject d 
-
--- for use  with wash/cgi
-embed :: Monad m => Reporter a -> HTMLMonad.WithHTML m ( Maybe a )
-embed r = do
-    let ( res, com :: m () ) = export r
-    com
-    return res
-
 
 ------------------------------------------------------------------
 

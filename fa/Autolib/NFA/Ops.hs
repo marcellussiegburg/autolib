@@ -3,7 +3,7 @@
 module NFA.Ops where
 
 
-import NFA.Type hiding ( cross )
+import NFA.Type hiding ( cross, union )
 
 import qualified Sets 
 import FiniteMap

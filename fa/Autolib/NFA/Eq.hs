@@ -2,7 +2,7 @@ module NFA.Eq where
 
 -- $Id$
 
-import NFA.Type
+import NFA.Type hiding ( subseteq )
 
 import NFA.Subseteq
 
