@@ -1,6 +1,6 @@
 module Relation 
 
-( Type, Make
+( Type -- , Make -- abstrakt ?
 , images
 , make
 , pairs
