@@ -2,10 +2,11 @@ module NFA.Quotient where
 
 -- $Id$
 
-import NFA
-
+import NFA.Type
+import NFA.Trim
+import qualified NFA.Ops
 import qualified Sets
-import NFA.Ops ( cross )
+
 import NFA.Mirror ( mirror )
 
 import Monad ( guard )
