@@ -7,6 +7,8 @@ import Data.FiniteMap
 
 class Size a where 
     size :: a -> Int
+
+instance Size a where
     size = const 1 -- default
 
 instance Size (Set a) where 
