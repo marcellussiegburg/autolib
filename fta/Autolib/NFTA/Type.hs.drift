@@ -44,7 +44,7 @@ data ( NFTAC c s ) => NFTA c s =
 	  , inv_trans :: Relation.Type ([s] , c) s
 
 	  -- | ( p, q ) means transition  p <- q (in accepting bottom-up comp.)
-	  -- this relation is always kept reflexive and transitive
+	  -- this relation is always kept transitive
 	  , eps     :: Relation.Type s s 
 	  -- | and this is always the inverse of above
 	  , inv_eps :: Relation.Type s s

@@ -28,8 +28,6 @@ instance ( Ord a, Reader [a] ) => Reader ( Set a ) where
 instance (Ord a, Reader [a]) => Read (Set a) where
     readsPrec = parsec_readsPrec
 
-
-
 instance ToDoc [a] => ToDoc (Set a)
     where toDocPrec p s = docParen (p >= fcp) 
 			$ text "mkSet" <+> toDocPrec fcp (setToList s)
@@ -60,6 +58,7 @@ teilmengen n = map mkSet . teilfolgen n . setToList
 subsets ::  Ord a => Set a -> [ Set a ]
 subsets s = do n <- [ 0 .. cardinality s ] ; teilmengen n s
  
+{-# INLINE lookupset #-}
 lookupset :: Ord a => FiniteMap a (Set b) -> a -> Set b
 lookupset fm x = case lookupFM fm x of
     Just m -> m; Nothing -> emptySet

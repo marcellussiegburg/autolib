@@ -49,4 +49,8 @@ instance ( Hash a, Hash b ) => Hash ( Either a b ) where
 
 instance Hash Bool where hash = fromEnum
 
+instance Hash a => Hash ( Maybe a ) where
+    hash ( Just x ) = hash ( 41 :: Int, x )
+    hash Nothing    = 14
+
     

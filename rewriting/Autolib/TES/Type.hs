@@ -1,3 +1,5 @@
+-- | Terms
+
 module TES.Type where
 
 --  $Id$
@@ -9,8 +11,9 @@ import Reader
 import Hash
 
 
-data Term v c = Node c [ Term v c ]
-	      | Var v
+-- | TODO: include 'hash' data field in record (cached)
+data Term v c = Node !c ![ Term v c ]
+	      | Var  !v
      deriving ( Eq, Ord )
 
 class ( Hash v,  Show v, Show c

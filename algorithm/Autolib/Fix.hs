@@ -2,6 +2,8 @@
 
 module Fix where
 
+{-# inline fix #-}
+
 fix :: Eq a => (a -> a) -> a -> a
 fix f x0 = 
     let x1 = f x0

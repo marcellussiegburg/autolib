@@ -16,8 +16,12 @@ import Rewriting.Path
 
 import qualified Relation
 import Data.List ( partition )
+
 import Control.Monad.State
+
 import Reader
+
+
 
 -- | add transitions (using all new states)
 inserts :: NFTAC c Int 
@@ -41,9 +45,10 @@ insert :: NFTAC c Int
        -> NFTA c Int
 insert a pt = inserts a [ pt ]
 
+{-# inline extends #-}
+
 -- | add transitions (that contains symbols annotated with states)
 extends :: ( NFTAC c s , TRSC v (c, s), Show s 
-	   , Reader v, Reader ( Term v (c, s) )
 	   )
        => NFTA c s
        -> [ Path Term v (c, s) s ]
@@ -51,15 +56,11 @@ extends :: ( NFTAC c s , TRSC v (c, s), Show s
 extends a paths = run $ internal 
            ()
 	   ( \ (c, s) -> do return s )
-           ( \ ( c, s) -> c )
+           ( \ (c, s) -> c )
            a
 	   ( do p <- paths
 	        return ( from p, applyvar (to p) (walk p) )
 	   )
-
-
-
-
 
 run :: State s x -> x
 run action = evalState action undefined
@@ -103,6 +104,8 @@ ins gen pick (p, Var q) = do
 
 --------------------------------------------------------------------
 
+{-# INLINE add_state #-}
+
 add_state :: NFTAC c s
      => s -> State ( NFTA c s, t) ()
 add_state s = do 
@@ -114,6 +117,8 @@ add_state s = do
 
 -------------------------------------------------------------------
 
+{-# INLINE add_trans #-}
+
 -- | add transition
 add_trans :: NFTAC c s
     => ( s, c, [s] ) 
@@ -123,11 +128,11 @@ add_trans t @ ( p, c, qs ) = do
     put ( a { states = union ( states a ) $ unitSet p
 	    , trans = Relation.insert (trans a) ( p, (c, qs)) 
 	    , inv_trans = Relation.insert (inv_trans a) ( (qs, c), p) 
-	    , eps = Relation.insert (eps a) (p, p)
-	    , inv_eps = Relation.insert (inv_eps a) (p, p)
 	    }
 	, n 
 	)    
+
+{-# INLINE add_eps #-}
 
 -- | add epsilon transition
 add_eps :: NFTAC c s
@@ -136,7 +141,7 @@ add_eps :: NFTAC c s
 add_eps (x,y) = do 
     ( a, n ) <- get
     put ( a { eps = Relation.trans $ Relation.insert (eps a) (x,y) 
-	    ,  inv_eps = Relation.trans $ Relation.insert (inv_eps a) (y,x) 
+	    , inv_eps = Relation.trans $ Relation.insert (inv_eps a) (y,x) 
 	    } 
 	, n 
 	)    

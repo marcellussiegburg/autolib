@@ -22,8 +22,8 @@ complete cs =
 	 , finals = stats
 	 , trans  = mach pcqs
 	 , inv_trans = cham  pcqs
-	 , eps     = Relation.flat $ stats
-	 , inv_eps = Relation.flat $ stats
+	 , eps     = Relation.empty $ stats
+	 , inv_eps = Relation.empty $ stats
 	 }
 
 -- | recognize all terms

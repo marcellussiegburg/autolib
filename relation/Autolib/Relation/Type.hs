@@ -13,24 +13,24 @@ where
 
 
 import Sets
-import Size
+import Util.Size
 import Data.FiniteMap
 
 import Hash
 import ToDoc
 import Reader
 
--- pforsicht: source und target später hinzugefügt,
+-- | pforsicht: source und target später hinzugefügt,
 -- ist noch nicht konsequent berücksichtigt
 
 data Type a b = Make { source :: Set a
 		     , target :: Set b
 		     , unRelation :: FiniteMap a (Set b) 
-		     -- TODO: add FM for inverse relation as well
+		     -- ^ TODO: add 'FiniteMap' for inverse relation as well
 		     }
 
 instance Size (Type a b) where
-    size = cardinality . source
+    size = sizeFM . unRelation
 
 instance ( Ord a, Ord b, Hash a, Hash b ) => Hash ( Type a b ) where
     hash = hash . unRelation
@@ -51,7 +51,7 @@ instance ( Ord a, Ord b, Reader a, Reader b ) => Read ( Type a b ) where
     readsPrec = parsec_readsPrec
 
 instance ( Ord a, Ord b ) => Eq ( Type a b ) where
-    r == s = unRelation r == unRelation s
+    r == s = ( size r, unRelation r ) == ( size s, unRelation s )
 
 make :: (Ord a, Ord b) => [(a,b)] -> Type a b
 make xys = 

@@ -25,9 +25,9 @@ import Data.Char
 
 -- | don't derive Eq and Ord since arity should be ignored
 data Identifier = Identifier 
-		{ hash_code :: ! Int
-		, name :: ! String
-		, i_arity :: Int
+		{ hash_code :: {-# UNPACK #-} ! Int
+		, name	    :: {-# UNPACK #-} ! String
+		, i_arity   :: {-# UNPACK #-} ! Int
 		}
 
 instance Hash Identifier where hash = hash_code
@@ -77,7 +77,7 @@ instance Reader Identifier where
         i <- many1 (satisfy isAlphaNum)
 	     <|> operator trs
 	whiteSpace trs
-	return $ mk ( error "undefined arity" ) i
+	return $ mk (-1) i
 
 instance Show Identifier where show = render . toDoc
 instance Read Identifier where readsPrec = parsec_readsPrec

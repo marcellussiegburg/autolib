@@ -13,10 +13,10 @@ instance  ( Reader x, ToDoc x ) => RT x
 class    ( RT f, RT w, RT t ) => DataC f w t
 instance ( RT f, RT w, RT t ) => DataC f w t
 
-data DataC f w t => Data f w t =
-     Path { from :: f
-	  , walk :: w
-	  , to   :: t
+data Data f w t =
+     Path { from :: {-# UNPACK #-} ! f
+	  , walk :: {-# UNPACK #-} ! w
+	  , to   :: {-# UNPACK #-} ! t
 	  }
 
 {-! for Data derive: Reader, ToDoc !-}

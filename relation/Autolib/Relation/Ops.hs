@@ -10,8 +10,12 @@ import Fix
 holds :: ( Ord a, Ord b) => Type a b -> a -> b -> Bool
 holds rel x y = y `elementOf` images rel x
 
+{-# INLINE images #-}
+
 images :: ( Ord a, Ord b ) => Type a b -> a -> Set b
 images rel x = lookupset (unRelation rel) x
+
+{-# INLINE simages #-}
 
 simages :: ( Ord a, Ord b ) => Type a b -> Set a -> Set b
 simages rel xs = unionManySets $ do
@@ -43,6 +47,7 @@ bothmap f g r =
     , target = smap g $ target r 
     }
 
+{-# inline times #-}
 
 times :: (Ord a, Ord b, Ord c)
       =>  Type a b -> Type b c -> Type a c
@@ -53,6 +58,8 @@ times r s = ( make0 $  do
     )  { source = source r
 	 , target = target s
        }
+
+{-# inline plus #-}
 
 plus :: (Ord a, Ord b)
      => Type a b -> Type a b -> Type a b
@@ -67,8 +74,10 @@ insert :: (Ord a, Ord b)
 insert r (x,y) = r
        { unRelation = addToFM_C union (unRelation r) x ( mkSet [y] ) }
 
+{-# inline trans #-}
+
+-- | transitive hülle (nicht reflexive)
 trans :: Ord a => Type a a -> Type a a
--- transitive hülle (nicht reflexive)
 trans r = fix ( \ s -> plus r $ times r s ) r
 
 reflex :: Ord a => Type a a -> Type a a
