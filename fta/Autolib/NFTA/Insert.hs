@@ -125,7 +125,8 @@ add_trans :: NFTAC c s
     -> State (NFTA c s, t) ()
 add_trans t @ ( p, c, qs ) = do 
     ( a, n ) <- get
-    put ( a { states = union ( states a ) $ unitSet p
+    put ( a { alphabet = union (alphabet a) $ unitSet c
+	    , states = union ( states a ) $ unitSet p
 	    , trans = Relation.insert (trans a) ( p, (c, qs)) 
 	    }
 	, n 
