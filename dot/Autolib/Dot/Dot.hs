@@ -3,6 +3,7 @@ module Dot.Dot where
 import qualified Dot.Graph
 import System
 import Monad ( when )
+import Random
 
 class ToDot a where 
       toDot :: a -> Dot.Graph.Type
@@ -28,3 +29,20 @@ mkDot a prog fmt path = do
        else do
 	  ex <- system $ unwords [ prog, "-T" ++ fmt, "-o", fmtfile, dotfile ]
 	  return ( fmtfile , fmt , ex )
+
+--------------------------------------------------------------------------
+
+display :: ToDot a => a -> IO ()
+display a = do
+    n <- randomRIO (0,10000 :: Int)
+    let fname = "/tmp/display." ++ show n
+    let dotfile = fname ++ ".dot"
+    let epsfile = fname ++ ".eps"
+    writeFile dotfile $ show $ toDot $ a
+    system $ unwords 
+	   [ "dot" , "-Tps" , "-Grankdir=LR", dotfile , "-o", epsfile ]
+    system $ unwords [ "rm" , dotfile ]
+    system $ unwords
+	   [ "gv" , epsfile ]
+    system $ unwords [ "rm" , epsfile ]
+    return ()

@@ -30,7 +30,7 @@ instance ToDoc Type where
 			     , ("style", style)
 			     ]
 	    val <- maybeToList $ fun n
-	    return $ text name <+> equals <+> text val
+	    return $ text name <+> equals <+> toDoc val
           )
 
 instance Show Type where
