@@ -16,3 +16,11 @@ fixesBy select f x0 = x0 :
 
 fixes :: Eq a => (a -> a) -> a -> [a]
 fixes = fixesBy id
+
+fixLBy :: Eq b => (a -> b) -> [a] -> [a]
+fixLBy select (x:y:rest) | select x == select y = [x]
+			 | otherwise            = x : fixLBy select (y:rest)
+fixLBy _ xs = xs
+
+fixL :: Eq a => [a] -> [a]
+fixL = fixLBy id
