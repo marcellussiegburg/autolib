@@ -1,4 +1,4 @@
--- | fixme: wrong name (TES/Term confusion)
+--| fixme: wrong name (TES/Term confusion)
 
 module Autolib.TES.Raw where
 
@@ -6,7 +6,7 @@ module Autolib.TES.Raw where
 
 import Data.Typeable
 
--- | TODO: include 'hash' data field in record (cached)
+--| TODO: include 'hash' data field in record (cached)
 data Term v c = Node !c ![ Term v c ]
 	      | Var  !v
      deriving ( Eq, Ord, Typeable )
