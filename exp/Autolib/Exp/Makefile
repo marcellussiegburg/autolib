@@ -2,9 +2,8 @@
 
 MAIN = Loop
 
-GHC = ghc --make -O
-INC = -i../fa -i../util -i../
-PACKS = -package data -package text
+GHC = ghc --make -O2
+INC =  -i../util -i../
 FLAGS = -fglasgow-exts \
 	-fallow-overlapping-instances \
 	-fallow-undecidable-instances

@@ -1,4 +1,4 @@
--- -- $Id$
+--  $Id$
 
 module Exp.Inter
 
@@ -32,6 +32,8 @@ import ToDoc
 
 type E c = E.Env (NFA c Int)
 
+
+-- | standard environment (binds Eps and Empty)
 std :: NFAC c Int
     => E c
 std =  E.make 
@@ -39,12 +41,8 @@ std =  E.make
 	  , ("Empty", Basic.empty)
 	  ]
 
-std_sigma :: NFAC c Int
-	  => [c] -> E c
-std_sigma alpha = E.plus std 
-		$ E.make [ ( "Sigma", Basic.sigma alpha )
-			 , ( "All"  , Basic.sigmastar alpha )
-			 ]
+-- | standard environment for specified alphabet
+-- binds Eps, Empty, Sigma, All
 
 -- All ist zwar bequem, könnte aber bei der sternhöhe
 -- den falschen eindruck erzeugen:
@@ -53,19 +51,28 @@ std_sigma alpha = E.plus std
 -- andererseits haben wir kein komplement,
 -- deswegen nehmen wir All doch mit auf.
 
+std_sigma :: NFAC c Int
+	  => [c] -> E c
+std_sigma alpha = E.plus std 
+		$ E.make [ ( "Sigma", Basic.sigma alpha )
+			 , ( "All"  , Basic.sigmastar alpha )
+			 ]
+
 
 --------------------------------------------------------------------------
 
--- backwards compatibility
+-- | backwards compatibility
 inter :: NFAC c Int
       => E c -> RX c -> NFA c Int
 inter = inter_det 
 
+-- | interprete and make deterministic and minimal
 inter_det :: NFAC c Int
 	  => E c -> RX c -> NFA c Int
 inter_det e a = ( inter_with ( minimize . normalize ) e a )
 	      { nfa_info = toDoc a }
 
+-- | interprete but do not minimize 
 inter_nondet :: NFAC c Int
 	     =>  E c -> RX c -> NFA c Int
 inter_nondet e a = ( inter_with ( normalize ) e a )

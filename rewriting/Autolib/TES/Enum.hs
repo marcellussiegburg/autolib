@@ -73,7 +73,7 @@ instance Symbol c => Choose (Binu c) (Term a c) where
 	     c <- pick $ nullary conf
 	     return $ Node c []
 	else do
-	     flag <- pick [ False, True ]
+	     flag <- pick $ [ False | not $ null $ unary conf ] ++ [ True ]
 	     if flag 
 		then do
 		     (l, r) <- choose conf s

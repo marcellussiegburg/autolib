@@ -19,7 +19,7 @@ import System.Console.Readline
 
 --------------------------------------------------------------------------
 
-eval :: E -> Statement -> IO E
+eval :: E Char -> Statement -> IO ( E Char )
 eval env (Print x) = do
      putStrLn $ "-- print statement"
      let v = inter env x
@@ -31,7 +31,7 @@ eval env (Display x) = do
      let v = inter env x
      putStr " == "
      inform v
-     display $ sequential_compact v
+     display $ NFA.Compact.make v
      return env
 eval env (Let n x) = do
      putStrLn $ "-- assignment statement"
@@ -56,7 +56,7 @@ main :: IO ()
 main = do
      putStrLn $ "-- -- $Id$"
      putStrLn $ "-- welcome"
-     loop $ make [ ( "Eps", NFA.Basic.epsilon) ]
+     loop $ Exp.Env.make [ ( "Eps", NFA.Basic.epsilon) ]
 
 loop e = do
     mst <- consume statement Quit

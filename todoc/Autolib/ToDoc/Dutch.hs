@@ -15,11 +15,9 @@ dutch clip (op, sep, cl) [] = op <+> cl
 dutch clip (op, sep, cl) ( x : xs ) = 
     let ( kurz, lang ) = splitAt clip xs
 	over = if null lang then empty else sep <+> text "..."
-    in  cat [ op <+> x
-	    , ( fcat $ do y <- kurz ; return $ sep <+> y ) <> space
-	    , over
-	    , cl
-	    ]
+	its = ( op <+> x ) 
+	    : ( do y <- kurz ; return $ sep <+> y ) ++ [ over ]
+    in  ToDoc.Class.sep [ fcat its , cl ]
 
 max_list_length = 50 :: Int
 max_string_length = 70 :: Int

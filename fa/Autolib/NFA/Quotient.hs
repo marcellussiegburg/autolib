@@ -1,6 +1,8 @@
+-- | Quotients of languages
+
 module NFA.Quotient where
 
--- -- $Id$
+--  $Id$
 
 import NFA.Type
 import NFA.Trim
