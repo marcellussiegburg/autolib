@@ -4,6 +4,8 @@ module Reporter.Stream
 , make
 , exec
 , nicht, und, oder, erster
+, module Output
+, module Reporter.Proof
 )
 
 where
@@ -14,9 +16,9 @@ import Reporter.Type
 import Output
 import ToDoc
 import Reporter.Iterator
+import Reporter.Proof
 
-
--- | lazy three-valued (?) logic. 
+-- | lazy constructive (?) logic. 
 -- Streams are produced by steps of computations.
 -- A step either produces a Result (True/False),
 -- or it produces a Fail,
@@ -32,21 +34,21 @@ data Type
 	    }
 data Continue
      = Next Type
-     | Result ( Bool, String )
-     | Fail String
+     | Result Proof
+     | Fail Output
 
 
-exec :: Type -> Reporter ( Maybe Bool, String )
+exec :: Type -> Reporter ( Either Output Proof )
 exec x = do
      output  $ message  x
      execute $ activity x
      case continue x of
-	  Fail msg -> return ( Nothing, msg )
-	  Result ( f, msg ) -> return ( Just f, msg )
+	  Fail msg -> return $ Left msg
+	  Result p -> return $ Right p
  	  Next n   -> exec n
 
 -- | the stream of outputs of the iterator (lazily)
-make :: Iterator ( Bool, String ) -> Type
+make :: Iterator Proof -> Type
 make ( Iterator doc prod step ) =
     let rep = do
 	    start <- prod
@@ -57,7 +59,7 @@ make ( Iterator doc prod step ) =
     in  Cons { message = kommentar rep
 	  , activity = action rep
 	  , continue = case result rep of
-	           Nothing -> Fail $ "failed: " ++ ToDoc.render doc 
+	           Nothing -> Fail $ Above (Text "failed:") (Nest $ Doc doc)
 		   Just x -> case x of
 		       Left state -> Next $ make
 	                                  $ Iterator doc (return state) step 
@@ -69,20 +71,28 @@ make ( Iterator doc prod step ) =
 nicht :: Type -> Type
 nicht x = x { continue = case continue x of
     Fail msg -> Fail msg
-    Result ( f, msg ) -> Result ( not f, msg )
+    Result p -> Result $ p { value = not $ value p
+			   , reason = Above (Text "not") (Nest $ reason p)
+			   }
     Next n -> Next $ nicht $ n
    }
 
 und, oder :: [ Type ] -> Type
-und  = helper "" ( Just True ) True
-oder = helper "" ( Just False ) True
+und  = helper Empty ( Just $ Proof { value = True
+				, reason = Text "empty und"
+				}
+		 ) True
+oder = helper Empty ( Just $ Proof { value = False 
+				, reason = Text "empty oder"
+				}
+		 ) True
 
 -- | as soon as any of the argument streams produces a result
 -- this is taken as the overall result
 -- and the others are stopped.
 -- for this to be useful, the streams should be compatible
 erster :: [ Type ] -> Type
-erster = helper "" Nothing False -- impure
+erster = helper Empty Nothing False -- impure
 
 -- | direction is used this: if subcomputation gives result 
 -- with Just x /= direction,
@@ -93,12 +103,12 @@ erster = helper "" Nothing False -- impure
 -- this is used in case the argument list gets empty
 -- if it is pure, then we can use the default result
 
-helper :: String -> Maybe Bool -> Bool -> [ Type ] -> Type
+helper :: Output -> Maybe Proof -> Bool -> [ Type ] -> Type
 helper inf direction pure [] = 
-    Cons { message = Doc $ text inf
+    Cons { message = inf
          , activity = return ()
 	 , continue = case ( direction, pure ) of
-		    ( Just d, True ) -> Result ( d, inf )
+		    ( Just d, True ) -> Result $ d { reason = Above (reason d) inf }
 		    _                -> Fail inf
 	 }
 helper inf direction pure (x : xs) = 
@@ -106,12 +116,12 @@ helper inf direction pure (x : xs) =
 	 , activity = activity x
 	 , continue = case continue x of
 	       Fail msg -> Next 
-	             $ helper (msg ++ ", " ++ inf)
+	             $ helper (Above msg  inf)
 	                      direction False xs -- make impure
-	       Result ( x, msg ) -> 
-	           let inf' = msg ++ ", " ++ inf
-	 	   in  if Just x /= direction 
-		       then   Result ( x, inf' )
+	       Result p -> 
+	           let inf' = Above (reason p) inf
+	 	   in  if Just p /= direction -- use Eq instance
+		       then   Result $ p { reason = inf' }
 		       else   Next $ helper inf' direction pure   xs
 	       Next n ->      Next $ helper inf  direction pure $ xs ++ [ n ]
 	 }

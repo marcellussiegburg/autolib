@@ -6,8 +6,11 @@ import Reporter.Boolean.Data
 import Reporter.Type
 import Reporter.Stream
 import Reporter.Iterator
+import Reporter.Proof
 
-build :: Boolean ( Iterator ( Bool, String ) )
+import Output
+
+build :: Boolean ( Iterator Proof )
      -> Reporter.Stream.Type
 build ( Atomic i ) = make i
 build ( Not x ) = nicht $ build x
@@ -16,8 +19,8 @@ build ( Fun op xs ) =
 	    And -> und ; Or -> oder ; First -> erster
     in  fun $ map build xs
 
-eval :: Boolean ( Iterator ( Bool, String ) )
-     -> Reporter ( Maybe Bool, String )
+eval :: Boolean ( Iterator Proof )
+     -> Reporter ( Either Output Proof )
 eval = exec . build
 
 
