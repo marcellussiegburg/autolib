@@ -25,7 +25,7 @@ instance Show Sexp where show = render . toDoc
 
 instance Reader Sexp where
     reader = do f <- TES.Parsec.pseudo_identifier ; return $ Leaf f
-         <|> my_parens ( 
+         <|> TES.Parsec.parens TES.Parsec.trs ( 
                       do ts <- many reader 
 			 return $ List ts
 		    )

@@ -84,8 +84,8 @@ instance ( ToDoc v, ToDoc c, ToTex v, ToTex c )
 instance Reader (Term a Identifier ) where
     readerPrec p = do
         t <- readerPrec 0 -- symbol
-	xs <- option [] $ TES.Parsec.parens tes
-		        $ commaSep tes 
+	xs <- option [] $ TES.Parsec.parens trs
+		        $ commaSep trs
 	                $ readerPrec 0 
 	return $ Node ( t { i_arity = length xs } ) xs
 

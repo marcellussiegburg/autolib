@@ -27,22 +27,6 @@ trs = makeTokenParser
 
 pseudo_identifier :: Parser String
 pseudo_identifier = do
+    cs <- many1 $ satisfy $ \ c -> not ( c `elem` "() \t\n" )
     whiteSpace trs
-    many1 $ satisfy $ \ c -> not ( c `elem` "() \t\n" )
-           
-tes_prefix = makeTokenParser 
-    $ emptyDef
-       { commentLine = "#" 
-       , commentStart = "(*"
-       , commentEnd = "*)"
-       , reservedOpNames = [ "->", ";" ]
-       }
-
-tes = makeTokenParser 
-    $ emptyDef
-       { commentLine = "" 
-       , commentStart = ""
-       , commentEnd = ""
-       , reservedNames = [ "COMMENT" ]
-       , reservedOpNames = [ "->", ";", ".", "~" ]
-       }
+    return cs

@@ -44,9 +44,9 @@ instance ToDoc Identifier where
     toDoc = text . name
 instance Reader Identifier where 
     readerPrec p = do
-        i <- identifier tes 
-	     <|> fmap show ( natural tes )
-	     <|> operator tes
+        i <- identifier trs 
+	     <|> fmap show ( natural trs )
+	     <|> operator trs
 	return $ Identifier { name = i , i_arity = error "undefined arity" }
 
 instance Show Identifier where show = render . toDoc
