@@ -14,11 +14,32 @@ instance Render Html.Html where
 	Html.anchor ( Html.tt Html.<< ref ) Html.! [ Html.href ref ]
     render (Empty)  = Html.noHtml
 
-    render (Above x y) = ( render x :: Html.Html)
-			 Html.+++ -- Html.br Html.+++
-			 ( render y :: Html.Html )
+    render (Above x Empty) = render x
+    render (Above Empty y) = render y
+    render (Above x y    ) =
+        let rx = render x :: Html.Html
+	    ry = render y :: Html.Html
+        in  if breaking y 
+	    then rx                  Html.+++ ry
+	    else rx Html.+++ Html.br Html.+++ ry
+
+    render (Beside x Empty) = render x
+    render (Beside Empty y) = render y
+    render (Beside x y    ) =
+        let rx = render x :: Html.Html
+	    ry = render y :: Html.Html
+        in  rx Html.+++ ry
+
     render (Itemize xs) = Html.ulist Html.<<
 		         do x <- xs ; return $ Html.li $ render x
     render (Nest x) = Html.blockquote $ render x
 
+
+breaking :: Output -> Bool
+breaking ( Itemize _ ) = True
+breaking ( Nest _ ) = True
+breaking ( Doc _ ) = True
+breaking ( Above x y ) = breaking x
+breaking ( Beside x y ) = breaking x
+breaking _ = False
 
