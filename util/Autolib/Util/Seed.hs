@@ -6,7 +6,7 @@ import Random
 
 seed :: Int -> IO ()
 seed n = do
-     let nn = read $ reverse $ show $ n :: Int
+     let nn = 314159 * n + 271828
      setStdGen $ mkStdGen nn
 
 
