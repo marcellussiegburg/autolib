@@ -22,6 +22,8 @@ import Autolib.NFTA.Trim
 import Autolib.NFTA.Det
 import Autolib.NFTA.Complement
 import Autolib.NFTA.Normalize
+import Autolib.NFTA.Shortest
+
 
 
 
