@@ -39,12 +39,13 @@ peng a = do
         flag <- doesDirectoryExist pics
         when ( not flag ) $ createDirectory pics
         done <- do
-           cs <- readFile objfile
-           return $ show a == cs
-         `Control.Exception.catch` \ any -> return False
+               cs <- readFile objfile
+               
+               return $ show a == cs
+           `Control.Exception.catch` \ any -> return False
         when ( not done ) $ do      
-             writeFile objfile $ show a
-             writeFile dotfile $ show it ++ "\n\n"
+             writeFileOver objfile $ show a
+             writeFileOver dotfile $ show it ++ "\n\n"
              system' $ unwords 
 		   [ progname $ toDotProgram a 
 		   , toDotOptions a
@@ -58,4 +59,10 @@ peng a = do
 	        ( Output.Text $ "image rendered by " ++ show ( toDotProgram a )
 		               ++ ", see " )
 		( Output.Link $ "http://www.graphviz.org/" )
+
+writeFileOver :: FilePath -> String -> IO ()
+writeFileOver path cs = do
+    ex <- doesFileExist path
+    when ex $ removeFile path
+    writeFile path cs
 

@@ -8,3 +8,5 @@ dot = "@DOT@"
 neato :: FilePath
 neato = "@NEATO@"
 
+debug :: Bool
+debug = @DEBUG@
