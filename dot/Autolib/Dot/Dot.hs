@@ -5,6 +5,8 @@ import System
 import Monad ( when )
 import Random
 
+import Util.Datei ( perm )
+
 class ToDot a where 
       toDot :: a -> Dot.Graph.Type
       toDotProgram :: a -> String
@@ -29,6 +31,7 @@ mkDot a prog fmt path = do
           return ( fmtfile, fmt, ExitFailure 1 )
        else do
 	  ex <- system $ unwords [ prog, "-T" ++ fmt, "-o", fmtfile, dotfile ]
+	  perm "go+r" fmtfile
 	  return ( fmtfile , fmt , ex )
 
 --------------------------------------------------------------------------
