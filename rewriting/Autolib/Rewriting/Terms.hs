@@ -1,4 +1,4 @@
---| design question: what to do with variables?
+-- | design question: what to do with variables?
 -- should variable positions be included in addresses?
 
 module Rewriting.Terms where
@@ -10,12 +10,12 @@ import TES.Term
 import qualified TES.Position as T
 
 instance Sub ( Term v ) where
-    --| top (leftmost) symbol
+    -- top (leftmost) symbol
     -- top :: c a -> a
     top ( Node f _ ) = f
     top ( Var _ ) = error "top: Variable does not contain symbol"
 
-    --| replace top symbol
+    -- replace top symbol
     -- replace :: c a -> a -> c a
     replace ( Node _ args ) f = Node f args
     replace ( Var _ ) f = error "replace: cannot replace Variable"
@@ -29,19 +29,19 @@ instance Is_Top [ Int ] where
 
 instance Address ( Term v ) [ Int ] where
 
-    --| all addresses
+    -- all addresses
     -- addresses :: c a -> [ p ]
     addresses = T.pos 
 
-    --| get substructure
+    -- get substructure
     -- peek :: c a -> p -> c a
     peek  = T.peek
 
-    --| replace substructure
+    -- replace substructure
     -- poke :: c a -> ( p, c a ) -> c a
     poke = T.poke
 
-    --| compute new symbol at position
+    -- compute new symbol at position
     -- pmap :: ( p -> a -> b ) -> c a -> c b
     pmap = T.pmap
 
