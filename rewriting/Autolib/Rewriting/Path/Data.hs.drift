@@ -1,0 +1,30 @@
+-- -*- mode: haskell -*-
+
+module Rewriting.Path.Data   where
+
+--  $Id$
+
+import Reader
+import ToDoc
+
+class     ( Reader x, ToDoc x ) => RT x
+instance  ( Reader x, ToDoc x ) => RT x
+
+class    ( RT f, RT w, RT t ) => DataC f w t
+instance ( RT f, RT w, RT t ) => DataC f w t
+
+data DataC f w t => Data f w t =
+     Path { from :: f
+	  , walk :: w
+	  , to   :: t
+	  }
+
+{-! for Data derive: Reader, ToDoc !-}
+
+instance DataC f w t => Show ( Data f w t ) where
+    show = render . toDoc
+
+instance DataC f w t => Read ( Data f w t ) where
+    readsPrec = parsec_readsPrec
+
+
