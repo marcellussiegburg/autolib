@@ -36,7 +36,7 @@ instance Num Position where
     d + e = Position { width = width d + width e 
 		      , height = height d + height e 
 		      }
-    -- | damit wir  2 * p  schreiben können:
+    --  damit wir  2 * p  schreiben können:
     fromInteger i = Position { width = fromInteger i, height = 0 }
     Position { width = f, height = 0 } * e 
           = Position { width = width e * f, height = height e * f }
