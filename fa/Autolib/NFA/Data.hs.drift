@@ -17,7 +17,6 @@ import Autolib.Size
 import Autolib.Letters
 
 import Autolib.FiniteMap
-import Autolib.ReadFM
 
 import Autolib.Informed
 import Autolib.ToDoc
