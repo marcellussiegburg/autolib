@@ -3,6 +3,7 @@ module LaTeX where
 -- $Id$
 
 import ToDoc
+import List (intersperse)
 
 class LaTeX a where latex :: a -> Doc
 
@@ -18,13 +19,23 @@ instance LaTeX a => LaTeX [a] where
     latex [] = text "\\epsilon"
     latex xs = fsep . map latex $ xs
 
-table :: [[ Doc ]] -> Doc
+
+table :: Bool -> [[ Doc ]] -> Doc
 -- alles zentriert
-table xss = 
+-- ein paar striche noch
+table strich xss = 
     let width  = maximum $ map length xss
-	header = text $ "\\begin{array}{" ++ replicate width 'c' ++ "}"
+	header = text $ "\\begin{array}{" 
+		      ++ ( if strich then intersperse '|' else id )
+			 ( replicate width 'c' )
+		      ++ "}"
 	footer = text $ "\\end{array}"
-        body   = do xs <- xss
+        body   = do (k, xs) <- zip [1..] xss
 		    return $ fsep ( punctuate (text " &") xs )
-			     <+> text "\\\\"
+			     <+> ( if k < length xss 
+				   then text "\\\\" else empty )
+			     <+> ( if strich && k < length xss 
+				   then text "\\hline" else empty )
+			     <+> ( if strich && 1 == k
+				   then text "\\hline" else empty )
     in  vcat [ header , nest 4  $ vcat body , footer ]

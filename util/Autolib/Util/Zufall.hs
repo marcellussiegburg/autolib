@@ -23,3 +23,12 @@ repeat_until act p =
     do x <- act
        -- putStr " * "
        if p x then return x else repeat_until act p
+
+permutation :: [a] -> IO [a]
+permutation xs = 
+    if length xs < 2 then return xs 
+    else do
+	 i <- randomRIO (0, length xs - 1)
+	 let (here, y : there) = splitAt i xs
+	 ys <- permutation $ here ++ there
+	 return $ y : ys
