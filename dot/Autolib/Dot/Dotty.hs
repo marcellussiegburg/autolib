@@ -29,25 +29,25 @@ peng :: ( Hash a, Show a, ToDot a )
       -> Reporter ()
 peng a = do
     let it = toDot a
-	pre = "../pics/" ++ ( show $ abs $ hash a )
+        pre = "../pics/" ++ ( show $ abs $ hash a )
     let objfile = pre ++ ".obj"
         dotfile = pre ++ ".dot" 
         pngfile = pre ++ ".png"
     execute $ do
-       done <- do
+        done <- do
            cs <- readFile objfile
            return $ show a == cs
          `Control.Exception.catch` \ any -> return False
-       when ( not done ) $ do      
-           writeFile objfile $ show a
-           writeFile dotfile $ show it ++ "\n\n"
-           system' $ unwords 
+        when ( not done ) $ do      
+             writeFile objfile $ show a
+             writeFile dotfile $ show it ++ "\n\n"
+             system' $ unwords 
 		   [ progname $ toDotProgram a 
 		   , toDotOptions a
 		   , "-Tpng", "-o", pngfile
 		   , dotfile
 		   ]
-           return ()
+             return ()
          `Control.Exception.catch` \ any -> return ()
     output $ Output.Image pngfile
 
