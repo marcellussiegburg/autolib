@@ -38,6 +38,7 @@ import Autolib.NFA.Factors
 import Autolib.NFA.Link
 import Autolib.NFA.Shrink
 import Autolib.NFA.Some
+import Autolib.NFA.Step
 
 import Autolib.Letters
 

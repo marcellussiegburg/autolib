@@ -35,9 +35,9 @@ type NFA_Char s = NFA Char s
 class ( Ord c, Ord s
       , Hash c, Hash s
       , Symbol c
-      , ToDoc c, ToDoc [c]
+      , ToDoc [c]
       , ToDoc s, ToDoc [s]
-      , Reader c, Reader [c]
+      , Reader [c]
       , Reader s, Reader [s]
 	        
       ) => NFAC c s 
@@ -47,9 +47,9 @@ class ( Ord c, Ord s
 instance ( Ord c, Ord s
 	 , Symbol c
 	 , Hash c, Hash s
-      , ToDoc c, ToDoc [c]
+      , ToDoc [c]
       , ToDoc s, ToDoc [s]
-      , Reader c, Reader [c]
+      , Reader [c]
       , Reader s, Reader [s]
       ) => NFAC c s
 

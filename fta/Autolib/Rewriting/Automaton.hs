@@ -1,3 +1,5 @@
+{-# OPTIONS -fallow-overlapping-instances -fallow-undecidable-instances -fglasgow-exts #-}
+
 module Autolib.Rewriting.Automaton where
 
 --  $Id$
@@ -28,6 +30,8 @@ import Autolib.Set
 import Autolib.Letters
 import Autolib.Util.Size
 
+{-
+
 class ( Symbol c, ToDoc [c], Reader [c]
       , Ord s , ToDoc s
       , ToDoc [s], Reader [s]
@@ -41,6 +45,11 @@ instance ( Symbol c, ToDoc [c], Reader [c]
       , Reader s
       , Hash c, Hash s
       ) => FAC c s
+
+-}
+
+class ( Autolib.NFA.NFAC c s ) => FAC c s
+instance ( Autolib.NFA.NFAC c s ) => FAC c s
 
 class  Automaton a where
     lstates  :: ( FAC c s ) => a c s -> [s]
