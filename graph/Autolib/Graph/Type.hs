@@ -5,12 +5,12 @@
 
 -- geänderte ToDoc/Show-Instanzen joe@informatik.uni-leipzig.de
 
-module Graph.Type (
-      module Graph.Graph
-    , module Graph.Layout
+module Autolib.Graph.Type (
+      module Autolib.Graph.Graph
+    , module Autolib.Graph.Layout
 --    , module ToDoc
-    , module Iso
-    , module Number
+    , module Autolib.Iso
+    , module Autolib.Number
     , display
     , layout
     )
@@ -18,17 +18,17 @@ module Graph.Type (
  
 -- (Graph (knoten, kanten),Kante (von, nach), kante)
 
-import Graph.Graph
-import Graph.Isomorph
-import Graph.Display
-import Graph.Layout
+import Autolib.Graph.Graph
+import Autolib.Graph.Isomorph
+import Autolib.Graph.Display
+import Autolib.Graph.Layout
 
-import GVKnoten.Layout
+import Autolib.GVKnoten.Layout
 
-import ToDoc
+import Autolib.ToDoc
 import Data.FiniteMap
-import Iso
-import Number
+import Autolib.Iso
+import Autolib.Number
 
 -------------------------------------------------------------------------------
 

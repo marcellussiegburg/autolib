@@ -1,13 +1,13 @@
-module Graph.Util where
+module Autolib.Graph.Util where
 
 -- -- $Id$
 
-import Graph.Graph
+import Autolib.Graph.Graph
 import Data.Set
 import Control.Monad ( guard ) -- old style
-import Graph.Beispiele
+import Autolib.Graph.Beispiele
 import Data.FiniteMap
-import Sort
+import Autolib.Sort
 
 anzKnoten :: Graph a -> Int
 anzKnoten g = cardinality $ knoten g

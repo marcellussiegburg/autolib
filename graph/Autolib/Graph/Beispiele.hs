@@ -1,24 +1,19 @@
-module  Graph.Beispiele where
+--  $Id$
+
+module Autolib.Graph.Beispiele where
 
 
-import Graph.Graph
+import Autolib.Graph.Graph
+import Autolib.Graph.Basic
+import Autolib.Graph.Ops
+
+
 import Data.Set
 
 
----------------------------------------------
---viele viele beispiele
-
-kanten11 = [Kante {von = 'a', nach = 'b'},Kante {von = 'a', nach = 'd'},
-  Kante {von = 'a', nach = 'g'},Kante {von = 'b', nach = 'c'},
-  Kante {von = 'b', nach = 'd'},Kante {von = 'c', nach = 'e'},
-  Kante {von = 'd', nach = 'e'},Kante {von = 'd', nach = 'f'},
-  Kante {von = 'g', nach = 'f'}]
-
-kanten12 = [Kante {von = 'a', nach = 'b'},Kante {von = 'b', nach = 'c'},Kante {von = 'a', nach = 'c'}]
-
-
-bspgraph10 = Graph{knoten=mkSet['a','b','c','d','e','f','g'], 
-    kanten=mkSet[
+bspgraph10 = 
+  links ( independent $ mkSet['a','b','c','d','e','f','g'] )
+    [
       kante 'a' 'b',
       kante 'a' 'c',
       kante 'a' 'd',
@@ -30,29 +25,31 @@ bspgraph10 = Graph{knoten=mkSet['a','b','c','d','e','f','g'],
       kante 'g' 'f',
       kante 'd' 'c',                                        
       kante 'd' 'e'
-      ]}
-bspgraph101 = Graph{knoten=mkSet['e','f','g','h'], 
-    kanten=mkSet[
+      ]
+
+bspgraph101 = 
+  links (independent $ mkSet['e','f','g','h'] )
+    [
       kante 'e' 'f',
       kante 'f' 'g',                                        
       kante 'g' 'h'
-      ]}
-bspgraph102 = Graph{knoten=mkSet['e','f','g','h'], 
-    kanten=mkSet[
+      ]
+bspgraph102 = links (independent $ mkSet['e','f','g','h'] ) 
+    [
       kante 'e' 'f',
       kante 'f' 'g',                                        
       kante 'g' 'h',
       kante 'h' 'e'
-      ]}
-bspgraph103 = Graph{knoten=mkSet['e','f','g','h','i','j'], 
-    kanten=mkSet[
+      ]
+bspgraph103 = links (independent $ mkSet['e','f','g','h','i','j'] ) 
+    [
       kante 'e' 'f',
       kante 'f' 'g',                                        
       kante 'g' 'h',
       kante 'i' 'j'
-      ]}
-bspgraph11 = Graph{knoten=mkSet['a','b','c','d','e','i','g'], 
-    kanten=mkSet[
+      ]
+bspgraph11 = links (independent $ mkSet['a','b','c','d','e','i','g'] ) 
+    [
       kante 'a' 'b',
       kante 'a' 'd',
       kante 'a' 'g',
@@ -64,10 +61,10 @@ bspgraph11 = Graph{knoten=mkSet['a','b','c','d','e','i','g'],
       kante 'c' 'e',
       kante 'd' 'g',                                        
       kante 'g' 'e'                                            
-      ]}
+      ]
 
-bspgraph1 = Graph{knoten=mkSet['a','b','c','d','e','f'], 
-    kanten=mkSet[
+bspgraph1 = links (independent $ mkSet['a','b','c','d','e','f'] ) 
+    [
       kante 'a' 'b',
       kante 'a' 'd',
       kante 'b' 'd',
@@ -76,9 +73,9 @@ bspgraph1 = Graph{knoten=mkSet['a','b','c','d','e','f'],
       kante 'd' 'e',
       kante 'd' 'f',
       kante 'e' 'f'                                        
-      ]}
-bspgraph2 = Graph{knoten=mkSet['a','b','c','d','e','f'], 
-    kanten=mkSet[
+      ]
+bspgraph2 = links (independent $ mkSet['a','b','c','d','e','f'] ) 
+    [
       kante 'a' 'b',
       kante 'a' 'd',
       kante 'b' 'd',
@@ -87,9 +84,9 @@ bspgraph2 = Graph{knoten=mkSet['a','b','c','d','e','f'],
       kante 'd' 'e',
       kante 'd' 'f',
       kante 'e' 'f'                                        
-      ]}
-bspgraph3 = Graph{knoten=mkSet['a','b','c','d','e','f'], 
-    kanten=mkSet[
+      ]
+bspgraph3 = links (independent $ mkSet['a','b','c','d','e','f'] ) 
+    [
       kante 'a' 'b',
       kante 'b' 'f',
       kante 'b' 'e',
@@ -98,9 +95,9 @@ bspgraph3 = Graph{knoten=mkSet['a','b','c','d','e','f'],
       kante 'c' 'e',
       kante 'd' 'e',
       kante 'd' 'f'                                        
-      ]}
-bspgraph4 = Graph{knoten=mkSet['a','b','c','d','e','f'], 
-    kanten=mkSet[
+      ]
+bspgraph4 = links (independent $ mkSet['a','b','c','d','e','f'] ) 
+    [
       kante 'a' 'b',
       kante 'b' 'f',
       kante 'b' 'e',
@@ -109,9 +106,9 @@ bspgraph4 = Graph{knoten=mkSet['a','b','c','d','e','f'],
       kante 'c' 'e',
       kante 'd' 'e',
       kante 'd' 'a'                                        
-      ]}
-bspgraph5 = Graph{knoten=mkSet['a','b','c','d','e','g'], 
-    kanten=mkSet[
+      ]
+bspgraph5 = links (independent $ mkSet['a','b','c','d','e','g'] ) 
+    [
       kante 'b' 'a',
       kante 'b' 'g',
       kante 'b' 'e',
@@ -120,21 +117,9 @@ bspgraph5 = Graph{knoten=mkSet['a','b','c','d','e','g'],
       kante 'c' 'e',
       kante 'd' 'e',
       kante 'd' 'a'                                        
-      ]}
-bspgraph6 = Graph{knoten=mkSet['a','b','c','d','e','g','h'], 
-    kanten=mkSet[
-      kante 'b' 'a',
-      kante 'b' 'g',
-      kante 'b' 'e',
-      kante 'b' 'd',
-      kante 'c' 'd',
-      kante 'c' 'e',
-      kante 'd' 'e',
-      kante 'h' 'h',
-      kante 'd' 'a'                                        
-      ]}
-bspgraph7 = Graph{knoten=mkSet[], 
-    kanten=mkSet[
+      ]
+bspgraph6 = links (independent $ mkSet['a','b','c','d','e','g','h'] ) 
+    [
       kante 'b' 'a',
       kante 'b' 'g',
       kante 'b' 'e',
@@ -144,5 +129,18 @@ bspgraph7 = Graph{knoten=mkSet[],
       kante 'd' 'e',
       kante 'h' 'h',
       kante 'd' 'a'                                        
-      ]}
+      ]
+bspgraph7 = links (independent $ mkSet "abcdefgh" ) 
+    [
+      kante 'b' 'a',
+      kante 'b' 'g',
+      kante 'b' 'e',
+      kante 'b' 'd',
+      kante 'c' 'd',
+      kante 'c' 'e',
+      kante 'd' 'e',
+      kante 'h' 'h',
+      kante 'd' 'a'                                        
+      ]
+
 

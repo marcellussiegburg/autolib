@@ -1,7 +1,7 @@
-module Graph.Hamilton where
+module Autolib.Graph.Hamilton where
 
-import Graph
-import Graph.Util
+import Autolib.Graph
+import Autolib.Graph.Util
 
 import Data.Set
 import Data.FiniteMap

@@ -1,11 +1,11 @@
-module Graph.Incidence where
+module Autolib.Graph.Incidence where
 
--- -- $Id$
+--  $Id$
 
-import Graph.Graph
+import Autolib.Graph.Graph
 
-import Sets
-import Util.Teilfolgen
+import Autolib.Sets
+import Autolib.Util.Teilfolgen
 import Data.FiniteMap
 import Control.Monad ( guard )
 

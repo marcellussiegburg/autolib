@@ -1,15 +1,16 @@
 module Autolib.Util.Generate where
 
--- -- $Id$
+--  $Id$
 
 import Autolib.Util.Zufall
 import Random
 
+-- | erzeugt "zufälligen" dinge fixierter größe
 type Generator a = Int -> IO ( a )
--- erzeugt "zufälligen" dinge fixierter größe
 
+
+-- | annahme: größen verhalten sich additiv
 type Operator a = ( Int, [ a ] -> a )
--- annahme: größen verhalten sich additiv
 
 data Config a = 
      Config { base :: [ Generator a ]

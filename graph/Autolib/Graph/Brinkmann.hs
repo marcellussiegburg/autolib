@@ -1,19 +1,19 @@
-module Graph.Brinkmann where
+module Autolib.Graph.Brinkmann where
 
--- -- $Id$
+--  $Id$
 
-import Graph.Graph 
-import Graph.Basic
-import Graph.Ops
-import Graph.Display
+import Autolib.Graph.Graph 
+import Autolib.Graph.Basic
+import Autolib.Graph.Ops
+import Autolib.Graph.Display
 
-import Sets
-import Util.Teilfolgen
+import Autolib.Sets
+import Autolib.Util.Teilfolgen
 import Control.Monad ( guard )
-import ToDoc
+import Autolib.ToDoc
 
+-- | Bollobas, Modern Graph Theory, page 175
 brinkmann :: Graph Int
--- Bollobas, Modern Graph Theory, page 175
 brinkmann = informed ( text "Brinkmann" )
 	  $ texinformed ( "\\mathrm{Brinkmann}" )
 	  $ normalize
@@ -32,6 +32,6 @@ brink m args = informed ( text "Brink" <+> toDoc (m ,args) )
 		       w <- [ 0 .. m - 1 ]
 		       return $ kante (h, w) (h+dh, (w + dw) `mod` m)
 	     in ( mkGraph v e )
-		{ layout_hints = "-Elen=2" }
+		{ layout_hints = [ "-Elen=2" ] }
 
 

@@ -4,13 +4,13 @@
 -- stinfwww.informatik.uni-leipzig.de/~psy99hvr
 -- (8484955)
 
-module Graph.Isomorph (isIsomorph) where 
+module Autolib.Graph.Isomorph (isIsomorph) where 
 
-import Graph.Graph
-import Util.Sort
+import Autolib.Graph.Graph
+import Autolib.Util.Sort
 import Data.Set
-import Graph.Util
-import Graph.Beispiele
+import Autolib.Graph.Util
+import Autolib.Graph.Beispiele
 
 ---------------------------------------------------------------------------------------------------
 -- | prueft die Isomorphie 

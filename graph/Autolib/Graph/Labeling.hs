@@ -1,8 +1,8 @@
-module Graph.Labeling where
+module Autolib.Graph.Labeling where
 
-import Graph.Type
+import Autolib.Graph.Graph
 import Data.FiniteMap
-import ToDoc
+import Autolib.ToDoc
 import Data.Set
 import Control.Monad (guard)
 

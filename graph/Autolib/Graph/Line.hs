@@ -1,11 +1,11 @@
-module Graph.Line where
+module Autolib.Graph.Line where
 
--- -- $Id$
+--  $Id$
 
-import Graph.Graph
+import Autolib.Graph.Graph
 
-import Sets
-import Util.Teilfolgen
+import Autolib.Sets
+import Autolib.Util.Teilfolgen
 import Data.FiniteMap
 import Control.Monad ( guard )
 
@@ -29,7 +29,9 @@ line_graph g =
 			     (graph_layout g) (error "edge_graph")
 		   return ( k, 0.5 * (pos u + pos v) )
 	     , bounding = bounding g         
-	     , layout_hints = ""
+	     , layout_hints = [  ]
+	     , layout_program = "dot"
+	     , show_labels = False
 	     }	       
 
 

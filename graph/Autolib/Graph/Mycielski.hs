@@ -1,23 +1,23 @@
-module Graph.Mycielski where
+module Autolib.Graph.Mycielski where
 
--- -- $Id$
+--  $Id$
 
-import Graph.Graph 
-import Graph.Basic
-import Graph.Ops
-import Graph.Display
+import Autolib.Graph.Graph 
+import Autolib.Graph.Basic
+import Autolib.Graph.Ops
+import Autolib.Graph.Display
 
-import ToDoc
+import Autolib.ToDoc
 import Data.FiniteMap
-import Boxing.Position
-import GVKnoten.Layout
+import Autolib.Boxing.Position
+import Autolib.GVKnoten.Layout
 
 mycielski :: ( Ord a )
 	  => Graph a 
           -> Graph Int
 mycielski g = informed ( funni "mycielski" [ info g ] )
     $ normalize 
-    $ Graph.Ops.union 
+    $ Autolib.Graph.Ops.union 
 	 g ( times ( independent $ knoten g) ( independent $ unitSet () ) )
     `links0` do 
 	 k <- setToList $ kanten g

@@ -1,14 +1,14 @@
-module Graph.Gallery where
+module Autolib.Graph.Gallery where
 
 -- -- $Id$
 
-import Graph.Type
-import Graph.Basic
-import Graph.Ops
+import Autolib.Graph.Type
+import Autolib.Graph.Basic
+import Autolib.Graph.Ops
 
-import Graph.Display
-import Dot.Dot
-import Util.Zufall
+import Autolib.Graph.Display
+import Autolib.Dot.Dot
+import Autolib.Util.Zufall
 
 mkQuiz :: FilePath
        -> [ Graph Int ]

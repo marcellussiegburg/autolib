@@ -1,8 +1,8 @@
-module Graph.Layout where
+module Autolib.Graph.Layout where
 
--- -- $Id$
+--  $Id$
 
-import Graph.Graph
+import Autolib.Graph.Graph
 
 unlabelled :: Graph a -> Graph a
 unlabelled g = g { show_labels = False

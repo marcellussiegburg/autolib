@@ -1,16 +1,16 @@
-module Graph.Kneser where
+module Autolib.Graph.Kneser where
 
--- -- $Id$
+--  $Id$
 
-import Graph.Type
-import Graph.Basic
-import Graph.Ops
-import Graph.Display
+import Autolib.Graph.Type
+import Autolib.Graph.Basic
+import Autolib.Graph.Ops
+import Autolib.Graph.Display
 
-import Sets
-import Util.Teilfolgen
+import Autolib.Sets
+import Autolib.Util.Teilfolgen
 import Control.Monad ( guard )
-import ToDoc
+import Autolib.ToDoc
 
 kneser :: Int -> Int -> Graph (Set Int)
 kneser t r = informed ( text "Kneser" <+> toDoc (t,r) )

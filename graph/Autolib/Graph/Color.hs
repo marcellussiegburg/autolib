@@ -1,7 +1,7 @@
-module Graph.Color where
+module Autolib.Graph.Color where
 
-import Graph
-import Graph.Util
+import Autolib.Graph
+import Autolib.Graph.Util
 
 import Data.Set
 import Data.FiniteMap

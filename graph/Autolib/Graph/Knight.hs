@@ -1,16 +1,16 @@
-module Graph.Knight where
+module Autolib.Graph.Knight where
 
--- -- $Id$
+--  $Id$
 
-import Graph.Graph 
-import Graph.Basic
-import Graph.Ops
-import Graph.Display
+import Autolib.Graph.Graph 
+import Autolib.Graph.Basic
+import Autolib.Graph.Ops
+import Autolib.Graph.Display
 
-import Sets
-import Util.Teilfolgen
+import Autolib.Sets
+import Autolib.Util.Teilfolgen
 import Control.Monad ( guard )
-import ToDoc
+import Autolib.ToDoc
 
 knight :: Int -> Int -> Graph (Int, Int)
 knight w h 

@@ -1,16 +1,16 @@
--- joe@informatik.uni-leipzig.de
+--  $Id$
 
-module Graph.Valid (
+module Autolib.Graph.Valid (
 
 valid
 
 ) where
 
-import Graph.Type
+import Autolib.Graph.Type
 
 import Data.Set
 import Control.Monad ( guard )
-import ToDoc
+import Autolib.ToDoc
 
 valid :: ( ToDoc a, ToDoc [a], Ord a ) 
       => Graph a -> ( Bool, Doc )

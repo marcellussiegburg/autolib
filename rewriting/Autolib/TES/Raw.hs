@@ -1,4 +1,4 @@
--- | fixme: wrong name (TES/Term confusion)
+-- | fixme: wrong name (TES Term confusion)
 
 module Autolib.TES.Raw where
 

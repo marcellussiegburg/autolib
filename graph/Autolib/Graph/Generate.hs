@@ -1,4 +1,4 @@
-module Graph.Generate 
+module Autolib.Graph.Generate 
 
 ( some )
 
@@ -6,12 +6,12 @@ where
 
 -- -- $Id$
 
-import Graph.Type hiding ( empty , union )
-import Graph.Basic
-import Graph.Ops
+import Autolib.Graph.Graph hiding ( union )
+import Autolib.Graph.Basic
+import Autolib.Graph.Ops
 
-import Util.Generate
-import Util.Zufall
+import Autolib.Util.Generate
+import Autolib.Util.Zufall
 
 import Random
 
@@ -27,6 +27,8 @@ conf  = Config
 	       , ( 2 , \ [ l, r ] -> normalize $ times l r )
 	       -- , ( 2 , \ [ l, r ] -> normalize $ grid  l r )
 	       ]
+      , depth = error "Autolib.Graph.Generate.conf.depth"
+      , size = error "Autolib.Graph.Generate.conf.size"
       }
 
 some :: Int -> Int -> IO (Graph Int)
