@@ -1,4 +1,5 @@
--- $Header$
+-- -- $Id$
+
 module Simple_Set
 
 -- simple Implementierung,
@@ -28,8 +29,11 @@ where
 import List ( nub, (\\) )
 
 -- $Log$
--- Revision 1.1  2002-05-24 10:46:48  challenger
--- Initial revision
+-- Revision 1.2  2003-12-18 11:04:44  joe
+-- kosmetische aenderungen fuer haddock
+--
+-- Revision 1.1.1.1  2002/05/24 10:46:48  challenger
+-- start
 --
 -- Revision 1.2  2001/11/28 08:37:19  autotool
 -- Instance Ord Set, Simple_Set

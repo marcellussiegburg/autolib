@@ -1,4 +1,4 @@
--- $Header$
+-- -- $Id$
 
 -- das gehört jetzt eigentlich in  fa/
 

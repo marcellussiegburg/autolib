@@ -1,18 +1,10 @@
--- $Header$
+-- -- $Id$
 
 module FilterBound 
 
 ( filterBound )
 
 where
-
--- $Log$
--- Revision 1.1  2002-05-24 10:46:48  challenger
--- Initial revision
---
--- Revision 1.1  2001/11/27 20:58:20  autotool
--- neu
---
 
 filterBound :: Int -> (a -> Bool) -> [a] -> [a]
 -- sobald ein positives Element gefunden,
