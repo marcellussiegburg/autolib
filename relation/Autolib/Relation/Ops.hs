@@ -22,6 +22,12 @@ inverse :: ( Ord a, Ord b ) => Type a b -> Type b a
 inverse r = ( make0 $ do ( x, y) <- pairs r ; return (y, x) )
 	    { source = target r, target = source r }
 
+identic :: Ord a => Set a -> Type a a
+identic s = ( make0 $ do x <- setToList s ; return (x, x) )
+	    { source = s , target = s }
+
+
+
 times :: (Ord a, Ord b, Ord c)
       =>  Type a b -> Type b c -> Type a c
 times r s = ( make0 $  do 
