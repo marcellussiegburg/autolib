@@ -37,7 +37,7 @@ ins (p, Node c args ) = do
 
 ins (p, Var q) = do
     ( a, n ) <- get
-    put ( add_epsilon a (q, p) , n )
+    put ( add_epsilon a (p, q) , n )
     return p
 
 next :: NFTAC c Int 
@@ -60,12 +60,12 @@ add t = do
 
 add_epsilon :: NFTAC c s
 	    => NFTA c s
-	    -> ( s, s )
+	    -> ( s, s ) -- ^ ( from state , to state )
 	    -> NFTA c s
 add_epsilon a (p, q) = 
     a { trans = trans a `union` mkSet ( do
           ( x, c, ys ) <- ltrans a
-	  guard $ x == q
-	  return ( p, c, ys )
+	  guard $ x == p
+	  return ( q, c, ys )
 	)
       }
