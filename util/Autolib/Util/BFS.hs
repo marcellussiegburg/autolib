@@ -1,4 +1,4 @@
-module Util.BFS 
+module Autolib.Util.BFS 
 
 -- -- $Id$
 
@@ -12,7 +12,7 @@ where
 
 import Data.FiniteMap
 import Data.Maybe
-import Sets
+import Autolib.Sets
 
 meetings :: Ord a => Int -- höchstens soviele generieren
 	          -> ( a -> [a] ) -> a -> [(a, a)]

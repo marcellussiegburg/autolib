@@ -1,6 +1,6 @@
 --   $Id$
 
-module FilterBound 
+module Autolib.FilterBound 
 
 ( filterBound )
 

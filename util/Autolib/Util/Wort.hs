@@ -1,9 +1,9 @@
-module Util.Wort where
+module Autolib.Util.Wort where
 
 -- -- $Id$
 
-import Util.Sort
-import Util.Uniq
+import Autolib.Util.Sort
+import Autolib.Util.Uniq
 
 import Data.Set
 import Random

@@ -1,10 +1,10 @@
 --  -*- mode: haskell -*-
 
-module ToDoc.Derived where
+module Autolib.ToDoc.Derived where
 
 --  $Id$
 
-import ToDoc.Class
+import Autolib.ToDoc.Class
 
 {-! for Bool derive: ToDoc !-}
 {-! for Maybe derive: ToDoc !-}

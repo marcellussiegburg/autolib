@@ -1,12 +1,12 @@
 -- |  add transitions to automaton
 -- possibly containing new states
 
-module NFA.Link where
+module Autolib.NFA.Link where
 
 --  $Id$
 
-import NFA.Type
-import ToDoc
+import Autolib.NFA.Type
+import Autolib.ToDoc
 
 link :: NFAC c a 
      => NFA c a 

@@ -1,9 +1,9 @@
-module Reporter.Checker where
+module Autolib.Reporter.Checker where
 
 --  $Id$
 
-import Reporter.Type
-import ToDoc
+import Autolib.Reporter.Type
+import Autolib.ToDoc
 import Data.Maybe ( isJust )
 
 data Type a =

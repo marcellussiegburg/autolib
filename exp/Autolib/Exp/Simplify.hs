@@ -1,8 +1,8 @@
-module Exp.Simplify where
+module Autolib.Exp.Simplify where
 
 -- -- $Id$
 
-import Exp.Type
+import Autolib.Exp.Type
 
 -- (slightly) simplifying ersatz constructors
 -- assumes standard interpretation of some Refs

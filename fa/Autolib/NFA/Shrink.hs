@@ -1,15 +1,15 @@
-module NFA.Shrink where
+module Autolib.NFA.Shrink where
 
 -- -- $Id$
 
-import NFA.Type
+import Autolib.NFA.Type
 
-import Util.Size
-import Sets
-import OrdFM
+import Autolib.Util.Size
+import Autolib.Sets
+import Autolib.OrdFM
 import Data.FiniteMap
-import ToDoc
-import Reporter
+import Autolib.ToDoc
+import Autolib.Reporter
 
 shrinkR :: NFAC c a
 	=> NFA c a

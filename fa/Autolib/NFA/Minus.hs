@@ -1,24 +1,24 @@
 -- -- $Id$
 
-module NFA.Minus where
+module Autolib.NFA.Minus where
 
 
 
-import NFA.Type hiding ( cross, union )
-import NFA.Ops ( cross, neu, union )
-import NFA.Det
+import Autolib.NFA.Type hiding ( cross, union )
+import Autolib.NFA.Ops ( cross, neu, union )
+import Autolib.NFA.Det
 
-import NFA.Trim
-import NFA.Det
-import NFA.Normalize
+import Autolib.NFA.Trim
+import Autolib.NFA.Det
+import Autolib.NFA.Normalize
 
-import Letters
+import Autolib.Letters
 
 import Data.FiniteMap
-import qualified Sets
-import Sets (setToList)
+import Autolib.qualified Sets
+import Autolib.Sets (setToList)
 
-import ToDoc ( ToDoc, toDoc )
+import Autolib.ToDoc ( ToDoc, toDoc )
 import Control.Monad ( guard )
 
 

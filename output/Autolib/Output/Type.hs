@@ -1,4 +1,4 @@
-module Output.Type where
+module Autolib.Output.Type where
 
 --   $Id$
 

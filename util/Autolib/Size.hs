@@ -1,9 +1,9 @@
-module Size 
+module Autolib.Size 
 
 -- veraltet
 --   $Id$
 
-( module Util.Size )
+( module Autolib.Util.Size )
 
 
-where import Util.Size
+where import Autolib.Util.Size

@@ -1,6 +1,6 @@
 -- -- $Id$
 
-module Util.DPL_Set
+module Autolib.Util.DPL_Set
 
 ( value, values )
 
@@ -8,7 +8,7 @@ where
 
 
 import qualified Util.DPL as D
-import Simple_Set
+import Autolib.Simple_Set
 import Control.Monad ( guard )
 -- import Data.Set
 

@@ -1,8 +1,8 @@
-module Output.Html where
+module Autolib.Output.Html where
 
 --   $Id$
 
-import Output.Type
+import Autolib.Output.Type
 import qualified Text.Html as Html
 
 instance Render Html.Html where

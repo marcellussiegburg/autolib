@@ -1,4 +1,4 @@
-module NFA.Finite 
+module Autolib.NFA.Finite 
 
 -- -- $Id$
 
@@ -7,7 +7,7 @@ module NFA.Finite
 
 where
 
-import NFA.Type
+import Autolib.NFA.Type
 import qualified Relation
 
 

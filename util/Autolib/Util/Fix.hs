@@ -1,4 +1,4 @@
-module Util.Fix where
+module Autolib.Util.Fix where
 
 -- -- $Id$
 

@@ -2,15 +2,15 @@
 
 -- das gehört jetzt eigentlich in  fa/
 
-module Vergleiche where
+module Autolib.Vergleiche where
 
-import NFA
-import Minus ( minus )
-import Inter
-import ToDoc
+import Autolib.NFA
+import Autolib.Minus ( minus )
+import Autolib.Inter
+import Autolib.ToDoc
 
-import Wrong
-import Right
+import Autolib.Wrong
+import Autolib.Right
 
 vergleiche :: String -> NFA Int -> NFA Int -> IO String
 vergleiche ok soll ist = 

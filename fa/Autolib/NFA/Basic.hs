@@ -1,12 +1,12 @@
-module NFA.Basic where
+module Autolib.NFA.Basic where
 
 --  $Id$
 
-import NFA.Type
-import NFA.Shortest (accepted)
+import Autolib.NFA.Type
+import Autolib.NFA.Shortest (accepted)
 import Data.Set
 import Data.FiniteMap
-import ToDoc hiding ( empty )
+import Autolib.ToDoc hiding ( empty )
 
 is_empty :: NFAC c s => NFA c s -> Bool
 is_empty a = null $ accepted a

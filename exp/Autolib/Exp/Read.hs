@@ -1,18 +1,18 @@
-module Exp.Read where
+module Autolib.Exp.Read where
 
 -- -- $Id$
 
-import Exp.Type
-import TES.Symbol
+import Autolib.Exp.Type
+import Autolib.TES.Symbol
 
 import Char
 
-import Reader
+import Autolib.Reader
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Expr
 
-import Exp.MyTokens
+import Autolib.Exp.MyTokens
 
 --------------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 -- | anamorphism
 
-module Ana where
+module Autolib.Ana where
 
 import Control.Monad ( guard )
 

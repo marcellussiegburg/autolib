@@ -1,6 +1,6 @@
 --   $Id$
 
-module Simple_Set
+module Autolib.Simple_Set
 
 -- simple Implementierung,
 -- die möglichst lazy ist
@@ -29,7 +29,10 @@ where
 import Data.List ( nub, (\\) )
 
 -- $Log$
--- Revision 1.3  2003-12-18 13:10:30  joe
+-- Revision 1.4  2004-08-24 12:23:36  joe
+-- add module prefix everywhere (still buggy)
+--
+-- Revision 1.3  2003/12/18 13:10:30  joe
 -- kosmetik fuer haddock
 --
 -- Revision 1.2  2003/12/18 11:04:44  joe

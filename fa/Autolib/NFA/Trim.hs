@@ -1,6 +1,6 @@
 -- -- $Id$
 
-module NFA.Trim  
+module Autolib.NFA.Trim  
 
 ( trim
 , reachable
@@ -9,16 +9,16 @@ module NFA.Trim
 
 where
 
-import NFA.Type
-import NFA.Mirror
-import Schichten
+import Autolib.NFA.Type
+import Autolib.NFA.Mirror
+import Autolib.Schichten
 
 import Control.Monad (guard)
-import Maybe
-import Fix
-import Letters
-import Sets
-import ToDoc
+import Autolib.Maybe
+import Autolib.Fix
+import Autolib.Letters
+import Autolib.Sets
+import Autolib.ToDoc
 
 reachable_states_orig :: NFAC c s => NFA c s -> Set s 
 reachable_states_orig a =

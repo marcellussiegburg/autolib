@@ -1,6 +1,6 @@
 -- -- $Id$
 
-module Exp.MyTokens where
+module Autolib.Exp.MyTokens where
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Language

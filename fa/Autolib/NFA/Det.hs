@@ -1,22 +1,22 @@
 -- -- $Id$
 
-module NFA.Det 
+module Autolib.NFA.Det 
 
 where
 
-import NFA.Type
-import NFA.Trim
+import Autolib.NFA.Type
+import Autolib.NFA.Trim
 
-import Letters
-import NFA.Hull
+import Autolib.Letters
+import Autolib.NFA.Hull
 
 import Data.Set
 import Sets (sfilter)
 
-import Control.Monad.State
+import Autolib.Control.Monad.State
 
 import Data.FiniteMap
-import ToDoc
+import Autolib.ToDoc
 
 
 dtrans :: (NFAC c s )

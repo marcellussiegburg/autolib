@@ -1,14 +1,14 @@
-module ToTex 
+module Autolib.ToTex 
 
 --  $Id$
 
-( module ToTex
-, module Tex
+( module Autolib.ToTex
+, module Autolib.Tex
 )
 
 where
 
-import Tex
+import Autolib.Tex
 
 class Show a => ToTex a where 
     toTex :: a -> Tex

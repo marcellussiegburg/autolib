@@ -1,10 +1,10 @@
-module Reporter.Subset where
+module Autolib.Reporter.Subset where
 
 --  $Id$
 
-import Reporter.Type
-import Sets
-import ToDoc
+import Autolib.Reporter.Type
+import Autolib.Sets
+import Autolib.ToDoc
 import Control.Monad ( when )
 
 check :: ( Ord a , ToDoc [a] )

@@ -1,4 +1,4 @@
-module Hash where
+module Autolib.Hash where
 
 --  $Id$
 

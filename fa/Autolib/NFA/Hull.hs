@@ -1,4 +1,4 @@
-module NFA.Hull
+module Autolib.NFA.Hull
 
 -- -- $Id$
 

@@ -1,15 +1,15 @@
 -- -- $Id$
 
-module Exp.Sanity where
+module Autolib.Exp.Sanity where
 
 
-import Exp.Env
-import Exp.Type
-import Exp.Syntax
+import Autolib.Exp.Env
+import Autolib.Exp.Type
+import Autolib.Exp.Syntax
 
-import Report
-import Sets
-import Wrong
+import Autolib.Report
+import Autolib.Sets
+import Autolib.Wrong
 
 sanity :: Set Char -> Set String -> Exp -> Report ()
 sanity alpha keys x = do

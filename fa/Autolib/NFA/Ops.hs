@@ -1,19 +1,19 @@
-module NFA.Ops where
+module Autolib.NFA.Ops where
 
 --  $Id$
 
-import NFA.Type hiding ( cross, union )
+import Autolib.NFA.Type hiding ( cross, union )
 
 import qualified Sets 
 import Data.FiniteMap
 
-import NFA.Trim
-import NFA.Basic
-import NFA.Normalize
+import Autolib.NFA.Trim
+import Autolib.NFA.Basic
+import Autolib.NFA.Normalize
 
 import Control.Monad (guard)
 
-import ToDoc ( ToDoc, toDoc )
+import Autolib.ToDoc ( ToDoc, toDoc )
 
 
 normalize_cross :: (NFAC c s, NFAC c t, NFAC c Int)

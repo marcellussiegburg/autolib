@@ -1,20 +1,20 @@
 --  $Id$
 
-module NFA.Type
+module Autolib.NFA.Type
 
-( module NFA.Type
-, module NFA.Data
+( module Autolib.NFA.Type
+, module Autolib.NFA.Data
 )
 
 where
 
-import Sets
-import Letters
+import Autolib.Sets
+import Autolib.Letters
 
 import NFA.Data
 
 import Control.Monad (guard)
-import ToDoc
+import Autolib.ToDoc
 
 ---------------------------------------------------------------------
 

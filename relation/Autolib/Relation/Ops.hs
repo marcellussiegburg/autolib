@@ -1,6 +1,6 @@
-module Relation.Ops 
+module Autolib.Relation.Ops 
 
-( module Relation.Ops
+( module Autolib.Relation.Ops
 , inverse
 )
 
@@ -8,10 +8,10 @@ where
 
 --   $Id$
 
-import Relation.Type
+import Autolib.Relation.Type
 
-import Sets
-import Fix
+import Autolib.Sets
+import Autolib.Fix
 
 holds :: ( Ord a, Ord b) => Type a b -> a -> b -> Bool
 holds rel x y = y `elementOf` images rel x

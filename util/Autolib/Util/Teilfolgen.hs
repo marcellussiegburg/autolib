@@ -1,4 +1,4 @@
-module Util.Teilfolgen where
+module Autolib.Util.Teilfolgen where
 
 -- -- $Id$
 

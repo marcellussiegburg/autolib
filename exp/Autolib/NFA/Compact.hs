@@ -1,19 +1,19 @@
-module NFA.Compact where
+module Autolib.NFA.Compact where
 
 -- -- $Id$
 
-import NFA.Type
-import Exp
-import TES.Symbol
+import Autolib.NFA.Type
+import Autolib.Exp
+import Autolib.TES.Symbol
 
 import Data.FiniteMap
-import Sets
-import Letters
+import Autolib.Sets
+import Autolib.Letters
 import Control.Monad ( guard )
 
 
-import Reader
-import ToDoc
+import Autolib.Reader
+import Autolib.ToDoc
 
 make :: ( NFAC c s, NFAC [c] s, NFAC [[c]] s, NFAC (RX c) s )
      => NFA c s

@@ -1,10 +1,10 @@
-module ToDoc.Manual where
+module Autolib.ToDoc.Manual where
 
 --  $Id$
 
 
-import ToDoc.Class
-import ToDoc.Dutch
+import Autolib.ToDoc.Class
+import Autolib.ToDoc.Dutch
 
 import Data.Set
 import Data.FiniteMap

@@ -1,10 +1,10 @@
-module NFA.Example where
+module Autolib.NFA.Example where
 
 -- -- $Id$
 
-import NFA
-import ToDoc
-import Sets
+import Autolib.NFA
+import Autolib.ToDoc
+import Autolib.Sets
 
 example :: NFA Char Int
 example = example_sigma $ mkSet "ab"

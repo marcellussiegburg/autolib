@@ -1,8 +1,8 @@
-module Informed where
+module Autolib.Informed where
 
 --   $Id$
 
-import ToDoc
+import Autolib.ToDoc
 
 class Informed i where
       -- zeigt Information

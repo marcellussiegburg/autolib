@@ -1,16 +1,16 @@
-module NFA.Subseteq where
+module Autolib.NFA.Subseteq where
 
 -- -- $Id$
 
-import NFA.Type hiding ( subseteq )
-import NFA.Trim
-import NFA.Normalize
-import NFA.Minus
-import NFA.Shortest
+import Autolib.NFA.Type hiding ( subseteq )
+import Autolib.NFA.Trim
+import Autolib.NFA.Normalize
+import Autolib.NFA.Minus
+import Autolib.NFA.Shortest
 
 -- import Boc
-import Reporter
-import ToDoc
+import Autolib.Reporter
+import Autolib.ToDoc
 
 {-
 subseteq :: (NFAC c a, NFAC c b, ToDoc [c])

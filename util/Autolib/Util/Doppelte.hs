@@ -1,4 +1,4 @@
-module Util.Doppelte
+module Autolib.Util.Doppelte
 
 -- -- $Id$
 
@@ -8,7 +8,7 @@ module Util.Doppelte
 
 where
 
-import Util.Hide
+import Autolib.Util.Hide
 import Data.FiniteMap
 
 

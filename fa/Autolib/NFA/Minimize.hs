@@ -1,18 +1,18 @@
-module NFA.Minimize where
+module Autolib.NFA.Minimize where
 
 -- -- $Id$
 
-import NFA.Type
-import NFA.Dot
-import NFA.Basic
-import NFA.Det
-import NFA.Mirror
-import NFA.Trim
-import NFA.Normalize
+import Autolib.NFA.Type
+import Autolib.NFA.Dot
+import Autolib.NFA.Basic
+import Autolib.NFA.Det
+import Autolib.NFA.Mirror
+import Autolib.NFA.Trim
+import Autolib.NFA.Normalize
 
-import Reporter
-import ToDoc
-import Util.Size
+import Autolib.Reporter
+import Autolib.ToDoc
+import Autolib.Util.Size
 
 minimizeR :: ( NFAC c Int, NFAC c (Set Int) ) 
 	  => NFA c Int -> Reporter ( NFA c Int )

@@ -1,8 +1,8 @@
-module Output.Basic where
+module Autolib.Output.Basic where
 
 --  $Id$
 
-import Output.Type
+import Autolib.Output.Type
 
 lead :: Output -> Output -> Output
 lead x y = Above x $ Nest y

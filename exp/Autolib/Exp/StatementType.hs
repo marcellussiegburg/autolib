@@ -1,4 +1,4 @@
-module StatementType where
+module Autolib.StatementType where
 
-import ExpType
+import Autolib.ExpType
 

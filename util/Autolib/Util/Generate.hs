@@ -1,8 +1,8 @@
-module Util.Generate where
+module Autolib.Util.Generate where
 
 -- -- $Id$
 
-import Util.Zufall
+import Autolib.Util.Zufall
 import Random
 
 type Generator a = Int -> IO ( a )

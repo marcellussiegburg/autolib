@@ -1,18 +1,18 @@
-module Relation 
+module Autolib.Relation 
 
 --   $Id$
 
 ( Type -- abstrakt
 , source, target
 , make, make_on, pairs
-, module Relation.Ops
-, module Relation.Basic
+, module Autolib.Relation.Ops
+, module Autolib.Relation.Basic
 )
 
 where
 
-import Relation.Type
-import Relation.Ops
-import Relation.Basic
+import Autolib.Relation.Type
+import Autolib.Relation.Ops
+import Autolib.Relation.Basic
 
 

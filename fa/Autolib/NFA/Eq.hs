@@ -1,14 +1,14 @@
-module NFA.Eq where
+module Autolib.NFA.Eq where
 
 -- -- $Id$
 
-import NFA.Type hiding ( subseteq )
+import Autolib.NFA.Type hiding ( subseteq )
 
-import NFA.Subseteq
+import Autolib.NFA.Subseteq
 
 -- import Boc
-import Reporter
-import ToDoc
+import Autolib.Reporter
+import Autolib.ToDoc
 
 {-
 eq ::  (ToDoc [c], NFAC c a, NFAC c b)

@@ -1,10 +1,10 @@
 -- -- $Id$
 
-module Exp.Print where
+module Autolib.Exp.Print where
 
-import TES.Symbol
-import Exp.Type
-import ToDoc
+import Autolib.TES.Symbol
+import Autolib.Exp.Type
+import Autolib.ToDoc
 
 instance Symbol c => Show ( RX c ) where 
     show = render . toDoc 

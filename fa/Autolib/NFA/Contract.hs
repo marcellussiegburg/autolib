@@ -1,8 +1,8 @@
-module NFA.Contract where
+module Autolib.NFA.Contract where
 
 -- -- $Id$
 
-import NFA.Type
+import Autolib.NFA.Type
 
 contract :: NFAC c a
          => NFA c a -> (a, a) -> NFA c a

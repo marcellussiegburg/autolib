@@ -1,11 +1,11 @@
-module Reporter.Bool where
+module Autolib.Reporter.Bool where
 
 -- -- $Id$
 
-import Reporter.Iterator
-import Reporter.Type
-import Informed
-import ToDoc
+import Autolib.Reporter.Iterator
+import Autolib.Reporter.Type
+import Autolib.Informed
+import Autolib.ToDoc
 
 -- three valued logic, kind of
 

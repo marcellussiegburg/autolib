@@ -1,8 +1,8 @@
-module Reporter 
+module Autolib.Reporter 
 
-( module Reporter.Type
-, module Reporter.Iterator
-, module Reporter.Parallel
+( module Autolib.Reporter.Type
+, module Autolib.Reporter.Iterator
+, module Autolib.Reporter.Parallel
 , module Control.Monad
 )
 
@@ -10,8 +10,8 @@ module Reporter
 
 where
 
-import Reporter.Type
-import Reporter.Iterator
-import Reporter.Parallel
-import Control.Monad
+import Autolib.Reporter.Type
+import Autolib.Reporter.Iterator
+import Autolib.Reporter.Parallel
+import Autolib.Control.Monad
 

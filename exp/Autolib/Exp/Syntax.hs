@@ -1,15 +1,15 @@
 -- -- $Id$
 
-module Exp.Syntax where
+module Autolib.Exp.Syntax where
 
-import Exp.Type
-import Exp.Print
+import Autolib.Exp.Type
+import Autolib.Exp.Print
 
-import Reporter
-import Sets
-import Util.Size
-import Hash
-import ToDoc
+import Autolib.Reporter
+import Autolib.Sets
+import Autolib.Util.Size
+import Autolib.Hash
+import Autolib.ToDoc
 
 
 subtrees :: RX c -> [ RX c ]

@@ -1,12 +1,12 @@
-module Reporter.Boolean.Type 
+module Autolib.Reporter.Boolean.Type 
 
-( module Reporter.Boolean.Data
+( module Autolib.Reporter.Boolean.Data
 )
 
 where
 
 --  $Id$
 
-import Reporter.Boolean.Data
-import Reporter.Boolean.ToDoc
-import Reporter.Boolean.Reader
+import Autolib.Reporter.Boolean.Data
+import Autolib.Reporter.Boolean.ToDoc
+import Autolib.Reporter.Boolean.Reader

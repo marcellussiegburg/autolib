@@ -1,4 +1,4 @@
-module Schichten
+module Autolib.Schichten
 
 ( schichten 
 , schichten'

@@ -1,12 +1,12 @@
-module NFA.Mirror where
+module Autolib.NFA.Mirror where
 
 -- -- $Id$
 
-import NFA.Type
+import Autolib.NFA.Type
 
 import Data.Set
 import Data.FiniteMap
-import ToDoc
+import Autolib.ToDoc
 
 mirror :: NFAC c s
        => NFA c s -> NFA c s

@@ -1,4 +1,4 @@
-module Util.Splits where
+module Autolib.Util.Splits where
 
 import Data.List (inits, tails)
 

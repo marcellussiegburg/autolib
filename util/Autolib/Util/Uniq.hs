@@ -1,8 +1,8 @@
-module Util.Uniq where
+module Autolib.Util.Uniq where
 
 -- -- $Id$
 
-import Sets
+import Autolib.Sets
 
 -- | produce a lazy (!) sublist of entries with all duplicates removed
 uniq :: Eq a => [a] -> [a]

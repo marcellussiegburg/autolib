@@ -1,20 +1,20 @@
-module Exp.Some where
+module Autolib.Exp.Some where
 
 -- -- $Id$
 
-import Exp.Type
-import Exp.Print
-import Exp.Syntax
+import Autolib.Exp.Type
+import Autolib.Exp.Print
+import Autolib.Exp.Syntax
 
-import Util.Zufall
+import Autolib.Util.Zufall
 
-import Exp.Inter
-import NFA
+import Autolib.Exp.Inter
+import Autolib.NFA
 
-import Size
+import Autolib.Size
 import qualified NFA.Ops
 import qualified NFA.Basic
-import ToDoc hiding ( empty )
+import Autolib.ToDoc hiding ( empty )
 
 import Data.Set
 import Random

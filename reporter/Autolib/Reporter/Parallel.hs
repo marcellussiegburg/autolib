@@ -1,10 +1,10 @@
-module Reporter.Parallel where
+module Autolib.Reporter.Parallel where
 
 --  $Id$
 
-import Reporter.Type
-import Reporter.Iterator
-import ToDoc
+import Autolib.Reporter.Type
+import Autolib.Reporter.Iterator
+import Autolib.ToDoc
 
 
 -- | execute several reporters in parallel

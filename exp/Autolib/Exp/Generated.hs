@@ -1,11 +1,11 @@
-module Exp.Generated where
+module Autolib.Exp.Generated where
 
 -- -- $Id$
 
-import Exp.Type
-import Exp.Inter
+import Autolib.Exp.Type
+import Autolib.Exp.Inter
 
-import Shortest (is_accepted)
+import Autolib.Shortest (is_accepted)
 
 is_generated :: Exp -> String -> Bool
 is_generated e w = 

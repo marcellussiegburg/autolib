@@ -1,4 +1,4 @@
-module Util.Mehrfache where
+module Autolib.Util.Mehrfache where
 
 -- -- $Id$
 

@@ -1,4 +1,4 @@
-module Reader.Basic 
+module Autolib.Reader.Basic 
 
 ( parsec_readsPrec
 , parse_complete
@@ -18,8 +18,8 @@ where
 
 --   $Id$
 
-import Reader.Class
-import TypeOf -- TODO: what for? Idee ausbauen!
+import Autolib.Reader.Class
+import Autolib.TypeOf -- TODO: what for? Idee ausbauen!
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token

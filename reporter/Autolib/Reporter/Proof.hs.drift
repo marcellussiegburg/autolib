@@ -1,12 +1,12 @@
 -- -*- mode: haskell -*-
 
-module Reporter.Proof where
+module Autolib.Reporter.Proof where
 
 --  $Id$
 
-import Reporter.Boolean.Type
-import Output
-import ToDoc
+import Autolib.Reporter.Boolean.Type
+import Autolib.Output
+import Autolib.ToDoc
 
 data Proof = 
      Proof { value  :: Bool

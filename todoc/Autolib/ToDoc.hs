@@ -1,18 +1,18 @@
-module ToDoc 
+module Autolib.ToDoc 
 
 --   $Id$
 
-( module ToDoc.Class
-, module ToDoc.Dutch
+( module Autolib.ToDoc.Class
+, module Autolib.ToDoc.Dutch
 )
 
 where
 
-import ToDoc.Class
-import ToDoc.Manual
-import ToDoc.Derived
-import ToDoc.Typeable
-import ToDoc.Dutch
+import Autolib.ToDoc.Class
+import Autolib.ToDoc.Manual
+import Autolib.ToDoc.Derived
+import Autolib.ToDoc.Typeable
+import Autolib.ToDoc.Dutch
 
 
 

@@ -1,30 +1,30 @@
-module NFA 
+module Autolib.NFA 
 
-( module NFA.Type
-, module NFA.Dot
-, module NFA.Shortest
-, module NFA.Minimize
-, module NFA.Normalize
-, module NFA.Minus
-, module NFA.Epsilon
-, module NFA.Trim
+( module Autolib.NFA.Type
+, module Autolib.NFA.Dot
+, module Autolib.NFA.Shortest
+, module Autolib.NFA.Minimize
+, module Autolib.NFA.Normalize
+, module Autolib.NFA.Minus
+, module Autolib.NFA.Epsilon
+, module Autolib.NFA.Trim
 , module Letters
-, module NFA.Subseteq
-, module NFA.Eq
+, module Autolib.NFA.Subseteq
+, module Autolib.NFA.Eq
 )
 
 
 where
 
-import NFA.Type hiding ( subseteq )
-import NFA.Dot
-import NFA.Shortest
-import NFA.Minimize
-import NFA.Normalize
-import NFA.Minus
-import NFA.Epsilon
-import NFA.Trim
-import NFA.Subseteq
-import NFA.Eq
+import Autolib.NFA.Type hiding ( subseteq )
+import Autolib.NFA.Dot
+import Autolib.NFA.Shortest
+import Autolib.NFA.Minimize
+import Autolib.NFA.Normalize
+import Autolib.NFA.Minus
+import Autolib.NFA.Epsilon
+import Autolib.NFA.Trim
+import Autolib.NFA.Subseteq
+import Autolib.NFA.Eq
 
-import Letters
+import Autolib.Letters

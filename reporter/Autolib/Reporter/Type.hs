@@ -1,14 +1,14 @@
-module Reporter.Type 
+module Autolib.Reporter.Type 
 
 where
 
 -- -- $Id$
 
-import Output
+import Autolib.Output
 
 import qualified Text.PrettyPrint.HughesPJ as Pretty
 
-import Maybe (isJust, fromMaybe)
+import Data.Maybe (isJust, fromMaybe)
 
 data Reporter a = 
      Reporter { result :: Maybe a 

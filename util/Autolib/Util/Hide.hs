@@ -1,4 +1,4 @@
-module Util.Hide where
+module Autolib.Util.Hide where
 
 -- -- $Id$
 

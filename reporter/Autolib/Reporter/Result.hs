@@ -1,4 +1,4 @@
-module Reporter.Result where
+module Autolib.Reporter.Result where
 
 {-
 
@@ -23,11 +23,11 @@ warum schreiben wir nicht gleich in die datenbank?
 
 -}
 
-import Reporter
-import ToDoc
+import Autolib.Reporter
+import Autolib.ToDoc
 
-import Right
-import Wrong
+import Autolib.Right
+import Autolib.Wrong
 
 import qualified Control.Exception
 

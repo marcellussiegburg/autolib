@@ -1,10 +1,10 @@
-module Reporter.Iterator where
+module Autolib.Reporter.Iterator where
 
 --  $Id$
 
-import Reporter.Type
-import ToDoc
-import Informed
+import Autolib.Reporter.Type
+import Autolib.ToDoc
+import Autolib.Informed
 
 -- | for stepwise computations
 -- s is state type

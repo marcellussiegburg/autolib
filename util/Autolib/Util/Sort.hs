@@ -1,4 +1,4 @@
-module Util.Sort
+module Autolib.Util.Sort
 
 ( sort, sortBy
 , insert, insertBy
@@ -8,7 +8,7 @@ module Util.Sort
 
 where
 
-import Util.Hide
+import Autolib.Util.Hide
 
 -- utils ----------------------------------------------------------
 

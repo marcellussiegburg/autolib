@@ -1,12 +1,12 @@
-module NFA.Normalize where
+module Autolib.NFA.Normalize where
 
 -- -- $Id$
 
-import NFA.Type
+import Autolib.NFA.Type
 
-import Sets
+import Autolib.Sets
 import Data.FiniteMap
-import ToDoc
+import Autolib.ToDoc
 
 normalize :: NFAC c s
 	  => NFA c s -> NFA c Int

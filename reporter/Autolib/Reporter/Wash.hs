@@ -1,11 +1,11 @@
-module Reporter.Wash where
+module Autolib.Reporter.Wash where
 
 -- -- $Id$
 
-import Reporter.Type
+import Autolib.Reporter.Type
 
-import Output
-import Output.Wash
+import Autolib.Output
+import Autolib.Output.Wash
 
 -- wash
 import qualified HTMLMonad  as H

@@ -1,6 +1,6 @@
 --   $Id$
 
-module Iso where
+module Autolib.Iso where
 
 import Data.Set
 

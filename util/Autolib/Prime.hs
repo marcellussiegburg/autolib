@@ -1,4 +1,4 @@
-module Prime where
+module Autolib.Prime where
 
 --   $Id$
 

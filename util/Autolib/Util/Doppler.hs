@@ -1,4 +1,4 @@
-module Util.Doppler 
+module Autolib.Util.Doppler 
 
 ( doppler
 )

@@ -1,11 +1,11 @@
 -- -- $Id$
 
-module NFA.Shuffle ( shuffle ) where
+module Autolib.NFA.Shuffle ( shuffle ) where
 
-import NFA
-import NFA.Trim
+import Autolib.NFA
+import Autolib.NFA.Trim
 
-import Sets hiding ( subseteq )
+import Autolib.Sets hiding ( subseteq )
 import Data.FiniteMap
 
 

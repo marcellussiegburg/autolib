@@ -1,9 +1,9 @@
-module Reporter.Boolean.ToDoc where
+module Autolib.Reporter.Boolean.ToDoc where
 
 --  $Id$
 
-import Reporter.Boolean.Data
-import ToDoc
+import Autolib.Reporter.Boolean.Data
+import Autolib.ToDoc
 
 instance ToDoc i => ToDoc (Boolean i) where
     toDocPrec p ( Uf Star x ) 

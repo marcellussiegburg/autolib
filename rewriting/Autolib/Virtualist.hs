@@ -1,4 +1,4 @@
-module Virtualist 
+module Autolib.Virtualist 
 
 ( Virtualist (..)
 , virtualist
@@ -8,12 +8,12 @@ where
 
 --  $Id$
 
-import Reader
-import ToDoc
-import Letters
-import Sets
-import Hash
-import Size
+import Autolib.Reader
+import Autolib.ToDoc
+import Autolib.Letters
+import Autolib.Sets
+import Autolib.Hash
+import Autolib.Size
 
 data Virtualist v a = Virtualist 
 		    { unVirtualist :: [ a ] 

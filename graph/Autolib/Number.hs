@@ -1,4 +1,4 @@
-module Number where
+module Autolib.Number where
 
 -- | Klasse fuer den Nummerieung von Typen
 class Number  a b | a -> b where

@@ -1,24 +1,24 @@
-module Relation.Type
+module Autolib.Relation.Type
 
 --   $Id$
 
-( module Relation.Type
+( module Autolib.Relation.Type
 
 -- damit unsere freunde nichts extra schreiben müssen
-, module Sets
+, module Autolib.Sets
 , module Data.FiniteMap
 )
 
 where
 
 
-import Sets
-import Util.Size
+import Autolib.Sets
+import Autolib.Util.Size
 import Data.FiniteMap
 
-import Hash
-import ToDoc
-import Reader
+import Autolib.Hash
+import Autolib.ToDoc
+import Autolib.Reader
 
 -- | pforsicht: source und target später hinzugefügt,
 -- ist noch nicht konsequent berücksichtigt

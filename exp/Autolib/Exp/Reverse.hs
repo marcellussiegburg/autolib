@@ -1,9 +1,9 @@
-module Exp.Reverse where
+module Autolib.Exp.Reverse where
 
 --  $Id$
 
 import Prelude hiding ( reverse )
-import Exp.Type
+import Autolib.Exp.Type
 
 -- | construct expression for reverse image of language
 reverse :: RX c -> RX c

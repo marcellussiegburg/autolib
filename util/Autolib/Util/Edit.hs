@@ -1,11 +1,11 @@
-module Util.Edit where
+module Autolib.Util.Edit where
 
 -- -- $Id$
 
 import Random
 import Control.Monad
 
-import Util.Zufall ( eins )
+import Autolib.Util.Zufall ( eins )
 
 cut :: Int -> Int -> [a] -> [a]
 cut from to w = 

@@ -1,9 +1,9 @@
-module Exp.Example where
+module Autolib.Exp.Example where
 
 -- -- $Id$
 
-import Exp.Type
-import Sets
+import Autolib.Exp.Type
+import Autolib.Sets
 
 example :: Set Char -> Exp
 example alpha = 

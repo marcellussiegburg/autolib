@@ -1,13 +1,13 @@
-module Exp.Einfach where
+module Autolib.Exp.Einfach where
 
 -- -- $Id$
 
-import Exp.Type
-import Exp.Syntax
+import Autolib.Exp.Type
+import Autolib.Exp.Syntax
 
-import Sets
-import Reporter
-import ToDoc
+import Autolib.Sets
+import Autolib.Reporter
+import Autolib.ToDoc
 
 check_form :: Set String -> Exp -> Reporter ()
 check_form ss x = do

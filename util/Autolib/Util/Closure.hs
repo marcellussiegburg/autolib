@@ -1,10 +1,10 @@
-module Util.Closure where
+module Autolib.Util.Closure where
 
 -- -- $Id$
 
-import Sets
-import Util.Splits
-import Util.Uniq
+import Autolib.Sets
+import Autolib.Util.Splits
+import Autolib.Util.Uniq
 
 unary_binary :: Ord a
        => ( a -> [ a ] )

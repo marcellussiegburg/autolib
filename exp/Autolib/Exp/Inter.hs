@@ -1,6 +1,6 @@
 --  $Id$
 
-module Exp.Inter
+module Autolib.Exp.Inter
 
 ( inter
 , inter_det
@@ -11,8 +11,8 @@ module Exp.Inter
 
 where
 
-import NFA
-import Exp
+import Autolib.NFA
+import Autolib.Exp
 import qualified NFA.Ops      as Ops
 import qualified NFA.Minus    as Minus
 import qualified NFA.Shuffle  as Shuffle
@@ -25,8 +25,8 @@ import qualified NFA.Trim     as Trim
 import qualified NFA.Mirror   as Mirror
 import qualified NFA.Basic    as Basic
 
-import TES.Symbol
-import ToDoc
+import Autolib.TES.Symbol
+import Autolib.ToDoc
 
 ---------------------------------------------------------------------------
 

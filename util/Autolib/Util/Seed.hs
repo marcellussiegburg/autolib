@@ -1,4 +1,4 @@
-module Util.Seed where
+module Autolib.Util.Seed where
 
 -- -- $Id$
 

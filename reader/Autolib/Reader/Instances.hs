@@ -1,9 +1,9 @@
-module Reader.Instances where
+module Autolib.Reader.Instances where
 
 --   $Id$
 
-import Reader.Class
-import Reader.Basic
+import Autolib.Reader.Class
+import Autolib.Reader.Basic
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token

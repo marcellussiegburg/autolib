@@ -1,12 +1,12 @@
 --   $Id$
 
-module Output 
+module Autolib.Output 
 
 ( Output (..), Render (..)
-, module Output.Basic
+, module Autolib.Output.Basic
 )
 
 where
 
-import Output.Type
-import Output.Basic
+import Autolib.Output.Type
+import Autolib.Output.Basic

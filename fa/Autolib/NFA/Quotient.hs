@@ -1,15 +1,15 @@
 -- | Quotients of languages
 
-module NFA.Quotient where
+module Autolib.NFA.Quotient where
 
 --  $Id$
 
-import NFA.Type
-import NFA.Trim
+import Autolib.NFA.Type
+import Autolib.NFA.Trim
 import qualified NFA.Ops
 import qualified Sets
 
-import NFA.Mirror ( mirror )
+import Autolib.NFA.Mirror ( mirror )
 
 import Control.Monad ( guard )
 

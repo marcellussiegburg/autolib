@@ -1,6 +1,6 @@
 -- -- $Id$
 
-module Util.DPL 
+module Autolib.Util.DPL 
 
 ( value, values )
 

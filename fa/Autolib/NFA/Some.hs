@@ -1,14 +1,14 @@
-module NFA.Some where
+module Autolib.NFA.Some where
 
 -- -- $Id$
 
-import NFA
+import Autolib.NFA
 
-import Util.Zufall
+import Autolib.Util.Zufall
 
-import ToDoc
-import Random
-import Data.Set
+import Autolib.ToDoc
+import Autolib.Random
+import Autolib.Data.Set
 
 some :: Set Char -> Int -> IO (NFA Char Int)
 -- erzeugt irgendeinen NFA mit s zuständen

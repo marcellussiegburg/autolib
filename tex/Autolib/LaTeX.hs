@@ -1,8 +1,8 @@
-module LaTeX where
+module Autolib.LaTeX where
 
 --   $Id$
 
-import ToDoc
+import Autolib.ToDoc
 import Data.List (intersperse)
 
 class LaTeX a where latex :: a -> Doc

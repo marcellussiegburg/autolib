@@ -1,7 +1,7 @@
-module Sets
+module Autolib.Sets
 
-( module Data.Set
-, module Sets
+( module Autolib.Data.Set
+, module Autolib.Sets
 )
 
 where
@@ -10,13 +10,13 @@ where
 
 import Data.Set
 import Data.FiniteMap
-import ToDoc
-import Reader
+import Autolib.ToDoc
+import Autolib.Reader
 
-import Util.Teilfolgen
+import Autolib.Util.Teilfolgen
 
 import Text.XML.HaXml.Haskell2Xml
-import XmlSet
+import Autolib.XmlSet
 
 instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)

@@ -1,10 +1,10 @@
-module NFA.Check where
+module Autolib.NFA.Check where
 
 -- -- $Id$
 
-import NFA
-import ToDoc
-import Reporter
+import Autolib.NFA
+import Autolib.ToDoc
+import Autolib.Reporter
 
 deterministisch :: NFAC c a 
 		=> NFA c a -> Reporter ()

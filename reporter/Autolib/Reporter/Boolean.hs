@@ -1,10 +1,10 @@
-module Reporter.Boolean
+module Autolib.Reporter.Boolean
 
-( module Reporter.Boolean.Type
+( module Autolib.Reporter.Boolean.Type
 )
 
 where
 
 --  $Id$
 
-import Reporter.Boolean.Type
+import Autolib.Reporter.Boolean.Type

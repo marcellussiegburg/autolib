@@ -1,17 +1,17 @@
-module Reader 
+module Autolib.Reader 
 
-( module Reader.Class
-, module Reader.Basic
-, module Reader.Instances
-, module Reader.Derived
+( module Autolib.Reader.Class
+, module Autolib.Reader.Basic
+, module Autolib.Reader.Instances
+, module Autolib.Reader.Derived
 )
 
 where
 
 --   $Id$
 
-import Reader.Class
-import Reader.Basic
-import Reader.Instances
-import Reader.Derived
+import Autolib.Reader.Class
+import Autolib.Reader.Basic
+import Autolib.Reader.Instances
+import Autolib.Reader.Derived
 

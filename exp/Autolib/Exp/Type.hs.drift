@@ -1,6 +1,6 @@
 -- -*- mode: haskell -*-
 
-module Exp.Type where
+module Autolib.Exp.Type where
 
 --  $Id$
 

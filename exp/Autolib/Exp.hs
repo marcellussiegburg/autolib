@@ -1,16 +1,16 @@
 --  $Id$
 
-module Exp 
+module Autolib.Exp 
 
-( module Exp.Type
-, module Exp.Syntax
+( module Autolib.Exp.Type
+, module Autolib.Exp.Syntax
 )
 
 where
 
-import Exp.Type
-import Exp.Print
-import Exp.Read
-import Exp.Syntax
-import Exp.Einfach
+import Autolib.Exp.Type
+import Autolib.Exp.Print
+import Autolib.Exp.Read
+import Autolib.Exp.Syntax
+import Autolib.Exp.Einfach
 

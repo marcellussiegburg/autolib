@@ -1,4 +1,4 @@
-module Util.Faktor 
+module Autolib.Util.Faktor 
 
 ( zerlege 
 , primfaktoren

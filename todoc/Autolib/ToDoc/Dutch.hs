@@ -1,8 +1,8 @@
-module ToDoc.Dutch where
+module Autolib.ToDoc.Dutch where
 
 --  $Id$
 
-import ToDoc.Class
+import Autolib.ToDoc.Class
 import Data.List (intersperse)
 
 -- | output sequences in "dutch style"

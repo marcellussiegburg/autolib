@@ -1,4 +1,4 @@
-module Util.Perm where
+module Autolib.Util.Perm where
 
 -- -- $Id$
 

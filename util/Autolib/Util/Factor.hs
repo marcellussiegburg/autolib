@@ -1,4 +1,4 @@
-module Util.Factor where
+module Autolib.Util.Factor where
 
 -- -- $Id$
 

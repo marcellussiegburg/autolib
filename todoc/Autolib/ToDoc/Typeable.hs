@@ -1,10 +1,10 @@
-module ToDoc.Typeable where
+module Autolib.ToDoc.Typeable where
 
 --  $Id$
 
 import Data.Typeable
-import ToDoc.Class
-import ToDoc.Dutch
+import Autolib.ToDoc.Class
+import Autolib.ToDoc.Dutch
 
 -- this should rather be next to the Show instance
 -- in Data.Typeable (the ghc library)?

@@ -1,8 +1,8 @@
-module Tex where
+module Autolib.Tex where
 
 --  $Id$
 
-import ToDoc
+import Autolib.ToDoc
 
 data Tex = Direct String
 	 | Macro { name :: String

@@ -1,15 +1,15 @@
-module Reporter.Boolean.Eval where
+module Autolib.Reporter.Boolean.Eval where
 
 --  $Id$
 
-import Reporter.Boolean.Data
-import Reporter.Type
-import Reporter.Stream
-import Reporter.Iterator
-import Reporter.Proof
+import Autolib.Reporter.Boolean.Data
+import Autolib.Reporter.Type
+import Autolib.Reporter.Stream
+import Autolib.Reporter.Iterator
+import Autolib.Reporter.Proof
 
-import Output
-import ToDoc
+import Autolib.Output
+import Autolib.ToDoc
 
 build :: Boolean ( Iterator Proof )
      -> Reporter.Stream.Type

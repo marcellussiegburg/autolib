@@ -1,16 +1,16 @@
 --  $Id$
 
-module NFA.Shortest where
+module Autolib.NFA.Shortest where
 
-import NFA.Type
-import NFA.Trim
+import Autolib.NFA.Type
+import Autolib.NFA.Trim
 
-import Sets
+import Autolib.Sets
 import Data.FiniteMap
 
-import Letters
+import Autolib.Letters
 
-import ToDoc
+import Autolib.ToDoc
 import Control.Monad (guard)
 import Data.List (nub)
 

@@ -1,4 +1,4 @@
-module Letters where
+module Autolib.Letters where
 
 --   $Id$
 

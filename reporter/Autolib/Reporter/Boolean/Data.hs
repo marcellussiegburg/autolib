@@ -1,8 +1,8 @@
-module Reporter.Boolean.Data where
+module Autolib.Reporter.Boolean.Data where
 
 --  $Id$
 
-import Char
+import Data.Char
 
 -- | unary operator
 data Up = Not | Success | Star

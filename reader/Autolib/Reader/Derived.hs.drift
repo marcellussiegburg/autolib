@@ -1,11 +1,11 @@
 -- -*- mode: haskell -*-
 
-module Reader.Derived where
+module Autolib.Reader.Derived where
 
 --   $Id$
 
-import Reader.Class
-import Reader.Basic
+import Autolib.Reader.Class
+import Autolib.Reader.Basic
 
 {-! for Bool   derive : Reader !-}
 {-! for Maybe  derive : Reader !-}

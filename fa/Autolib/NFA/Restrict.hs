@@ -1,16 +1,16 @@
 -- -- $Id$
 
-module NFA.Restrict where
+module Autolib.NFA.Restrict where
 
-import NFA.Type
+import Autolib.NFA.Type
 
-import Sets
+import Autolib.Sets
 import Data.FiniteMap
-import Size
+import Autolib.Size
 
-import ToDoc
+import Autolib.ToDoc
 import Control.Monad (guard, when)
-import Reporter.Type
+import Autolib.Reporter.Type
 
 restrict_states
    :: NFAC c a

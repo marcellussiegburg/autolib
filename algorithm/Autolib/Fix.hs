@@ -1,6 +1,6 @@
 --   $Id$
 
-module Fix where
+module Autolib.Fix where
 
 {-# inline fix #-}
 

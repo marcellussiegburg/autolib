@@ -1,4 +1,4 @@
-module Util.Zufall 
+module Autolib.Util.Zufall 
 
 where
 

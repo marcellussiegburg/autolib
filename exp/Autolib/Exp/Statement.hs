@@ -1,16 +1,16 @@
-module Exp.Statement 
+module Autolib.Exp.Statement 
 
 -- -- $Id$
 
 where
 
-import Exp.Type
-import Exp.Read
-import Exp.Print
+import Autolib.Exp.Type
+import Autolib.Exp.Read
+import Autolib.Exp.Print
 
 import Text.ParserCombinators.Parsec
 
-import Exp.MyTokens
+import Autolib.Exp.MyTokens
 
 data Statement 
      = Print  Exp

@@ -1,15 +1,15 @@
-module NFA.Epsilon where
+module Autolib.NFA.Epsilon where
 
 -- -- $Id$
 
-import NFA.Type
+import Autolib.NFA.Type
 import Data.Set
 import Control.Monad ( guard )
 import Data.FiniteMap 
 
 import qualified Relation
 
-import ToDoc ( ToDoc, toDoc )
+import Autolib.ToDoc ( ToDoc, toDoc )
 
 
 add_epsilon :: NFAC c a

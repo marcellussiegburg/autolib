@@ -1,6 +1,6 @@
-module ToDoc.Class 
+module Autolib.ToDoc.Class 
 
-( module ToDoc.Class
+( module Autolib.ToDoc.Class
 , module Text.PrettyPrint.HughesPJ
 )
 

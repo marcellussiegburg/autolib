@@ -1,22 +1,22 @@
 -- -- $Id$
 
-module NFA.Dot
+module Autolib.NFA.Dot
 
-( module Dot.Dot
+( module Autolib.Dot.Dot
 , toDot_layered
 )
 
 where
 
-import NFA.Type
-import Dot.Dot
+import Autolib.NFA.Type
+import Autolib.Dot.Dot
 
 import qualified Dot.Graph
 import qualified Dot.Node
 import qualified Dot.Edge
 import qualified Dot.Arrange
 
-import ToDoc
+import Autolib.ToDoc
 
 import Data.Set
 import Data.FiniteMap

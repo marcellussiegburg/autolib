@@ -1,4 +1,4 @@
-module FilterSet where
+module Autolib.FilterSet where
 
 import Data.Set
 

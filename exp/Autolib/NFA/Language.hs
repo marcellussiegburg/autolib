@@ -1,21 +1,21 @@
-module NFA.Language where
+module Autolib.NFA.Language where
 
 -- -- $Id$
 
-import Exp -- for debugging
-import Exp.Inter
+import Autolib.Exp -- for debugging
+import Autolib.Exp.Inter
 
-import NFA.Type
-import NFA.Shortest ( accepted, is_accepted )
+import Autolib.NFA.Type
+import Autolib.NFA.Shortest ( accepted, is_accepted )
 import qualified NFA.Minus
-import Letters
+import Autolib.Letters
 
-import Language.Type
+import Autolib.Language.Type
 
-import ToDoc
+import Autolib.ToDoc
 import Data.Set
 import Data.List (nub)
-import Util.Zufall
+import Autolib.Util.Zufall
 
 language :: String  -- nametag
 	 -> NFA Char Int 

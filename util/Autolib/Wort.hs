@@ -1,3 +1,3 @@
-module Wort -- veraltet 
+module Autolib.Wort -- veraltet 
 where
-import Util.Wort
+import Autolib.Util.Wort

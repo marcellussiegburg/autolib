@@ -2,29 +2,29 @@
 
 --   $Id$
 
-module NFA.Data
+module Autolib.NFA.Data
 
-( module NFA.Data
-, module Informed
-, module Data.FiniteMap
-, module Sets
+( module Autolib.NFA.Data
+, module Autolib.Informed
+, module Autolib.Data.FiniteMap
+, module Autolib.Sets
 )
 
 where
 
-import Sets
-import Size
-import Letters
+import Autolib.Sets
+import Autolib.Size
+import Autolib.Letters
 
 import Data.FiniteMap
-import ReadFM
+import Autolib.ReadFM
 
-import Informed
-import ToDoc
-import Reader
-import Hash
+import Autolib.Informed
+import Autolib.ToDoc
+import Autolib.Reader
+import Autolib.Hash
 
-import TES.Symbol
+import Autolib.TES.Symbol
 
 import Control.Monad (guard)
 

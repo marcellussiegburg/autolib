@@ -1,4 +1,4 @@
-module Partial where
+module Autolib.Partial where
 
 --   $Id$
 

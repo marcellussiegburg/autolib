@@ -1,9 +1,9 @@
-module Reporter.Boolean.Reader where
+module Autolib.Reporter.Boolean.Reader where
 
 --  $Id$
 
-import Reporter.Boolean.Data
-import Reader
+import Autolib.Reporter.Boolean.Data
+import Autolib.Reader
 
 import Text.ParserCombinators.Parsec.Expr
 

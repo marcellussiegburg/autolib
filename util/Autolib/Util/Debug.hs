@@ -1,4 +1,4 @@
-module Util.Debug
+module Autolib.Util.Debug
 
 -- -- $Id$
 

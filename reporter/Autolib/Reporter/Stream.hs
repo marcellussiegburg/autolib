@@ -1,23 +1,23 @@
-module Reporter.Stream 
+module Autolib.Reporter.Stream 
 
 ( Type
 , make
 , exec
 , nicht, erfolg, und, oder, erster
-, module Output
-, module Reporter.Proof
+, module Autolib.Output
+, module Autolib.Reporter.Proof
 )
 
 where
 
 --  $Id$
 
-import Reporter.Type
-import Output
-import ToDoc
-import Reporter.Boolean.Type
-import Reporter.Iterator
-import Reporter.Proof
+import Autolib.Reporter.Type
+import Autolib.Output
+import Autolib.ToDoc
+import Autolib.Reporter.Boolean.Type
+import Autolib.Reporter.Iterator
+import Autolib.Reporter.Proof
 
 -- | lazy constructive logic. 
 -- Streams are produced by steps of computations.

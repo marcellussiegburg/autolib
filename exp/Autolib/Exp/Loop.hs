@@ -2,17 +2,17 @@ module Main where
 
 -- -- $Id$
 
-import Exp.Type
+import Autolib.Exp.Type
 
-import Exp.Statement
-import Exp.Inter
-import Exp.Env
+import Autolib.Exp.Statement
+import Autolib.Exp.Inter
+import Autolib.Exp.Env
 
-import NFA.Shortest
-import NFA.Type
-import NFA.Dot
-import NFA.Compact
-import NFA.Basic
+import Autolib.NFA.Shortest
+import Autolib.NFA.Type
+import Autolib.NFA.Dot
+import Autolib.NFA.Compact
+import Autolib.NFA.Basic
 
 import Text.ParserCombinators.Parsec ( parse, Parser )
 import System.Console.Readline

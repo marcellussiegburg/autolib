@@ -1,4 +1,4 @@
-module Util.Bild 
+module Autolib.Util.Bild 
 
 ( Bild 
 , ToBild (..)
@@ -11,7 +11,7 @@ where
 
 import Data.Array
 
-import ToDoc
+import Autolib.ToDoc
 
 type Bild = Array (Int, Int) Char
 

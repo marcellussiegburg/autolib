@@ -1,9 +1,9 @@
-module Relation.Basic where
+module Autolib.Relation.Basic where
 
 --   $Id$
 
-import Relation.Type
-import Relation.Ops
+import Autolib.Relation.Type
+import Autolib.Relation.Ops
 
 
 empty :: Ord a => Set a -> Type a a

@@ -1,8 +1,8 @@
-module Output.Wash where
+module Autolib.Output.Wash where
 
 --   $Id$
 
-import Output.Type
+import Autolib.Output.Type
 import qualified HTMLMonad
 
 instance Monad m => Render ( HTMLMonad.WithHTML m () ) where
