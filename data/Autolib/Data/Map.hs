@@ -7,7 +7,6 @@
 module Autolib.Data.Map where
 
 import Data.Map
-import Data.Maybe ( isJust )
 
 type FiniteMap k a = Map k a
 
@@ -25,16 +24,21 @@ delFromFM = flip delete
 -- | explicit signature is necessary
 -- because the new type would not use Maybe but Monad m => m instead
 lookupFM :: Ord k => FiniteMap k a -> k -> Maybe a
-lookupFM m k = Data.Map.lookup k m
+lookupFM = flip Data.Map.lookup
 
 lookupWithDefaultFM f a k = findWithDefault a k f
-elemFM k m = isJust $ Data.Map.lookup k m
+elemFM = member
 mapFM = mapWithKey
 addToFM fm k a = insert k a fm
-addToFM_C fun m k a = 
-    insertWith fun k a m
-addListToFM_C fun m pairs = 
-    foldr (\ (k, a) -> insertWith fun k a) m pairs
+addToFM_C fun m k a = insertWith fun k a m
+
+-- | NO: http://www.haskell.org/pipermail/libraries/2005-February/003341.html
+-- addListToFM m pairs = foldr (\ (k,a) -> insert k a) m pairs
+-- addListToFM_C fun m pairs = foldr (\ (k, a) -> insertWith fun k a) m pairs
+
+addListToFM m = union m . fromList
+addListToFM_C fun m = unionWith fun m . fromList
+
 plusFM = union
 plusFM_C = unionWith
 filterFM = filterWithKey
