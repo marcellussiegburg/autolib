@@ -3,6 +3,7 @@ module Util.Sort
 ( sort, sortBy
 , insert, insertBy
 , nub, nubBy
+, rise, riseBy
 )
 
 where
@@ -46,3 +47,11 @@ nub (x : ys) = x : nub ( filter (/= x) ys )
 
 nubBy :: Ord b => (a -> b) -> [a] -> [a]
 nubBy f xs = map seek $ nub $ map (hide f) xs
+
+-- | produce strictly increasing subsequence
+rise :: Ord a => [a] -> [a]
+rise [] = []
+rise (x : ys) = x : rise ( filter (> x) ys )
+
+riseBy :: Ord b => (a -> b) -> [a] -> [a]
+riseBy f xs = map seek $ rise $ map (hide f) xs
