@@ -5,6 +5,7 @@ module TES.Type where
 import Util.Size
 import TES.Symbol
 import ToDoc
+import Reader
 import Hash
 
 
@@ -12,9 +13,15 @@ data Term v c = Node c [ Term v c ]
 	      | Var v
      deriving ( Eq, Ord )
 
-class ( Hash v,  Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) 
+class ( Hash v,  Show v, Show c
+      , Ord v, ToDoc v, ToDoc [v]
+      , Reader v
+      , Symbol c ) 
       => TRSC v c -- no methods
-instance ( Hash v, Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) 
+instance ( Hash v, Show v, Show c
+	 , Ord v, ToDoc v, ToDoc [v]
+	 , Reader v
+	 , Symbol c ) 
       => TRSC v c 
 
 instance TRSC v c => Hash ( Term v c ) where

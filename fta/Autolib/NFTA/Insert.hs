@@ -17,6 +17,7 @@ import Rewriting.Path
 import qualified Relation
 import Data.List ( partition )
 import Control.Monad.State
+import Reader
 
 -- | add transitions (using all new states)
 inserts :: NFTAC c Int 
@@ -41,7 +42,9 @@ insert :: NFTAC c Int
 insert a pt = inserts a [ pt ]
 
 -- | add transitions (that contains symbols annotated with states)
-extends :: ( NFTAC c s , TRSC v (c, s), Show s )
+extends :: ( NFTAC c s , TRSC v (c, s), Show s 
+	   , Reader v, Reader ( Term v (c, s) )
+	   )
        => NFTA c s
        -> [ Path Term v (c, s) s ]
        -> NFTA c s

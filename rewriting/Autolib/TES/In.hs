@@ -104,7 +104,8 @@ atomic conf =
              v <- reader
        	     return $ Var v
 
-instance Reader (Term Identifier Identifier ) where
+-- instance Reader (Term Identifier Identifier ) where
+instance ( Symbol c, Reader v ) => Reader ( Term v c ) where
     readerPrec p =  treader $ Config { reserved_symbols = [] 
 				     , allow_new_symbols = True
 				     }

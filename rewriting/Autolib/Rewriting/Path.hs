@@ -1,8 +1,16 @@
-module Rewriting.Path   where
+module Rewriting.Path   
+
+( Path
+, module Rewriting.Path.Data
+)
+
+where
 
 --  $Id$
 
 import Data.FiniteMap
+
+import Rewriting.Path.Data 
 
 import Reader
 import ToDoc
@@ -17,6 +25,9 @@ instance ( Show (FiniteMap v s)
       , Show s, Show v, Show c
       ) => PathC term v c s
 
+type Path term v c s = Data s ( term v c ) ( FiniteMap v s )
+
+{-
 data Path term v c s = 
      Path { from :: s
 	  , walk :: term v c
@@ -24,8 +35,12 @@ data Path term v c s =
 	  }
     deriving ( Show, Read )
 
-
 instance PathC term v c s => 
     ToDoc ( Path term v c s ) where 
         toDoc = text . show
+-}
+
+
+
+
 
