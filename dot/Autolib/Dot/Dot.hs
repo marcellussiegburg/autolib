@@ -11,6 +11,8 @@ class ToDot a where
       toDot :: a -> Dot.Graph.Type
       toDotProgram :: a -> String
       toDotProgram a = "dot" -- default für gerichtete graphen
+      toDotOptions :: a -> String
+      toDotOptions a = "-Grankdir=LR"
 
 instance ToDot a => ToDot [a] where
     toDotProgram xs = toDotProgram ( head xs )
@@ -50,7 +52,7 @@ display a = do
     let p = toDotProgram a
     system $ unwords 
 	   [ p , "-Tps" 
-	   , "-Grankdir=LR"
+	   , toDotOptions a
 	   , dotfile , "-o", epsfile ]
     system $ unwords [ "rm" , dotfile ]
     system $ unwords
