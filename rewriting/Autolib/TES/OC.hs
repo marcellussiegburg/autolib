@@ -60,22 +60,36 @@ normalize (l, r) =
     in  ( applyvar fm l , applyvar fm r )
 	
 
-hull :: Ord a 
+-- | extend by one step 
+single_hull :: Ord a 
      => (a -> a -> [a]) -- ^ associative operation
      -> [a] -- ^ initial elements
      -> [a] 
-hull op base = help (mkSet base) base where
+single_hull op base = help (mkSet base) base where
     help done [] = []
     help done xs = xs ++
         let ys = do x <- xs ; b <- base ; op x b 
 	    new = nub $ filter ( not . ( `elementOf` done ) ) ys
 	in  help ( done `union` mkSet new ) new 
 
+-- | combine totally (many steps)
+full_hull :: Ord a 
+     => (a -> a -> [a]) -- ^ associative operation
+     -> [a] -- ^ initial elements
+     -> [a] 
+full_hull op base = help (mkSet base) base where
+    help done [] = []
+    help done xs = xs ++
+        let ys = do x <- xs ; b <- setToList done ; op x b 
+	    new = nub $ filter ( not . ( `elementOf` done ) ) ys
+	in  help ( done `union` mkSet new ) new 
+
+
 -- | list of overlap closures
 ocs :: TRSC v c
     => TRS v c 
     -> [ Rule Int c ]
-ocs trs = hull combine
+ocs trs = full_hull combine
 	$ map normalize
 	$ rules trs 
 
