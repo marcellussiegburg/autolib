@@ -8,8 +8,8 @@ import Exp.Type
 import Exp.Read
 import Exp.Print
 
-import Parsec
-import ParsecExpr
+import Text.ParserCombinators.Parsec
+
 import Exp.MyTokens
 
 data Statement 
@@ -37,7 +37,7 @@ program = do
 statement :: Parser Statement
 statement = 
       binding <|> printer <|> displayer <|> quitter
-  <?> "statement"
+--  <?> "statement"
 
 binding = do
     reserved "let"
@@ -45,27 +45,27 @@ binding = do
     reservedOp "="
     rhs <- expression
     return $ Let lhs rhs
-  <?> "let binding"    
+--  <?> "let binding"    
 
 name = do
     c <- upper
     cs <- many alphaNum
     whiteSpace
     return $ c : cs
-  <?> "name (starting with upper case letter)"
+--  <?> "name (starting with upper case letter)"
 
 printer = do
     reserved "print"
     x <- expression
     return $ Print x
-  <?> "print statement"
+--  <?> "print statement"
 
 
 displayer = do
     reserved "display"
     x <- expression
     return $ Display x
-  <?> "display statement"
+--  <?> "display statement"
 
 quitter = do
     reserved "quit"

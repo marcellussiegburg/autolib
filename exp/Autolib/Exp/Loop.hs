@@ -14,7 +14,7 @@ import NFA.Dot
 import NFA.Compact
 import NFA.Basic
 
-import Parsec ( parse, Parser )
+import Text.ParserCombinators.Parsec ( parse, Parser )
 import System.Console.Readline
 
 --------------------------------------------------------------------------
