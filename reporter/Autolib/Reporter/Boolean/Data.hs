@@ -30,6 +30,40 @@ instance Functor Boolean where
     fmap f (Uf up x) = Uf up (fmap f x)
     fmap f (Bof bop xs) = Bof bop $ map (fmap f) xs
 
+-- | hehe
+instance Monad Boolean where
+    return = Atomic
+    -- the following would look better with 'join'
+    Atomic x >>= f = f x
+    Uf up x  >>= f = Uf up ( x >>= f )
+    Bof bop xs >>= f = Bof bop ( map ( >>= f ) xs )
+
+-- | traverse and compute, depth-first
+fmapM :: Monad m
+      => ( a -> m b ) 
+      -> Boolean a 
+      -> m ( Boolean b )
+fmapM f (Atomic x) = do
+    y <- f x
+    return $ Atomic y
+fmapM f (Uf up x) = do
+    y <- fmapM f x
+    return $ Uf up y
+fmapM f (Bof bop xs) = do
+    ys <- mapM ( fmapM f ) xs
+    return $ Bof bop ys
+
+transpose :: Monad m
+	  => Boolean (m a)
+	  -> m (Boolean a)
+transpose (Atomic m) = 
+    do x <- m ; return $ Atomic x
+transpose (Uf up m) = do
+    y <- transpose m ; return $ Uf up y
+transpose (Bof bop xs) = do
+    ys <- mapM transpose xs ; return $ Bof bop ys
+
+
 -- | compute flat normal form
 bin :: Bop -> Boolean i -> Boolean i -> Boolean i 
 bin op x @ (Bof fx xs) y @ (Bof fy ys) 
