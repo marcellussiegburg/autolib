@@ -7,6 +7,7 @@ import TES
 import SRS.Aged 
 
 import TES.Match
+import TES.Identifier
 import Util.Size
 import Sets
 
@@ -18,27 +19,50 @@ import Control.Monad ( guard )
 import Data.FiniteMap
 
 -- | list of ( redex, Right reducts )
---   such that redex patch is (RPO-) smaller than reduct path
+-- such that redex patch is (RPO-) smaller than reduct path
 -- or ( redex, Left path ) for an uncovered redex
+
+{-
 covers :: ( TRSC v c, NFTAC (Aged c) s )
-      => Label
+      => Config d
       -> TRS v c
       -> NFTA (Aged c) s
       -> [ ( Path v c s, Either ( Path v c s ) -- not covered
 			        [ Path v c s ] -- already covered
 	   ) 
 	 ]
-covers lab trs a = do
+-}
+covers :: ( TRSC v Identifier, NFTAC (Aged Identifier) s )
+      => Config d
+      -> TRS v Identifier
+      -> NFTA (Aged Identifier) s
+      -> [ ( Path v Identifier s, Either ( Path v Identifier s ) -- not covered
+			        [ Path v Identifier s ] -- already covered
+	   ) 
+	 ]
+covers conf trs a = do
+    let lab = bound_type conf
     ( l, r ) <- rules trs
     redex @ ( p, t, fm ) <- matches a l
+
+    let border = any ( \ x -> it x `elem` clamped_symbols conf ) . lsyms
     let reducts = do
 	    reduct @ ( p', t', fm' ) <- matches_from a r p
 	    guard $ mkSet (fmToList fm') `subseteq` mkSet ( fmToList fm )
-	    guard $ term_is_covered_by lab (fmap age t) (fmap age t')
+	    -- if clamping, then don't check heights of border rules
+	    guard $ ( clamp conf && border t )
+		  || term_is_covered_by lab (fmap age t) (fmap age t')
 	    return reduct
+    let down c = if it c `elem` clamped_symbols conf
+		 then Aged 0 $ it c
+		 else c
     return ( redex
 	   , if null reducts
-	     then Left ( p, term_cover lab (fmap age t) r, fm )
+	     then Left ( p
+		       , ( if clamp conf then fmap down else id ) 
+			    $ term_cover lab (fmap age t) r
+		       , fm 
+		       )
 	     else Right reducts
 	   )
 
