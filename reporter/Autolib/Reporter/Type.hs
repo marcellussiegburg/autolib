@@ -7,7 +7,8 @@ where
 import Output
 
 import qualified Pretty
-import qualified Html
+-- import qualified Html
+import qualified HTMLMonad
 
 import Maybe (isJust, fromMaybe)
 
@@ -69,16 +70,6 @@ output o = Reporter { result = Just () , action = return () , kommentar = o }
 inform :: Pretty.Doc -> Reporter ()
 inform = output . Doc
 
-html :: Html.Html -> Reporter ()
-html =  output . Html
-
-link :: FilePath -> Reporter ()
-link ref = output $ Html $ Html.anchor ( Html.tt Html.<< ref ) 
-	                   Html.! [ Html.href ref ]
-
-image :: String -> Reporter ()
-image ref = html $ Html.image Html.! [ Html.src ref, Html.alt ref ]
-
 newline :: Reporter ()
 newline = inform ( Pretty.text " " )
 
@@ -106,6 +97,8 @@ run :: Render r => Reporter a -> IO ( Maybe a, r )
 run r = do
     action r
     return $ export r
+
+-----------------------------------------------------------
 
 -- for use in classical autotool problems
 reporter :: Reporter Int -> IO String
@@ -137,3 +130,5 @@ assert p doc = do
     nested 4 $
 	 if p then inform $ Pretty.text "Ja."
 	      else reject $ Pretty.text "Nein."
+
+

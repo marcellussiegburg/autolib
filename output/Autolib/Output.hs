@@ -7,10 +7,13 @@ where
 
 import qualified Pretty
 import qualified Html
+import qualified HTMLMonad -- wash
 
 data Output = Text String
 	    | Doc  Pretty.Doc
-	    | Html Html.Html
+--	    | Html Html.Html
+	    | Image FilePath -- source
+	    | Link FilePath 
 	    | Empty
 	    | Above Output Output
 	    | Itemize [ Output ]
@@ -22,7 +25,9 @@ class Render r where
 instance Render Pretty.Doc where
     render (Text t) = Pretty.text t
     render (Doc d)  = d
-    render (Html h)  = Pretty.text $ Html.prettyHtml h
+--    render (Html h)  = Pretty.text $ Html.prettyHtml h
+    render (Image src) = Pretty.text $ "<img src=" ++ src ++ "/>"
+    render (Link url) = Pretty.text $ "<a href=" ++ url ++ "/>"
     render (Empty)  = Pretty.empty
 
     render (Above x y) = render x Pretty.$$ render y
@@ -33,7 +38,11 @@ instance Render Pretty.Doc where
 instance Render Html.Html where
     render (Text t) = Html.stringToHtml t
     render (Doc d)  = Html.pre $ Html.primHtml ( show d )
-    render (Html h) = h
+--    render (Html h) = h
+    render (Image src) = 
+	Html.image Html.! [ Html.src src, Html.alt src ]
+    render (Link ref) =  
+	Html.anchor ( Html.tt Html.<< ref ) Html.! [ Html.href ref ]
     render (Empty)  = Html.noHtml
 
     render (Above x y) = {- Html.p -} ( render x :: Html.Html)
@@ -42,3 +51,24 @@ instance Render Html.Html where
     render (Itemize xs) = Html.ulist Html.<<
 		         do x <- xs ; return $ Html.li $ render x
     render (Nest x) = Html.blockquote $ render x
+
+
+
+instance Monad m => Render ( HTMLMonad.WithHTML m () ) where
+    render (Text t) = HTMLMonad.text t
+    render (Doc d)  = HTMLMonad.pre $ HTMLMonad.formattedtext ( show d )
+--    render (Html h) = error "Output.Render.HTMLMonad.Html"
+    render (Empty)  = HTMLMonad.empty
+
+    render (Image src) = 
+	HTMLMonad.img $ HTMLMonad.attr "src" src
+    render (Link ref) =  
+	HTMLMonad.a $ HTMLMonad.attr "href" ref
+
+    render (Above x y) = do 
+        render x :: HTMLMonad.WithHTML m ()
+        render y :: HTMLMonad.WithHTML m ()
+    render (Itemize xs) = HTMLMonad.ul $ sequence_ $ do
+	x <- xs
+	return ( HTMLMonad.li $ render x :: HTMLMonad.WithHTML m () )
+    render (Nest x) = HTMLMonad.blockquote $ render x
