@@ -2,22 +2,22 @@ module Graph.Standard where
 
 -- $Id$
 
-import Graph.Graph 
+import Graph.Type
 import Graph.Basic
-import Graph.Ops
+import qualified Graph.Ops
 import Graph.Display
 
-import Sets
+import Sets 
 import Util.Teilfolgen
 import Monad ( guard )
-import ToDoc
+import ToDoc hiding ( empty )
 
 star :: Int -> Graph Int
-star n = times0 ( independent $ mkSet [ 0 ]    )
+star n = Graph.Ops.times0 ( independent $ mkSet [ 0 ]    )
 	       ( independent $ mkSet [ 1 .. n ] )
 
 wheel :: Int -> Graph Int
-wheel n = times0 ( independent $ mkSet [ 0 ]    )
+wheel n = Graph.Ops.times0 ( independent $ mkSet [ 0 ]    )
 	       ( circle [ 1 .. n ] )
 
 c :: Int -> Graph Int
@@ -34,15 +34,15 @@ k n = clique $ mkSet [ 1 .. n ]
 
 kk :: [ Int ] -> Graph Int
 kk ns = informed ( funni "K" $ map toDoc ns )
-      $ foldr1 ( \ x y -> normalize $ times x y ) 
+      $ foldr1 ( \ x y -> Graph.Ops.normalize $ Graph.Ops.times x y ) 
       $ do n <- ns ; return $ e n
 
 herschel :: Graph Int
 herschel = informed ( text "Herschel" )
-	 $ normalize
-	 $ Graph.Ops.union ( grid (path [1..3]) (path [1 .. 3]) )
+	 $ Graph.Ops.normalize
+	 $ Graph.Ops.union ( Graph.Ops.grid (path [1..3]) (path [1 .. 3]) )
                  ( independent $ mkSet [1 , 3 ] )
-	   `links0` do 
+	   `Graph.Ops.links0` do 
 		v <- [1, 3 ]
 		let other v = 4 - v
 		[ kante (Left (v,v)) (Right v)

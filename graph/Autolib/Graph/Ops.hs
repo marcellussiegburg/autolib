@@ -60,14 +60,13 @@ complement g = informed ( funni "co" [ info g ] )
 
 union0 :: Ord a => Graph a -> Graph a -> Graph a
 -- klebt zusammen (zeichnet übereinander!)
-union0 g1 g2 = 
-      Graph { graph_info = funni "union0" [ info g1, info g2 ] 
+union0 g1 g2 = g1 -- use layout prog and hints from g1
+	    { graph_info = funni "union0" [ info g1, info g2 ] 
 	    , graph_texinfo = texinfo g1 ++ "\\cup" ++ texinfo g2
 	    , knoten = Set.union (knoten g1) (knoten g2)
 	    , kanten = Set.union (kanten g1) (kanten g2)
 	    , graph_layout = plusFM (graph_layout g1) (graph_layout g2)
 	    , bounding = larger (bounding g1) (bounding g2)
-    , layout_hints = []
 	    }
 
 unions0 :: Ord a => [ Graph a ] -> Graph a

@@ -8,7 +8,7 @@
 module Graph.Type (
       module Graph.Graph
     , module Graph.Layout
-    , module ToDoc
+--    , module ToDoc
     , module Iso
     , module Number
     , display
