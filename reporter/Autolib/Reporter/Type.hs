@@ -61,6 +61,9 @@ wrap r = Reporter { result = Just $ result r
 		  , kommentar = kommentar r 
 		  }
 
+export :: Reporter a -> ( Maybe a, Doc )
+export r = ( result r, kommentar r )
+
 -- for use in classical autotool problems
 reporter :: Reporter Int -> IO String
 reporter r = do
