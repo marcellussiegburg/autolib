@@ -26,7 +26,9 @@ language a =
        , contains     = is_accepted a
 
        , sample       = \ c n -> do
-            ws <- einige c $ take (n^2 + 1) $ accepted a
+            ws <- einige c $ take (n^2 + 1) 
+			 -- $ takeWhile ( \ w -> length w <= n^2 ) 
+			 $ accepted a
 	    return $ nub ws
 
        , anti_sample  = 
