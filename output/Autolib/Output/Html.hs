@@ -36,6 +36,7 @@ instance Render Html.Html where
 
 
 breaking :: Output -> Bool
+breaking ( Empty ) = True -- ??
 breaking ( Itemize _ ) = True
 breaking ( Nest _ ) = True
 breaking ( Doc _ ) = True
