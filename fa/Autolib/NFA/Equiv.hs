@@ -13,10 +13,50 @@ import FiniteMap
 import List (partition, tails)
 import Maybe (fromMaybe,maybeToList)
 
+import Challenger 
+import qualified Web.Konfiguration as K
+import qualified Web.Instanz as I
+import qualified Util.Datei as D
+
+
 type Klassen s = Set (Set s)
 type Mappe   s = FiniteMap s Int
 
 type Trenner s = ( s, s, Char )
+
+----------------------------------------------------------------------
+
+data Equiv = Equiv deriving ( Read, Show ) 
+
+instance ( Show s, Ord s
+	 , ToDoc (NFA s), Read (NFA s)
+	 , ToDoc [[Trenner s]], Read [[Trenner s]], Show [[Trenner s]]
+	 )
+    => Problem Equiv ( NFA s ) [[Trenner s]] where
+    
+       -- String ist der Dateiname ohne Endung
+       -- return: datei, Typ (endung), ExitCode des Systemaufrufs
+       -- getInstanz :: p -> i -> b -> String -> IO(String, String, ExitCode
+       getInstanz Equiv a tss dateiName =
+             -- mkDot a "dot" "png" dateiName
+	     mkDot a "neato" "png" dateiName
+
+
+publish :: (Read s, ToDoc [s], ToDoc s, Ord s, Show s)
+	 => String -> ( NFA s ) -> IO String
+-- schreibt file unter public_html und gibt url darauf zurück
+publish mat ( a :: NFA s ) = do 
+    let e = Aufgabe { problem = Equiv
+		    , instanz = a
+		    , beweis  = error "Equiv.e.beweis" :: [[Trenner s]]
+		    }
+    let autor = "0"
+    let nr = read mat 
+    let i = Ident { aufgabe = nr }
+    I.erzeugeInstanzDatei e i autor False
+    let d = I.aufgabenDateiname (show Equiv) nr
+    return $ K.absolute_url d
+    
 
 ----------------------------------------------------------------------
 
@@ -132,7 +172,7 @@ schritt sigma a xss (k, ts) = do
     inform $ text "... sind alle Tupel korrekt?"
     check_trenners a fm ts
 
-    inform $ text "... sind alle nötigen Tupel vorhanden?"
+    inform $ text "... sind alle für diesen Schritt nötigen Tupel vorhanden?"
     let ts' = trenner sigma a xss
     if isEmptySet (mkTafel ts' `minusSet` mkTafel ts)
        then do inform $ text "Ja." 
@@ -142,12 +182,16 @@ schritt sigma a xss (k, ts) = do
 ----------------------------------------------------------------------------
 
 equiv :: ( Ord s , ToDoc s, ToDoc [s] )
-	=> Set Char -> NFA s 
+	=> String
+	 -> Set Char -> NFA s 
 	-> [[ Trenner s ]]
 	-> Reporter ()
-equiv sigma a tss = do
-    inform $ text "Sie sollen die Äquivalenzklassen bestimmen für:"
-    inform $ toDoc a
+equiv url sigma a tss = do
+    inform $ vcat $ map text 
+	          [ "Sie sollen die Äquivalenzklassen"
+		  , "für diesen Automaten bestimmen:"
+		  , url
+		  ]
     foldM ( schritt sigma a ) ( start a ) $ zip [0..] $ tss ++ [[]]
     return ()
 
