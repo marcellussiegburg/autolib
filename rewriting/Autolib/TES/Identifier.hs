@@ -24,9 +24,9 @@ import Hash
 
 -- | don't derive Eq and Ord since arity should be ignored
 data Identifier = Identifier 
-		{ hash_code :: Int
+		{ hash_code :: ! Int
+		, name :: ! String
 		, i_arity :: Int
-		, name :: String
 		}
 
 mk :: Int -> String -> Identifier

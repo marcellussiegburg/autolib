@@ -23,31 +23,25 @@ import Data.FiniteMap
 -- such that redex patch is (RPO-) smaller than reduct path
 -- or ( redex, Left path ) for an uncovered redex
 
-{-
-covers :: ( TRSC v c, NFTAC (Aged c) s )
-      => Config d
-      -> TRS v c
-      -> NFTA (Aged c) s
-      -> [ ( Path v c s, Either ( Path v c s ) -- not covered
-			        [ Path v c s ] -- already covered
-	   ) 
-	 ]
--}
-covers :: ( TRSC v Identifier, NFTAC (Aged Identifier) s )
-      => Config d
+type Covers d v s =  Config d
       -> TRS v Identifier
       -> NFTA (Aged Identifier) s
       -> [ ( Path v Identifier s, Either ( Path v Identifier s ) -- not covered
 			        [ Path v Identifier s ] -- already covered
 	   ) 
 	 ]
+
+{-# SPECIALIZE covers :: Covers d Identifier Int #-}
+
+covers :: ( TRSC v Identifier, NFTAC (Aged Identifier) s )
+      => Covers d v s
 covers conf trs a = do
     let lab = bound_type conf
     ( l, r ) <- rules trs
     redex @ ( p, t, fm ) <- matches a l
 
     let reducts = do
-	    reduct @ ( p', t', fm' ) <- matches_from a r p
+	    reduct @ ( p', t', fm' ) <- TES.Match.from a r p
 	    guard $ mkSet (fmToList fm') `subseteq` mkSet ( fmToList fm )
 	    -- if clamping, then don't check heights of border rules
 	    guard $ ( clamp conf && border_term conf t )
