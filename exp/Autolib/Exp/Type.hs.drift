@@ -1,8 +1,11 @@
+-- -*- mode: haskell -*-
+
 module Exp.Type where
 
 --  $Id$
 
 import Data.Typeable
+import Text.XML.HaXml.Haskell2Xml
 
 -- | regular expressions
 data RX c
@@ -19,10 +22,12 @@ data RX c
 	| Left_Quotient (RX c) (RX c)
 	| Right_Quotient (RX c) (RX c)
 
-	| Star (RX c)
-	| Plus (RX c)
 	| Power Integer (RX c) 
+	| PowerStar (RX c)
+	| PowerPlus (RX c)
     deriving ( Eq, Ord )
+
+{-! for RX derive: Haskell2Xml !-}
 
 -- | for  backward compatibility
 type Exp = RX Char 

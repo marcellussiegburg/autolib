@@ -46,8 +46,8 @@ doc p x @ (Dot          l r) =
     let glue = if istwort x then cat else sep
     in noper glue 6 p l r
 
-doc p (Star x) = powered p (char '*') x
-doc p (Plus x) = powered p (char '+') x
+doc p (PowerStar x) = powered p (char '*') x
+doc p (PowerPlus x) = powered p (char '+') x
 doc p (Power e x) = powered p (integer e) x
 
 klammer :: Int -> Int -> Doc -> Doc

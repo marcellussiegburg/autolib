@@ -15,6 +15,8 @@ import Reader
 
 import Util.Teilfolgen
 
+import Text.XML.HaXml.Haskell2Xml
+import XmlSet
 
 instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)
@@ -35,6 +37,13 @@ instance ToDoc [a] => ToDoc (Set a)
 instance ToDoc [a] => Show (Set a)
     where show = render . toDoc
 
+
+instance (Ord a, Haskell2Xml a) => Haskell2Xml (Set a) where
+    toContents s = toContents $ XmlSet $ setToList s 
+    fromContents cs = 
+        let ( XmlSet x, rest ) = fromContents cs
+	in  ( mkSet x, rest )
+    toHType (_ :: Set a) = toHType (undefined :: XmlSet a) -- ??
 
 subseteq :: Ord a => Set a -> Set a -> Bool
 subseteq xs ys = isEmptySet $ xs `minusSet` ys

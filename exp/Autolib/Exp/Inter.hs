@@ -106,9 +106,9 @@ inter_with norm e (SymDiff      l r) =
 inter_with norm e (Intersection l r) = 
       norm $ Ops.intersection (inter_with norm e l) (inter_with norm e r)
 
-inter_with norm e (Star x)   = norm $ Ops.star    (inter_with norm e x)
-inter_with norm e (Plus x)   = norm $ Ops.plus    (inter_with norm e x)
-inter_with norm e (Power p x)= norm $ Ops.power p (inter_with norm e x) 
+inter_with norm e (PowerStar x)   = norm $ Ops.star    (inter_with norm e x)
+inter_with norm e (PowerPlus x)   = norm $ Ops.plus    (inter_with norm e x)
+inter_with norm e (Power   p x)= norm $ Ops.power p (inter_with norm e x) 
 
 
 	

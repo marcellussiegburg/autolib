@@ -54,8 +54,8 @@ monomial = do
     x <- atom
     fs <- many $
 	    do symbol "^" 
-	       (     do symbol  "+" ; return $ Plus  
-		 <|> do symbol  "*" ; return $ Star   
+	       (     do symbol  "+" ; return $ PowerPlus  
+		 <|> do symbol  "*" ; return $ PowerStar   
 		 <|> do e <- natural; return $ Power e
 		     -- TODO: "hoch mod n"
 		 <?> "exponent"

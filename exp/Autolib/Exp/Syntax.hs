@@ -27,8 +27,8 @@ subtrees x = x : case x of
     Left_Quotient l r -> subtrees l ++ subtrees r
     Right_Quotient l r -> subtrees l ++ subtrees r
 
-    Star x -> subtrees x
-    Plus x -> subtrees x
+    PowerStar x -> subtrees x
+    PowerPlus x -> subtrees x
     Power i x -> subtrees x
 
 instance Size (RX c) where size = length . subtrees
@@ -49,8 +49,8 @@ constructor x = case x of
     SymDiff l r -> "SymDiff"
     Shuffle l r -> "Shuffle"
 
-    Star x -> "Star"
-    Plus x -> "Plus"
+    PowerStar x -> "PowerStar"
+    PowerPlus x -> "PowerPlus"
     Power i x -> "Power"
 
 
@@ -71,8 +71,8 @@ star_height x = case x of
     SymDiff      l r -> max (star_height l) (star_height r)
     Shuffle      l r -> max (star_height l) (star_height r)
 
-    Star x -> 1 + star_height x
-    Plus x -> 1 + star_height x
+    PowerStar x -> 1 + star_height x
+    PowerPlus x -> 1 + star_height x
     Power i x -> star_height x
 
 
