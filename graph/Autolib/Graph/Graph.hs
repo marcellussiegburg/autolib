@@ -32,6 +32,7 @@ data Graph a  = Graph
 	      -- neue komponenten (nicht show/read-fähig)
 	      , graph_info :: Doc
 	      , graph_texinfo :: String
+	      -- partiell (entspricht pinning in neato)
 	      , graph_layout  :: FiniteMap a Position
 	      , bounding :: Position
 	      , layout_hints :: [ String ]

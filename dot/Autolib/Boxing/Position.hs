@@ -15,6 +15,11 @@ instance ToDoc Position where
 instance Show Position where 
     show = render . toDoc
 
+-- in dot format
+zeige :: Position -> String
+zeige p = take 5 ( show $ width p )
+	++ "," ++ take 5 ( show $ height p )
+
 
 instance Num Position where
     d + e = Position { width = width d + width e 

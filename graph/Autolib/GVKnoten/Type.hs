@@ -4,6 +4,7 @@ module GVKnoten.Type where
 
 type Pos = ( Int, Int )
 
+-- das wird gelesen
 data GVKnoten = GVKnoten { ident  :: String
 			    , label  :: String
 			    , pos    :: Pos

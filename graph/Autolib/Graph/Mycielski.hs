@@ -8,6 +8,8 @@ import Graph.Ops
 import Graph.Display
 
 import ToDoc
+import FiniteMap
+import Boxing.Position
 
 mycielski :: ( Ord a )
 	  => Graph a 

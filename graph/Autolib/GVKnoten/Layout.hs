@@ -15,6 +15,9 @@ import Maybe
 import Random
 import System
 
+-- in der eingabe können einige knoten schon gepinnt sein
+-- dazu benutze graph.graph_layout
+
 layout :: ( Ord a, Show a ) 
        => Graph a -> IO (FiniteMap a Pos)
 layout graph = do

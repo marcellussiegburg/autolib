@@ -5,6 +5,8 @@ module Dot.Node where
 -- implement only those attribs that would be needed
 -- for drawing finite automata (= directed edge-labelled graphs)
 
+import Boxing.Position
+
 import ToDoc
 
 import Maybe ( maybeToList )
@@ -14,17 +16,21 @@ data Type = Type { ident :: String
 		 , shape :: Maybe String
 		 , color :: Maybe String
 		 , node_style :: Maybe String
+		 , pinned :: Maybe String
+		 , position :: Maybe String
 		 }
 
 nmap :: ( String -> String ) -> ( Type -> Type )
 nmap f n = n { ident = f $ ident n }
 
 blank :: Type
-blank =  Type {  ident = error "Dot.Edge.ident"
+blank =  Type {  ident = error "Dot.Node.ident"
 		 , label = Nothing
 		 , shape = Just "circle"
 		 , color = Nothing
 		 , node_style = Nothing
+		 , pinned = Nothing
+		 , position = Nothing
 		 }
 
 
@@ -34,9 +40,11 @@ instance ToDoc Type where
 			     , ("shape", shape)
 			     , ("color", color)
 			     , ("style", node_style)
+			     , ("pos", position)
+			     , ("pin", pinned)
 			     ]
 	    val <- maybeToList $ fun n
-	    return $ text name <+> equals <+> toDoc val
+	    return $ text name <> equals <> toDoc val
           )
 
 instance Show Type where

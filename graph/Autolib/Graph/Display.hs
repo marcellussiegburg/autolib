@@ -15,6 +15,8 @@ import qualified Dot.Graph
 import qualified Dot.Node
 import qualified Dot.Edge
 
+import Boxing.Position
+
 import FiniteMap
 import Maybe
 import Monad ( guard )
@@ -32,6 +34,8 @@ dot_numbered :: ( Show a, Ord a, Show b )
 	     => Graph a -> ( a -> b ) -> Dot.Graph.Type
 dot_numbered g num = 
     let 
+            pins = graph_layout g
+
 	    tricky cs = 
 	        if take 1 cs `elem` [ "\"", "'" ]  
 		   -- dann ist es Show String|Char
@@ -39,13 +43,18 @@ dot_numbered g num =
 		else cs
 
             ns = do v <- setToList $ knoten g
-                    return $ Dot.Node.blank
+                    let n  = Dot.Node.blank
                            { Dot.Node.ident = show $ num v
                            , Dot.Node.label = 
 			        if show_labels g
 			        then return $ tricky $ show v
 			        else return ""
                            }
+		    return $ case lookupFM pins v of
+		        Nothing -> n
+			Just p  -> n { Dot.Node.pinned = Just "true"
+				     , Dot.Node.position = Just $ zeige p
+				     }
 
             es = do Kante { von = p, nach = q } <- setToList $ kanten g
                     return $ Dot.Edge.blank

@@ -55,6 +55,7 @@ path :: Ord a => [ a ] -> Graph a
 path xs = 
     Graph { graph_info = text $ "P_" ++ show (length xs)
             , graph_texinfo = "{P_{" ++ show (length xs) ++ "}}"
+	  , show_labels = False
 	  , knoten = mkSet xs
 	  , kanten = mkSet $ do 
 	       (u , v ) <- zip xs ( tail xs )
