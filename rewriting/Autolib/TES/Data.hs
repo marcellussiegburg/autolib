@@ -15,6 +15,7 @@ import Sets
 
 import ToDoc
 import Reader
+import Data.List ( partition )
 
 import TES.Sexp
 import TES.Parsec
@@ -81,19 +82,22 @@ line = TES.Parsec.parens TES.Parsec.trs $  do
 
 repair_variables :: TES -> TES
 repair_variables trs =
-    let vars = mkSet $ do 
-		List ( Leaf "VAR" : vs ) <- annotations trs
-		Leaf v <- vs
-	        return $ mknullary v
+    let vhead (List (Leaf "VAR" : _ )) = True ; vhead _ = False
+        ( vars, novars ) = partition vhead $ annotations trs
+        vs = mkSet $ do 
+		List ( Leaf "VAR" : xs ) <- vars
+		Leaf x <- xs
+	        return $ mknullary x
 	-- change (some) nullary ids to vars
-	xform ( Node c [] ) | c `elementOf` vars = Var c
+	xform ( Node c [] ) | c `elementOf` vs = Var c
 	xform ( Node c args ) = Node c ( map xform args )
 	-- apply to rules
         rs = do (l,r) <- rules trs ; return ( xform l, xform r )
-	sig = sfilter ( \ s -> not (s `elementOf` vars)) $ symbols rs
-    in  trs { variables = vars
+	sig = sfilter ( \ s -> not (s `elementOf` vs)) $ symbols rs
+    in  trs { variables = vs
 	    , signature = sig
 	    , rules = rs
+	    , annotations = novars
             }
 
 symbols :: Ord c => [ Rule v c ] -> Set c
