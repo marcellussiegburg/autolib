@@ -7,6 +7,7 @@ import Exp.Syntax
 
 import Sets
 import Reporter
+import ToDoc
 
 check_form :: Set String -> Exp -> Reporter ()
 check_form ss x = do
