@@ -1,3 +1,5 @@
+{-# OPTIONS -fallow-overlapping-instances #-}
+
 module Autolib.ToDoc.Manual where
 
 --  $Id$

@@ -12,6 +12,9 @@ data Tex = Direct String
 		 , args :: [ Arg ]
 		 , contents :: Tex
 		 }
+         | Align { rows :: [[Tex]]
+		 }
+         | Sequence { items :: [ Tex ] }
 
 instance ToDoc Tex where
     toDoc ( Direct cs ) = text cs
@@ -24,6 +27,15 @@ instance ToDoc Tex where
 	       , nest 2 $ toDoc ( contents e )
 	       ,    text ( "\\end{" ++ name e ++ "}" )
 	       ]
+    toDoc ( a @ Align {} ) 
+        = vcat
+	$ punctuate (text "\\\\")
+	$ do row <- rows a
+             return $ fsep
+		    $ punctuate (text "&")
+		    $ map toDoc row
+    toDoc ( s @ Sequence {} )
+        = fsep $ map toDoc $ items s
 
 instance Show Tex where show = render . toDoc
 
