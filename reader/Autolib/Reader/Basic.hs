@@ -9,6 +9,7 @@ module Reader.Basic
 , my_reserved, my_equals
 , my_commaSep, my_semiSep
 , my_identifier
+, my_integer
 , my_stringLiteral
 , listify
 , parsed_info
@@ -50,6 +51,7 @@ my_commaSep = commaSep haskell
 my_semiSep = semiSep haskell
 my_identifier = identifier haskell
 my_stringLiteral = stringLiteral haskell
+my_integer = integer haskell
 
 
 readerParen man p =
