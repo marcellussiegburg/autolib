@@ -11,7 +11,7 @@ instance ToDoc i => ToDoc (Boolean i) where
     toDocPrec p ( Fun op xs ) 
 	= let pop = 1 + fromEnum op
 	  in   docParen ( p > pop ) 
-	     $ sepBy ( text "and" ) $ map ( toDocPrec pop ) xs
+	     $ sepBy ( text $ name op ) $ map ( toDocPrec pop ) xs
     toDocPrec p ( Atomic a ) 
 	= toDocPrec p a
 

@@ -4,18 +4,31 @@ module Reporter.Proof where
 
 --  $Id$
 
+import Reporter.Boolean.Type
 import Output
 import ToDoc
 
 data Proof = 
      Proof { value  :: Bool
+	   , formula :: Doc
 	   , reason :: Output
 	   }
 
+
+
+explain :: Proof -> Output
+explain p = foldr1 Above
+	  [ Doc $ text "value of" <+> quoted ( toDoc ( formula p ))
+	  , Doc $ text "is" <+> toDoc ( value p ) <> text ", because"
+	  , Nest $ reason p
+	  ]
+       
 instance Eq Proof where
     p == q = value p == value q
 
+
 instance ToDoc Output where toDoc = Output.render
+instance ToDoc Doc where toDoc = id
 
 {-! for Proof derive : ToDoc !-}
 

@@ -11,6 +11,7 @@ data Oper = First | Or | And
 name :: Oper -> String
 name = map toLower . show
 
+
 data Boolean i = Not ( Boolean i )
               | Fun Oper [ Boolean i ]
 	      | Atomic i

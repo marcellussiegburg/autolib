@@ -15,7 +15,9 @@ data Iterator a = forall s .
 
 instance Informed ( Iterator a ) where
     info ( Iterator doc start step ) = doc
+    informed msg ( Iterator _ start step ) = Iterator msg start step
 
+instance ToDoc ( Iterator a ) where toDoc = info    
 
 instance Functor Iterator where
     fmap f ( Iterator doc start step  ) 

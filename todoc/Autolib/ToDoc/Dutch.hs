@@ -43,3 +43,6 @@ dutch_list = clipped_dutch_list max_list_length
 sepBy :: Doc -> [ Doc ] -> Doc
 sepBy s ds = fsep $ intersperse s ds
 
+quoted :: Doc -> Doc
+quoted d = char '`' <> d <> char '\''
+
