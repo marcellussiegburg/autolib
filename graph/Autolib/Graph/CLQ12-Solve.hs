@@ -9,7 +9,7 @@ import Data.FiniteMap
 
 main = do 
      putStrLn $ unlines 
-              $ map ( \g -> show (alleGrösstenCliquen g [[]]) )
+              $ map ( \g -> show (alleGroesstenCliquen g [[]]) )
                     [clq1,clq2]
 
 

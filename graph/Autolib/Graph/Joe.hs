@@ -49,8 +49,8 @@ instance (Show a, Ord a) => Show (Kante a) where
 -------------------------------------------------------------------------------
 -- Funktionen über Knoten von Graphen
 
-vorgänger :: Eq a => (Graph a) -> a -> [ a ]
-vorgänger g x = do
+vorgaenger :: Eq a => (Graph a) -> a -> [ a ]
+vorgaenger g x = do
 	  k @ Kante { } <- setToList $ kanten g
 	  guard $ nach k == x
 	  return $ von k
@@ -62,7 +62,7 @@ nachfolger g x = do
 	  return $ nach k
 
 ein_grad, aus_grad, grad :: Eq a => (Graph a) -> a -> Int
-ein_grad g k = length $ vorgänger g k
+ein_grad g k = length $ vorgaenger g k
 aus_grad g k = length $ nachfolger g k
 grad g k = ein_grad g k + aus_grad g k
 
@@ -77,21 +77,21 @@ mapG fi f g = Graph
      , kanten = mapSet ( \ k -> Kante { von = f (von k), nach = f (nach k) } ) ( kanten g )
      }
 
-abzähl :: Ord a => Graph a -> Graph Int
-abzähl g = 
+abzaehl :: Ord a => Graph a -> Graph Int
+abzaehl g = 
     let fm  = listToFM $ zip ( setToList $ knoten g ) [ 1 .. ]
         f   = lookupWithDefaultFM fm (error "abzähl") 
     in  mapG id f g
 
-gefährliche_summe :: Ord a => Graph a -> Graph a -> Graph a
-gefährliche_summe g1 g2 = 
+gefaehrliche_summe :: Ord a => Graph a -> Graph a -> Graph a
+gefaehrliche_summe g1 g2 = 
     Graph { tafel = plusFM (tafel g1) (tafel g2)
 	  , kanten = kanten g1 `union` kanten g2
 	  }
 
 summe :: (Ord a, Ord b) => Graph a -> Graph b -> Graph (Either a b)
 summe g1 g2 =
-    mapG ('L' :) Left g1 `gefährliche_summe` mapG ('R' :) Right g2
+    mapG ('L' :) Left g1 `gefaehrliche_summe` mapG ('R' :) Right g2
 
 
 -------------------------------------------------------------------------------

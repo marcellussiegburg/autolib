@@ -11,8 +11,8 @@ import Right
 
 -------------------------------------------------------------------------------
 
-istFärbung :: Ord a => Graph a -> [[a]] -> Bool
-istFärbung g xs = mkSet (gleichfarbKanten g xs) == mkSet [ mkSet [] ]
+istFaerbung :: Ord a => Graph a -> [[a]] -> Bool
+istFaerbung g xs = mkSet (gleichfarbKanten g xs) == mkSet [ mkSet [] ]
                   &&
                   isEmptySet (mehrfacheKnoten xs)
                   &&
@@ -54,7 +54,7 @@ check graph k msg student = do
                 _  -> Left  $ "Folgende Knoten sind mit mehr als einer Farbe gefärbt:\n"
                               ++ show mKn
 
-   let istF   = case istFärbung graph student of
+   let istF   = case istFaerbung graph student of
                 True  -> Right $ "Keine Knoten gleicher Farbe sind verbunden." 
                                  ++ "Das ist wirklich eine "
                                  ++ show k ++ "-Färbung."
@@ -70,7 +70,7 @@ check graph k msg student = do
        , "Ihre Färbung lautet:"
        ] ++ nice student
 
-   muß fCount $ muß fehlKn $ muß mehrKn $ muß exctKn $ muß istF $ right
+   muss fCount $ muss fehlKn $ muss mehrKn $ muss exctKn $ muss istF $ right
 
 nice :: Show a => [ a ] -> [ String ]
 nice xs = [ "Farbe " ++ show n ++ ": " ++ show f

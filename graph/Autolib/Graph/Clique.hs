@@ -53,4 +53,4 @@ check graph k msg student = do
        , show student
        ]
 
-   muﬂ mehrKn $ muﬂ exctKn $ muﬂ istC $ muﬂ istGr $ right
+   muss mehrKn $ muss exctKn $ muss istC $ muss  istGr $ right

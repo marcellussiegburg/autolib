@@ -9,8 +9,8 @@ import Data.FiniteMap
 
 -------------------------------------------------------------------------------
 
-längereWege :: Ord a => Graph a -> [[a]] -> [[a]]
-längereWege g xs =
+laengereWege :: Ord a => Graph a -> [[a]] -> [[a]]
+laengereWege g xs =
     setToList ( mkSet( filter ( \l -> isEmptySet (mehrfacheKnoten l) )
                               [ l ++ [x]
                               | l <- xs, x <- knotenl g, istWeg g (l ++ [x])
@@ -18,15 +18,15 @@ längereWege g xs =
                      )
               )
 
-längsteWege :: Ord a => Graph a -> [[a]] -> [[a]]
-längsteWege g xs =
-   let lW = längereWege g xs
+laengsteWege :: Ord a => Graph a -> [[a]] -> [[a]]
+laengsteWege g xs =
+   let lW = laengereWege g xs
    in case lW of
            []  -> xs
            lWg -> case length (head lWg) == length (knotenl g) of
                   True  -> lWg
-                  False -> längsteWege g lWg
+                  False -> laengsteWege g lWg
  
 alleHamiltons :: Ord a => Graph a -> [[a]]
-alleHamiltons g = [ h | h <- längsteWege g [[head (knotenl g)]]
+alleHamiltons g = [ h | h <- laengsteWege g [[head (knotenl g)]]
                       , istHamilton g h ]
