@@ -158,7 +158,7 @@ repair_variables trs =
         vs = mkSet $ do 
 		List ( Leaf "VAR" : xs ) <- annotations trs
 		Leaf x <- xs
-	        return $ mknullary $ show x
+	        return $ mknullary x
 	-- change (some) nullary ids to vars
 	xform ( Node c [] ) | c `elementOf` vs = Var c
 	xform ( Node c args ) = Node c ( map xform args )
