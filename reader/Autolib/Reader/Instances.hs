@@ -39,6 +39,28 @@ instance (Reader a, Reader b, Reader c) => Reader (a, b, c) where
 	     z <- reader
 	     return (x, y, z)
 
+
+instance (Reader a, Reader b, Reader c, Reader d ) => Reader (a, b, c, d) where
+    reader = my_parens $ do 
+	     x <- reader ; my_comma
+	     y <- reader ; my_comma
+	     z <- reader ; my_comma
+	     p <- reader 
+	     return (x, y, z, p)
+
+
+instance (Reader a, Reader b, Reader c, Reader d, Reader e ) => Reader (a, b, c, d, e) where
+    reader = my_parens $ do 
+	     x <- reader ; my_comma
+	     y <- reader ; my_comma
+	     z <- reader ; my_comma
+	     p <- reader ; my_comma
+	     q <- reader
+	     return (x, y, z, p, q)
+
+
+
+
 instance Reader a => Reader [a] where
     reader = listify reader
 
