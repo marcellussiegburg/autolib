@@ -4,7 +4,6 @@ module Autolib.Util where
 
 import Autolib.Util.BFS
 import Autolib.Util.Bild
-import Autolib.Util.Cache
 import Autolib.Util.Chmod
 import Autolib.Util.Closure
 import Autolib.Util.DPL
