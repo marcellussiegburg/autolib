@@ -43,6 +43,8 @@ inform doc = Reporter { result = Just () , kommentar = doc }
 newline :: Reporter ()
 newline = inform ( text " " )
 
+nested :: Int -> Reporter a -> Reporter a
+nested d r = r { kommentar = nest d $ kommentar r }
 
 reject :: Doc -> Reporter a
 reject doc = Reporter { result = Nothing,   kommentar = doc }
