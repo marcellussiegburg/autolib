@@ -18,8 +18,8 @@ instance Informed ( Iterator a ) where
     info ( Iterator doc step start ) = doc
 
 -- execute iterator until result occurs
-execute :: ToDoc a => Iterator a -> Reporter a
-execute ( Iterator doc step start ) = helper start where
+exec :: ToDoc a => Iterator a -> Reporter a
+exec ( Iterator doc step start ) = helper start where
     helper state = do
         inform $ text "execute one step for iterator" <+> doc
         next <- nested 4 $ step state
