@@ -53,14 +53,18 @@ covers conf trs a = do
 	    guard $ ( clamp conf && border_term conf t )
 		  || term_is_covered_by lab (fmap age t) (fmap age t')
 	    return reduct
-    let down c = if it c `elem` clamped_symbols conf
+    let -- conservative approach: reset the clamping symbol
+        down c = if it c `elem` clamped_symbols conf
 		 then Aged 0 $ it c
 		 else c
+	-- brutal approach: reset all symbols
+	full_down c = Aged 0 $ it c
     return ( redex
 	   , if null reducts
 	     then Left ( p
-		       , ( if clamp conf then fmap down else id ) 
-			    $ term_cover lab (fmap age t) r
+		       , ( if clamp conf && border_term conf t
+			   then fmap full_down else id 
+			 ) $ term_cover lab (fmap age t) r
 		       , fm 
 		       )
 	     else Right reducts
