@@ -3,6 +3,7 @@ module TES.Identifier
 ( Identifier -- abstract
 , mknullary
 , mkunary
+, mkbinary
 )
 
 where
@@ -61,6 +62,10 @@ mknullary = mk 0
 
 mkunary :: String -> Identifier
 mkunary = mk 1
+
+mkbinary :: String -> Identifier
+mkbinary = mk 2
+
 
 type Signature = Set Identifier
 

@@ -30,16 +30,34 @@ split ::  NFTAC c Int
     => Set c -- ^ signature
     -> NFTA c Int
 split s = 
-    let ics = zip [0 .. ] $ setToList s
+    let ics = zip [ 1 .. ] $ setToList s
 	its = map fst ics
-	pcqs =  do
+    in NFTA { states = mkSet $ its
+	    , finals = mkSet $ its
+	    , eps = Relation.empty $ mkSet $ its
+	    , trans  = Relation.make $ do
 	          (i, c) <- ics
-	          args <- alle its (arity c) 
-	          return (i, c, args)
-    in NFTA { states = mkSet its
-	    , finals = mkSet its -- all are accepting
-	    , eps = Relation.empty $ mkSet its
-	    , trans  = mach pcqs
+	          argv <- alle its (arity c)
+	          return (i, (c, argv))
+            }
+
+-- | recognize all terms
+-- but use different state for each symbol
+split_eps ::  NFTAC c Int
+    => Set c -- ^ signature
+    -> NFTA c Int
+split_eps s = 
+    let top = 0
+        ics = zip [ 1 .. ] $ setToList s
+	its = map fst ics
+    in NFTA { states = mkSet $ top : its
+	    , finals = mkSet [ top ]
+	    , eps = Relation.make $ do 
+	          it <- its
+	          return ( top, it )
+	    , trans  = Relation.make $ do
+	          (i, c) <- ics
+	          return (i, (c, replicate (arity c) top))
             }
 
 mach pcqs =  Relation.make

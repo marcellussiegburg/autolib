@@ -31,6 +31,14 @@ sympos t = do
     ( p, Node {} ) <- positions t
     return p
 
+-- | leaf positions (= nullary symbols)
+leafpos :: Term v c 
+    -> [ Position ]
+leafpos t = do
+    ( p, Node c [] ) <- positions t
+    return p
+
+
 {-# inline subterms #-}
 
 subterms :: Term v c 

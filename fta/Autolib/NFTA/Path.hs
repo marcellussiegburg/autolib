@@ -77,6 +77,6 @@ instance ToDoc Edge
 
 instance Symbol Edge -- dummy
 
-instance Size Edge 
+
 
 
