@@ -19,9 +19,11 @@ type State c s  = ([c], s)
 succs :: (NFAC c s, Ord (Set (State c s))) 
       => NFA c s -> State c s -> Set ( State c s )
 succs a (w, p) = mkSet $ do
-    c <- setToList $ letters a
+    c <- setToList $ letters a -- sehr dubios, kostet zeit
     q <- setToList $ lookupWithDefaultFM (trans a) emptySet (p, c)
-    return (w ++ [c], q)
+    return ( w ++ [c] -- na und das erst
+	   , q
+	   )
 
 computations :: (NFAC c s, Ord (Set (State c s)) )
 	     => NFA c s -> [ Set ( State c s ) ]
