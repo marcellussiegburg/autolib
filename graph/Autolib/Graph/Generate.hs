@@ -1,4 +1,8 @@
-module Graph.Generate where
+module Graph.Generate 
+
+( some )
+
+where
 
 -- $Id$
 

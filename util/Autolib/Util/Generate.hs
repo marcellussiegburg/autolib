@@ -30,7 +30,9 @@ generate conf = do
        then generate conf { depth = 0 }
        else do
 	    xs <- summe arity $ size conf
-	    gs <- sequence $ do x <- xs ; return $ do
-	       generate $ conf { depth = pred $ depth conf , size  = x }
+	    gs <- sequence $ do 
+	       x <- xs
+	       return $ do
+	           generate $ conf { depth = pred $ depth conf , size  = x }
 	    return $ op gs
 
