@@ -11,9 +11,6 @@ import Autolib.ToDoc
 import Autolib.Set
 
 import Data.FiniteMap
-
--- import Text.XML.HaXml.Haskell2Xml
--- import Autolib.XmlFM
 import Autolib.Xml
 
 import Data.Typeable

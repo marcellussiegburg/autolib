@@ -12,6 +12,7 @@ import qualified Autolib.Output as Output
 import Autolib.Dot.Dot
 import qualified Autolib.Dot.Graph
 import Autolib.Size
+import Autolib.Debug
 
 import System.IO
 import System.Directory
@@ -39,9 +40,12 @@ peng a = do
         flag <- doesDirectoryExist pics
         when ( not flag ) $ createDirectory pics
         done <- do
+	       debug $ "looking for: " ++ objfile
                cs <- readFile objfile
-               
-               return $ show a == cs
+               debug $ "found      : " ++ objfile
+	       let eq = show a == cs
+	       debug $ "contents ok: " ++ show eq
+               return $ eq
            `Control.Exception.catch` \ any -> return False
         when ( not done ) $ do      
              writeFileOver objfile $ show a
