@@ -7,6 +7,7 @@ module TES.OC where
 import TES.Identifier
 import TES.Term
 import TES.Rule
+import TES.Data
 import TES.Position
 import TES.Unify
 
@@ -18,10 +19,10 @@ import Data.Char
 import Data.List ( nub )
 
 -- | 
-combine :: TRSC Int c 
+down :: TRSC Int c 
 	=> Rule Int c -> Rule Int c 
 	-> [ Rule Int c ]
-combine (l1, r1) (l2, r2) = do
+down (l1, r1) (l2, r2) = do
     let vs1 = vars l1 `union` vars r1
 	m1 = maximum $ 0 : setToList vs1
 	vs2 = vars l2 `union` vars r2
@@ -38,15 +39,47 @@ combine (l1, r1) (l2, r2) = do
 	     , apply_partial u $ poke r1 (p, r2')
 	     )
 
+up :: TRSC Int c 
+	=> Rule Int c -> Rule Int c 
+	-> [ Rule Int c ]
+up x y = let flip (l,r) = (r,l)
+	 in  map flip $ down (flip y) (flip x)
+
+combine :: TRSC Int c 
+	=> Rule Int c -> Rule Int c 
+	-> [ Rule Int c ]
+combine x y = down x y ++ up x y
+
 -- | so that vars are [0 ..]
-normalize :: TRSC Int c
-	  => Rule Int c -> Rule Int c
+normalize :: ( TRSC v c, TRSC Int c )
+	  => Rule v c -> Rule Int c
 normalize (l, r) = 
     let fm = listToFM 
+	   -- | user ordering by occurence
 	   $ zip ( nub $ lvars l ++ lvars r ) [ 0 .. ]
     in  ( applyvar fm l , applyvar fm r )
 	
 
+hull :: Ord a 
+     => (a -> a -> [a]) -- ^ associative operation
+     -> [a] -- ^ initial elements
+     -> [a] 
+hull op base = help (mkSet base) base where
+    help done [] = []
+    help done xs = xs ++
+        let ys = do x <- xs ; b <- base ; op x b 
+	    new = nub $ filter ( not . ( `elementOf` done ) ) ys
+	in  help ( done `union` mkSet new ) new 
+
+-- | list of overlap closures
+ocs :: TRSC v c
+    => TRS v c 
+    -> [ Rule Int c ]
+ocs trs = hull combine
+	$ map normalize
+	$ rules trs 
+
+----------------------------------------------------------------
 
 check :: [ Rule Int Identifier ]
 check = combine rule1 rule2
