@@ -147,6 +147,8 @@ import Set
 import ToDoc -- wegen Show Set und Show FiniteMap - FIX!
 import System
 
+import Util.Datei (perm)
+
 import Char (showLitChar)
 
 -------------------------------------------------------------------------------
