@@ -39,7 +39,7 @@ shuffle ( x : xs ) ( y : ys ) = uniq $
      do w <- shuffle xs (y : ys); return $ x : w
   ++ do w <- shuffle (x : xs) ys; return $ y : w
 
-hint :: Show a => [ a ] -> String
+hint :: Show [a] => [ a ] -> String
 hint xs = 
     let 
 	(erst, dann) = splitAt 5 xs

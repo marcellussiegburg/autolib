@@ -1,4 +1,8 @@
-module Reporter.DB 
+module Reporter.DB obsolete
+
+-- DONT use this module,
+-- use Reporter.Result instead,
+-- read the explanations there
 
 ( module Reporter.Type
 , module Reporter.DB
@@ -15,21 +19,15 @@ import SQLqueries
 import Right
 import Wrong
 
-
-type DB_Reporter = String -- SNr
-         -> String -- ANr
-	 -> ATHighLow 
-	 -> IO String
-
 -- for use in classical autotool problems
-db_reporter :: ( a -> Reporter Int ) -> ( a -> DB_Reporter )
-db_reporter fr = \ student snr anr hilo  -> do
+db_reporter :: ( a -> Reporter Int ) -> ( a -> IO String )
+db_reporter fr = \ student -> do
     let (res, com) = export $ fr student
     print ( com :: Doc )
     case res of
         Just i ->  do
 	    bepunkteStudentDB snr anr ( Ok i ) hilo
-	    right_with $ "OK # Size: " ++ show i
+	    right $ i
  	Nothing -> do
 	    bepunkteStudentDB snr anr ( No   ) hilo
             wrong

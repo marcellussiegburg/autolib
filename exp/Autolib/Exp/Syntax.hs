@@ -5,11 +5,11 @@ module Exp.Syntax where
 import Exp.Type
 import Exp.Print
 
-import Report
+import Reporter
 import Set 
 import Size
 import ToDoc
-import Auswertung
+
 
 subtrees :: Exp -> [ Exp ]
 subtrees x = x : case x of

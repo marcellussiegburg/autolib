@@ -8,12 +8,15 @@ import NFA.Normalize
 import NFA.Minus
 import NFA.Shortest
 
-import Boc
+-- import Boc
 import Reporter
+import ToDoc
 
+{-
 subseteq :: (NFAC c a, NFAC c b, ToDoc [c])
 	 => NFA c a -> NFA c b -> Boc
 subseteq a b = cheporter $ subsetequ a b
+-}
 
 subsetequ :: (NFAC c a, NFAC c b, ToDoc [c])
 	 => NFA c a -> NFA c b -> Reporter Bool

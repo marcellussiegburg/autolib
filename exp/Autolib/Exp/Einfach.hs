@@ -6,11 +6,10 @@ import Exp.Type
 import Exp.Syntax
 
 import Sets
-import Boc
+import Reporter
 
-
-check_form :: Set String -> Exp -> Boc
-check_form ss x = 
+check_form :: Set String -> Exp -> Reporter ()
+check_form ss x = do
     let cs = constructors x
 	ds = minusSet cs ss
 	t = vcat [ text "Es sind nur diese Operatoren zugelassen:"
@@ -18,12 +17,10 @@ check_form ss x =
 		 , text "und diese Operatoren kommen vor:"
 		 , nest 4 $ toDoc cs
 		 ]
-    in	explain 0 t
-	$ if isEmptySet ds
-	  then ( True, text "Alle Operatoren sind erlaubt." )
-	  else ( False, text "Diese Operatoren sind nicht erlaubt:" 
+    if isEmptySet ds
+       then inform $ text "Alle Operatoren sind erlaubt."
+       else reject $ text "Diese Operatoren sind nicht erlaubt:" 
 		      <+> toDoc ds
-	     )
 
 ist_einfach = check_form 
 	    $ mkSet [ "Ref", "Letter" , "Dot", "Union", "Star" ]
@@ -32,8 +29,11 @@ ist_erweitert = check_form
 		      , "Union", "Intersection", "Difference", "Star" 
 		      ]
 
+{-
 einfach :: Exp -> IO String -> IO String
 einfach x = moc ( ist_einfach x )
 
 erweitert :: Exp -> IO String -> IO String
 erweitert x = moc ( ist_erweitert x )
+-}
+

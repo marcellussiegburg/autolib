@@ -6,12 +6,15 @@ import NFA.Type hiding ( subseteq )
 
 import NFA.Subseteq
 
-import Boc
+-- import Boc
 import Reporter
+import ToDoc
 
+{-
 eq ::  (ToDoc [c], NFAC c a, NFAC c b)
 	 => NFA c a -> NFA c b -> Boc
 eq x y = cheporter $ equ x y
+-}
 
 equ :: (ToDoc [c], NFAC c a, NFAC c b)
 	 => NFA c a -> NFA c b -> Reporter Bool
