@@ -10,6 +10,7 @@ import Graph.Display
 import ToDoc
 import FiniteMap
 import Boxing.Position
+import GVKnoten.Layout
 
 mycielski :: ( Ord a )
 	  => Graph a 

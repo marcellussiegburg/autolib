@@ -4,6 +4,7 @@ module Dot.Dot where
 
 import qualified Dot.Graph
 import System
+import IO
 import Monad ( when )
 import Random
 
@@ -48,17 +49,21 @@ meps, meng :: ToDot a => FilePath -> a -> IO FilePath
 meps = mot "-Tps" ".eps"
 meng = mot "-Tpng" ".png"
 
+system' line = do
+    hPutStrLn stderr $ "system: " ++ line
+    system line
+
 mot :: ToDot a => String -> String -> FilePath -> a -> IO FilePath
 mot opt ext fname a = do
     let dotfile = fname ++ ".dot"
     let extfile = fname ++ ext
     writeFile dotfile $ show $ toDot $ a
     let p = toDotProgram a
-    system $ unwords 
+    system' $ unwords 
 	   [ p , opt
 	   , toDotOptions a
 	   , dotfile , "-o", extfile ]
-    system $ unwords [ "rm" , dotfile ]
+    system' $ unwords [ "rm" , dotfile ]
     return extfile
     
 display :: ToDot a => a -> IO ()
@@ -66,6 +71,6 @@ display a = do
     n <- randomRIO (0,10000 :: Int)
     let fname = "/tmp/display." ++ show n
     epsfile <- meps fname a
-    system $ unwords [ "gv" , epsfile ]
-    system $ unwords [ "rm" , epsfile ]
+    system' $ unwords [ "gv" , epsfile ]
+    system' $ unwords [ "rm" , epsfile ]
     return ()

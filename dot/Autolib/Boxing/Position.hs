@@ -17,8 +17,9 @@ instance Show Position where
 
 -- in dot format
 zeige :: Position -> String
-zeige p = take 5 ( show $ width p )
-	++ "," ++ take 5 ( show $ height p )
+zeige p = 
+    let xform r = show $ ( round ( r * 100 ) :: Int )
+    in  xform ( width p ) ++ "," ++ xform ( height p )
 
 
 instance Num Position where

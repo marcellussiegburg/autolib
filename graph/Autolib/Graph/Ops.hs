@@ -9,6 +9,7 @@ import Graph.Display
 
 import Boxing hiding ( grid )
 import ToDoc hiding (empty)
+import Sets
 
 import qualified Set
 import qualified List
@@ -123,8 +124,18 @@ grid l r = informed ( funni "grid" [ info l, info r ] )
 		      return $ kante ( von k, u ) ( nach k, u )
 	   in mkGraph vs (mkSet es)
 
-
 ---------------------------------------------------------------------------
+
+restrict :: ( ToDoc [a], Ord a )
+         => Set a -> Graph a 
+	 -> Graph a
+restrict xs g = 
+    let knok x = x `elementOf` xs
+	kaok k = all knok [ von k, nach k ]
+    in  informed ( funni "restrict" [ toDoc xs, info g ] )
+	      $ g { knoten = sfilter knok $ knoten g
+		  , kanten = sfilter kaok $ kanten g
+		  }
 
 ---------------------------------------------------------------------------
 

@@ -56,8 +56,8 @@ mkGraph v e = Graph
 	    , graph_texinfo = "G"
 	    , graph_layout = emptyFM
 	    , bounding = 0
-	    , layout_hints = []
-	    , layout_program = "twopi"
+	    , layout_hints = [ "-s" ]
+	    , layout_program = "neato"
 	    , show_labels = True
 	    }
 
