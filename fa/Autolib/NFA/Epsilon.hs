@@ -20,14 +20,15 @@ add_epsilon a (p, q) = add_epsilons a [( p,q) ]
 add_epsilons :: NFAC c a
 	     => NFA c a -> [(a,a)] -> NFA c a
 add_epsilons a pqs =  
-    let eps = Relation.plus ( Relation.make pqs ) ( Relation.flat $ states a )
-        reach = Relation.trans eps
+    let pqr = Relation.make_on ( states a, states a ) pqs
+        reach = Relation.reflex_trans pqr
 
     in NFA { nfa_info = funni "add_epsilons" [ info a, toDoc pqs ]
         , alphabet = alphabet a
 	, states = states a -- bleibt
 	, starts = Relation.simages reach ( starts a ) 
-	, finals = Relation.simages ( Relation.inverse reach ) ( finals a )
+	, finals = -- Relation.simages ( Relation.inverse reach ) ( finals a )
+	     finals a
 	, trans  = plusFM_C union ( trans a ) $ collect $ do
 	             ( o, c, p ) <- unCollect $ trans a
 	             q <- setToList $ Relation.images reach p
