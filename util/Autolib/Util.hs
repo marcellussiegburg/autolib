@@ -27,3 +27,4 @@ import Autolib.Util.Teilfolgen
 import Autolib.Util.Uniq
 import Autolib.Util.Wort
 import Autolib.Util.Zufall
+import Autolib.Util.Hamming

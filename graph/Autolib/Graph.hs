@@ -35,3 +35,5 @@ import Autolib.Graph.Ops
 import Autolib.Graph.Valid
 -- import Autolib.Graph.Vis
 -- import Autolib.Graph.Viz
+
+import Autolib.Graph.Adj
