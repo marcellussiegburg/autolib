@@ -36,6 +36,12 @@ instance ToDoc [a] => ToDoc (Set a)
     where toDocPrec p s = docParen (p >= fcp) 
 			$ text "mkSet" <+> toDocPrec fcp (setToList s)
 
+
+--  http://www.haskell.org//pipermail/haskell/2005-January/015164.html
+instance ( Typeable a ) =>  Typeable ( Set a ) where
+    typeOf s = mkAppTy ( mkTyCon "Set" )
+		[ typeOf ((undefined :: Set a -> a) s) ]
+
 subseteq :: Ord a => Set a -> Set a -> Bool
 subseteq xs ys = isEmptySet $ xs `minusSet` ys
 
