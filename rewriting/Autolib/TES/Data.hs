@@ -18,9 +18,12 @@ import Sets
 import ToDoc
 import Reader
 import Data.List ( partition )
+import Data.FiniteMap
+import Control.Monad ( guard )
 
 import TES.Sexp
 import TES.Parsec
+import TES.Position (symsl)
 
 import Letters
 
@@ -82,7 +85,8 @@ instance Read TES where
 instance Reader TES where
     readerPrec p = do
 	tes <- plain_reader
-        return $ repair_variables tes
+        return $ check_arities
+	       $ repair_variables tes
 
 plain_reader :: Reader (t, t) => Parser ( RS t )
 plain_reader =  do
@@ -125,6 +129,28 @@ repair_variables trs =
 	sig = sfilter ( \ s -> not (s `elementOf` vs)) $ symbols rs
     in  trs { rules = rs
            }
+
+check_arities :: ( Symbol c , Symbol v )
+	      => TRS v c -> TRS v c
+check_arities tes = 
+    case varying_arities tes of
+        [] -> tes
+	cas -> error $ show $ vcat
+	    [ text "in System" <+> toDoc tes
+	    , text "the following symbols occur with different arities:"
+	    , nest 4 $ toDoc cas
+	    ]
+
+varying_arities :: Symbol c 
+		=> TRS v c -> [ (c, Set Int) ]
+varying_arities tes = do
+    let fm = addListToFM_C union emptyFM $ do
+		( l, r ) <- rules tes
+		c <- symsl l ++ symsl r
+		return ( c, unitSet $ arity c )
+    ( c, as ) <- fmToList fm
+    guard $ 1 < cardinality as
+    return ( c, as )
 
 symbols :: Ord c => [ Rule v c ] -> Set c
 symbols rules = unionManySets $ do
