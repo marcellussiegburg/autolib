@@ -1,11 +1,11 @@
 -- | design question: what to do with variables?
 -- should variable positions be included in addresses?
 
-module Rewriting.Terms where
+module Autolib.Rewriting.Terms where
 
 --  $Id$
 
-import Rewriting.Address
+import Autolib.Rewriting.Address
 import Autolib.TES.Term
 import qualified Autolib.TES.Position as T
 

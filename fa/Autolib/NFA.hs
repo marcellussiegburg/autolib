@@ -34,6 +34,7 @@ import Autolib.NFA.Compact
 import Autolib.NFA.Finite
 import Autolib.NFA.Factors
 import Autolib.NFA.Link
+import Autolib.NFA.Shrink
 
 import Autolib.Letters
 

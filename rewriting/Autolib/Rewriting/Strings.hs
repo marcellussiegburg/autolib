@@ -1,8 +1,8 @@
-module Rewriting.Strings where
+module Autolib.Rewriting.Strings where
 
 --  $Id$
 
-import Rewriting.Address
+import Autolib.Rewriting.Address
 import Autolib.Virtualist
 import Data.List ( tails )
 

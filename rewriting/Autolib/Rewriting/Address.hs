@@ -1,4 +1,4 @@
-module Rewriting.Address where
+module Autolib.Rewriting.Address where
 
 --  $Id$
 

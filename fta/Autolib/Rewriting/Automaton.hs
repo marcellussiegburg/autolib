@@ -1,4 +1,4 @@
-module Rewriting.Automaton where
+module Autolib.Rewriting.Automaton where
 
 --  $Id$
 
@@ -12,7 +12,7 @@ import qualified Autolib.NFA
 import qualified Autolib.NFA.Basic
 import qualified Autolib.NFA.Normalize
 
-import SRS.Aged
+
 import Autolib.Symbol
 import Autolib.ToDoc
 import Autolib.Reader
@@ -44,17 +44,17 @@ class  Automaton a where
     compact   :: ( FAC c s ) => a c s -> a c s
     compact = id
 
-instance Automaton NFTA.NFTA where
-    lstates  = NFTA.lstates
-    statemap = NFTA.statemap
-    alphamap = NFTA.alphamap
-    complete = NFTA.Basic.complete
-    normalize = NFTA.Normalize.normalize
-    compact  = NFTA.Compact.compact . NFTA.Epsilon.uneps
+instance Automaton Autolib.NFTA.NFTA where
+    lstates  = Autolib.NFTA.lstates
+    statemap = Autolib.NFTA.statemap
+    alphamap = Autolib.NFTA.alphamap
+    complete = Autolib.NFTA.Basic.complete
+    normalize = Autolib.NFTA.Normalize.normalize
+    compact  = Autolib.NFTA.Compact.compact . Autolib.NFTA.Epsilon.uneps
 
-instance Automaton NFA.NFA where
-    lstates  = NFA.lstates
-    statemap = NFA.statemap
-    alphamap = NFA.alphamap
-    complete = NFA.Basic.sigmastar . setToList
-    normalize = NFA.Normalize.normalize
+instance Automaton Autolib.NFA.NFA where
+    lstates  = Autolib.NFA.lstates
+    statemap = Autolib.NFA.statemap
+    alphamap = Autolib.NFA.alphamap
+    complete = Autolib.NFA.Basic.sigmastar . setToList
+    normalize = Autolib.NFA.Normalize.normalize
