@@ -16,27 +16,27 @@ data Statement
      = Print  Exp
      | Display Exp
      | Let String Exp
+     | Quit
 
 instance Show Statement where
     -- TODO: ist das richtig geklammert?
-    show (Print x)  = "print " ++ show x ++ ";"
-    show (Display x)  = "display " ++ show x ++ ";"
-    show (Let v x) = "let " ++ v ++ " = " ++ show x ++ ";"
+    show (Quit) = "quit"
+    show (Print x)  = "print " ++ show x 
+    show (Display x)  = "display " ++ show x 
+    show (Let v x) = "let " ++ v ++ " = " ++ show x 
 
 
 --------------------------------------------------------------------------
 
 program :: Parser [ Statement ]
 program = do
-    stats <- many statement
+    stats <- many ( do s <- statement ; reservedOp ";" ; return s )
     eof
     return stats
 
 statement :: Parser Statement
-statement = do
-    s <- binding <|> printer <|> displayer
-    reservedOp ";"
-    return s
+statement = 
+      binding <|> printer <|> displayer <|> quitter
   <?> "statement"
 
 binding = do
@@ -52,6 +52,7 @@ name = do
     cs <- many alphaNum
     whiteSpace
     return $ c : cs
+  <?> "name (starting with upper case letter)"
 
 printer = do
     reserved "print"
@@ -65,6 +66,11 @@ displayer = do
     x <- expression
     return $ Display x
   <?> "display statement"
+
+quitter = do
+    reserved "quit"
+    return $ Quit
+
 
 
 

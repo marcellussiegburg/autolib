@@ -12,16 +12,10 @@ import NFA.Shortest
 import NFA.Type
 import NFA.Dot
 
-import Parsec ( parse )
+import Parsec ( parse, Parser )
+import System.Console.Readline
 
 --------------------------------------------------------------------------
-
-loop :: E -> [ Statement ] -> IO ()
-loop env [] = return ()
-loop env (t : ts) = do
-     print t
-     env' <- eval env t
-     loop env' ts
 
 eval :: E -> Statement -> IO E
 eval env (Print x) = do
@@ -60,12 +54,41 @@ main :: IO ()
 main = do
      putStrLn $ "-- $Id$"
      putStrLn $ "-- welcome"
-     input <- getContents
-     case parse program "<stdin>" input of
-	  Right stats -> do
-		putStrLn $ "-- input OK"
-		loop std stats
-		putStrLn $ "-- done"
-	  Left msg -> do
-	        putStrLn $ "-- parse error"
-		print msg
+     loop $ make []
+
+loop e = do
+    mst <- consume statement Quit
+    case mst of
+        Nothing -> loop e -- again
+	Just Quit -> return ()
+        Just st -> do
+	    e' <- eval e st
+	    loop e'
+
+-----------------------------------------------------------------------
+
+consume :: Parser a -> a -> IO ( Maybe a )
+-- read lines until complete parse is obtained
+-- or empty line is input (returns Nothing)
+consume p def = helper "" where
+    helper accu = do
+        let prompt = if null accu then "Loop$ " else "Loop> "
+        mcs <- readline prompt
+        case mcs of
+	   Nothing -> return $ Just def
+	   Just "" -> return $ Nothing
+           Just cs -> do
+	      addHistory cs
+              let accu' = accu ++ cs
+	      case parse p "<stdin>" accu' of
+	          Right x -> do
+		      putStrLn $ "-- input OK"
+		      return $ Just x
+		  Left msg -> do
+		      putStrLn $ "-- parser says: " ++ show msg
+		      putStrLn $ "-- incomplete line? continue ... (ENTER = cancel)"
+		      helper accu' 
+
+    
+    
+	     
