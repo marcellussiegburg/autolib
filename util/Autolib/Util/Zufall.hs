@@ -32,13 +32,16 @@ repeat_until act p =
        if p x then return x else repeat_until act p
 
 permutation :: [a] -> IO [a]
-permutation xs = 
-    if length xs < 2 then return xs 
-    else do
+permutation xs = selektion (length xs) xs
+
+selektion :: Int -> [a] -> IO [a]
+selektion 0 xs = return  []
+selektion k xs = do
 	 i <- randomRIO (0, length xs - 1)
 	 let (here, y : there) = splitAt i xs
-	 ys <- permutation $ here ++ there
+	 ys <- selektion (pred k) $ here ++ there
 	 return $ y : ys
+
 
 summe :: Int -> Int -> IO [ Int ]
 -- finde eine zerlegung von n in genau k summanden >= 1
