@@ -1,5 +1,7 @@
 module Dot.Dot where
 
+-- $Id$
+
 import qualified Dot.Graph
 import System
 import Monad ( when )

@@ -41,10 +41,13 @@ instance ToDoc Type where
 			     , ("taillabel", taillabel)
 			     ]
 	    val <- maybeToList $ fun n
-	    return $ text name <+> equals <+> text val
+	    return $ text name <+> equals <+> text ( escape $ val )
           )
 
 instance Show Type where
     show = render . toDoc
 
+escape :: String -> String
+escape cs = show $ tail $ init $ cs
+	     
 
