@@ -19,7 +19,7 @@ import ToDoc hiding ( empty )
 import Set
 import Random
 
-some :: Set Char -> Int -> IO (Exp, NFA Int)
+some :: Set Char -> Int -> IO (Exp, NFA Char Int)
 -- erzeugt irgendeinen ausdruck
 -- über dem alphabet
 -- von gegebener DFA-größe
@@ -61,7 +61,7 @@ stars x = sum $ do
     s <- subtrees x
     return $ case s of Star _ -> 1 ; _ -> 0
 
-nontrivial :: Set Char -> Int -> IO (Exp, NFA Int)
+nontrivial :: Set Char -> Int -> IO (Exp, NFA Char Int)
 nontrivial alpha s = 
     repeat_until ( some alpha (2 * s) )
 	( \ (x,a) -> 2 <= stars x

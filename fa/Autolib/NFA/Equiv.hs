@@ -17,7 +17,7 @@ import Maybe (fromMaybe,maybeToList)
 type Klassen s = Set (Set s)
 type Mappe   s = FiniteMap s Int
 
-type Trenner s = ( s, s, Char )
+type Trenner c s = ( s, s, c )
 
 ----------------------------------------------------------------------
 
@@ -47,13 +47,13 @@ split eq (x : xs) =
     in	mkSet (x : yeah) : split eq noh
 
 
-mkTafel :: Ord s => [ Trenner s ] -> Set (s,s) 
+mkTafel :: (Ord c, Ord s) => [ Trenner c s ] -> Set (s,s) 
 -- wer hier vorkommt, ist nicht äquivalent
 mkTafel ts = mkSet $ do
     (p,q,c) <- ts
     [(p,q),(q,p)]
 
-anwende :: Ord s => Klassen s -> [ Trenner s ] -> Klassen s
+anwende :: ( Ord c, Ord s ) => Klassen s -> [ Trenner c s ] -> Klassen s
 anwende xss ts = 
     let tafel = mkTafel ts
 	eq x y = not (elementOf (x,y) tafel)
@@ -61,7 +61,8 @@ anwende xss ts =
 
 ----------------------------------------------------------------------
 
-compact :: Ord s => NFA s -> Klassen s -> NFA (Set s)
+compact :: (Ord c, Ord s) 
+	=> NFA c s -> Klassen s -> NFA c (Set s)
 compact a xss =
     let fm = listToFM $ do
 	     xs <- setToList xss
@@ -72,7 +73,8 @@ compact a xss =
 
 ----------------------------------------------------------------------
 
-trenner :: Ord s => Set Char -> NFA s -> Klassen s -> [ Trenner s ]
+trenner :: (Ord c, Ord s) 
+        => Set c -> NFA c s -> Klassen s -> [ Trenner c s ]
 -- das berechnet alle
 trenner sigma a xss = do
     let fm = toMappe xss
@@ -83,13 +85,13 @@ trenner sigma a xss = do
     guard $ not $ eqqu c a fm x y
     return ( x, y, c )
     
-eqqu :: Ord s => Char -> NFA s -> Mappe s -> (s -> s -> Bool)
+eqqu :: (Ord c, Ord s) => c -> NFA c s -> Mappe s -> (s -> s -> Bool)
 eqqu c a fm p q = 
     let x = nachfolger a p c
 	y = nachfolger a q c
     in lookupFM fm x == lookupFM fm y
 
-nachfolger :: Ord s => NFA s -> s -> Char -> s
+nachfolger :: (Ord c, Ord s) => NFA c s -> s -> c -> s
 nachfolger a p c = 
     let qs = fromMaybe ( error "NFA.Equiv: nicht in trans" ) 
 	   $  lookupFM (trans a) (p,c)
@@ -99,8 +101,8 @@ nachfolger a p c =
 
 -----------------------------------------------------------------------------
 
-check_trenner :: ( Ord s , ToDoc s )
-	      => NFA s -> Mappe s -> Trenner s 
+check_trenner :: ( Ord c, ToDoc c, Ord s , ToDoc s )
+	      => NFA c s -> Mappe s -> Trenner c s 
 	      -> Reporter ()
 check_trenner a fm (p,q,c) = do
     let p' = nachfolger a p c
@@ -124,16 +126,16 @@ check_trenner a fm (p,q,c) = do
        else do inform $ msg
 
 
-check_trenners :: ( Ord s , ToDoc s )
-	      => NFA s -> Mappe s -> [ Trenner s ]
+check_trenners :: ( Ord s , ToDoc s, Ord c, ToDoc c )
+	      => NFA c s -> Mappe s -> [ Trenner c s ]
 	      -> Reporter ()
 check_trenners a fm ts = mapM_ (check_trenner a fm) ts
 
 ----------------------------------------------------------------------
 
-schritt :: ( Ord s , ToDoc s, ToDoc [s] )
-	=> Set Char -> NFA s 
-	-> Klassen s  -> (Int, [ Trenner s ])
+schritt :: ( Ord s , ToDoc s, ToDoc [s], Ord c, ToDoc c )
+	=> Set c -> NFA c s 
+	-> Klassen s  -> (Int, [ Trenner c s ])
 	-> Reporter ( Klassen s )
 -- prüfe einen schritt
 schritt sigma a xss (k, ts) = do
@@ -154,10 +156,10 @@ schritt sigma a xss (k, ts) = do
 
 ----------------------------------------------------------------------------
 
-equiv :: ( Ord s , ToDoc s, ToDoc [s] )
+equiv :: ( Ord s , ToDoc s, ToDoc [s], Ord c, ToDoc c )
 	=> String
-	 -> Set Char -> NFA s 
-	-> [[ Trenner s ]]
+	 -> Set c -> NFA c s 
+	-> [[ Trenner c s ]]
 	-> Reporter (Klassen s)
 equiv url sigma a tss = do
     inform $ vcat $ map text 
@@ -168,10 +170,10 @@ equiv url sigma a tss = do
     foldM ( schritt sigma a ) ( start a ) $ zip [0..] $ tss ++ [[]]
 
 
-start :: Ord s => NFA s -> Klassen s
+start :: (Ord c, Ord s) => NFA c s -> Klassen s
 start a = mkSet [ finals a, states a `minusSet` finals a ]
 
-zerlege :: Ord s => Set Char -> NFA s -> [Klassen s]
+zerlege :: (Ord c, Ord s) => Set c -> NFA c s -> [Klassen s]
 zerlege sigma a = 
     let f xss = anwende xss $ trenner sigma a xss
     in	fixes f $ start a

@@ -5,7 +5,7 @@ module Exp.Einfach where
 import Exp.Type
 import Exp.Syntax
 
-import Set
+import Sets
 import Boc
 
 

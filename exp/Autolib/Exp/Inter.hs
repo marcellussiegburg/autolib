@@ -33,7 +33,7 @@ import ToDoc ( toDoc )
 
 ---------------------------------------------------------------------------
 
-type E = E.Env (NFA Int)
+type E = E.Env (NFA Char Int)
 
 std :: E
 std =  E.make 
@@ -60,16 +60,16 @@ std_sigma alpha = E.plus std
 -- backwards compatibility
 inter = inter_det 
 
-inter_det ::  E -> Exp -> NFA Int
+inter_det ::  E -> Exp -> NFA Char Int
 inter_det e a = ( inter_with ( minimize . normalize ) e a )
 	      { info = toDoc a }
 
-inter_nondet ::  E -> Exp -> NFA Int
+inter_nondet ::  E -> Exp -> NFA Char Int
 inter_nondet e a = ( inter_with ( normalize ) e a )
 		   { info = toDoc a }
 
 
-inter_with :: (forall a . Ord a => NFA a -> NFA Int) -> E -> Exp -> NFA Int
+inter_with :: (forall a . Ord a => NFA Char a -> NFA Char Int) -> E -> Exp -> NFA Char Int
 inter_with norm e (Ref v)    = case E.look e v of
       Just x -> x
       Nothing -> error $ "Name " ++ show v ++ " nicht gebunden"

@@ -2,12 +2,14 @@ module Util.Fix where
 
 -- $Id$
 
+fixBy :: Eq b => (a -> b) -> (a -> a) -> a -> a
+fixBy select f x0 = last $ fixesBy select f x0
+
 fix :: Eq a => (a -> a) -> a -> a
-fix f x0 = last $ fixes f x0
+fix = fixBy id
 
-
-fixes :: Eq a => (a -> a) -> a -> [a]
-fixes f x0 = x0 : 
+fixesBy :: Eq b => (a -> b) -> (a -> a) -> a -> [a]
+fixesBy select f x0 = x0 : 
     let x1 = f x0
-    in	if x1 == x0 then [] 
-	else fixes f x1
+    in	if select x1 == select x0 then [] 
+	else fixesBy select f x1

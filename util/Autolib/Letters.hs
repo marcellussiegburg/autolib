@@ -4,6 +4,6 @@ module Letters where
 
 import Set
 
-class Letters a where
-      letters :: a -> Set Char
+class Letters a b where
+      letters :: a -> Set b
 

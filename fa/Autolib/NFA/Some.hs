@@ -10,7 +10,7 @@ import ToDoc
 import Random
 import Set
 
-some :: Set Char -> Int -> IO (NFA Int)
+some :: Set Char -> Int -> IO (NFA Char Int)
 -- erzeugt irgendeinen NFA mit s zuständen
 some alpha s = do
     let ss = [ 1 .. s ]
@@ -30,7 +30,7 @@ some alpha s = do
     return a
 
 		 
-nontrivial ::  Set Char -> Int -> IO (NFA Int)
+nontrivial ::  Set Char -> Int -> IO (NFA Char Int)
 nontrivial alpha s = 
     repeat_until ( some alpha s )
 	( \ a -> letters a == alpha

@@ -8,8 +8,7 @@ import Exp.Type
 import Exp.Syntax
 
 import Report
-import Set
--- import FAU
+import Sets
 import Wrong
 
 sanity :: Set Char -> Set String -> Exp -> Report ()

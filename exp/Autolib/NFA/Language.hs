@@ -17,7 +17,7 @@ import Set
 import List (nub)
 import Util.Zufall
 
-language :: NFA Int -> Language
+language :: NFA Char Int -> Language
 language a = 
    let cs = letters a
    in  Language
