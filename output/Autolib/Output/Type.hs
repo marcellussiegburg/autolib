@@ -18,8 +18,6 @@ data Output = Text String
 class Render r where
       render :: Output -> r
 
-
-
 instance Render Pretty.Doc where
     render (Text t) = Pretty.text t
     render (Doc d)  = d
