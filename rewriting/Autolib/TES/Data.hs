@@ -137,20 +137,34 @@ check_arities tes =
         [] -> tes
 	cas -> error $ show $ vcat
 	    [ text "in System" <+> toDoc tes
+	    , text ""
 	    , text "the following symbols occur with different arities:"
-	    , nest 4 $ toDoc cas
+	    , nest 4 $ vcat $ do
+	          ( c, occs) <- cas
+	          return $ vcat [ text "symbol" <+> toDoc c
+				, nest  4 $ vcat ( do
+	                   ( a, inf ) <- fmToList occs
+	                   return $ hsep [ text "arity", toDoc a, inf ]
+		      )
+				]
 	    ]
 
-varying_arities :: Symbol c 
-		=> TRS v c -> [ (c, Set Int) ]
+varying_arities :: ( Symbol c , ToDoc v )
+		=> TRS v c -> [ (c, FiniteMap Int Doc) ]
 varying_arities tes = do
-    let fm = addListToFM_C union emptyFM $ do
-		( l, r ) <- rules tes
-		c <- symsl l ++ symsl r
-		return ( c, unitSet $ arity c )
-    ( c, as ) <- fmToList fm
-    guard $ 1 < cardinality as
-    return ( c, as )
+    let fm = addListToFM_C plusFM emptyFM $ do
+		( k, rule @ ( l, r ) ) <- zip [ 0 :: Int .. ] $ rules tes
+		( loc, t ) <- [ ( "lhs", l ), ( "rhs", r ) ]
+		let inf = vcat [ fsep [ text "in", text loc
+				      , text "of rule number", toDoc k
+				      ]
+			       , nest 4 $ toDoc rule
+			       ]
+		c <- symsl t
+		return ( c, listToFM [ ( arity c, inf) ] )
+    ( c, occs ) <- fmToList fm
+    guard $ 1 < sizeFM occs
+    return ( c, occs )
 
 symbols :: Ord c => [ Rule v c ] -> Set c
 symbols rules = unionManySets $ do
