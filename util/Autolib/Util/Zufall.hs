@@ -32,3 +32,17 @@ permutation xs =
 	 let (here, y : there) = splitAt i xs
 	 ys <- permutation $ here ++ there
 	 return $ y : ys
+
+summe :: Int -> Int -> IO [ Int ]
+-- finde eine zerlegung von n in genau k summanden >= 1
+-- achtung: ist nicht gleichverteilt (?)
+summe k n | k < 0 = error "Util.Zufall.summe: k < 0"
+summe k n | n < 0 = error "Util.Zufall.summe: n < 0"
+summe k n | n < k = error $ "Util.Zufall.summe: n < k" ++ show (k, n)
+summe 1 n = return [n]
+summe k n | n == k = return $ replicate k 1
+summe k n = do    
+    x <- randomRIO (1, n-k+1)
+    xs <- summe (k-1) (n-x)
+    return $ x : xs
+

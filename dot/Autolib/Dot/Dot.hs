@@ -5,7 +5,7 @@ import System
 import Monad ( when )
 import Random
 
-import Util.Datei ( perm )
+import Util.Datei 
 
 class ToDot a where 
       toDot :: a -> Dot.Graph.Type
@@ -42,26 +42,28 @@ mkDot a prog fmt path = do
 
 --------------------------------------------------------------------------
 
-meps :: ToDot a => FilePath -> a -> IO FilePath
-meps fname a = do
+meps, meng :: ToDot a => FilePath -> a -> IO FilePath
+meps = mot "-Tps" ".eps"
+meng = mot "-Tpng" ".png"
+
+mot :: ToDot a => String -> String -> FilePath -> a -> IO FilePath
+mot opt ext fname a = do
     let dotfile = fname ++ ".dot"
-    let epsfile = fname ++ ".eps"
+    let extfile = fname ++ ext
     writeFile dotfile $ show $ toDot $ a
     let p = toDotProgram a
     system $ unwords 
-	   [ p , "-Tps" 
+	   [ p , opt
 	   , toDotOptions a
-	   , dotfile , "-o", epsfile ]
+	   , dotfile , "-o", extfile ]
     system $ unwords [ "rm" , dotfile ]
-    return epsfile
+    return extfile
     
-
 display :: ToDot a => a -> IO ()
 display a = do
     n <- randomRIO (0,10000 :: Int)
     let fname = "/tmp/display." ++ show n
     epsfile <- meps fname a
-    system $ unwords
-	   [ "gv" , epsfile ]
+    system $ unwords [ "gv" , epsfile ]
     system $ unwords [ "rm" , epsfile ]
     return ()

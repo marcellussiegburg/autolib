@@ -72,6 +72,7 @@ circle xs = ( independent0 xs )
             , graph_texinfo = "{C_{" ++ show (length xs) ++ "}}"
 	    , kanten = mkSet $ do 
 			 (x, y) <- zip xs ( last xs : xs )
+			 guard $ x /= y
 			 return $ kante x y
 	    }
 

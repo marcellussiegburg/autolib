@@ -7,7 +7,7 @@ import Graph.Graph hiding ( union )
 import Graph.Basic
 import Graph.Display
 
-import Boxing
+import Boxing hiding ( grid )
 import ToDoc hiding (empty)
 
 import qualified Set
