@@ -74,6 +74,8 @@ nested d r = r { kommentar = Nest $ kommentar r }
 reject :: Pretty.Doc -> Reporter a
 reject d = Reporter { result = Nothing, action = return (),  kommentar = Doc d }
 
+repo :: Reporter a -> Pretty.Doc
+repo = Output.render .  kommentar
 
 silent :: Reporter a -> Reporter a
 -- wenn ok, dann nichts sagen, sonst fehler melden
