@@ -63,7 +63,7 @@ is_constant = (== 0) . arity
 
 ------------------------------------------------------------------------
 
-instance Symbol () where
+instance Symbol () 
 
 
 instance ( HeightC h, Show a, Symbol a ) => Symbol (Aged h a) where

@@ -22,11 +22,11 @@ instance Address (Virtualist v) Int where
     pmap f xs = Virtualist $ pmap f $ unVirtualist xs
 
 instance Sub [] where
-    -- | top (leftmost) symbol
+    --| top (leftmost) symbol
     -- top :: c a -> a
     top = head
 
-    -- | replace top symbol
+    --| replace top symbol
     -- replace :: c a -> a -> c a
     replace (_ : xs) x = x : xs
 
@@ -35,19 +35,19 @@ instance Sub [] where
 
     
 instance Address [] Int where
-    -- | all addresses
+    --| all addresses
     -- addresses :: c a -> [ p ]
     addresses xs = [ 0 .. pred $ length xs ]
 
-    -- | get substructure
+    --| get substructure
     -- peek :: c a -> p -> c a
     peek xs k = drop k xs
 
-    -- | replace substructure
+    --| replace substructure
     -- poke :: c a -> ( p, c a ) -> c a
     poke xs ( k , ys ) = take k xs ++ ys
 
-    -- | compute new symbol at position
+    --| compute new symbol at position
     -- pmap :: ( p -> a -> b ) -> c a -> c b
     pmap f xs = do
         ( pos, x ) <- zip [ 0 .. ] xs
