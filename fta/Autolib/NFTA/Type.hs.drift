@@ -17,6 +17,7 @@ import Util.Size
 import TES.Symbol
 import Reader
 import ToDoc
+import qualified Relation
 
 class ( Symbol c
       , Ord s , ToDoc s
@@ -34,9 +35,16 @@ data ( NFTAC c s ) => NFTA c s =
      NFTA { states :: Set s
 	  , finals :: Set s
 	  -- | ( p, f, [q1, .. ] ) means transition p <- f [q1, .. ]
-	  , trans  :: Set ( s, c, [s] )
-	  -- | ( p, q ) means transition  p <- q
-	  , eps    :: Set ( s, s )
+	  -- , trans  :: Set ( s, c, [s] )
+
+	  , trans :: Relation.Type s (c,  [s]) 
+	  , inv_trans :: Relation.Type ([s] , c) s
+
+	  -- | ( p, q ) means transition  p <- q (in accepting bottom-up comp.)
+	  -- this relation is always kept reflexive and transitive
+	  , eps     :: Relation.Type s s 
+	  -- | and this is always the inverse of above
+	  , inv_eps :: Relation.Type s s
 	  }
 
 lstates :: NFTAC c s => NFTA c s -> [s]
@@ -46,10 +54,11 @@ lfinals :: NFTAC c s => NFTA c s -> [s]
 lfinals = setToList . finals
 
 ltrans :: NFTAC c s => NFTA c s -> [(s, c, [s])]
-ltrans  = setToList . trans
+ltrans  a = do ( p, (c, qs )) <- Relation.pairs ( trans a )
+	       return ( p, c, qs )
 
 leps :: NFTAC c s => NFTA c s -> [ (s, s) ]
-leps = setToList . eps
+leps = Relation.pairs . eps
 
 instance  NFTAC c s => Letters (NFTA c s) c where
     letters a = mkSet $ do

@@ -3,6 +3,7 @@ module NFTA.Ops where
 --  $Id$
 
 import NFTA.Type
+import qualified Relation
 
 alphamap :: ( NFTAC c s, NFTAC d s )
 	 => ( c -> d )	
@@ -11,7 +12,10 @@ alphamap :: ( NFTAC c s, NFTAC d s )
 alphamap f a = 
     NFTA { states = states a
 	 , finals = finals a
-	 , trans = smap ( \ (ps, c, q) -> (ps, f c, q) ) 
+	 , trans = Relation.rightmap ( \ (c,qs) -> (f c, qs) )
 	 	$ trans a
+	 , inv_trans = Relation.leftmap ( \ (qs,c) -> (qs, f c) )
+		$ inv_trans a
 	 , eps   = eps a
+	 , inv_eps = inv_eps a
 	 }

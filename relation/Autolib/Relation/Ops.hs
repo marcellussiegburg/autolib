@@ -26,6 +26,18 @@ identic :: Ord a => Set a -> Type a a
 identic s = ( make0 $ do x <- setToList s ; return (x, x) )
 	    { source = s , target = s }
 
+rightmap :: ( Ord a, Ord b, Ord c)
+	 => (b -> c) -> Type a b -> Type a c
+rightmap f r = 
+    ( make0 $ do (x, y) <- pairs r ; return (x, f y) )
+    { source = source r, target = smap f $ target r }
+
+leftmap :: ( Ord a, Ord b, Ord c)
+	 => (a -> b) -> Type a c -> Type b c
+leftmap f r = 
+    ( make0 $ do (x, y) <- pairs r ; return (f x, y) )
+    { source = smap f $ source r, target = target r }
+
 
 
 times :: (Ord a, Ord b, Ord c)
@@ -45,6 +57,11 @@ plus r s = Make
 	 , target = target r `union` target s
 	 , unRelation = plusFM_C union (unRelation r) (unRelation s)
 	 }
+
+insert :: (Ord a, Ord b)
+       => Type a b -> (a,b) -> Type a b
+insert r (x,y) = r
+       { unRelation = addToFM_C union (unRelation r) x ( mkSet [y] ) }
 
 trans :: Ord a => Type a a -> Type a a
 -- transitive hülle (nicht reflexive)

@@ -9,6 +9,7 @@ where
 import NFTA.Type
 import TES.Term
 
+import qualified Relation
 import Data.List ( partition )
 import Control.Monad.State
 
@@ -56,9 +57,13 @@ next = do
 add_trans :: NFTAC c Int
     => ( Int, c, [Int] ) 
     -> ST c ()
-add_trans t = do 
+add_trans t @ ( p, c, qs ) = do 
     ( a, n ) <- get
-    put ( a { trans = trans a `union` mkSet [t] } 
+    put ( a { trans = Relation.insert (trans a) ( p, (c, qs)) 
+	    , inv_trans = Relation.insert (inv_trans a) ( (qs, c), p) 
+	    , eps = Relation.insert (eps a) (p, p)
+	    , inv_eps = Relation.insert (inv_eps a) (p, p)
+	    }
 	, n 
 	)    
 
@@ -66,9 +71,11 @@ add_trans t = do
 add_eps :: NFTAC c Int
     => ( Int, Int ) 
     -> ST c ()
-add_eps t = do 
+add_eps (x,y) = do 
     ( a, n ) <- get
-    put ( a { eps = eps a `union` mkSet [t] } 
+    put ( a { eps = Relation.trans $ Relation.insert (eps a) (x,y) 
+	    ,  inv_eps = Relation.trans $ Relation.insert (inv_eps a) (y,x) 
+	    } 
 	, n 
 	)    
 

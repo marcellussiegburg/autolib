@@ -34,7 +34,7 @@ down (l1, r1) (l2, r2) = do
 	-- vars (l1, r1) is disjoint from vars (l2', r2')
 	( l2', r2' ) = ( vmap f l2, vmap f r2 )
     ( p, s ) <- positions r1
-    guard $ not $ isvar s
+    -- guard $ not $ isvar s
     u <- maybeToList $ mgu s l2'
     return $ normalize
 	   $ ( apply_partial u $ l1 
