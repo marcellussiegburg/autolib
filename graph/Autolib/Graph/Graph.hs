@@ -9,7 +9,8 @@
 module Autolib.Graph.Graph ( 
       module  Autolib.Set
       , module Autolib.Informed
-    ,  Graph (..), mkGraph
+      , GraphC 
+     ,  Graph (..), mkGraph
     , Kante (..), kante
 ) where
 
