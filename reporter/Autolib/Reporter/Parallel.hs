@@ -1,13 +1,14 @@
 module Reporter.Parallel where
 
--- execute several reporters in parallel
--- the first with a result stops all others
+-- $Id$
 
 import Reporter.Type
 import Reporter.Iterator
 import ToDoc
 
 
+-- execute several reporters in parallel
+-- the first with a result stops all others
 parallel :: [ Iterator a ]
 	 -> Reporter (Maybe a)
 parallel [] = do
