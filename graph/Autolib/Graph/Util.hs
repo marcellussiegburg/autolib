@@ -1,5 +1,7 @@
 module Graph.Util where
 
+-- $Id$
+
 import Graph.Graph
 import Set
 import Monad ( guard ) -- old style

@@ -25,26 +25,6 @@ test = do
 	fm <- graph_to_FM_a_gvnode test_graph_tre
 	putStr $ showFiniteMap fm
 
--- Ziel:     Graph a -> IO ( FiniteMap a GVKnoten )
--- Problem:  xs = <unendliche Liste fehlt>::[a] 
-graph_to_FM_a_gvnode :: (ShowText a, Ord a) 
-		=> Graph a -> IO ( FiniteMap a GVKnoten )
-graph_to_FM_a_gvnode graph = do
-	let 
-			file    = "022"
-			inFile  = file ++ ".dot"
-			outFile = file ++ ".tmp"
-			command = "dot" ++ " -o " ++ outFile ++ " " ++ inFile
- 			xs      = setToList $ knoten graph
- 	( _ , _ , exitCode ) <- getGraphviz ( graph ) myTrans file
-	if exitCode == ExitSuccess
-		then do
-			system command
-			parsed_things <- parse outFile
---			system ("rm " ++ file ++ ".tmp")
-			system ("rm " ++ file ++ ".dot")
-			return ( listToFM $ zip xs $ parsed_things )
-		else error "Problem mit dem Graph-Viz"
 
 showFiniteMap :: (Show a, Show b) => FiniteMap a b -> String 
 showFiniteMap fm = "listToFM" ++ show (fmToList fm)

@@ -11,6 +11,7 @@ module Graph.Type (
     , module Iso
     , module Number
     , display
+    , layout
     )
  where
  
@@ -19,6 +20,7 @@ module Graph.Type (
 import Graph.Graph
 import Graph.Isomorph
 import Graph.Display
+import GVKnoten.Layout
 
 import ToDoc
 import FiniteMap

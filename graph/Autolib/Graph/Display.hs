@@ -1,6 +1,7 @@
 module Graph.Display 
 
 ( module Dot.Dot
+, dot_numbered
 )
 
 where
@@ -19,15 +20,21 @@ instance ( Show a, Ord a ) => ToDot ( Graph a ) where
     toDotProgram g = "neato"
     toDot g =
         let vs = setToList $ knoten g
-	    fm = listToFM $ zip vs $ [ 0.. ] 
+	    fm = listToFM $ zip vs $ [ 0 :: Int .. ] 
             num = fromMaybe (error "Graph.Display.num") . lookupFM fm
+	in  dot_numbered g num
 
+dot_numbered :: ( Show a, Ord a, Show b ) 
+	     => Graph a -> ( a -> b ) -> Dot.Graph.Type
+dot_numbered g num = 
+    let 
 	    tricky cs = 
-	        if take 1 cs == ['"'] -- dann ist es Show String
+	        if take 1 cs `elem` [ "\"", "'" ]  
+		   -- dann ist es Show String|Char
 		then tail ( init cs )	  -- und eine "-klammer kann weg
 		else cs
 
-            ns = do v <- vs
+            ns = do v <- setToList $ knoten g
                     return $ Dot.Node.blank
                            { Dot.Node.ident = show $ num v
                            , Dot.Node.label = Just $ tricky $ show v
