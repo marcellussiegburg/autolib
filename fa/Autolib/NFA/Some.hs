@@ -32,4 +32,5 @@ some alpha s = do
 nontrivial ::  Set Char -> Int -> IO (NFA Int)
 nontrivial alpha s = 
     repeat_until ( some alpha s )
-	( \ a -> states (trim a) == states a )
+	( \ a -> letters a == alpha
+	      && states (trim a) == states a )
