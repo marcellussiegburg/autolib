@@ -14,26 +14,25 @@ import ToDoc ( ToDoc, toDoc )
 -- falls p ein startzustand, dann q auch startzustand
 -- falls q ein akz. zustand, dann p auch akz. zustand
 
-add_epsilon :: NFAC c a
-	    => NFA c a -> (a,a) -> NFA c a
-add_epsilon a (p, q) = add_epsilons a [(p, q)]
-
 add_epsilons :: NFAC c a
 	     => NFA c a -> [(a,a)] -> NFA c a
-add_epsilons a pqs = 
-    NFA { nfa_info = funni "add_epsilon" [ info a, toDoc pqs ]
+add_epsilons a pqs
+    = informed ( funni "add_epsilons" [ info a, toDoc pqs ] )
+    $ foldl add_epsilon a pqs
+
+add_epsilon :: NFAC c a
+	    => NFA c a -> (a,a) -> NFA c a
+add_epsilon a (p, q) = 
+    NFA { nfa_info = funni "add_epsilon" [ info a, toDoc (p, q) ]
 	, states = states a -- bleibt
 	, starts = union ( starts a ) $ mkSet $ do
-	              (p, q) <- pqs
 	              guard $ p `elementOf` starts a 
                       return q
 	, finals = union ( finals a ) $ mkSet $ do
-	              (p, q) <- pqs
 	              guard $ q `elementOf` finals a 
 	              return p
 	, trans  = plusFM_C union ( trans a ) $ collect $ do
 	             ( o, c, p' ) <- unCollect $ trans a
-	             ( p, q ) <- pqs -- nicht elegant
 	             guard $ p' == p
 	             return ( o, c, q )
 	}
