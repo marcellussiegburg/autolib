@@ -18,12 +18,6 @@ instance ToDoc Integer where toDocPrec p = integer
 instance ToDoc Float where toDocPrec p = float
 instance ToDoc Double where toDocPrec p = double
 
-instance ToDoc Char where toDocPrec p = text . show
-
-
--- drift kann das folgende nicht, schade
-
-instance ToDoc () where toDocPrec p = text . show
 
 instance (ToDoc a, ToDoc b) => ToDoc (a, b) where
     toDocPrec p (x,y) = dutch_tuple
