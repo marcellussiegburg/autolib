@@ -10,7 +10,6 @@ import Autolib.ToDoc.Dutch
 
 import Data.Set
 import Data.Int
-import Autolib.FiniteMap
 
 instance ToDoc Int   where toDocPrec p = int
 instance ToDoc Int32 where toDocPrec p = int . fromIntegral
@@ -55,17 +54,6 @@ instance ToDoc a => ToDoc [a] where
 	    alles = kdocs ++  [ text "..." |  not $ null lang ]
 	in  brackets $ fsep $ punctuate comma $ alles
 -}
-
-
-instance (ToDoc a, ToDoc b) => ToDoc (FiniteMap a b)
-    where toDocPrec p fm = 
-	      docParen (p >= fcp) $ text "listToFM" <+> toDocPrec fcp (fmToList fm)
-
---instance (ToDoc a, ToDoc b) => Show (FiniteMap a b)
---    where show = render . toDoc
-
-instance (Show a, Show b) => Show (FiniteMap a b)
-    where show fm = "listToFM " ++ show (fmToList fm)
 
 
 

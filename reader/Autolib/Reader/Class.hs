@@ -18,4 +18,3 @@ class Reader a where
       readerPrec :: Int -> Parser a
       readerPrec p = reader -- default
 
-

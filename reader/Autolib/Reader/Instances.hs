@@ -11,7 +11,6 @@ import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token
 import Text.ParserCombinators.Parsec.Language ( haskell )
 
-import Autolib.FiniteMap
 import Data.Int
 
 instance Reader Integer where reader = integer haskell
@@ -47,13 +46,3 @@ listify :: Parser a -> Parser [a]
 listify p = my_brackets ( commaSep haskell p )
 
 
-instance ( Ord a, Reader a, Reader b ) => Reader ( FiniteMap a b ) where
-    reader = do
-        my_reserved "listToFM"
-	xys <-  reader
-	return $ listToFM xys
-
-instance (Ord a, Reader a, Reader b) => Read (FiniteMap a b) where
-    readsPrec = parsec_readsPrec
-
--- the Reader (Set a) instance is in util/Sets.hs

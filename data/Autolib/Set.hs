@@ -9,14 +9,19 @@ where
 --   $Id$
 
 import Data.Set
+import Data.Typeable
 import Autolib.FiniteMap
 import Autolib.ToDoc
 import Autolib.Reader
 
 import Autolib.Util.Teilfolgen
 
-import Text.XML.HaXml.Haskell2Xml
-import Autolib.XmlSet
+import Autolib.Xml
+
+instance ( Typeable a ) => Typeable ( Set a ) where
+    typeOf (_ :: Set a ) = 
+	mkAppTy (mkTyCon "Set") 
+	       [ typeOf (undefined :: a) ]
 
 instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)
@@ -27,23 +32,14 @@ instance ( Ord a, Reader [a] ) => Reader ( Set a ) where
 	xs <- reader
 	return $ mkSet xs
 
-instance (Ord a, Reader [a]) => Read (Set a) where
-    readsPrec = parsec_readsPrec
-
 instance ToDoc [a] => ToDoc (Set a)
     where toDocPrec p s = docParen (p >= fcp) 
 			$ text "mkSet" <+> toDocPrec fcp (setToList s)
 
-instance ToDoc [a] => Show (Set a)
-    where show = render . toDoc
-
-
-instance (Ord a, Haskell2Xml a) => Haskell2Xml (Set a) where
-    toContents s = toContents $ XmlSet $ setToList s 
-    fromContents cs = 
-        let ( XmlSet x, rest ) = fromContents cs
-	in  ( mkSet x, rest )
-    toHType (_ :: Set a) = toHType (undefined :: XmlSet a) -- ??
+instance ( Ord a ) => Container (Set a) [a] where
+    label _ = "Set"
+    pack = setToList
+    unpack = mkSet
 
 subseteq :: Ord a => Set a -> Set a -> Bool
 subseteq xs ys = isEmptySet $ xs `minusSet` ys

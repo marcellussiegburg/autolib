@@ -1,7 +1,6 @@
 module Autolib.Reader.Basic 
 
-( parsec_readsPrec
-, parse_complete
+( parse_complete
 , readerParen
 , my_parens, my_braces, my_brackets
 , my_comma, my_semi, my_dot, my_star
@@ -19,7 +18,7 @@ where
 --   $Id$
 
 import Autolib.Reader.Class
-import Autolib.TypeOf -- TODO: what for? Idee ausbauen!
+-- import Autolib.TypeOf -- TODO: what for? Idee ausbauen!
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token
@@ -28,19 +27,6 @@ import Text.ParserCombinators.Parsec.Language ( haskell )
 import qualified Text.PrettyPrint.HughesPJ as Pretty
 
 import Control.Monad ( guard )
-
-parsec_readsPrec :: Reader a => Int -> ReadS a
-parsec_readsPrec p input = 
-    case parse ( parsec_wrapper p ) "input" input 
-    of Right (x, rest) -> return (x, rest)
-       Left  err       -> error ("\n" ++ input ++ "\n" ++ show err)
-
-parsec_wrapper :: Reader a => Int -> Parser (a, String)
-parsec_wrapper p = do 
-    whiteSpace haskell
-    x <- readerPrec p
-    rest <- getInput
-    return (x , rest)
 
 parse_complete :: Parser p -> Parser p
 parse_complete p = do 

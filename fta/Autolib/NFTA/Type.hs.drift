@@ -105,8 +105,3 @@ instance NFTAC c s  => Size ( NFTA c s ) where
 
 {-! for NFTA derive: Reader, ToDoc !-}
 
-instance NFTAC c s => Read (NFTA c s) where
-    readsPrec = parsec_readsPrec
-
-instance NFTAC c s => Show (NFTA c s) where
-    show = render . toDoc
