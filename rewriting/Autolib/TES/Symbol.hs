@@ -35,7 +35,9 @@ instance ToDoc Symbol where
     toDoc = text . name
 instance Reader Symbol where 
     readerPrec p = do
-        i <- identifier tes <|> fmap show ( natural tes )
+        i <- identifier tes 
+	     <|> fmap show ( natural tes )
+	     <|> operator tes
 	return $ Symbol { name = i , arity = error "undefined arity" }
 
 instance Show Symbol where show = render . toDoc

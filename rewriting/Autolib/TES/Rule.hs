@@ -21,6 +21,7 @@ instance Reader Rule where
         lhs <- readerPrec 0
 	reservedOp tes "->"
 	rhs <- readerPrec 0
+	option () ( reservedOp tes ";" <|> reservedOp tes "." )
 	return ( lhs, rhs )
 instance Read Rule where
     readsPrec = parsec_readsPrec

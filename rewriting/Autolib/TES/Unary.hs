@@ -19,24 +19,18 @@ main = do
 handle :: FilePath -> IO ()
 handle fname = do
     -- hPutStrLn stderr $ "reading file: " ++ fname
+    hPutStr stderr $ ". " ; hFlush stderr
     cs <- readFile fname
     let r = read cs :: TES
     -- hPutStrLn stderr $ show r
-    when ( at_most_unary r && has_nullary r ) $ do
-        putStrLn fname
-        print r
+    when ( at_most_unary r ) $ do
+        putStrLn $ "\nunary: " ++ fname
+        -- print r
+	writeFile ( fname ++ ".unary" ) $ show r ++ "\n"
   `Exception.catch` \ any -> do
-    hPutStrLn stderr $ show any
+      -- hPutStrLn stderr $ fname ++ show any
+      hPutStrLn stderr $ "\n?: " ++ fname ++ "\n"
 
-at_most_unary :: TES -> Bool
-at_most_unary tes = and $ do
-    s <- setToList $ signature tes
-    return $ arity s <= 1
-
-has_nullary :: TES -> Bool
-has_nullary tes = or $ do
-    s <- setToList $ signature tes
-    return $ arity s == 0
 
     
         
