@@ -8,7 +8,7 @@ module Autolib.NFA
 , module Autolib.NFA.Minus
 , module Autolib.NFA.Epsilon
 , module Autolib.NFA.Trim
-, module Util.Letters
+, module Autolib.Letters
 , module Autolib.NFA.Subseteq
 , module Autolib.NFA.Eq
 )
@@ -27,4 +27,4 @@ import Autolib.NFA.Trim
 import Autolib.NFA.Subseteq
 import Autolib.NFA.Eq
 
-import Autolib.Util.Letters
+import Autolib.Letters

@@ -7,7 +7,7 @@ import Data.Set
 import Control.Monad ( guard )
 import Data.FiniteMap 
 
-import qualified Relation
+import qualified Autolib.Relation
 
 import Autolib.ToDoc ( ToDoc, toDoc )
 

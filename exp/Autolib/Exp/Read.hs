@@ -3,7 +3,7 @@ module Autolib.Exp.Read where
 -- -- $Id$
 
 import Autolib.Exp.Type
-import Autolib.TES.Symbol
+import Autolib.Symbol
 
 import Char
 

@@ -14,7 +14,8 @@ import Autolib.NFA.Mirror
 import Autolib.Schichten
 
 import Control.Monad (guard)
-import Autolib.Maybe
+import Data.Maybe
+
 import Autolib.Fix
 import Autolib.Letters
 import Autolib.Sets

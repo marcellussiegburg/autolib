@@ -2,7 +2,7 @@
 
 module Autolib.Exp.Print where
 
-import Autolib.TES.Symbol
+import Autolib.Symbol
 import Autolib.Exp.Type
 import Autolib.ToDoc
 

@@ -1,17 +1,15 @@
-module TES.Symbol where
+module Autolib.Symbol where
 
 --   $Id$
 
-import ToDoc
-import Reader
+import Autolib.ToDoc
+import Autolib.Reader
 import Text.ParserCombinators.Parsec.Expr 
 
-import SRS.Aged
-
 import Data.Maybe ( isJust )
-import Sets
-import Hash
-import Util.Size
+import Autolib.Sets
+import Autolib.Hash
+import Autolib.Util.Size
 
 import GHC.Int ( Int16 )
 
@@ -65,10 +63,11 @@ is_constant = (== 0) . arity
 
 instance Symbol () 
 
-
+{-
 instance ( HeightC h, Show a, Symbol a ) => Symbol (Aged h a) where
     arity = arity . it
     set_arity a = itmap (set_arity a)  
+-}
 
 instance Symbol Char where
     arity c = 1
