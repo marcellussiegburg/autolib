@@ -23,7 +23,7 @@ warum schreiben wir nicht gleich in die datenbank?
 
 -}
 
-import Autolib.Reporter
+import Autolib.Reporter.Type
 import Autolib.ToDoc
 
 import Autolib.Right

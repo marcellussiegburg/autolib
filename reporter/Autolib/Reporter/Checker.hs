@@ -43,8 +43,8 @@ and_then l r = Make
 	 { nametag = nametag r
 	 , condition = condition r
 	 , investigate = \ a -> do
-	       Reporter.Checker.run l a
-	       Reporter.Checker.run r a
+	       Autolib.Reporter.Checker.run l a
+	       Autolib.Reporter.Checker.run r a
          }
 
 

@@ -27,4 +27,10 @@ import Autolib.NFA.Trim
 import Autolib.NFA.Subseteq
 import Autolib.NFA.Eq
 
+import Autolib.NFA.Restrict
+import Autolib.NFA.Check
+import Autolib.NFA.Example
+
 import Autolib.Letters
+
+

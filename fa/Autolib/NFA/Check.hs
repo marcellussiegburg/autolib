@@ -2,7 +2,7 @@ module Autolib.NFA.Check where
 
 -- -- $Id$
 
-import Autolib.NFA
+import Autolib.NFA.Type
 import Autolib.ToDoc
 import Autolib.Reporter
 

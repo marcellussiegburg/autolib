@@ -10,3 +10,4 @@ where
 
 import Autolib.Output.Type
 import Autolib.Output.Basic
+import Autolib.Output.Html

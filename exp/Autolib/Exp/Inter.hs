@@ -12,7 +12,11 @@ module Autolib.Exp.Inter
 where
 
 import Autolib.NFA
-import Autolib.Exp
+
+import Autolib.Exp.Type
+import Autolib.Exp.Read
+import Autolib.Exp.Print
+
 import qualified Autolib.NFA.Ops      as Ops
 import qualified Autolib.NFA.Minus    as Minus
 import qualified Autolib.NFA.Shuffle  as Shuffle
@@ -25,7 +29,7 @@ import qualified Autolib.NFA.Trim     as Trim
 import qualified Autolib.NFA.Mirror   as Mirror
 import qualified Autolib.NFA.Basic    as Basic
 
-import Autolib.TES.Symbol
+import Autolib.Symbol
 import Autolib.ToDoc
 
 ---------------------------------------------------------------------------

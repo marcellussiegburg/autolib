@@ -15,3 +15,8 @@ import Autolib.Reporter.Iterator
 import Autolib.Reporter.Parallel
 import Control.Monad
 
+import Autolib.Reporter.Result
+import Autolib.Reporter.Subset
+import Autolib.Reporter.Checker
+
+
