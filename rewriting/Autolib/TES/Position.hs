@@ -17,10 +17,18 @@ positions t = ( [], t ) : case t of
 		      return ( k : p , s )
     _ -> []
 
+-- | all positions
 pos :: Term v c 
     -> [ Position ]
 pos t = do
     ( p, s ) <- positions t
+    return p
+
+-- | non-variable positions
+sympos :: Term v c 
+    -> [ Position ]
+sympos t = do
+    ( p, Node {} ) <- positions t
     return p
 
 {-# inline subterms #-}

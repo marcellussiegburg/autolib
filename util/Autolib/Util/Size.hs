@@ -18,6 +18,9 @@ instance Size (FiniteMap a b) where
 instance Size a => Size [a] where
     size = sum . map size
 
+instance Size () where 
+    size () = 1
+
 instance ( Size a, Size b ) => Size (a, b) where
     size (x, y) = size x + size y
 

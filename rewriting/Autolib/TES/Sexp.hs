@@ -10,6 +10,7 @@ import Reader
 
 data Sexp = Leaf String
 	  | List [ Sexp ]
+    deriving ( Eq, Ord )
 
 wrap :: Show a => String ->  [a] -> Sexp
 wrap f args = List

@@ -37,6 +37,8 @@ data RS t  = RS
 	 , separate :: Bool
 	 , rules :: [ ( t, t ) ]
 	 }
+    deriving ( Eq, Ord )
+
 
 from_rules :: Bool -> [ ( t,t ) ] -> RS t
 from_rules sep rs = RS { annotations = []

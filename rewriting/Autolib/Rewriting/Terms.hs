@@ -20,7 +20,8 @@ instance Sub ( Term v ) where
     replace ( Node _ args ) f = Node f args
     replace ( Var _ ) f = error "replace: cannot replace Variable"
 
-    substructures = T.subterms
+    substructures = T.subterms -- with variables ??
+    symbols = T.symsl -- no variables
 
 instance Is_Top [ Int ] where
     is_top = null

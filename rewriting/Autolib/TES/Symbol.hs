@@ -63,15 +63,15 @@ is_constant = (== 0) . arity
 
 ------------------------------------------------------------------------
 
+instance Symbol () where
+
+
 instance ( Show a, Symbol a ) => Symbol (Aged a) where
     arity = arity . it
     set_arity a = itmap (set_arity a)  
 
-------------------------------------------------------------------------
-
 instance Symbol Char where
     arity c = 1
-    set_arity a c = error "instance Symbol Char has no set_arity"
     symbol_toDoc = ToDoc.char
     symbol_reader = alphaNum
     pool = [ '#', '%' ] ++ ['a' .. 'z' ] ++ ['A' .. 'Z' ] ++ [ '0' .. '9' ]

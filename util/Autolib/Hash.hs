@@ -10,6 +10,9 @@ import Data.Set
 class Eq a => Hash a where
       hash :: a -> Int	-- TODO: should be unboxed word or something
 
+instance Hash () where
+    hash () = 1855
+
 instance (Hash a, Hash b) => Hash (a, b) where
     -- not recommended (should be cached instead)
     hash (a, b) = hash a + 3 + 107 * hash b
