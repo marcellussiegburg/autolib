@@ -7,7 +7,7 @@ module Autolib.NFA.Hull
 
 where
 
-import Data.Set
+import Autolib.Set
 
 
 

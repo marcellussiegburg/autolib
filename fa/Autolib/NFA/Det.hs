@@ -10,7 +10,6 @@ import Autolib.NFA.Trim
 import Autolib.Letters
 import Autolib.NFA.Hull
 
-import Data.Set
 import Autolib.Set (sfilter)
 
 import Control.Monad.State

@@ -21,7 +21,12 @@ instance ( Ord a, Ord b ) => Ord ( FiniteMap a b ) where
 
 instance ( Typeable a, Typeable b ) => Typeable (FiniteMap a b) where
     typeOf (_ :: FiniteMap a b) = 
-	mkAppTy (mkTyCon "FiniteMap") 
+#if (__GLASGOW_HASKELL__ < 604)
+	mkAppTy 
+#else
+        mkTyConApp
+#endif
+               (mkTyCon "FiniteMap") 
 	       [ typeOf (undefined :: a), typeOf (undefined :: b) ]
 
 

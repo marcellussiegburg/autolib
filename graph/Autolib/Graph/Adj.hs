@@ -10,7 +10,7 @@ import Data.Array ( Array , array , bounds , assocs , listArray )
 
 import Control.Monad ( guard )
 
-import FiniteMap ( listToFM , lookupWithDefaultFM )
+import Autolib.FiniteMap ( listToFM , lookupWithDefaultFM )
 
 -------------------------------------------------------------------------------
 

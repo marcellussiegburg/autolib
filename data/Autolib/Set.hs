@@ -9,7 +9,13 @@ where
 
 --   $Id$
 
-import Data.Set
+import Data.Set 
+#if (__GLASGOW_HASKELL__ >= 604)
+       hiding ( filter, map, null, size, split
+	      , empty, intersection, insert, valid, singleton
+	      , (\\), fold, partition
+	      )
+#endif
 import Data.Typeable
 import Autolib.ToDoc
 import Autolib.Reader
@@ -23,8 +29,10 @@ instance Ord a => Container (Set a) [a] where
     pack = setToList
     unpack = mkSet
 
+#if (__GLASGOW_HASKELL__ < 604)
 instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)
+#endif
 
 instance ( Ord a, Reader [a] ) => Reader ( Set a ) where
     readerPrec d = readerParen ( d > 9 ) $ do
@@ -38,9 +46,17 @@ instance ToDoc [a] => ToDoc (Set a)
 
 
 --  http://www.haskell.org//pipermail/haskell/2005-January/015164.html
+
 instance ( Typeable a ) =>  Typeable ( Set a ) where
-    typeOf s = mkAppTy ( mkTyCon "Set" )
+    typeOf s = 
+#if (__GLASGOW_HASKELL__ < 604)
+        mkAppTy 
+#else
+        mkTyConApp
+#endif
+                ( mkTyCon "Set" )
 		[ typeOf ((undefined :: Set a -> a) s) ]
+
 
 subseteq :: Ord a => Set a -> Set a -> Bool
 subseteq xs ys = isEmptySet $ xs `minusSet` ys

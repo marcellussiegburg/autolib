@@ -4,7 +4,7 @@ module Autolib.NFA.Mirror where
 
 import Autolib.NFA.Type
 
-import Data.Set
+import Autolib.Set
 import Autolib.FiniteMap
 import Autolib.ToDoc
 

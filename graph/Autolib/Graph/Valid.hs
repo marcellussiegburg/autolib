@@ -8,7 +8,7 @@ valid
 
 import Autolib.Graph.Type
 
-import Data.Set
+import Autolib.Set
 import Control.Monad ( guard )
 import Autolib.ToDoc
 

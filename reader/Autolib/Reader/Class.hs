@@ -10,7 +10,12 @@ where
 
 --   $Id$
 
-import Text.ParserCombinators.Parsec hiding ( label )
+import Text.ParserCombinators.Parsec 
+        hiding ( label 
+#if (__GLASGOW_HASKELL__ >= 604)
+               , State 
+#endif
+               )
 
 class Reader a where
 

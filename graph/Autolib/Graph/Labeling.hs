@@ -3,7 +3,7 @@ module Autolib.Graph.Labeling where
 import Autolib.Graph.Graph
 import Autolib.FiniteMap
 import Autolib.ToDoc
-import Data.Set
+import Autolib.Set
 import Control.Monad (guard)
 
 type Labeling a b = FiniteMap a b

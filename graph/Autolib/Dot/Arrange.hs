@@ -9,11 +9,11 @@ import Autolib.Dot.Dot
 import qualified Autolib.GVKnoten.Layout
 import Autolib.Boxing.Position
 
-import Data.Set
+import Autolib.Set
 import Control.Monad ( foldM )
-import Random
+import System.Random
 import Autolib.FiniteMap
-import IO
+import System.IO
 
 -- | koordinaten der knoten bestimmen.
 -- dabei bereits feststehende koordinaten so lassen (pinning)

@@ -5,8 +5,8 @@ module Autolib.Util.Wort where
 import Autolib.Util.Sort
 import Autolib.Util.Uniq
 
-import Data.Set
-import Random
+import Autolib.Set
+import System.Random
 
 import Data.List ( inits, tails )
 

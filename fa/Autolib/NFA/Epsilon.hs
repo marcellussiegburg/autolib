@@ -3,7 +3,7 @@ module Autolib.NFA.Epsilon where
 -- -- $Id$
 
 import Autolib.NFA.Type
-import Data.Set
+import Autolib.Set
 import Control.Monad ( guard )
 import Autolib.FiniteMap 
 

@@ -3,7 +3,7 @@ module Autolib.Graph.Util where
 -- -- $Id$
 
 import Autolib.Graph.Graph
-import Data.Set
+import Autolib.Set
 import Control.Monad ( guard ) -- old style
 import Autolib.Graph.Beispiele
 import Autolib.FiniteMap

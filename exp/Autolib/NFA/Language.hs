@@ -13,7 +13,7 @@ import Autolib.Letters
 import Autolib.Language.Type
 
 import Autolib.ToDoc
-import Data.Set
+import Autolib.Set
 import Data.List (nub)
 import Autolib.Util.Zufall
 

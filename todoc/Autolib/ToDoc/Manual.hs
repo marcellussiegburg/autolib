@@ -8,7 +8,6 @@ module Autolib.ToDoc.Manual where
 import Autolib.ToDoc.Class
 import Autolib.ToDoc.Dutch
 
-import Data.Set
 import Data.Int
 
 instance ToDoc Int   where toDocPrec p = int

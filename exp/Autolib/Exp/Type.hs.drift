@@ -25,20 +25,13 @@ data RX c
 	| Power Integer (RX c) 
 	| PowerStar (RX c)
 	| PowerPlus (RX c)
-    deriving ( Eq, Ord )
+    deriving ( Eq, Ord, Typeable )
 
 {-! for RX derive: Haskell2Xml !-}
 
 -- | for  backward compatibility
 type Exp = RX Char 
 
-instance Typeable c => Typeable (RX c) where
-    typeOf (_ :: RX c) = 
-	mkAppTy (mkTyCon "RX") 
-	       [ typeOf (undefined :: c) ]
-
-instance Typeable Exp where
-    typeOf _ = mkAppTy (mkTyCon "Exp") []
 
 
     

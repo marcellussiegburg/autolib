@@ -15,8 +15,7 @@ import qualified Autolib.NFA.Type as W -- words
 
 import Autolib.Set
 import Autolib.ToDoc
-import Autolib.Reader
-
+import Autolib.Reader 
 import Autolib.Symbol
 import Autolib.Util.Size
 import Autolib.Hash

@@ -16,7 +16,7 @@ import Autolib.TES.Position
 
 import Autolib.FiniteMap
 import Data.Maybe
-import Data.Set
+import Autolib.Set ( elementOf )
 import Control.Monad
 
 import Autolib.ToDoc
