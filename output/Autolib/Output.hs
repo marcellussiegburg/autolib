@@ -36,7 +36,7 @@ instance Render Html.Html where
     render (Html h) = h
     render (Empty)  = Html.noHtml
 
-    render (Above x y) = Html.p ( render x :: Html.Html)
+    render (Above x y) = {- Html.p -} ( render x :: Html.Html)
 			 Html.+++ 
 			 Html.p ( render y :: Html.Html )
     render (Itemize xs) = Html.ulist Html.<<
