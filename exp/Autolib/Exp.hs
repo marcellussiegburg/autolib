@@ -16,6 +16,9 @@ import Autolib.Exp.Einfach
 import Autolib.Exp.Inter
 import Autolib.Exp.Example
 import Autolib.Exp.Reverse
+import Autolib.Exp.Sanity
+import Autolib.Exp.Some
+
 
 
 

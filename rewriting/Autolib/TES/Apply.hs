@@ -6,13 +6,14 @@ import Autolib.TES.Type
 import Autolib.TES.Out
 
 import Autolib.FiniteMap
+import Autolib.ToDoc
 import Data.Maybe
 
 
 
 
 -- | replace variables by variables
-applyvar :: ( TRSC a c, TRSC b c )
+applyvar :: ( TRSC a c, TRSC b c, ToDoc (FiniteMap a b ) )
 	 => FiniteMap a b 
          -> Term a c -> Term b c
 applyvar fm t = vmap 

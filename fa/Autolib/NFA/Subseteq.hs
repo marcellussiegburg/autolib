@@ -8,22 +8,16 @@ import Autolib.NFA.Normalize
 import Autolib.NFA.Minus
 import Autolib.NFA.Shortest
 
--- import Boc
 import Autolib.Reporter
 import Autolib.ToDoc
-
-{-
-subseteq :: (NFAC c a, NFAC c b, ToDoc [c])
-	 => NFA c a -> NFA c b -> Boc
-subseteq a b = cheporter $ subsetequ a b
--}
 
 subsetequ :: (NFAC c a, NFAC c b, ToDoc [c])
 	 => NFA c a -> NFA c b -> Reporter Bool
 subsetequ a0 b0 = do
-    inform $ fsep [ text "Ist",  info a0 
-		       , text "Teilmenge von",  info b0
-		       , text "?" ] 
+    inform $ fsep [ text "Ist",  nest 4 $ info a0 
+		  , text "Teilmenge von",  nest 4 $ info b0
+		  , text "?" 
+		  ] 
 
     let a = trim $ normalize a0
 	b = trim $ normalize b0

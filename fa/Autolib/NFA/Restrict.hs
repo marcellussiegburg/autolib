@@ -31,8 +31,7 @@ restrict_states a = do
 	 ]
 
     let norules   = do
-	    rule @ ((p, x), qs) <- ltrans a
-	    q <- setToList qs
+	    rule @ (p, c, q) <- unCollect $ trans a
 	    guard $ forbidden p || forbidden q
 	    return rule
     when ( not $ null norules ) $ reject $ vcat
@@ -48,8 +47,7 @@ restrict_alpha
    -> Reporter ()
 restrict_alpha alpha a = do
     let	noletters = do
-	    rule @ ((p, x), qs) <- ltrans a
-	    q <- setToList qs
+	    rule @ (p, x, q) <- unCollect $ trans a
 	    guard $ not (x `elementOf` alpha)
 	    return rule
     when ( not $ null noletters ) $ reject $ vcat

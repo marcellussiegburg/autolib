@@ -20,6 +20,8 @@ import Data.List ( partition )
 import Control.Monad.State
 
 import Autolib.Reader
+import Autolib.ToDoc
+import Autolib.FiniteMap
 
 
 
@@ -48,7 +50,8 @@ insert a pt = inserts a [ pt ]
 {-# inline extends #-}
 
 -- | add transitions (that contains symbols annotated with states)
-extends :: ( NFTAC c s , TRSC v (c, s), Show s 
+extends :: ( NFTAC c s , TRSC v (c, s)
+	   , Show s, ToDoc ( FiniteMap v s ) 
 	   )
        => NFTA c s
        -> [ Path Term v (c, s) s ]

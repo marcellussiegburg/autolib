@@ -34,11 +34,44 @@ instance (ToDoc a, ToDoc b) => ToDoc (FiniteMap a b)
 
 
 instance ( Ord a, Reader a, Reader b ) => Reader ( FiniteMap a b ) where
-    reader = do
+    reader = default_reader
+
+default_reader ::  ( Ord a, Reader a, Reader b ) 
+	       => Parser ( FiniteMap a b )
+default_reader = do
         my_reserved "listToFM"
 	xys <-  reader
 	return $ listToFM xys
 
+------------------------------------------------------------------------
+
+-- | specialized instances used for finite automata (testing)
+instance  (ToDoc s, ToDoc c) => ToDoc (FiniteMap (s, c) (Set s)) where
+    toDocPrec p fm = docParen (p >= fcp) 
+		   $ text "collect" <+> toDocPrec fcp (unCollect fm)
+
+instance  ( Ord c, Ord s, Reader s, Reader c, Reader [s] ) 
+        => Reader (FiniteMap (s, c) (Set s)) where
+    reader = default_reader <|> do 
+        my_reserved "collect"
+        xys <- reader
+        return $ collect xys
+
+-- | collect transition function from list of triples
+collect :: ( Ord s, Ord c )
+	=> [(s, c, s)] -> FiniteMap (s, c) (Set s)
+collect pxqs = addListToFM_C union emptyFM $ do
+    (p, x, q) <- pxqs
+    return ((p, x), unitSet q)
+
+-- | represent transition function as list of triples
+unCollect :: FiniteMap (s, c) (Set s) -> [(s, c, s)]
+unCollect fm = do
+    ((p,c), qs) <- fmToList fm
+    q <- setToList qs
+    return (p, c, q)
+
+-------------------------------------------------------------------------
 
 instance (Ord a ) => Container (FiniteMap a b) [(a, b)] where
     label _ = "FiniteMap"

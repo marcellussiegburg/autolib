@@ -54,7 +54,7 @@ constructor x = case x of
     Power i x -> "Power"
 
 
-constructors :: Exp  -> Set String 
+constructors :: RX c  -> Set String 
 constructors = 
     mkSet . map constructor . subtrees 
 

@@ -9,7 +9,7 @@ import Autolib.Set
 import Autolib.Reporter
 import Autolib.ToDoc
 
-check_form :: Set String -> Exp -> Reporter ()
+check_form :: Set String -> RX c -> Reporter ()
 check_form ss x = do
     let cs = constructors x
 	ds = minusSet cs ss

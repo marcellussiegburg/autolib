@@ -18,13 +18,6 @@ import Autolib.ToDoc
 
 ---------------------------------------------------------------------
 
--- | collect transition function from list of triples
-collect :: NFAC c s
-	=> [(s, c, s)] -> FiniteMap (s, c) (Set s)
-collect pxqs = addListToFM_C union emptyFM $ do
-    (p, x, q) <- pxqs
-    return ((p, x), unitSet q)
-
 -- | find list of states that are reached after one step
 images :: NFAC c s
        => NFA c s -> (s, c) -> [ s ]
@@ -33,12 +26,6 @@ images a (p, c) =
          Nothing -> []
 	 Just qs -> setToList qs
 
--- | represent transition function as list of triples
-unCollect :: FiniteMap (s, c) (Set s) -> [(s, c, s)]
-unCollect fm = do
-    ((p,c), qs) <- fmToList fm
-    q <- setToList qs
-    return (p, c, q)
 
 ---------------------------------------------------------------------
 
