@@ -3,6 +3,7 @@ module TES.Term
 ( module TES.Type
 , module TES.Symbol
 , module TES.Apply
+, module TES.Draw
 )
 
 where
@@ -16,7 +17,7 @@ import TES.Type
 import TES.In
 import TES.Out
 import TES.Apply
-
+import TES.Draw
 
 
 

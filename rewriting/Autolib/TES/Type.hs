@@ -15,6 +15,7 @@ class ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c )
 instance ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) 
       => TRSC v c 
 
+-- | root symbol
 top :: Term v c -> c
 top (Node c args ) = c 
 
@@ -25,6 +26,7 @@ instance Functor (Term v) where
     fmap f (Var v) = Var v
     fmap f (Node c args) = Node (f c) $ map (fmap f) args
 
+-- | apply mapping to variables only
 vmap ::  (v -> w) -> ( Term v c -> Term w c )
 vmap f (Var v) = Var (f v)
 vmap f (Node c args) = Node c $ map (vmap f) args
