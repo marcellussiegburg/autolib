@@ -57,7 +57,7 @@ instance (ToDoc a, ToDoc b, ToDoc c) => ToDoc (a, b, c) where
 	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z]
 
 instance ToDoc a => ToDoc [a] where
-    toDocPrec p xs = dutch (text "[", comma, text "]") $ map toDoc xs
+    toDocPrec p xs = dutch_list $ map toDoc xs
 
 {-
         let (kurz, lang) = splitAt max_list_length xs
@@ -119,6 +119,10 @@ dutch (op, sep, cl) ( x : xs ) =
 	    , cl
 	    ]
 
-    
+dutch_record :: [ Doc ] -> Doc
+dutch_record = dutch ( text "{", comma, text "}" )    
+
+dutch_list :: [ Doc ] -> Doc
+dutch_list = dutch ( text "[", comma, text "]" )    
 
 
