@@ -1,4 +1,8 @@
+-- $Id$
+
 module Iso where
+
+import Set
 
 -- | Klasse fuer den Isomorphietest
 class Iso a where
@@ -19,7 +23,9 @@ instance Iso Char where
 instance Iso a => Iso [a] where
   iso a b = and $ map (\(x,y) -> iso x y) (zip a b)
 
- 
+instance (Ord a, Iso a) => Iso (Set a) where
+  iso a b = iso (setToList a) (setToList b)
+
 instance (Iso a, Iso b) => Iso (a,b) where
   iso (a,b) (c,d) = and [iso a c, iso b d]
 
