@@ -94,8 +94,8 @@ helper inf direction pure (x : xs) =
 	           let inf' = msg ++ ", " ++ inf
 	 	   in  if x /= direction 
 		       then   Result ( x, inf' )
-		       else   Next $ helper inf direction pure   xs
-	       Next n ->      Next $ helper inf direction pure $ xs ++ [ n ]
+		       else   Next $ helper inf' direction pure   xs
+	       Next n ->      Next $ helper inf  direction pure $ xs ++ [ n ]
 	 }
 
 
