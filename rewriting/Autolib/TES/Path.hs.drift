@@ -1,0 +1,35 @@
+-- -*- mode: haskell -*-
+
+module TES.Path where
+
+-- $Id$
+
+import TES.Term
+import TES.Data
+import TES.Identifier
+
+import Reader
+import ToDoc
+
+import Util.Sort
+
+data Path = Path { descent :: [ ( Identifier, Int) ]
+		 , variable :: Maybe Identifier
+		 }
+    deriving ( Eq, Ord )
+
+{-! for Path derive : Reader, ToDoc !-}
+
+instance Show Path where show = render . toDoc
+instance Read Path where readsPrec = parsec_readsPrec
+
+paths :: TES -> Term Identifier Identifier -> [ Path ]
+paths tes ( Var v   ) = do
+    return $ Path { descent = [] , variable = Just v }
+paths tes ( Node f []   ) = do
+    return $ Path { descent = [(f,0)], variable = Nothing }
+paths tes ( Node f args ) = do
+    (k, a) <- zip [ 1 .. ] args 
+    p <- paths tes a
+    return $ p { descent = (f ,k) : descent p }
+
