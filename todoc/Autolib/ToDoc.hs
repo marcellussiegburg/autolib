@@ -14,7 +14,7 @@ module ToDoc
 
 where
 
-import Pretty hiding ( style )
+import Pretty 
 
 import Set
 import FiniteMap
