@@ -62,7 +62,7 @@ insert_variable v ( l, r ) = do
 		    , poke (vmap undefined r) (q, Var x) 
 		    ) 
 		  ]
-	    anno = [ List [ Leaf "VAR", Leaf $ show x ]
+	    anno = [ List [ Leaf ( "VAR"), Leaf $ show x ]
 		   ]
 	return $ trs { annotations = anno }
 

@@ -8,6 +8,7 @@ module Autolib.TES.Data where
 --  $Id$
 
 import Autolib.Symbol
+
 import Autolib.TES.Term
 import Autolib.TES.Position (syms, vars)
 import Autolib.TES.Rule
@@ -84,14 +85,14 @@ rhss :: RS c t -> [ t ]
 rhss trs = do (l,r) <- rules trs ; return r
 
 
-instance ( ToDoc (t, t), Show (t, t) ) 
+instance ( ToDoc (t, t), Show (t, t), Symbol c ) 
 	 => ToDoc ( RS c t ) where
     toDoc t = vcat [ vcat $ map toDoc $ annotations t 
 		   , case theory t of 
-			  Just x -> toDoc $ List $ Leaf "THEORY"   :  x 
+			  Just x -> toDoc $ List $ Leaf ("THEORY")   :  x 
 			  Nothing -> empty
 		   , case strategy t of 
-		          Just x -> toDoc $ List $ Leaf "STRATEGY" :  x 
+		          Just x -> toDoc $ List $ Leaf ("STRATEGY") :  x 
 			  Nothing -> empty
 		   -- , toDoc ( wrap "VAR" $ setToList $ variables t )
 		   , toDoc $ ( if separate t then wrap_sep "," else wrap )
@@ -152,11 +153,12 @@ line = Autolib.TES.Parsec.parens Autolib.TES.Parsec.trs $  do
 
 repair_variables :: TES -> TES
 repair_variables trs =
-    let vhead (List (Leaf "VAR" : _ )) = True ; vhead _ = False
+    let vhead (List (Leaf "VAR" : _ )) = True 
+        vhead _ = False
         vs = mkSet $ do 
 		List ( Leaf "VAR" : xs ) <- annotations trs
 		Leaf x <- xs
-	        return $ mknullary x
+	        return $ mknullary $ show x
 	-- change (some) nullary ids to vars
 	xform ( Node c [] ) | c `elementOf` vs = Var c
 	xform ( Node c args ) = Node c ( map xform args )

@@ -29,5 +29,3 @@ instance Symbol c => ToDoc ( Rule c ) where
        	-- TODO: , ToDoc.comma 
 	]
 
-instance Symbol c => Show ( Rule c ) where
-    show = render . toDoc
