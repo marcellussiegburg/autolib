@@ -40,6 +40,9 @@ peng a = do
         flag <- doesDirectoryExist pics
         when ( not flag ) $ createDirectory pics
         done <- do
+	       debug $ "looking for: " ++ pngfile
+               ex <- doesFileExist pngfile
+	       when (not ex) $ error "not"
 	       debug $ "looking for: " ++ objfile
                cs <- readFile objfile
                debug $ "found      : " ++ objfile

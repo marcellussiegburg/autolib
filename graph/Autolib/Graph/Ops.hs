@@ -59,8 +59,8 @@ complement g = informed ( funni "co" [ info g ] )
 	     $ texinformed ( "\\overline{" ++ texinfo g ++ "}" )
 	     $ clique ( knoten g ) `unlinks` setToList ( kanten g )
 
+-- | klebt zusammen (zeichnet übereinander!)
 union0 :: Ord a => Graph a -> Graph a -> Graph a
--- klebt zusammen (zeichnet übereinander!)
 union0 g1 g2 = g1 -- use layout prog and hints from g1
 	    { graph_info = funni "union0" [ info g1, info g2 ] 
 	    , graph_texinfo = texinfo g1 ++ "\\cup" ++ texinfo g2

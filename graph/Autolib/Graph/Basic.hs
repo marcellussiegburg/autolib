@@ -18,6 +18,7 @@ independent :: Ord a => Set a -> Graph a
 independent = independent0 . setToList
 
 independent0 :: Ord a => [a] -> Graph a
+-- klebt zusammen (zeichnet übereinander!)
 independent0 xs = Graph 
     { graph_info = text $ "E_" ++ show (length xs)
     , show_labels = False
