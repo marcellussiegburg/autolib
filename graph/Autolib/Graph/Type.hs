@@ -32,36 +32,5 @@ instance (Eq a, Ord a) => Iso (Graph a)
 
 
 -------------------------------------------------------------------------------
--- ToDoc implementation for Graph and Kante
-instance (ToDoc a, ToDoc (Set a)) => ToDoc (Graph a) where
-    toDoc g = text "Graph" <+> braces (
-      fsep $ punctuate comma 
-      [ text "knoten " <+> equals <+> toDoc (knoten g)
-      , text "kanten " <+> equals <+> toDoc (kanten g)
-      ])
-      
-instance ToDoc a => ToDoc (Kante a) where
-{-
-    toDoc k = text "Kante" <+> braces ( 
-      fsep $ punctuate comma
-      [ text "von" <+> equals <+> toDoc (von k)
-      , text "nach" <+> equals <+> toDoc (nach k)
-      ])
--}
-    toDoc k = text "kante" <+> toDoc (von k) <+> toDoc (nach k)
-
-
-instance ToDoc (Graph a) => Show (Graph a) where
-{-    showsPrec p g = showString $ unlines 
-		  $ [ "{ knoten = " ++ show (setToList (knoten g))
-		    , ", kanten = " ++ show (setToList (kanten g))
-		    , "}"
-		    ]
--}    
-  show = render . toDoc
  
   
-instance (ToDoc a) => Show (Kante a) where
---    showsPrec p k = showString $ "(" ++ show (von k) ++ "," ++ show (nach k) ++ ")"
-  show = render . toDoc
-
