@@ -59,7 +59,13 @@ syms t = mkSet $ do
     Node c _ <- subterms t
     return c
 
+lsyms :: Ord c => Term v c -> [ c ]
+lsyms = setToList . syms
+
 vars :: Ord v => Term v c -> Set v
 vars t = mkSet $ do
     Var v <- subterms t
     return v
+
+lvars :: Ord v => Term v c -> [ v ]
+lvars = setToList . vars
