@@ -20,7 +20,9 @@ import Control.Exception ( catch )
 trusted_layouters :: [ FilePath ]
 trusted_layouters = do
     prog <- [ "dot", "twopi", "neato" ]
-    prefix <- [ "", "/usr/bin/", "/usr/local/bin/" ]
+    prefix <- [ "", "/usr/bin/", "/usr/local/bin/"
+	      , "/home/waldmann/built/bin/" 
+	      ]
     return $ prefix ++ prog
 
 -- | write output as png to file,
