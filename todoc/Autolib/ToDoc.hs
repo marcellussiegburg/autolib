@@ -56,6 +56,25 @@ instance (ToDoc a, ToDoc b, ToDoc c) => ToDoc (a, b, c) where
 	      $ punctuate comma
 	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z]
 
+instance (ToDoc a, ToDoc b, ToDoc c, ToDoc d) => ToDoc (a, b, c, d) where
+    toDocPrec p (x,y,z,q) = parens 
+	      $ fsep 
+	      $ punctuate comma
+	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z, toDocPrec 0 q]
+
+-- brauchen wir tatsächlich, für SQLqueries
+instance (ToDoc a, ToDoc b, ToDoc c, ToDoc d, ToDoc e) 
+    => ToDoc (a, b, c, d, e) where
+    toDocPrec p (x,y,z,q,r) = parens 
+	      $ fsep 
+	      $ punctuate comma
+	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z
+		, toDocPrec 0 q, toDocPrec 0 r
+		]
+
+
+
+
 instance ToDoc a => ToDoc [a] where
     toDocPrec p xs = dutch_list $ map toDoc xs
 
