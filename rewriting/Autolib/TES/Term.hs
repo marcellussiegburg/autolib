@@ -37,9 +37,11 @@ instance ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c )
       => TRSC v c 
 
 
+isvar :: Term v c -> Bool
 isvar ( Var _ ) = True
 isvar _ = False
 
+unvar :: Term v c -> v
 unvar ( Var v ) = v
 
 instance ( ToDoc c, ToDoc v ) => ToDoc (Term v c) where

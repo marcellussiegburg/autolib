@@ -8,6 +8,7 @@ import SRS.Aged
 
 import TES.Match
 import TES.Identifier
+import qualified TES.Rule
 import Util.Size
 import Sets
 
@@ -45,12 +46,11 @@ covers conf trs a = do
     ( l, r ) <- rules trs
     redex @ ( p, t, fm ) <- matches a l
 
-    let border = any ( \ x -> it x `elem` clamped_symbols conf ) . lsyms
     let reducts = do
 	    reduct @ ( p', t', fm' ) <- matches_from a r p
 	    guard $ mkSet (fmToList fm') `subseteq` mkSet ( fmToList fm )
 	    -- if clamping, then don't check heights of border rules
-	    guard $ ( clamp conf && border t )
+	    guard $ ( clamp conf && border_term conf t )
 		  || term_is_covered_by lab (fmap age t) (fmap age t')
 	    return reduct
     let down c = if it c `elem` clamped_symbols conf
@@ -66,5 +66,11 @@ covers conf trs a = do
 	     else Right reducts
 	   )
 
+-- | does it involve border symbols?
+border_term :: Config d -> Term v (Aged Identifier) -> Bool
+border_term conf = any ( \ x -> it x `elem` clamped_symbols conf ) . lsyms
 
+-- | does it involve border symbols?
+border_rule :: Config d -> TES.Rule.Rule v (Aged Identifier) -> Bool
+border_rule conf (l, r) = any (border_term conf) [l, r]
 

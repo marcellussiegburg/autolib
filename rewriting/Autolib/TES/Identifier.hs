@@ -11,10 +11,10 @@ import TES.Parsec
 import TES.Symbol
 
 
+-- | don't derive Egq and Ord since arity should be ignored
 data Identifier = Identifier { name :: String
 		     , i_arity :: Int
 		     }
--- don't derive Egq and Ord sind arity should be ignored
 
 instance Eq Identifier where 
    x == y = name x == name y
