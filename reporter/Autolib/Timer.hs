@@ -3,9 +3,19 @@ module Inter.Timer where
 -- $Id$
 
 import Concurrent
- 
+import Reporter.Type
+import Output
+
 -- if timer expires,
 -- insert default result
+
+timed_run :: Render r
+	  => Int -- wait that many seconds
+	  -> Reporter a -- default reporter
+	  -> Reporter a -- time-consuming reporter
+	  -> IO ( Maybe a, r )
+timed_run d def r = 
+    timed d ( export def) $ run r
 
 -- TODO: das ist eventuell zu lazy?
 -- wenn die action einen nicht ganz ausgewerteten wert schreibt?
