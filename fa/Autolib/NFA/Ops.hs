@@ -1,7 +1,6 @@
--- -- $Id$
-
 module NFA.Ops where
 
+--  $Id$
 
 import NFA.Type hiding ( cross, union )
 
@@ -10,10 +9,16 @@ import Data.FiniteMap
 
 import NFA.Trim
 import NFA.Basic
+import NFA.Normalize
 
 import Control.Monad (guard)
 
 import ToDoc ( ToDoc, toDoc )
+
+
+normalize_cross :: (NFAC c s, NFAC c t, NFAC c Int)
+      => NFA c s -> NFA c t -> NFA c Int
+normalize_cross a b = normalize $ cross a b
 
 cross :: (NFAC c s, NFAC c t, NFAC c (s, t))
       => NFA c s -> NFA c t -> NFA c (s, t)
@@ -30,6 +35,10 @@ cross a b =
 	}
   
 
+normalize_union :: (NFAC c s, NFAC c t, NFAC c Int)
+      => NFA c s -> NFA c t -> NFA c Int
+normalize_union a b = normalize $ union a b
+
 union :: (NFAC c s, NFAC c t, NFAC c (Either s t))
       => NFA c s -> NFA c t -> NFA c (Either s t)
 union a b = 
@@ -42,6 +51,10 @@ union a b =
 	    , trans = plusFM_C (error "union") (trans a') (trans b')
 	    }
 
+normalize_intersection :: (NFAC c s, NFAC c t, NFAC c Int)
+             => NFA c s -> NFA c t -> NFA c Int
+normalize_intersection a b = normalize $ intersection a b
+
 intersection :: (NFAC c s, NFAC c t, NFAC c (s, t))
              => NFA c s -> NFA c t -> NFA c (s, t)
 intersection a b = 
@@ -53,10 +66,10 @@ intersection a b =
 		 }
 
 
+-- | addiere neuen Startzustand,
+-- in den keine Pfeile hineinführen
 punkt :: (NFAC c s )
       => s -> NFA c s -> NFA c s
--- addiere neuen Startzustand,
--- in den keine Pfeile hineinführen
 punkt t a = 
     a { nfa_info = funni "punkt" [ toDoc t, info a ]
       , states = Sets.union (states a) (Sets.unitSet t)
@@ -70,6 +83,7 @@ punkt t a =
 		   return ((t, c), qs)
       }
 
+-- | get new state (inefficient, looks at all states first)
 neu :: NFAC c Int
     => NFA c Int -> Int
 neu a = 1 + maximum (0 : Sets.setToList (states a))

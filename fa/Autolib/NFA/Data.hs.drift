@@ -29,7 +29,8 @@ import Control.Monad (guard)
 type NFA_Char s = NFA Char s
 
 class ( Ord c, Ord s
-      , ToDoc c, ToDoc s
+      , ToDoc c, ToDoc [c]
+                , ToDoc s
       , Reader c, Reader s
                 , Reader [s]
 	        , ToDoc [s]
@@ -38,7 +39,8 @@ class ( Ord c, Ord s
 
 
 instance ( Ord c, Ord s
-      , ToDoc c, ToDoc s
+      , ToDoc c, ToDoc [c]
+      ,          ToDoc s
       , Reader c, Reader s
                 , Reader [s]
 	        , ToDoc [s]

@@ -11,7 +11,13 @@ import NFA.Mirror ( mirror )
 
 import Control.Monad ( guard )
 
-right_quotient :: (NFAC c s, NFAC c t) => NFA c s -> NFA c t -> NFA c s
+-- | construction is directly on the state set of a
+-- in fact we mark (as final) all states of a
+-- from which a word in L(b) can be accepted
+right_quotient :: (NFAC c s, NFAC c t) 
+	       => NFA c s 
+	       -> NFA c t 
+	       -> NFA c s
 right_quotient a b =
     let c = NFA.Ops.cross a b 
 	ok (p, q) =  Sets.elementOf p (finals a)	
