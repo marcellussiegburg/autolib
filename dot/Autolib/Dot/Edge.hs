@@ -16,10 +16,13 @@ import Maybe ( maybeToList )
 
 data Type = Type { from	      :: String
 		 , to	      :: String
+		 , directed  :: Bool
 		 , label :: Maybe String
+	         , edge_style :: Maybe String
+	         , edge_length :: Maybe String
 		 , headlabel :: Maybe String
 		 , taillabel :: Maybe String
-		 , directed  :: Bool
+		 , color :: Maybe String
 		 }
 
 emap :: ( String -> String ) -> ( Type -> Type )
@@ -28,10 +31,13 @@ emap f e = e { from = f $ from e , to = f $ to e }
 blank :: Type
 blank = Type {  from = error "Dot.Edge.from"
 		 , to = error "Dot.Edge.to"
+		, color = Nothing
 		 , label = Nothing
 		 , headlabel = Nothing
 		 , taillabel = Nothing
 		 , directed = True -- default (?)
+		 , edge_style = Nothing
+		 , edge_length = Nothing
 		 }
 
 
@@ -41,16 +47,16 @@ instance ToDoc Type where
 		   , text (to n) 
 		   ]
 	<+> brackets ( fsep $ punctuate comma $ do
-	    ( name, fun ) <- [ ("label", label)
-			     , ("headlabel", headlabel)
-			     , ("taillabel", taillabel)
+	    ( name, fun ) <- [ ("label", fmap show . label)
+			     , ("headlabel", fmap show . headlabel)
+			     , ("taillabel", fmap show . taillabel)
+			     , ("style", edge_style)
+			     , ("color", color)
+			     , ("len", edge_length)
 			     ]
 	    val <- maybeToList $ fun n
-	    return $ text name <+> equals <+> text ( escape $ val )
+	    return $ text name <+> equals <+> text ( val )
           )
-
-instance Show Type where
-    show = render . toDoc
 
 instance Reader Type where
     -- ignoriert ziemlich viel
@@ -77,6 +83,8 @@ direction
     <|> do my_reserved "->" ; return True
 
 escape :: String -> String
-escape cs = show $ tail $ init $ cs
+escape ( '"' : cs ) = show $ init $ cs
+escape cs = show cs
+
 	     
 

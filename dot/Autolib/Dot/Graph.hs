@@ -1,9 +1,5 @@
---  $Id$
-
-module Autolib.Dot.Graph where
-
--- represents the contents of a .dot file
--- file format: see http://www.graphviz.org/cgi-bin/man?dot
+-- | represents the contents of a .dot file
+-- file format: see <http://www.graphviz.org/cgi-bin/man?dot>
 
 -- restrictions: no subgraphs
 -- no default edge and node attributes
@@ -11,7 +7,14 @@ module Autolib.Dot.Graph where
 -- no graph attributes
 -- resp. fixed defaults only
 
+--  $Id$
+
+
+module Autolib.Dot.Graph where
+
+
 import qualified Autolib.Dot.Node
+import qualified Autolib.Dot.Attribute
 import qualified Autolib.Dot.Edge
 import qualified Autolib.Boxing.Position as B
 
@@ -22,9 +25,10 @@ import Autolib.Dot.Parsec
 import Autolib.Size
 
 data Type = Type { directed :: Bool 
-	       , name	  :: String
-	       , nodes	  :: [ Autolib.Dot.Node.Type ]
-	       , edges	  :: [ Autolib.Dot.Edge.Type ]
+	       , name	    :: String
+	       , nodes	    :: [ Autolib.Dot.Node.Type ]
+	       , edges	    :: [ Autolib.Dot.Edge.Type ]
+	       , attributes :: [ Autolib.Dot.Attribute.Type ]
 	       }
 
 instance Size Type where size = length . nodes
@@ -37,7 +41,9 @@ gmap f g = g { nodes = map (Autolib.Dot.Node.nmap f) $ nodes g
 scale :: Double -> Type -> Type
 scale s g = 
     let c = B.Position { B.width = s, B.height = 0 }
-        f n = n { Autolib.Dot.Node.position = fmap (c *) $ Autolib.Dot.Node.position n }
+        f n = n { Autolib.Dot.Node.position = 
+		      fmap (c *) $ Autolib.Dot.Node.position n 
+		}
     in  g { Autolib.Dot.Graph.nodes = map f $ Autolib.Dot.Graph.nodes g }
 	       
 
@@ -50,6 +56,7 @@ beside l r =
 	, name = name l ++ name r
 	, nodes = nodes ll ++ nodes rr
 	, edges = edges ll ++ edges rr
+	, attributes = []
 	}
 
 besides :: [ Type ] -> Type
@@ -61,19 +68,11 @@ instance ToDoc Type where
 			  False -> "graph"
 			  True	-> "digraph" 
 	    nm = text ( name d )
-
-	    atts = map text 
-		 [ "rankdir = LR"
-		 , "center = 1"
-		 , "ratio = fill"
-		 ]
+	    atts = map toDoc $ attributes d
 	    ns  = map toDoc $ nodes d
 	    es  = map toDoc $ edges d
-	in      hsep [ header,  nm ]
-	    <+> braces ( vcat $ punctuate semi $ {- atts ++ -} ns ++ es )
-
-instance Show Type where
-    show = render . toDoc
+	in      hsep [ header, nm ]
+	    <+> braces ( vcat $ punctuate semi $ atts ++ ns ++ es )
 
 direction 
     =   do my_reserved "graph"   ; return False
@@ -90,6 +89,7 @@ instance Reader Type where
 			  , name = nm
 			  , nodes = do Right t <- ts ; return t
 			  , edges = do Left  t <- ts ; return t
+			  , attributes = []
 			  }
 
 atts = do
@@ -111,8 +111,6 @@ thing = do
     a <- soi
     fmap Left ( Autolib.Dot.Edge.continue a ) <|> fmap Right ( Autolib.Dot.Node.continue a )
 
-instance Read Type where
-    readsPrec = parsec_readsPrec
 
 
 

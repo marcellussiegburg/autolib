@@ -68,6 +68,7 @@ dot_numbered g num =
             , Autolib.Dot.Graph.name = "foo"
             , Autolib.Dot.Graph.nodes = ns 
             , Autolib.Dot.Graph.edges = es 
+            , Autolib.Dot.Graph.attributes = []
             }
 
 

@@ -104,6 +104,7 @@ helper num a =
 	    , Autolib.Dot.Graph.name = "NFA"
 	    , Autolib.Dot.Graph.nodes = ns ++ uns
 	    , Autolib.Dot.Graph.edges = es ++ ss
+	    , Autolib.Dot.Graph.attributes = []
 	    }
 
 
