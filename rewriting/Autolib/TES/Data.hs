@@ -18,8 +18,6 @@ import Parsec
 import ParsecToken
 import TES.Parsec
 
-class ( Symbol v, ToDoc [v], Symbol c ) => TRSC v c -- no methods
-instance ( Symbol v, ToDoc [v], Symbol c ) => TRSC v c 
 
 data TRS v c  = TRS
 	 { comment :: String

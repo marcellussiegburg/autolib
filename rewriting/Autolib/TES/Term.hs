@@ -7,6 +7,7 @@ where
 
 --   $Id$
 
+import TES.Symbol
 import TES.Identifier
 
 import Sets
@@ -24,6 +25,10 @@ import Data.FiniteMap
 data Term v c = Node c [ Term v c ]
 	      | Var v
      deriving ( Eq, Ord )
+
+
+class ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) => TRSC v c -- no methods
+instance ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) => TRSC v c 
 
 
 isvar ( Var _ ) = True
@@ -65,9 +70,13 @@ vmap f (Node c args) = Node c $ map (vmap f) args
 
 
 -- | replace variables by variables
-applyvar :: Ord a => FiniteMap a b -> Term a c -> Term b c
-applyvar fm = vmap 
-	    ( lookupWithDefaultFM fm (error "TES.Close.applyvar") )
+applyvar :: ( TRSC a c, TRSC b c )
+	 => FiniteMap a b 
+         -> Term a c -> Term b c
+applyvar fm t = vmap 
+	    ( lookupWithDefaultFM fm 
+	      ( error $ "TES.Term.applyvar" ++ show fm ++ " to " ++  show t )
+	    ) t
 
 -- | replace variables by terms
 -- note the typing: subst must be total on the vars!
@@ -75,5 +84,5 @@ apply :: Ord v
       => FiniteMap v ( Term u c ) 
       -> Term v c 
       -> Term u c
-apply fm ( Var v ) = lookupWithDefaultFM fm (error "TES.Close.apply") v
+apply fm ( Var v ) = lookupWithDefaultFM fm (error "TES.Term.apply") v
 apply fm ( Node c args ) = Node c $ map ( apply fm ) args
