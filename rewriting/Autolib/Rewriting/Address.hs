@@ -19,7 +19,7 @@ class Functor c => Sub c where
     substructures :: c a -> [ c a ]
 
     symbols :: c a -> [ a ]
-    symbols t = do s <- substructures t ; return $ top t
+    symbols t = do s <- substructures t ; return $ top s
 
 
 class Is_Top p where
