@@ -7,7 +7,7 @@ import Data.Set
 import Control.Monad ( guard ) -- old style
 import Autolib.Graph.Beispiele
 import Autolib.FiniteMap
-import Autolib.Sort
+import Autolib.Util.Sort
 
 anzKnoten :: Graph a -> Int
 anzKnoten g = cardinality $ knoten g
