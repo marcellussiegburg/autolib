@@ -10,15 +10,15 @@ where
 
 --  $Id$
 
-import Util.Size
+import Autolib.Util.Size
 import TES.Symbol
 import TES.Raw
 import TES.Xml
 
 import Text.XML.HaXml.Haskell2Xml
-import ToDoc
-import Reader
-import Hash
+import Autolib.ToDoc
+import Autolib.Reader
+import Autolib.Hash
 
 
 class ( Hash v,  Show v, Show c

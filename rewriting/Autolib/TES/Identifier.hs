@@ -11,20 +11,20 @@ where
 
 --   $Id$
 
-import Sets
+import Autolib.Sets
 
-import qualified ToTex
-import ToDoc
-import Reader
+import qualified Autolib.ToTex as Tex
+import Autolib.ToDoc
+import Autolib.Reader
 
 import TES.Parsec
-import TES.Symbol
+import Autolib.Symbol
 
 import Data.List (intersperse)
-import Util.Size
-import Hash
-import Data.Char
+import Autolib.Util.Size
+import Autolib.Hash
 
+import Data.Char
 import Data.Typeable
 
 -- | don't derive Eq and Ord since arity should be ignored

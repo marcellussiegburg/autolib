@@ -5,8 +5,8 @@ module TES.Sexp where
 
 import qualified TES.Parsec
 import Data.List (intersperse)
-import ToDoc
-import Reader
+import Autolib.ToDoc
+import Autolib.Reader
 
 data Sexp = Leaf String
 	  | List [ Sexp ]

@@ -13,10 +13,10 @@ import TES.Identifier
 
 import qualified SRS.Rule -- only for instances
 
-import Sets
+import Autolib.Sets
 
-import ToDoc
-import Reader
+import Autolib.ToDoc
+import Autolib.Reader
 import Data.List ( partition )
 import Data.FiniteMap
 import Control.Monad ( guard )
@@ -25,7 +25,7 @@ import TES.Sexp
 import TES.Parsec
 import TES.Position (symsl)
 
-import Letters
+import Autolib.Letters
 
 data RS t  = RS
 	 { annotations :: [ Sexp ]

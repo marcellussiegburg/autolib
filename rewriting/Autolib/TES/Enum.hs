@@ -10,8 +10,8 @@ import TES.Identifier
 import TES.Position
 import TES.Sexp
 
-import Util.Splits
-import Util.Zufall
+import Autolib.Util.Splits
+import Autolib.Util.Zufall
 
 import Data.FiniteMap
 import System.Random

@@ -3,9 +3,9 @@ module TES.Position where
 --  $Id$
 
 import TES.Term
-import Util.Size
-import Sets
-import Letters
+import Autolib.Util.Size
+import Autolib.Sets
+import Autolib.Letters
 
 type Position = [ Int ]
 

@@ -3,8 +3,8 @@ module Inter.Timer where
 --   $Id$
 
 import Control.Concurrent
-import Reporter.Type
-import Output
+import Autolib.Reporter.Type
+import Autolib.Output
 
 -- if timer expires,
 -- insert default result
