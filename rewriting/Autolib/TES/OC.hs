@@ -12,7 +12,10 @@ import TES.Unify
 
 import Sets
 import Data.Maybe
+import Data.FiniteMap
 import Control.Monad ( guard )
+import Data.Char
+import Data.List ( nub )
 
 -- | 
 combine :: TRSC Int c 
@@ -30,17 +33,31 @@ combine (l1, r1) (l2, r2) = do
     ( p, s ) <- positions r1
     guard $ not $ isvar s
     u <- maybeToList $ mgu s l2'
-    return ( apply_partial u $ l1 
-	   , apply_partial u $ poke r1 (p, r2')
-	   )
+    return $ normalize
+	   $ ( apply_partial u $ l1 
+	     , apply_partial u $ poke r1 (p, r2')
+	     )
+
+-- | so that vars are [0 ..]
+normalize :: TRSC Int c
+	  => Rule Int c -> Rule Int c
+normalize (l, r) = 
+    let fm = listToFM 
+	   $ zip ( nub $ lvars l ++ lvars r ) [ 0 .. ]
+    in  ( applyvar fm l , applyvar fm r )
+	
 
 
 check :: [ Rule Int Identifier ]
 check = combine rule1 rule2
 
 rule1, rule2 :: Rule Int Identifier		  
-rule1 = ( read "f(f(0))" , read "g(g(0))" )
-rule2 = ( read "g(h(0))" , read "h(h(h(0)))" )
+rule1 = ( mv $ read "f(f(0))" , mv $ read "g(g(0))" )
+rule2 = ( mv $ read "g(h(0))" , mv $ read "h(h(h(0)))" )
+
+mv :: Term c Identifier -> Term Int Identifier
+mv ( Node i [] ) | all isDigit ( name i ) = Var $ read $ name i
+mv ( Node f args ) = Node f ( map mv args )
 
 
 
