@@ -30,20 +30,29 @@ lies cs =
 
 
 instance Num Position where
+    negate p = Position { width = negate $ width p
+			, height = negate $ height p
+			}
     d + e = Position { width = width d + width e 
 		      , height = height d + height e 
 		      }
-    -- damit wir  2 * p  schreiben können:
+    -- | damit wir  2 * p  schreiben können:
     fromInteger i = Position { width = fromInteger i, height = 0 }
-    d @ Position { width = f, height = 0 } * e 
+    Position { width = f, height = 0 } * e 
+          = Position { width = width e * f, height = height e * f }
+    e * Position { width = f, height = 0 } 
           = Position { width = width e * f, height = height e * f }
 
     signum = error "instance Num Position: signum method missing"
-    abs    = error "instance Num Position: abs    method missing"
+    abs p  = Position { width = sqrt $ width p ^ 2 + height p ^ 2
+		      , height = 0
+		      }
 
 instance Fractional Position where
     -- damit wir 0.5 * p schreiben können
     fromRational r = Position { width = fromRational r, height = 0 }
+    recip ( Position { width = f, height = 0 } ) = 
+	    Position { width = recip f, height = 0 }
 
 larger :: Position -> Position -> Position
 larger p q = Position { width = max (width p) (width q)

@@ -9,11 +9,12 @@ import Autolib.Graph.Kante
 import Autolib.ToDoc
 import Autolib.Reader
 import Autolib.Set
+import Autolib.Hash
 
 import Text.XML.HaXml.Haskell2Xml
 
 
-data ( Ord a
+data ( Hash a, Ord a
      , ToDoc ( Set (Kante a)), ToDoc ( Set a )
      , Reader ( Set (Kante a)), Reader ( Set a )
      , Haskell2Xml ( Set a )
@@ -23,6 +24,13 @@ data ( Ord a
      Graph { knoten :: Set a
 	   , kanten :: Set ( Kante a )
 	   }
+    deriving ( Eq, Ord )
+
+instance  ( Hash a, ToDoc [a], Reader [a]    
+	  , Haskell2Xml a, ToDoc a, Reader a, Ord a
+	  ) 
+      =>   Hash ( Graph a ) where
+    hash g = hash ( knoten g, kanten g )
 
 {-! for Graph derive: ToDoc, Reader, Haskell2Xml !-}
 

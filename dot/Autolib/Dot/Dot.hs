@@ -51,7 +51,7 @@ meps = mot "-Tps" ".eps"
 meng = mot "-Tpng" ".png"
 
 system' line = do
-    hPutStrLn stderr $ "system: " ++ line
+    -- hPutStrLn stderr $ "system: " ++ line
     system line
 
 mot :: ToDot a => String -> String -> FilePath -> a -> IO FilePath

@@ -1,6 +1,6 @@
 module Autolib.Graph.Display 
 
--- -- $Id$
+--  $Id$
 
 ( module Autolib.Dot.Dot
 , dot_numbered

@@ -3,7 +3,7 @@
 -- autor Georg Martius
 -- mai99dgf@studserv.uni-leipzig.de
 
--- -- $Id$
+--  $Id$
 
 
 module Autolib.Graph.Graph ( 
@@ -27,10 +27,11 @@ import Autolib.FiniteMap
 
 import Autolib.Xml
 import Autolib.Size
+import Autolib.Hash
 import Text.XML.HaXml.Haskell2Xml
 import Data.Typeable
 
--------------------------------------------------------------------------------
+-----------------------------------------------------------------
 
 data Graph a  = Graph
 	      { knoten    :: Set a
@@ -71,11 +72,13 @@ mkGraph v e = Graph
 
 class (  Haskell2Xml a, Haskell2Xml (Kante a)
       , Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+      , Hash a
       ) => GraphC a 
 
 
 instance (  Haskell2Xml a, Haskell2Xml (Kante a)
       , Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+      , Hash a
       ) => GraphC a 
 
 
@@ -95,6 +98,16 @@ instance GraphC a => Reader ( Graph a ) where
 instance GraphC a => ToDoc ( Graph a ) where
         toDocPrec p g = toDocPrec p 
 		      $ pack g
+
+instance GraphC a => Eq ( Graph a ) where
+    g == h = pack g == pack h
+
+instance GraphC a => Ord ( Graph a ) where
+    compare g h = compare (pack g) (pack h)
+
+-- | todo: cache this (add new component graph_hash to Graph type)
+instance GraphC a => Hash ( Graph a ) where
+    hash g = hash $ pack g
 
 
 

@@ -12,10 +12,10 @@ import Autolib.Dot.Dot
 import qualified Autolib.Dot.Graph
 import Autolib.Size
 
-import IO
-import System
+import System.IO
+import Control.Exception ( catch )
 
----------------------------------------------------------------------
+------------------------------------------------------------------
 
 trusted_layouters :: [ FilePath ]
 trusted_layouters = do
@@ -23,37 +23,40 @@ trusted_layouters = do
     prefix <- [ "", "/usr/bin/", "/usr/local/bin/" ]
     return $ prefix ++ prog
 
-dotty :: ( Hash a, ToDot a )
-      => String -- ^ layouter
-      -> a
+-- | write output as png to file,
+-- in "current-directory/../pics/hashcode.{obj,dot,png}"
+-- normally, current-directory = $HOME/public_html/cgi-bin
+-- file name is built from hash value
+-- if so named file is already there,
+-- check whether it corresponds to the object
+-- (by reading the *.obj file)
+-- and if yes, re-use *.png (don't compute)
+peng :: ( Hash a, Show a, ToDot a )
+      => a
       -> Reporter ()
-dotty layouter a = do
-
-    let it = toDot a
-	pre =  show $ abs $ hash a 
-
-    let dotfile = pre ++ ".dot" 
-        pngfile = pre ++ ".png"
-        giffile = pre ++ ".gif"
-	epsfile = pre ++ ".eps"
-    output $ Output.Link dotfile
-
+peng a = do
+    let layouter = toDotProgram a
     silent $ assert ( layouter `elem` trusted_layouters )
                     ( text "layout program is trusted?" )
-
+    let it = toDot a
+	pre = "../pics/" ++ ( show $ abs $ hash a )
+    let objfile = pre ++ ".obj"
+        dotfile = pre ++ ".dot" 
+        pngfile = pre ++ ".png"
     execute $ do
-          writeFile dotfile $ show it ++ "\n\n"
-          system' $ unwords [ layouter , "-s"
-               , "-Grankdir=LR", "-Tpng"
-               , "-o", pngfile
-               , dotfile
-               ]
-          system' $ unwords [ layouter , "-s"
-               , "-Grankdir=LR", "-Tps"
-               , "-o", epsfile
-               , dotfile
-               ]
-          return ()
-    output $ Output.Image  pngfile
-    output $ Output.Link  epsfile
+       done <- do
+           cs <- readFile objfile
+           return $ show a == cs
+         `Control.Exception.catch` \ any -> return False
+       when ( not done ) $ do      
+           writeFile objfile $ show a
+           writeFile dotfile $ show it ++ "\n\n"
+           system' $ unwords 
+		   [ toDotProgram a , toDotOptions a
+		   , "-Tpng", "-o", pngfile
+		   , dotfile
+		   ]
+           return ()
+         `Control.Exception.catch` \ any -> return ()
+    output $ Output.Image pngfile
 

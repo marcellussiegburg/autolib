@@ -21,8 +21,10 @@ class ToDoc a where
 
 -- | mutual default instances
 -- so that you only have to define one of them
-instance Show a => ToDoc a where toDoc = text . show
-instance ToDoc a => Show a where show = render . toDoc
+instance Show a => ToDoc a where 
+    toDocPrec p x = text ( showsPrec p x "" )
+instance ToDoc a => Show a where 
+    showsPrec p x cs = render ( toDocPrec p x ) ++ cs
 
 docParen :: Bool -> Doc -> Doc
 docParen f = if f then parens else id

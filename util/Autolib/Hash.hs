@@ -37,6 +37,7 @@ instance Hash a => Hash ( Set a ) where
 instance ( Hash a, Hash b ) => Hash ( FiniteMap a b ) where
     hash = hash . fmToList
 
+instance Hash Integer where hash = hashInt . fromIntegral
 instance Hash Int where hash = hashInt . fromIntegral
 instance Hash Int16 where hash = hashInt . fromIntegral
 instance Hash Int32 where hash = id

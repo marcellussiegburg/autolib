@@ -2,10 +2,11 @@
 
 module Autolib.Graph.Kante where
 
--- -- $Id$
+--  $Id$
 
 import Autolib.Reader
 import Autolib.ToDoc
+import Autolib.Hash
 
 import Data.Typeable
 import Text.XML.HaXml.Haskell2Xml
@@ -15,8 +16,12 @@ data Kante a  = Kante
 	      , nach      :: a
 	      } deriving (Eq, Ord, Typeable)
 
+instance Hash a => Hash (Kante a) where
+    hash k = hash ( von k, nach k )
+
+-- | ungerichteter Graph => Kanten von klein nach groß ordnen.
+-- FIXME: und was ist für gerichtete Graphen?
 kante :: Ord a => a -> a -> (Kante a)
--- ungerichteter Graph => Kanten von klein nach groß ordnen.
 kante x y = 
     if x < y then Kante { von = x, nach = y }
 	     else Kante { von = y, nach = x }

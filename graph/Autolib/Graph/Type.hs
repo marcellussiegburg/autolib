@@ -32,8 +32,6 @@ import Autolib.Number
 
 -------------------------------------------------------------------------------
 
-instance Eq a => Eq  (Graph a)
-               where x == y = (knoten x == knoten y) && (kanten x == kanten y)   
 
 -- | Instanziering von der Isomorphieklasse fuer Graphen 
 instance (Eq a, Ord a) => Iso (Graph a) 
