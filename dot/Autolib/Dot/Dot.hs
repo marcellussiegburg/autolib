@@ -37,9 +37,10 @@ mkDot a prog fmt path = do
     if    ( not $ prog `elem` [ "dot", "neato", "twopi" ]  )
        || ( not $ fmt  `elem` [ "png", "ps"    ]  )
        then do   
+          error $ unwords [ "illegal program/format:", prog, fmt ]
           return ( fmtfile, fmt, ExitFailure 1 )
        else do
-	  ex <- system $ unwords [ prog, "-T" ++ fmt, "-o", fmtfile, dotfile ]
+	  ex <- system' $ unwords [ prog, "-T" ++ fmt, "-o", fmtfile, dotfile ]
 	  perm "go+r" fmtfile
 	  return ( fmtfile , fmt , ex )
 

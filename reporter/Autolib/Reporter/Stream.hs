@@ -33,6 +33,7 @@ of the boolean connectives.
 
 data Type
      = Cons { message :: Output
+	    , activity :: IO () -- could be any monad
 	    , continue :: Continue
 	    }
 data Continue
@@ -43,7 +44,8 @@ data Continue
 
 exec :: Type -> Reporter ( Maybe Bool, String )
 exec x = do
-     output $ message x
+     output  $ message  x
+     execute $ activity x
      case continue x of
 	  Fail msg -> return ( Nothing, msg )
 	  Result ( f, msg ) -> return ( Just f, msg )
@@ -58,6 +60,7 @@ make ( Iterator doc step start ) =
             inform $ text "... one step for iterator" <+> doc
 	    return res
     in  Cons { message = kommentar rep
+	  , activity = action rep
 	  , continue = case result rep of
 	           Nothing -> Fail $ "failed: " ++ ToDoc.render doc 
 		   Just x -> case x of
@@ -83,12 +86,14 @@ helper :: String -> Bool -> Bool -> [ Type ] -> Type
 -- direction: True for und, False for oder
 helper inf direction pure [] = 
     Cons { message = Doc $ text inf
+         , activity = return ()
 	 , continue = case pure of
 		    True -> Result ( direction, inf )
 		    False -> Fail inf
 	 }
 helper inf direction pure (x : xs) = 
     Cons { message = message x
+	 , activity = activity x
 	 , continue = case continue x of
 	       Fail msg -> Next 
 	             $ helper (msg ++ ", " ++ inf)
