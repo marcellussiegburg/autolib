@@ -14,11 +14,13 @@ import Data.FiniteMap
 import Data.Maybe
 import Sets
 
-meetings :: Ord a => ( a -> [a] ) -> a -> [(a, a)]
+meetings :: Ord a => Int -- höchstens soviele generieren
+	          -> ( a -> [a] ) -> a -> [(a, a)]
 -- compute bfs ordering, emit any duplicates
 -- assume that there are not many of them
 -- or, we stop the program as soon as we have seen only a few
-meetings f top = duplicates 
+meetings schranke f top = duplicates 
+	       $ take schranke
 	       $ generator f [ top ]
 
 generator :: ( a -> [a] ) -> [a] -> [a]
@@ -35,3 +37,5 @@ weeder done ((x :: a) : xs) =
     ( do ( old :: a ) <- maybeToList $ lookupFM done x
          return ( old, x )
     ) ++ weeder ( addToFM done x x ) xs
+
+
