@@ -1,0 +1,23 @@
+-- -*- mode: haskell -*-
+
+module Reporter.Proof where
+
+--  $Id$
+
+import Output
+import ToDoc
+
+data Proof = 
+     Proof { value  :: Bool
+	   , reason :: Output
+	   }
+
+instance Eq Proof where
+    p == q = value p == value q
+
+instance ToDoc Output where toDoc = Output.render
+
+{-! for Proof derive : ToDoc !-}
+
+instance Show Proof where show = ToDoc.render . toDoc
+
