@@ -19,7 +19,7 @@ instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)
 
 instance ( Ord a, Reader [a] ) => Reader ( Set a ) where
-    reader = do
+    readerPrec d = readerParen ( d > 9 ) $ do
         my_reserved "mkSet"
 	xs <- reader
 	return $ mkSet xs
