@@ -14,6 +14,9 @@ schichten f x0 = schichten' f (unitSet x0)
 schichten' :: Ord a => (a -> Set a) -> (Set a) -> [ Set a ]
 schichten' f xs = sch f emptySet xs
 
+{-# specialize schichten  :: (Int -> Set Int) -> Int -> [ Set Int ] #-}
+{-# specialize schichten' :: (Int -> Set Int) -> Set Int -> [ Set Int ] #-}
+
 sch f schon jetzt =
     if isEmptySet jetzt 
     then [] 

@@ -1,7 +1,7 @@
 module Relation 
 
 ( Type -- , Make -- abstrakt ?
-, images
+, images, simages
 , make
 , pairs
 , times, plus, trans
@@ -43,6 +43,12 @@ lookupset fm = lookupWithDefaultFM fm emptySet
 images :: ( Ord a, Ord b ) => Type a b -> a -> Set b
 images rel x = lookupset (unRelation rel) x
 
+simages :: ( Ord a, Ord b ) => Type a b -> Set a -> Set b
+simages rel xs = unionManySets $ do
+    x <- setToList xs
+    return $ images rel x
+
+
 times :: (Ord a, Ord b, Ord c)
       =>  Type a b -> Type b c -> Type a c
 times r s = make $  do 
@@ -59,3 +65,4 @@ plus r s = Make
 trans :: Ord a => Type a a -> Type a a
 -- transitive hülle (nicht reflexive)
 trans r = fix ( \ s -> plus r $ times r s ) r
+

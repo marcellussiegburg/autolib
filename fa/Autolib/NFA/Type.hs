@@ -24,6 +24,13 @@ collect pxqs = addListToFM_C union emptyFM $ do
     (p, x, q) <- pxqs
     return ((p, x), unitSet q)
 
+images :: NFAC c s
+       => NFA c s -> (s, c) -> [ s ]
+images a (p, c) =
+    case lookupFM (trans a) (p, c) of
+         Nothing -> []
+	 Just qs -> setToList qs
+
 unCollect :: FiniteMap (s, c) (Set s) -> [(s, c, s)]
 unCollect fm = do
     ((p,c), qs) <- fmToList fm
