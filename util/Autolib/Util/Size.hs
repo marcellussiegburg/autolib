@@ -5,7 +5,9 @@ module Util.Size where
 import Data.Set
 import Data.FiniteMap
 
-class Size a where size :: a -> Int
+class Size a where 
+    size :: a -> Int
+    size = const 1 -- default
 
 instance Size (Set a) where 
     size = cardinality
