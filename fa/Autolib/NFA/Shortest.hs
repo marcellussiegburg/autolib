@@ -9,25 +9,28 @@ import Autolib.Sets
 import Data.FiniteMap
 
 import Autolib.Letters
+import Autolib.Util.Hide
+import Autolib.Schichten
 
 import Autolib.ToDoc
 import Control.Monad (guard)
 import Data.List (nub)
 
-type State c s  = ([c], s)
+-- | watch out: word is in reverse order
+type State c s  = (s, [c])
 
 succs :: (NFAC c s, Ord (Set (State c s))) 
       => NFA c s -> State c s -> Set ( State c s )
-succs a (w, p) = mkSet $ do
-    c <- setToList $ letters a -- sehr dubios, kostet zeit
-    q <- setToList $ lookupWithDefaultFM (trans a) emptySet (p, c)
-    return ( w ++ [c] -- na und das erst
-	   , q
+succs a (p, w) = mkSet $ do
+    c <- setToList $ alphabet a
+    q <- setToList $ lookupset (trans a) (p, c)
+    return ( q
+	   , c : w 
 	   )
 
 computations :: (NFAC c s, Ord (Set (State c s)) )
 	     => NFA c s -> [ Set ( State c s ) ]
-computations a = comps ( smap ( \ p -> ( [], p ) ) $ starts a ) where
+computations a = comps ( smap ( \ p -> ( p, [] ) ) $ starts a ) where
     comps todo = todo :
 	  let next = unionManySets $ setToList $ smap (succs a) todo
 	  in  if isEmptySet next then [] else comps next
@@ -41,9 +44,9 @@ accepted a =
     let ws = do
 	   wqs <- computations a
 	   return $ nub $ do
-	       ( w, q ) <- setToList wqs
+	       ( q, rw ) <- setToList wqs
 	       guard $ q `elementOf` finals a
-	       return w
+	       return $ reverse rw
         n = cardinality $ states a
 	(short, long) = splitAt n ws
 	(mid, rest)   = splitAt n long
@@ -63,6 +66,24 @@ shortest a =
     in	case accepted b of
 	     [] -> []
 	     rest @ ( w : _ ) -> takeWhile (\ u -> length u == length w) rest
+
+-- | compute some of the shortest accepted words
+some_shortest :: NFAC c s
+	     => NFA c s -> [ [c] ]
+some_shortest a = do
+    let succ (p, hw) = mkSet $ do
+	     c <- setToList $ alphabet a
+	     q <- setToList $ lookupset (trans a) (p, c)
+	     return (q, Hide $ c : unHide hw)
+    level <- schichten' succ 
+	     $ smap ( \ p -> (p, Hide []))
+	     $ starts a 
+    let ws = do 
+	     (q, hw) <- setToList level
+	     guard $ elementOf q (finals a)
+	     return $ reverse $ unHide hw
+    guard $ not $ null ws
+    ws
 
 ------------------------------------------------------------------------------
 
