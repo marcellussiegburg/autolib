@@ -41,8 +41,7 @@ operators =
     ]
     where
       op name f assoc   = 
-	 Infix ( do { symbol name; return f } 
-		 <?> "operator" ) assoc
+	 Infix ( do { symbol name; return f }  ) assoc
 
 catenation :: Symbol c => Parser (RX c)
 catenation = do
@@ -58,14 +57,12 @@ monomial = do
 		 <|> do symbol  "*" ; return $ PowerStar   
 		 <|> do e <- natural; return $ Power e
 		     -- TODO: "hoch mod n"
-		 <?> "exponent"
 		 ) 
     return $ foldl (.) id (reverse fs) $ x
 
 atom :: Symbol c => Parser (RX c)
 atom =      parens expression 
        <|>  do b <- basic ; whiteSpace; return b
-       <?>  "atomic expression"
 
 basic :: Symbol c => Parser (RX c)
 basic = do c <- satisfy isUpper 
@@ -79,8 +76,7 @@ basic = do c <- satisfy isUpper
 instance Symbol c => Reader (RX c) where
     readerPrec p = expression
 
-instance Symbol c => Read (RX c) where
-    readsPrec = parsec_readsPrec
+
 
 
 

@@ -8,7 +8,6 @@ import Autolib.Reader
 import Text.ParserCombinators.Parsec.Expr
 
 instance Reader i => Reader (Boolean i) where readerPrec p = expression
-instance Reader i => Read (Boolean i) where readsPrec = parsec_readsPrec
 
 expression :: Reader i 
 	   => Parser ( Boolean i )
@@ -26,7 +25,6 @@ atomic :: Reader i
 atomic =    do a <- reader ; return $ Atomic a
        <|>  my_parens expression
        <|>  unary_operators 
-       <?> "atomic expression"
 
 unary_operators :: Reader i
 		=> Parser ( Boolean i )
@@ -40,6 +38,6 @@ unary_operators = foldr1 (<|>) $ do
 binary_operators = do
     bop <- reverse [ minBound .. maxBound ] -- largest predecence first
     return [ Infix ( do { my_reserved $ bname bop ; return $ bin bop }
-                 <?> "operator" ) AssocLeft
+                   ) AssocLeft
 	   ]
     
