@@ -13,7 +13,7 @@ import Data.Set
 #if (__GLASGOW_HASKELL__ >= 604)
        hiding ( filter, map, null, size, split
 	      , empty, intersection, insert, valid, singleton
-	      , (\\), fold, partition
+	      , (\\), fold, partition, delete
 	      )
 #endif
 import Data.Typeable
