@@ -15,6 +15,7 @@ import Sets
 import FiniteMap
 import Fix
 import ToDoc
+import Reader
 
 data Type a b = Make { unRelation :: FiniteMap a (Set b) }
 
@@ -23,6 +24,15 @@ instance ( Ord a, Ord b, ToDoc a, ToDoc b ) => ToDoc ( Type a b ) where
 
 instance ( Ord a, Ord b, ToDoc a, ToDoc b ) => Show ( Type a b ) where
     show = render . toDoc
+
+instance ( Ord a, Ord b, Reader a, Reader b ) => Reader ( Type a b ) where
+    readerPrec d = readerParen (d > 9) $ do
+        my_reserved "Relation.make"
+	pairs <- reader
+	return $ make pairs
+
+instance ( Ord a, Ord b, Reader a, Reader b ) => Read ( Type a b ) where
+    readsPrec = parsec_readsPrec
 
 instance ( Ord a, Ord b ) => Eq ( Type a b ) where
     r == s = unRelation r == unRelation s
