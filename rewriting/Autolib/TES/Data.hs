@@ -98,20 +98,11 @@ instance ( ToDoc (t, t), Show (t, t) )
                              "RULES" $ rules t 
 		   ]
 
-instance ( ToDoc (t, t), Show (t, t) ) 
-	 => Show ( RS c t ) where show = render . toDoc
-
-
-instance Read SES where
-    readsPrec = parsec_readsPrec
 
 instance Reader SES where
     readerPrec p = do
         ses <- plain_reader
 	return $ ses { separate = True }
-
-instance Read TES where
-    readsPrec = parsec_readsPrec
 
 instance Reader TES where
     readerPrec p = do

@@ -21,14 +21,9 @@ instance Reader ( Term v c ) => Reader ( Rule v c ) where
 	rhs <- readerPrec 0
 	return ( lhs, rhs )
 
-instance Reader ( Term v c ) => Read ( Term v c ) where
-    readsPrec = parsec_readsPrec
-
 instance ToDoc ( Term v c ) => ToDoc ( Rule v c ) where
     toDoc (lhs, rhs) = hsep [ toDoc lhs, text "->", toDoc rhs ]
 
-instance ToDoc ( Term v c ) => Show ( Rule v c ) where
-    show = render . toDoc
 
     
 
