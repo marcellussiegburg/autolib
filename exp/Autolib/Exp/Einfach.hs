@@ -24,10 +24,10 @@ check_form ss x = do
 		      <+> toDoc ds
 
 ist_einfach = check_form 
-	    $ mkSet [ "Ref", "Letter" , "Dot", "Union", "Star" ]
+	    $ mkSet [ "Ref", "Letter" , "Dot", "Union", "PowerStar" ]
 ist_erweitert = check_form 
 	      $ mkSet [ "Ref", "Letter" , "Dot"
-		      , "Union", "Intersection", "Difference", "Star" 
+		      , "Union", "Intersection", "Difference", "PowerStar" 
 		      ]
 
 {-
