@@ -222,7 +222,7 @@ data GVTrans a = GVTrans
 
 -- einen Graph in einen Graphviz transformieren
 transGtoGV :: (Graph a) -> (GVTrans a) -> Graphviz
-transGtoGV (Graph nodes edges) trans = Graphviz
+transGtoGV (Graph {knoten = nodes, kanten = edges}) trans = Graphviz
 	{ nodesGV = makeGVNodes (setToList nodes) trans
 	, edgesGV = mapSet (transGEtoGVE trans) edges
 	, directedGV = (isGVDirected trans)

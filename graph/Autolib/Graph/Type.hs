@@ -45,13 +45,13 @@ instance (Ord a) => Number (Graph a) (Graph Int)
         
 
 graphToGraphInt :: Ord knotenTyp => Graph knotenTyp -> Graph Int
-graphToGraphInt (Graph knoten kanten) =
+graphToGraphInt (Graph { knoten = knoten, kanten =  kanten }) =
     let
         knotenToInt = mkKnotenToInt emptyFM (setToList knoten) 0
         knotenSet = eltSet knotenToInt
         kantenSet = mapSet (kantenMapping knotenToInt) kanten
     in
-        Graph knotenSet kantenSet 
+        mkGraph knotenSet kantenSet 
     where
         mkKnotenToInt :: Ord knotenTyp
             => FiniteMap knotenTyp Int -> [knotenTyp] -> Int ->

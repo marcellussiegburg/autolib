@@ -3,6 +3,8 @@ module Graph.Ops where
 -- $Id$
 
 import Graph.Graph hiding ( union )
+
+import Graph.Basic
 import Graph.Display
 
 import qualified Set
@@ -11,37 +13,6 @@ import FiniteMap
 import Maybe
 import Monad ( guard )
 
-clique :: Ord a => Set a -> Graph a
-clique xs = Graph { knoten = xs
-		  , kanten = mkSet $ do 
-			 (x : ys) <- List.tails $ setToList xs
-			 y <- ys
-			 return $ kante x y
-		  }
-
-independent :: Ord a => Set a -> Graph a
-independent xs = Graph { knoten = xs
-		  , kanten = emptySet
-		  }
-
-empty :: Ord a => Graph a
-empty = clique $ Set.emptySet
-
-path :: Ord a => [ a ] -> Graph a
-path xs = 
-    Graph { knoten = mkSet xs
-	  , kanten = mkSet $ do 
-	       (u , v ) <- zip xs ( tail xs )
-	       return $ kante u v
-	  }
-
-circle :: Ord a => [ a ] -> Graph a
-circle xs = link ( path xs ) $ kante ( last xs ) ( head xs )
-
-partit :: Ord a => [Set a] -> Graph a
-partit xss = foldr times0 empty $ map independent xss
-
----------------------------------------------------------------------------
 
 gmap :: ( Ord a, Ord b ) => (a -> b ) -> ( Graph a -> Graph b )
 gmap f g = Graph { knoten = mapSet f $ knoten g
@@ -79,6 +50,9 @@ times0 l r = union l r `links` do
           u <- setToList $ knoten l 
 	  v <- setToList $ knoten r
 	  return $ kante u v
+
+partit :: Ord a => [Set a] -> Graph a
+partit xss = foldr times0 empty $ map independent xss
 
 edge_graph :: Ord a => Graph a -> Graph ( Kante a )
 edge_graph g = 

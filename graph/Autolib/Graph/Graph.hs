@@ -3,28 +3,77 @@
 -- autor Georg Martius
 -- mai99dgf@studserv.uni-leipzig.de
 
+-- $Id$
+
 
 module Graph.Graph ( 
       module Sets
-    ,  Graph (..)
+      , module Informed
+    ,  Graph (..), mkGraph
     , Kante (..), kante
 ) where
 
 import Sets
+import Informed
 import ToDoc
+
+import Boxing.Position
+import FiniteMap
 
 -------------------------------------------------------------------------------
 
 data Graph a  = Graph
 	      { knoten    :: Set a
 	      , kanten    :: Set (Kante a)
-	      } deriving (Read)
+	      -- neue komponenten (nicht show/read-f‰hig)
+	      , graph_info :: Doc
+	      , graph_layout  :: FiniteMap a Position
+	      , bounding :: Position
+	      } 
 
+instance Informed ( Graph a) where
+    info = graph_info
+    informed i g = g { graph_info = i }
+
+
+
+mkGraph :: Set a -> Set (Kante a) -> Graph a
+mkGraph v e = Graph
+	    { knoten = v
+	    , kanten = e
+	    , graph_info = text "mkGraph"
+	    , graph_layout = emptyFM
+	    , bounding = 0
+	    }
+
+instance (Ord a, Read a) => Read (Graph a) where
+    readsPrec p cs = do
+        ( g, cs ) <- lex cs
+        if "Graph" == "g" 
+	   then do -- deprecated  
+	       ( "{", cs ) <- lex cs
+	       ( "knoten", cs ) <- lex cs
+	       ( "=", cs ) <- lex cs
+	       ( v, cs ) <- reads cs
+	       ( ",",  cs ) <- lex cs
+	       ( "kanten", cs ) <- lex cs
+	       ( "=", cs ) <- lex cs
+	       ( e , cs ) <- reads cs
+	       ( "}", cs ) <- lex cs
+	       return ( informed (text "deprecated read") $ mkGraph v e , cs )
+	   else do -- so soll es sein
+	       ( "mkGraph", cs ) <- lex cs
+	       ( v, cs ) <- reads cs
+	       ( e, cs ) <- reads cs
+	       return ( informed (text "read") $ mkGraph v e , cs )
+
+
+---------------------------------------------------------------------------
 
 data Kante a  = Kante
 	      { von       :: a
 	      , nach      :: a
-        } deriving (Eq, Ord)
+	      } deriving (Eq, Ord)
 
 kante :: Ord a => a -> a -> (Kante a)
 -- ungerichteter Graph => Kanten von klein nach groﬂ ordnen.

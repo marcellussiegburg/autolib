@@ -62,11 +62,11 @@ inter = inter_det
 
 inter_det ::  E -> Exp -> NFA Char Int
 inter_det e a = ( inter_with ( minimize . normalize ) e a )
-	      { info = toDoc a }
+	      { nfa_info = toDoc a }
 
 inter_nondet ::  E -> Exp -> NFA Char Int
 inter_nondet e a = ( inter_with ( normalize ) e a )
-		   { info = toDoc a }
+		   { nfa_info = toDoc a }
 
 
 inter_with :: (forall a . Ord a => NFA Char a -> NFA Char Int) -> E -> Exp -> NFA Char Int
