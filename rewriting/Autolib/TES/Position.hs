@@ -88,6 +88,9 @@ syms = mkSet . symsl
 instance Ord c => Letters ( Term v c ) c where
     letters = syms
 
+instance Ord v => Letters ( Term v c ) v where
+    letters = vars
+
 
 lsyms :: Ord c => Term v c -> [ c ]
 lsyms = setToList . syms

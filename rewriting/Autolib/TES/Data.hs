@@ -39,8 +39,12 @@ type TES = TRS Identifier Identifier
 
 type SES = RS [ Identifier ]
 
-
 instance ( Ord c , Letters t c ) => Letters ( RS t ) c where
+    letters rs = unionManySets $ do 
+        (l, r) <- rules rs
+	return $ letters l `union` letters r
+
+instance ( Ord v , Letters ( Term v c ) v ) => Letters ( TRS v c ) v where
     letters rs = unionManySets $ do 
         (l, r) <- rules rs
 	return $ letters l `union` letters r
