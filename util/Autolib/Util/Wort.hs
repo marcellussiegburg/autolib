@@ -8,6 +8,8 @@ import Util.Uniq
 import Set
 import Random
 
+import Data.List ( inits, tails )
+
 zerlegungen :: [a] -> [([a], [a])]
 zerlegungen [] = [ ([], []) ]
 zerlegungen (x : xs) = ([], x : xs) :
@@ -23,6 +25,11 @@ alle sigma n = do
 
 alles :: [a] -> Int -> [[a]]
 alles sigma n = do s <- [0 .. n]; alle sigma s
+
+factors :: [a] -> [[a]]
+factors w = do
+    u <- tails w
+    inits u
 
 someIO :: [a] -> Int -> IO [a]
 someIO sigma 0 = return []

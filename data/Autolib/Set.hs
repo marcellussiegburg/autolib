@@ -56,3 +56,5 @@ cross xs ys = mkSet $ do x <- setToList xs; y <- setToList ys; return (x, y)
 teilmengen :: Ord a => Int -> Set a -> [ Set a ]
 teilmengen n = map mkSet . teilfolgen n . setToList
     
+subsets ::  Ord a => Set a -> [ Set a ]
+subsets s = do n <- [ 0 .. cardinality s ] ; teilmengen n s

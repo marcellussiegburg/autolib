@@ -38,15 +38,15 @@ data Type
 data Continue
      = Next Type
      | Result ( Bool, String )
-     | Fail
+     | Fail String
 
 
-exec :: Type -> Reporter ( Bool, String )
+exec :: Type -> Reporter ( Maybe Bool, String )
 exec x = do
      output $ message x
      case continue x of
-	  Fail     -> reject $ text "no result"
-	  Result r -> return r
+	  Fail msg -> return ( Nothing, msg )
+	  Result ( f, msg ) -> return ( Just f, msg )
  	  Next n   -> exec n
 
 make :: Iterator ( Bool, String ) -> Type
@@ -59,9 +59,10 @@ make ( Iterator doc step start ) =
 	    return res
     in  Cons { message = kommentar rep
 	  , continue = case result rep of
-	           Nothing -> Fail
+	           Nothing -> Fail $ "failed: " ++ ToDoc.render doc 
 		   Just x -> case x of
-		       Left state -> Next $ make ( Iterator doc step state )
+		       Left state -> Next $ make
+	                                  $ Iterator doc step state
 		       Right a -> Result a
 	     }
 
@@ -69,7 +70,7 @@ make ( Iterator doc step start ) =
 
 nicht :: Type -> Type
 nicht x = x { continue = case continue x of
-    Fail -> Fail
+    Fail msg -> Fail msg
     Result ( f, msg ) -> Result ( not f, msg )
     Next n -> Next $ nicht $ n
    }
@@ -84,12 +85,14 @@ helper inf direction pure [] =
     Cons { message = Doc $ text inf
 	 , continue = case pure of
 		    True -> Result ( direction, inf )
-		    False -> Fail
+		    False -> Fail inf
 	 }
 helper inf direction pure (x : xs) = 
     Cons { message = message x
 	 , continue = case continue x of
-	       Fail   -> Next $ helper inf direction False xs -- make impure
+	       Fail msg -> Next 
+	             $ helper (msg ++ ", " ++ inf)
+	                      direction False xs -- make impure
 	       Result ( x, msg ) -> 
 	           let inf' = msg ++ ", " ++ inf
 	 	   in  if x /= direction 
