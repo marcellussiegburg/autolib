@@ -34,6 +34,7 @@ class ToDoc a where
     -- default:
     toDocPrec p = toDoc -- dangerous?
 
+
 instance ToDoc Int where toDocPrec p = int
 instance ToDoc Integer where toDocPrec p = integer
 instance ToDoc Float where toDocPrec p = float
