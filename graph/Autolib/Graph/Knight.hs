@@ -9,7 +9,7 @@ import Graph.Display
 
 import Sets
 import Util.Teilfolgen
-import Monad ( guard )
+import Control.Monad ( guard )
 import ToDoc
 
 knight :: Int -> Int -> Graph (Int, Int)

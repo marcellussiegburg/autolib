@@ -2,7 +2,7 @@ module  Graph.Beispiele where
 
 
 import Graph.Graph
-import Set
+import Data.Set
 
 
 ---------------------------------------------

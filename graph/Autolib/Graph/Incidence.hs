@@ -6,8 +6,8 @@ import Graph.Graph
 
 import Sets
 import Util.Teilfolgen
-import FiniteMap
-import Monad ( guard )
+import Data.FiniteMap
+import Control.Monad ( guard )
 
 incidence_graph :: Ord a => Graph a -> Graph ( Either a ( Kante a ) )
 incidence_graph g = 

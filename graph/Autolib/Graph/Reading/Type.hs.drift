@@ -6,7 +6,7 @@ import Graph.Kante
 
 import ToDoc
 import Reader
-import Set
+import Data.Set
 
 
 

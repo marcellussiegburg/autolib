@@ -4,8 +4,8 @@ import Graph
 import Graph_Util
 import Graph_Clique
 
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 
 -------------------------------------------------------------------------------
 

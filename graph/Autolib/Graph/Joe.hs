@@ -1,9 +1,9 @@
 module Graph_Joe where
 
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 
-import Monad ( guard )
+import Control.Monad ( guard )
 
 -------------------------------------------------------------------------------
 -- Typdefinitionen

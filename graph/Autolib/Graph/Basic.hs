@@ -9,9 +9,9 @@ import Boxing
 
 import qualified Set
 import qualified List
-import FiniteMap
+import Data.FiniteMap
 import Maybe
-import Monad ( guard )
+import Control.Monad ( guard )
 import ToDoc hiding ( empty )
 
 independent :: Ord a => Set a -> Graph a

@@ -8,7 +8,7 @@ import Graph.Ops
 import Graph.Display
 
 import ToDoc
-import FiniteMap
+import Data.FiniteMap
 import Boxing.Position
 import GVKnoten.Layout
 

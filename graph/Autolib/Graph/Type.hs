@@ -26,7 +26,7 @@ import Graph.Layout
 import GVKnoten.Layout
 
 import ToDoc
-import FiniteMap
+import Data.FiniteMap
 import Iso
 import Number
 

@@ -14,7 +14,7 @@ module Graph.Vis
 
 import Graph.Type
 
-import Set
+import Data.Set
 
 -------------------------------------------------------------------------------
 -- Output for Graphviz-Tool dot and neato

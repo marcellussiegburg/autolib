@@ -1,10 +1,10 @@
 module Graph.Labeling where
 
 import Graph.Type
-import FiniteMap
+import Data.FiniteMap
 import ToDoc
-import Set
-import Monad (guard)
+import Data.Set
+import Control.Monad (guard)
 
 type Labeling a b = FiniteMap a b
 

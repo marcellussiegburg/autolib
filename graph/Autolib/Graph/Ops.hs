@@ -11,11 +11,11 @@ import Boxing hiding ( grid )
 import ToDoc hiding (empty)
 import Sets
 
-import qualified Set
-import qualified List
-import FiniteMap
-import Maybe
-import Monad ( guard )
+import qualified Data.Set as Set
+import qualified Data.List as List
+import Data.FiniteMap
+import Data.Maybe
+import Control.Monad ( guard )
 import Util.Teilfolgen
 
 --------------------------------------------------------------------------

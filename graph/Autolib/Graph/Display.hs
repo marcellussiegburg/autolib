@@ -17,9 +17,9 @@ import qualified Dot.Edge
 
 import Boxing.Position
 
-import FiniteMap
+import Data.FiniteMap
 import Maybe
-import Monad ( guard )
+import Control.Monad ( guard )
 
 instance ( Show a, Ord a ) => ToDot ( Graph a ) where
     toDotProgram = layout_program

@@ -8,8 +8,8 @@ valid
 
 import Graph.Type
 
-import Set
-import Monad ( guard )
+import Data.Set
+import Control.Monad ( guard )
 import ToDoc
 
 valid :: ( ToDoc a, ToDoc [a], Ord a ) 

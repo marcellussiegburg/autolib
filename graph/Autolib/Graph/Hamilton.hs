@@ -3,8 +3,8 @@ module Graph_Hamilton where
 import Graph
 import Graph_Util
 
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 
 import Auswertung
 import Right

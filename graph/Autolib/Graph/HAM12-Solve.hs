@@ -5,8 +5,8 @@ import Graph_Util
 import Graph_Hamilton
 import Graph_Hamilton_Solve
 
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 
 main = do 
      putStrLn $ unlines 

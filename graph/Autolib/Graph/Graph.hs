@@ -22,7 +22,7 @@ import ToDoc
 import Reader
 
 import Boxing.Position
-import FiniteMap
+import Data.FiniteMap
 
 -------------------------------------------------------------------------------
 

@@ -3,10 +3,10 @@ module Graph.Util where
 -- -- $Id$
 
 import Graph.Graph
-import Set
-import Monad ( guard ) -- old style
+import Data.Set
+import Control.Monad ( guard ) -- old style
 import Graph.Beispiele
-import FiniteMap
+import Data.FiniteMap
 import Sort
 
 anzKnoten :: Graph a -> Int

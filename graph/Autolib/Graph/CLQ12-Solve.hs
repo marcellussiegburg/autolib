@@ -4,8 +4,8 @@ import Graph
 import Graph_Util
 import Graph_Clique_Solve
 
-import Set
-import FiniteMap
+import Data.Set
+import Data.FiniteMap
 
 main = do 
      putStrLn $ unlines 
