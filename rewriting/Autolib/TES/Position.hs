@@ -76,10 +76,13 @@ vsize :: Term v c -> Int
 vsize = size . smash
 
 
-syms :: Ord c => Term v c -> Set c
-syms t = mkSet $ do
+symsl :: Term v c -> [ c ]
+symsl t = do
     Node c _ <- subterms t
     return c
+
+syms :: Ord c => Term v c -> Set c
+syms = mkSet . symsl
 
 lsyms :: Ord c => Term v c -> [ c ]
 lsyms = setToList . syms
