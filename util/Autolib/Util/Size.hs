@@ -1,4 +1,4 @@
--- $Header$
+-- $Id$
 
 module Util.Size where
 
@@ -11,7 +11,7 @@ instance Size (Set a) where
     size = cardinality
 
 instance Size b => Size (FiniteMap a b) where
-    size = sum . map size . eltsFM 
+    size = length . eltsFM 
 
 instance Size a => Size [a] where
     size = sum . map size
