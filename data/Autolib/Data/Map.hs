@@ -20,7 +20,12 @@ eltsFM = elems
 keysFM = keys
 fmToList = assocs
 listToFM = fromList
+
+-- | explicit signature is necessary
+-- because the new type would not use Maybe but Monad m => m instead
+lookupFM :: Ord k => FiniteMap k a -> k -> Maybe a
 lookupFM m k = Data.Map.lookup k m
+
 lookupWithDefaultFM f a k = findWithDefault a k f
 elemFM k m = isJust $ Data.Map.lookup k m
 mapFM = mapWithKey
