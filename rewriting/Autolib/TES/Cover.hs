@@ -1,4 +1,4 @@
-module TES.Cover where
+deprecated module TES.Cover where
 
 --  $Id$
 
