@@ -239,8 +239,10 @@ getGraphviz graph trans path = do
 		inFile0 = path ++ ".dot"
 		outFile = path ++ "." ++ (getGVFormat trans)
 
-                inFile = if inFile0 == outfile
-			 then path ++ ".tmp"
+		-- das passiert, falls getGVFormat == "dot"
+                inFile = if inFile0 == outFile
+			 then -- neuen infilenamen erfinden
+			      path ++ ".tmp"
 			 else inFile0
 
 		command = show (getGVProg trans) ++ " -T" ++ (getGVFormat trans) ++
