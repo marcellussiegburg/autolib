@@ -37,11 +37,11 @@ data Type
 	    }
 data Continue
      = Next Type
-     | Result Bool
+     | Result ( Bool, String )
      | Fail
 
 
-exec :: Type -> Reporter Bool
+exec :: Type -> Reporter ( Bool, String )
 exec x = do
      output $ message x
      case continue x of
@@ -49,7 +49,7 @@ exec x = do
 	  Result r -> return r
  	  Next n   -> exec n
 
-make :: Iterator Bool -> Type
+make :: Iterator ( Bool, String ) -> Type
 -- the stream of outputs of the iterator (lazily)
 make ( Iterator doc step start ) =
     let rep = do
@@ -65,33 +65,37 @@ make ( Iterator doc step start ) =
 		       Right a -> Result a
 	     }
 
+---------------------------------------------------------------------------
+
 nicht :: Type -> Type
 nicht x = x { continue = case continue x of
     Fail -> Fail
-    Result f -> Result $ not f
+    Result ( f, msg ) -> Result ( not f, msg )
     Next n -> Next $ nicht $ n
    }
 
 und, oder :: [ Type ] -> Type
-und  = helper True True
-oder = helper False True
+und  = helper "" True True
+oder = helper "" False True
 
-helper :: Bool -> Bool -> [ Type ] -> Type
+helper :: String -> Bool -> Bool -> [ Type ] -> Type
 -- direction: True for und, False for oder
-helper direction pure [] = 
-    Cons { message = Doc $ text "helper []"
+helper inf direction pure [] = 
+    Cons { message = Doc $ text inf
 	 , continue = case pure of
-		    True -> Result direction
+		    True -> Result ( direction, inf )
 		    False -> Fail
 	 }
-helper direction pure (x : xs) = 
+helper inf direction pure (x : xs) = 
     Cons { message = message x
 	 , continue = case continue x of
-	       Fail -> Next $ helper direction False xs -- make impure
-	       Result x -> if x /= direction 
-		  then Result x
-		  else   Next $ helper direction pure   xs
-	       Next n -> Next $ helper direction pure $ xs ++ [ n ]
+	       Fail   -> Next $ helper inf direction False xs -- make impure
+	       Result ( x, msg ) -> 
+	           let inf' = msg ++ ", " ++ inf
+	 	   in  if x /= direction 
+		       then   Result ( x, inf' )
+		       else   Next $ helper inf direction pure   xs
+	       Next n ->      Next $ helper inf direction pure $ xs ++ [ n ]
 	 }
 
 
