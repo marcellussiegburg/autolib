@@ -18,7 +18,7 @@ instance Show Position where
 -- in dot-format
 zeige :: Position -> String
 zeige p = 
-    let xform r = show $ ( round ( r * 100 ) :: Int )
+    let xform r = show $ ( r * 100 )
     in  xform ( width p ) ++ "," ++ xform ( height p )
 
 lies :: String -> Position

@@ -59,8 +59,8 @@ continue i = do
 	params <- option [] $ my_brackets $ my_commaSep param
         return $ foldr ($) ( blank { ident = i } ) params
 
+-- | erstmal sehr simplified, erkennt nur positionen
 param :: Parser ( Type -> Type )	
--- erstmal sehr simplified, erkennt nur positionen
 param = 
         do my_reserved "pos"   ; my_equals ; a <- soi 
 	   return ( \ x -> x { position = Just $ lies a } )

@@ -1,6 +1,11 @@
 module Autolib.FiniteMap
 
-( module Data.FiniteMap
+( 
+#if (__GLASGOW_HASKELL__ < 604)
+  module Data.FiniteMap
+#else
+  module Autolib.Data.Map
+#endif
 , module Autolib.FiniteMap
 )
 
@@ -10,14 +15,20 @@ import Autolib.Reader
 import Autolib.ToDoc
 import Autolib.Set
 
+#if (__GLASGOW_HASKELL__ < 604)
 import Data.FiniteMap
+#else
+import Autolib.Data.Map
+#endif
+
 import Autolib.Xml
 
 import Data.Typeable
 
-
+#if (__GLASGOW_HASKELL__ < 604)
 instance ( Ord a, Ord b ) => Ord ( FiniteMap a b ) where
     compare f g = compare (fmToList f) (fmToList g)
+#endif
 
 instance ( Typeable a, Typeable b ) => Typeable (FiniteMap a b) where
     typeOf (_ :: FiniteMap a b) = 
