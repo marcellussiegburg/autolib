@@ -112,8 +112,8 @@ instance Reader TES where
     readerPrec p = do
 	tes <- plain_reader
         return $ check_arities
-	       $ repair_variables 
 	       $ repair_signature
+	       $ repair_variables 
 	       $ tes { separate = False }
 
 plain_reader :: Reader (t, t) => Parser ( RS c t )
@@ -165,6 +165,7 @@ repair_variables trs =
         rs = do (l,r) <- rules trs ; return ( xform l, xform r )
 	sig = sfilter ( \ s -> not (s `elementOf` vs)) $ symbols rs
     in  trs { rules = rs
+	    , signature = sig
            }
 
 -- | add nullary symbol (if not already there) to avoid confusion later
@@ -172,7 +173,7 @@ repair_variables trs =
 -- otherwise no state of automaton is productive
 repair_signature :: TES -> TES
 repair_signature trs = 
-    let sig = symbols $ rules trs
+    let sig = signature trs
         has_nullary = not $ isEmptySet $ sfilter ( (==0) . arity ) sig
     in  trs { signature = if has_nullary
 	                  then sig
