@@ -108,10 +108,10 @@ instance ToDoc a => ToDoc (Maybe a) where
 
 -- dutch style
 
-dutch :: (Doc, Doc, Doc) -> [ Doc ] -> Doc
-dutch (op, sep, cl) [] = op <+> cl
-dutch (op, sep, cl) ( x : xs ) = 
-    let ( kurz, lang ) = splitAt max_list_length xs
+dutch :: Int -> (Doc, Doc, Doc) -> [ Doc ] -> Doc
+dutch clip (op, sep, cl) [] = op <+> cl
+dutch clip (op, sep, cl) ( x : xs ) = 
+    let ( kurz, lang ) = splitAt clip xs
 	over = if null lang then empty else sep <+> text "..."
     in  cat [ op  <+> x
 	    , cat $ do y <- kurz ; return $ sep <+> y
@@ -120,9 +120,12 @@ dutch (op, sep, cl) ( x : xs ) =
 	    ]
 
 dutch_record :: [ Doc ] -> Doc
-dutch_record = dutch ( text "{", comma, text "}" )    
+dutch_record = dutch max_list_length ( text "{", comma, text "}" )    
+
+clipped_dutch_list :: Int -> [ Doc ] -> Doc
+clipped_dutch_list c  = dutch c ( text "[", comma, text "]" )    
 
 dutch_list :: [ Doc ] -> Doc
-dutch_list = dutch ( text "[", comma, text "]" )    
+dutch_list = clipped_dutch_list max_list_length
 
 
