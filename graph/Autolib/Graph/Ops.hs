@@ -37,6 +37,7 @@ gmap :: ( Ord a, Ord b ) => (a -> b ) -> ( Graph a -> Graph b )
 -- TODO: das layout geht dann aber kaputt 
 gmap f g = Graph 
 	 { graph_info = info g -- nichts anzeigen
+	 , graph_texinfo = graph_texinfo g
 	 , knoten = mapSet f $ knoten g
 	 , kanten = mapSet ( \ k -> kante (f $ von k) (f $ nach k) )
 				   $ kanten g
@@ -44,7 +45,7 @@ gmap f g = Graph
 	       ( v, p ) <- fmToList $ graph_layout g
 	       return ( f v, p ) -- bei kontraktionen mittelwert bilden?
 	 , bounding = bounding g
-    , layout_hints = ""
+         , layout_hints = layout_hints g
 	 }
 
 
@@ -58,12 +59,14 @@ normalize g =
 
 complement :: Ord a => Graph a -> Graph a
 complement g = informed ( funni "co" [ info g ] )
+	     $ texinformed ( "\\overline{" ++ texinfo g ++ "}" )
 	     $ clique ( knoten g ) `unlinks` setToList ( kanten g )
 
 union0 :: Ord a => Graph a -> Graph a -> Graph a
 -- klebt zusammen (zeichnet übereinander!)
 union0 g1 g2 = 
       Graph { graph_info = funni "union0" [ info g1, info g2 ] 
+	    , graph_texinfo = texinfo g1 ++ "\\cup" ++ texinfo g2
 	    , knoten = Set.union (knoten g1) (knoten g2)
 	    , kanten = Set.union (kanten g1) (kanten g2)
 	    , graph_layout = plusFM (graph_layout g1) (graph_layout g2)
@@ -79,6 +82,7 @@ unions0 = foldr union0 empty
 union1 ::  Ord a => Graph a -> Graph a -> Graph a
 -- bilder nebeneinander, aber knotenmengen gemeinsam
 union1 g1 g2 = informed ( funni "union" [ info g1, info g2 ] )
+	     $ texinformed (  texinfo g1 ++ "+" ++ texinfo g2 )
 	     $ beside g1 g2
 
 union  :: ( Ord a, Ord b) => Graph a -> Graph b -> Graph (Either a b)
@@ -89,6 +93,7 @@ times0 :: (Ord a)
        => Graph a -> Graph a -> Graph a
 -- knotenmengen gemeinsam (benutzt in partit)
 times0 l r = informed ( funni "times" [ info l, info r ] )
+	  $ texinformed (  texinfo l ++ "*" ++ texinfo r )
 	  $ union0 l r  `links0` do
               u <- setToList $ knoten l 
 	      v <- setToList $ knoten r
@@ -111,6 +116,7 @@ grid :: ( Ord a, Ord b )
 -- gibt es dafür einen namen? 
 -- es ist nicht das lexikografische produkt.
 grid l r = informed ( funni "grid" [ info l, info r ] )
+	     $ texinformed (  texinfo l ++ "\\times" ++ texinfo r )
 	 $ let vs = cross (knoten l) (knoten r)
 	       es = do
 	              u <- setToList $ knoten l
@@ -124,28 +130,6 @@ grid l r = informed ( funni "grid" [ info l, info r ] )
 
 
 ---------------------------------------------------------------------------
-
-line_graph :: Ord a => Graph a -> Graph ( Kante a )
-line_graph g = 
-    let v = kanten g
-	e = mkSet $ do 
-	       [ u, v ] <- teilfolgen 2 $ setToList $ kanten g
-	       let inhalt k = mkSet [ von k, nach k ]
-	       guard $ not $ isEmptySet $ inhalt u `intersect` inhalt v
-	       return $ kante u v
-    in Graph { graph_info = funni "L" [ info g ]
-	     , knoten = v
-	     , kanten = e 
-	     , graph_layout = listToFM $ do 
-	           k <- setToList v
-		   let u = von k
-		       v = nach k
-		   let pos = lookupWithDefaultFM 
-			     (graph_layout g) (error "edge_graph")
-		   return ( k, 0.5 * (pos u + pos v) )
-	     , bounding = bounding g         
-    , layout_hints = ""
-	     }	       
 
 ---------------------------------------------------------------------------
 

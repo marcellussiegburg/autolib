@@ -8,31 +8,55 @@ import Graph.Ops
 
 import Graph.Display
 import Dot.Dot
+import Util.Zufall
 
-mkGallery :: FilePath 
-	  -> [ Graph Int ]
-	  -> IO ()
-mkGallery prefix gs = do
-    pics <- mapM (mkPic prefix) $ zip [0..] gs
+mkQuiz :: FilePath
+       -> [ Graph Int ]
+       -> IO ()
+-- schreibt jeden graph in ein eps-file
+-- schreibt ein tex-file, daß alle diese included
+-- und ein tex-file mit allen texinfos (gewürfelt)
+mkQuiz  prefix gs = do
+    putStrLn $ "Quiz mode"
+    gs' <- permutation gs
+    pics <- mapM ( \ (i,g) -> mkPic (prefix ++ "_" ++ show i) g )
+	  $ zip [0..] gs'
 
     let fname = prefix ++ ".tex"
     putStrLn $ "writing tex file " ++ fname
     writeFile fname $ unlines $ do
-        (p, g) <- zip pics gs
+        p <- pics
 	line <- [ "\\begin{minipage}{4cm}"
 		, "\\includegraphics[width=4cm,height=4cm]{" ++ p ++ "}" 
-		, "\\verb|" ++ show (info g) ++ "|"
 		, "\\end{minipage}"
 		, "\\quad"
 		]
 	return line
+
+    let fname = prefix ++ "_map.tex"
+    putStrLn $ "writing map file " ++ fname
+    is <- permutation $ map texinfo gs
+    writeFile fname $ unlines $ do
+        i <- is
+	return $ "\\(" ++ i ++ "\\),~ "
+
     return ()
 
+
+
+
+mkGallery :: [ (FilePath, Graph Int) ]
+	  -> IO ()
+-- schreibt jeweils in benanntes epsfile
+mkGallery fgs = do
+    putStrLn $ "Gallery mode"
+    mapM_ (uncurry mkPic) fgs
+
+
 mkPic :: ( Ord a , Show a )
-      => FilePath -> (Int, Graph a) 
+      => FilePath -> Graph a
       -> IO FilePath
-mkPic prefix (i, g) = do
-    let fname = prefix ++ "_" ++ show i
+mkPic fname g = do
     putStrLn $ "writing eps file " ++ fname
     meps fname g
 

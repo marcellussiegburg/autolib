@@ -14,6 +14,7 @@ import ToDoc
 
 kneser :: Int -> Int -> Graph (Set Int)
 kneser t r = informed ( text "Kneser" <+> toDoc (t,r) )
+	   $ texinformed ( "{K_{" ++ show t ++ "}^{" ++ show r ++ "}}" )
 	   $ let v = teilmengen r $ mkSet [1 .. t ]
 	         e = do
 		       [u,v] <- teilfolgen 2 v

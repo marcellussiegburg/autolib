@@ -28,6 +28,7 @@ data Graph a  = Graph
 	      , kanten    :: Set (Kante a)
 	      -- neue komponenten (nicht show/read-fähig)
 	      , graph_info :: Doc
+	      , graph_texinfo :: String
 	      , graph_layout  :: FiniteMap a Position
 	      , bounding :: Position
 	      , layout_hints :: String
@@ -36,6 +37,8 @@ data Graph a  = Graph
 instance Informed ( Graph a) where
     info = graph_info
     informed i g = g { graph_info = i }
+    texinfo = graph_texinfo
+    texinformed i g = g { graph_texinfo = i }
 
 small_labels :: Graph a -> Graph a
 -- TODO: wie schaltet man das labelling ab,
@@ -48,6 +51,7 @@ mkGraph v e = Graph
 	    { knoten = v
 	    , kanten = e
 	    , graph_info = text "mkGraph"
+	    , graph_texinfo = "G"
 	    , graph_layout = emptyFM
 	    , bounding = 0
 	    , layout_hints = ""

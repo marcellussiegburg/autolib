@@ -20,6 +20,7 @@ independent = independent0 . setToList
 independent0 :: Ord a => [a] -> Graph a
 independent0 xs = Graph 
     { graph_info = text $ "E_" ++ show (length xs)
+    , graph_texinfo = "{C_{" ++ show (length xs) ++ "}}"
     , knoten = mkSet xs
     , kanten = emptySet
     , graph_layout = listToFM $ do
@@ -39,6 +40,7 @@ clique = clique0 . setToList
 clique0 :: Ord a => [a] -> Graph a
 clique0 xs = ( independent0 xs )
 	    { graph_info = text $ "K_" ++ show (length xs)
+            , graph_texinfo = "{K_{" ++ show (length xs) ++ "}}"
 	    , kanten = mkSet $ do 
 			 (x : ys) <- List.tails $ xs
 			 y <- ys
@@ -51,6 +53,7 @@ empty = clique $ Set.emptySet
 path :: Ord a => [ a ] -> Graph a
 path xs = 
     Graph { graph_info = text $ "P_" ++ show (length xs)
+            , graph_texinfo = "{P_{" ++ show (length xs) ++ "}}"
 	  , knoten = mkSet xs
 	  , kanten = mkSet $ do 
 	       (u , v ) <- zip xs ( tail xs )
@@ -66,6 +69,7 @@ path xs =
 circle :: Ord a => [ a ] -> Graph a
 circle xs = ( independent0 xs )
 	    { graph_info = text $ "C_" ++ show (length xs)
+            , graph_texinfo = "{C_{" ++ show (length xs) ++ "}}"
 	    , kanten = mkSet $ do 
 			 (x, y) <- zip xs ( last xs : xs )
 			 return $ kante x y
