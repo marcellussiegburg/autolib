@@ -3,7 +3,9 @@ module Util.Edit where
 -- $Id$
 
 import Random
-import Monad
+import Control.Monad
+
+import Util.Zufall ( eins )
 
 cut :: Int -> Int -> [a] -> [a]
 cut from to w = 
@@ -45,12 +47,17 @@ some_insert_slice w = if length w < max_edit then return w else do
 
 edit :: [a] -> IO [a]
 edit w = do
-    f <- randomRIO (False, True)
-    if f then some_cut w else some_insert_slice w
+    f <- eins 
+       [ some_cut 
+       , some_insert_slice 
+       , some_mirror 
+       ]
+    f w
+
 
 edits :: [a] -> IO [a]
 edits w = do
-    k <- randomRIO (1, max_edit)
+    k <- randomRIO (1, max_edit) -- ??
     foldM ( \ u _ -> edit u ) w $ replicate k ()
     
     
