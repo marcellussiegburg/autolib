@@ -26,6 +26,7 @@ import Autolib.Boxing.Position
 import Autolib.FiniteMap
 
 import Autolib.Xml
+import Autolib.Size
 import Text.XML.HaXml.Haskell2Xml
 import Data.Typeable
 
@@ -51,6 +52,9 @@ instance Informed ( Graph a) where
     informed i g = g { graph_info = i }
     texinfo = graph_texinfo
     texinformed i g = g { graph_texinfo = i }
+
+instance Size ( Graph a ) where
+    size g = cardinality $ knoten g
 
 mkGraph :: Set a -> Set (Kante a) -> Graph a
 mkGraph v e = Graph
