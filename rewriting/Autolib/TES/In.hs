@@ -84,30 +84,25 @@ atomic :: ( Symbol c, Reader v )
        => Config c
        -> Parser (Term v c)
 atomic conf = 
-      TES.Parsec.parens (token_parser conf) (treader conf)
-{-
-  <|> do
-        t <- readerPrec 0 -- symbol (not infix!)
-	mxs <- option Nothing 
-			$ fmap Just
-                        $ TES.Parsec.parens trs
-		        $ commaSep trs
-	                $ treader ops flag
-        case mxs of
-	     Nothing -> case flag of
-			     True  -> return $ Node ( set_arity 0 t ) []
-			     False -> mzero
-	     Just xs -> return $ Node ( set_arity (length xs) t ) xs
--}
-  <|> choice ( do op <- reserved_symbols conf
-	          guard $ is_constant op
-	          return $ do reserved (token_parser conf) (show op)
-	                      return $ Node op []
-	     )
-
-  <|> do
-         v <- reader
-	 return $ Var v
+  let tp = token_parser conf 
+  in
+          TES.Parsec.parens tp (treader conf)
+      <|> choice ( do op <- reserved_symbols conf
+      	              guard $ is_constant op
+      	              return $ do reserved tp (show op)
+      	                          return $ Node op []
+      	         )
+      <|> if allow_new_symbols conf
+          then do 
+              t <- readerPrec 0 
+      	      xs <- option []
+                        $ TES.Parsec.parens tp
+      		        $ commaSep tp
+      	                $ treader conf
+      	      return $ Node ( set_arity (length xs) t ) xs
+          else do
+             v <- reader
+       	     return $ Var v
 
 instance Reader (Term Identifier Identifier ) where
     readerPrec p =  treader $ Config { reserved_symbols = [] 
