@@ -34,6 +34,23 @@ peek :: Term v c
 peek t [] = t
 peek ( Node c args ) ( k : ks ) = peek ( args !! k ) ks
 
+peek_symbol :: Term v c 
+     -> Position 
+     -> c
+peek_symbol t p = 
+    case peek t p of
+         Node c args -> c
+	 _ -> error "TES.Position.peek_symbol called for non-symbol"
+
+-- | warning: don't check arity
+poke_symbol ::  Term v c 
+     -> ( Position , c )
+     -> Term v c
+poke_symbol t ( p, c ) =  
+    case peek t p of
+         Node _ args -> poke t ( p, Node c args )
+	 _ -> error "TES.Position.poke_symbol called for non-symbol"
+
 poke :: Term v c 
      -> ( Position , Term v c )
      -> Term v c
