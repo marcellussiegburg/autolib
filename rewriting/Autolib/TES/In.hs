@@ -28,7 +28,10 @@ import Data.List ( partition )
 import Control.Monad ( mzero, guard )
 
 data Config c = Config
-	      { reserved_symbols :: [ c ]
+        -- FIXME:  nullary symbols are in _operator_ now,
+        -- should go into _function_ 
+	      { reserved_operator_symbols :: [ c ]
+              , reserved_function_symbols :: [ c ]
 	      , allow_new_symbols :: Bool
   -- ^ if False:
   -- no user-defined function symbols of @arity > 0@,
@@ -53,7 +56,7 @@ operator_table conf  =
     do let tp = token_parser conf
        ops <- reverse $ collectBy precedence 
 		      $ filter is_operator
-		      $ reserved_symbols conf
+		      $ reserved_operator_symbols conf
        return $ do op <- ops 
 		   case arity op of
 		       1 -> return $ Prefix ( do 
@@ -65,15 +68,15 @@ operator_table conf  =
 				  ( assoc op )
 		       _ -> [] -- ignore others (dangerous?)
 
+-- | from lowest to highest
 collectBy :: Ord b => (a -> b) -> [a] -> [[a]]
--- from lowest to highest
 collectBy f xs = 
     eltsFM $ addListToFM_C (++) emptyFM $ do
         x <- xs ; return (f x, [x])
 
 token_parser conf = 
        let ( nulls, sonst ) = partition is_constant
-			    $ reserved_symbols conf
+			    $ reserved_operator_symbols conf
        in makeTokenParser $ emptyDef
 		   { commentLine = "" 
 		   , commentStart = ""
@@ -89,11 +92,19 @@ atomic conf =
   let tp = token_parser conf 
   in
           Autolib.TES.Parsec.parens tp (treader conf)
-      <|> choice ( do op <- reserved_symbols conf
+      <|> choice ( do op <- reserved_operator_symbols conf
       	              guard $ is_constant op
       	              return $ do reserved tp (show op)
       	                          return $ Node op []
       	         )
+      <|> choice ( do t <- reserved_function_symbols conf
+                      return $ do
+                          reserved tp ( show t )
+                          xs <- Autolib.TES.Parsec.parens tp
+                               $ commaSep tp
+                               $ treader conf
+                          return $ Node ( set_arity (length xs) t ) xs
+                 )
       <|> if allow_new_symbols conf
           then do 
               t <- readerPrec 0 
@@ -108,7 +119,8 @@ atomic conf =
 
 -- instance Reader (Term Identifier Identifier ) where
 instance ( Symbol c, Reader v ) => Reader ( Term v c ) where
-    readerPrec p =  treader $ Config { reserved_symbols = [] 
+    readerPrec p =  treader $ Config { reserved_operator_symbols = [] 
+                                     , reserved_function_symbols = [] 
 				     , allow_new_symbols = True
 				     }
 
