@@ -6,33 +6,39 @@ where
 
 import ToDoc
 
-data Reporter a = OK { result :: a , kommentar :: Doc }
-		| NO {               kommentar :: Doc }
+import Right
+import Wrong
+
+data Reporter a = Reporter { result :: Maybe a , kommentar :: Doc }
      
 instance Functor Reporter where
-    fmap f ( ok @ OK {} ) = OK { result = f ( result ok )
-			       , kommentar = kommentar ok
-			       }
-    fmap f ( no @ NO {} ) = NO { kommentar = kommentar no
-			       }
+    fmap f r = Reporter { result = fmap f $ result r
+			, kommentar = kommentar r 
+			}
+
 kommentiere :: Doc -> Reporter a -> Reporter a
 -- fügt neuen kommentar (am anfang) hinzu
 kommentiere doc r = r { kommentar = doc $$ kommentar r }
 
 instance Monad Reporter where
-    return x = OK { result = x , kommentar = empty }
-    m >>= f  = kommentiere ( kommentar m ) $ case m of
-	         ok @ OK {} -> f ( result ok )
-		 no @ NO {} -> NO {}
+    return x = Reporter { result = return x , kommentar = empty }
+    m >>= f  = kommentiere ( kommentar m ) $ case result m of
+	         Just x  -> f x
+		 Nothing -> Reporter { result = Nothing, kommentar = empty }
     
 inform :: Doc -> Reporter ()
-inform doc = OK { result = () , kommentar = doc }
+inform doc = Reporter { result = Just () , kommentar = doc }
 
-reject :: Doc -> Reporter ()
-reject doc = NO { kommentar = doc }
+reject :: Doc -> Reporter a
+reject doc = Reporter { result = Nothing,   kommentar = doc }
 
-accept :: Doc -> a -> Reporter a
-accept doc x = OK { kommentar = doc, result = x }
+
+reporter :: Reporter Int -> IO String
+reporter r = do
+    print $ kommentar r
+    case result r of
+        Just i -> right_with $ "OK # Size: " ++ show i
+	Nothing -> wrong
 
        
     
