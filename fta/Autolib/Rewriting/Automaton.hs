@@ -18,6 +18,7 @@ import qualified Autolib.NFA.Trim
 import qualified Autolib.NFA.Minus
 import qualified Autolib.NFA.Normalize
 
+import qualified Autolib.Relation
 
 import Autolib.Symbol
 import Autolib.ToDoc
@@ -44,7 +45,13 @@ instance ( Symbol c, ToDoc [c], Reader [c]
 class  Automaton a where
     lstates  :: ( FAC c s ) => a c s -> [s]
     statemap :: ( FAC c s, FAC c t ) => ( s -> t ) -> a c s -> a c t
+    statefilter :: FAC c s => ( s -> Bool ) -> a c s -> a c s
     alphamap :: ( FAC c s, FAC d s ) => ( c -> d ) -> a c s -> a d s
+    alphafilter :: FAC c s => ( c -> Bool ) -> a c s -> a c s
+
+    -- | remove from first automaton all transitions that are in second    
+    minus_trans :: FAC c s => a c s -> a c s -> a c s
+
     complete :: ( FAC c Int ) => Set c -> a c Int
     normalize :: ( FAC c s, FAC c Int ) => a c s -> a c Int
 
@@ -64,7 +71,9 @@ class  Automaton a where
 instance Automaton Autolib.NFTA.NFTA where
     lstates  = Autolib.NFTA.lstates
     statemap = Autolib.NFTA.statemap
+    statefilter = Autolib.NFTA.statefilter
     alphamap = Autolib.NFTA.alphamap
+    alphafilter = Autolib.NFTA.alphafilter
     complete = Autolib.NFTA.Basic.complete
     normalize = Autolib.NFTA.Normalize.normalize
     compact  = Autolib.NFTA.Compact.compact . Autolib.NFTA.Epsilon.uneps
@@ -74,14 +83,28 @@ instance Automaton Autolib.NFTA.NFTA where
                          ( Autolib.NFTA.Epsilon.uneps a ) 
 			 ( Autolib.NFTA.Epsilon.uneps b )
     complement = Autolib.NFTA.Complement.complement
+    minus_trans a b = 
+        let tra = Autolib.Relation.pairs $ Autolib.NFTA.trans a
+	    trb = Autolib.Relation.pairs $ Autolib.NFTA.trans b
+            diff = Autolib.Relation.make 
+		 $ setToList $ minusSet (mkSet tra) (mkSet trb)
+        in a { Autolib.NFTA.trans = diff }
 
 instance Automaton Autolib.NFA.NFA where
     lstates  = Autolib.NFA.lstates
     statemap = Autolib.NFA.statemap
+    statefilter = Autolib.NFA.statefilter
     alphamap = Autolib.NFA.alphamap
+    alphafilter = Autolib.NFA.alphafilter
     complete = Autolib.NFA.Basic.sigmastar . setToList
     normalize = Autolib.NFA.Normalize.normalize
     trim     = Autolib.NFA.Trim.trim
     intersection a b = Autolib.NFA.Normalize.normalize
                      $ Autolib.NFA.Ops.intersection a b
     complement a = Autolib.NFA.Minus.complement (setToList $ letters a) a
+    minus_trans a b = 
+        let tra = Autolib.NFA.unCollect $ Autolib.NFA.trans a
+	    trb = Autolib.NFA.unCollect $ Autolib.NFA.trans b
+            diff = Autolib.NFA.collect 
+		 $ setToList $ minusSet (mkSet tra) (mkSet trb)
+        in a { Autolib.NFA.trans = diff }

@@ -56,6 +56,21 @@ statefilter f a =
                  $ Relation.pairs $ eps a
 	 }
 
+alphafilter :: ( NFTAC c s )
+	 => ( c -> Bool )	
+	 -> NFTA c s
+	 -> NFTA c s
+alphafilter f a = 
+    NFTA { nfta_info = funni "alphafilter" [ info a ]
+	 , alphabet = sfilter f $ alphabet a
+	 , states = states a
+	 , finals = finals a
+	 , trans = Relation.make 
+	         $ filter ( \ (p, (c, qs)) -> f c )
+                 $ Relation.pairs $ trans a
+	 , eps   = eps a
+	 }
+
 intersection :: ( NFTAC c s, NFTAC c t )
              => NFTA c s -> NFTA c t
              -> NFTA c (s, t)

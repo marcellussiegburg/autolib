@@ -16,6 +16,7 @@ instance Sub (Virtualist v) where
     replace xs x = virtualist (plug xs) $ replace ( unVirtualist xs ) x
     substructures xs = map (virtualist ( plug xs))
 		     $ substructures $ unVirtualist xs
+    symbols xs = unVirtualist xs
 
 instance Address (Virtualist v) Int where
     addresses = addresses . unVirtualist
@@ -39,6 +40,7 @@ instance Sub [] where
     -- substructures :: c a -> [ c a ]
     substructures = tails
 
+    symbols xs = xs
     
 instance Address [] Int where
     --  all addresses
