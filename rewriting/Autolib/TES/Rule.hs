@@ -19,7 +19,7 @@ type Rule = ( Term, Term )
 instance Reader Rule where
     readerPrec p = do
         lhs <- readerPrec 0
-	reserved tes "->"
+	reservedOp tes "->"
 	rhs <- readerPrec 0
 	return ( lhs, rhs )
 instance Read Rule where

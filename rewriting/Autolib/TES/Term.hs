@@ -29,7 +29,7 @@ instance Reader Term where
 	xs <- option [] $ ParsecToken.parens tes
 		        $ commaSep tes 
 	                $ readerPrec 0 
-	return $ Node t xs
+	return $ Node ( t { arity = length xs } ) xs
 instance Read Term where
     readsPrec = parsec_readsPrec
 
