@@ -24,8 +24,8 @@ reverse x = case x of
      SymDiff  l r -> SymDiff (reverse l) (reverse r)
      Shuffle  l r -> Shuffle (reverse l) (reverse r)
 
-     Star x -> Star (reverse x)
-     Plus x -> Plus (reverse x)
+     PowerStar x -> PowerStar (reverse x)
+     PowerPlus x -> PowerPlus (reverse x)
      Power i x -> Power i (reverse x)
 
 
