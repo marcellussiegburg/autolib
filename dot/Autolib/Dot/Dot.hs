@@ -26,13 +26,19 @@ import Autolib.ToDoc
 import Autolib.Debug
 
 data Layout_Program = Dot
-	     | Neato
+		    | Neato
+		    | Twopi
+		    | Circo
+		    | Fdp
      deriving ( Eq, Ord, Read, Show )
 
 progname :: Layout_Program -> String
 progname p = case p of
 	 Dot   -> Autolib.Local.dot
 	 Neato -> Autolib.Local.neato
+	 Twopi -> Autolib.Local.twopi
+	 Circo -> Autolib.Local.circo
+	 Fdp   -> Autolib.Local.fdp
 
 class ToDot a where 
       toDot :: a -> Autolib.Dot.Graph.Type

@@ -2,11 +2,12 @@
 
 module Autolib.Local where
 
-dot :: FilePath
-dot = "@DOT@"
-
-neato :: FilePath
+dot, neato, twopi, circo, fdp :: FilePath
+dot   = "@DOT@"
 neato = "@NEATO@"
+twopi = "@TWOPI@"
+circo = "@CIRCO@"
+fdp   = "@FDP@"
 
 debug :: Bool
 debug = @DEBUG@
