@@ -3,7 +3,7 @@ module Rewriting.Strings where
 --  $Id$
 
 import Rewriting.Address
-import Virtualist
+import Autolib.Virtualist
 import Data.List ( tails )
 
 instance Is_Top Int where
