@@ -2,6 +2,7 @@ module Autolib.Set
 
 ( module Data.Set
 , module Autolib.Set   
+, module Autolib.Xml
 )
 
 where
@@ -17,10 +18,10 @@ import Autolib.Util.Teilfolgen
 
 import Autolib.Xml
 
-instance ( Typeable a ) => Typeable ( Set a ) where
-    typeOf (_ :: Set a ) = 
-	mkAppTy (mkTyCon "Set") 
-	       [ typeOf (undefined :: a) ]
+instance Ord a => Container (Set a) [a] where
+    label _ = "set"
+    pack = setToList
+    unpack = mkSet
 
 instance Ord a => Ord (Set a) where
     compare xs ys = compare (setToList xs) (setToList ys)
@@ -34,11 +35,6 @@ instance ( Ord a, Reader [a] ) => Reader ( Set a ) where
 instance ToDoc [a] => ToDoc (Set a)
     where toDocPrec p s = docParen (p >= fcp) 
 			$ text "mkSet" <+> toDocPrec fcp (setToList s)
-
-instance ( Ord a ) => Container (Set a) [a] where
-    label _ = "Set"
-    pack = setToList
-    unpack = mkSet
 
 subseteq :: Ord a => Set a -> Set a -> Bool
 subseteq xs ys = isEmptySet $ xs `minusSet` ys
