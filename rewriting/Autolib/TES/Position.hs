@@ -31,6 +31,13 @@ sympos t = do
     ( p, Node {} ) <- positions t
     return p
 
+-- | variable positions
+varpos :: Term v c 
+    -> [ Position ]
+varpos t = do
+    ( p, Var {} ) <- positions t
+    return p
+
 -- | leaf positions (= nullary symbols)
 leafpos :: Term v c 
     -> [ Position ]
