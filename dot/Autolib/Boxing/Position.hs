@@ -15,11 +15,18 @@ instance ToDoc Position where
 instance Show Position where 
     show = render . toDoc
 
--- in dot format
+-- in dot-format
 zeige :: Position -> String
 zeige p = 
     let xform r = show $ ( round ( r * 100 ) :: Int )
     in  xform ( width p ) ++ "," ++ xform ( height p )
+
+lies :: String -> Position
+lies cs =
+    let ( pre, post ) = span (/= ',') cs
+    in  Position { width = 0.01 * fromIntegral (read pre) 
+		 , height = 0.01 * fromIntegral ( read $ tail post )
+		 }
 
 
 instance Num Position where

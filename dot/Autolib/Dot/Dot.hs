@@ -50,7 +50,7 @@ meps = mot "-Tps" ".eps"
 meng = mot "-Tpng" ".png"
 
 system' line = do
-    hPutStrLn stderr $ "system: " ++ line
+    -- hPutStrLn stderr $ "system: " ++ line
     system line
 
 mot :: ToDot a => String -> String -> FilePath -> a -> IO FilePath
@@ -74,3 +74,6 @@ display a = do
     system' $ unwords [ "gv" , epsfile ]
     system' $ unwords [ "rm" , epsfile ]
     return ()
+
+---------------------------------------------------------------------------
+

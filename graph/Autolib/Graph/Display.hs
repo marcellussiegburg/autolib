@@ -52,8 +52,8 @@ dot_numbered g num =
                            }
 		    return $ case lookupFM pins v of
 		        Nothing -> n
-			Just p  -> n { Dot.Node.pinned = Just "true"
-				     , Dot.Node.position = Just $ zeige p
+			Just p  -> n { Dot.Node.pinned = Just True
+				     , Dot.Node.position = Just p
 				     }
 
             es = do Kante { von = p, nach = q } <- setToList $ kanten g

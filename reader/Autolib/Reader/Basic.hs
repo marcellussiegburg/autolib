@@ -1,13 +1,15 @@
 module Reader.Basic 
 
-( Reader (..)
-, parse
+( parse
 , parsec_readsPrec
 , readerParen
 , (<|>)
-, my_braces, my_comma
+, my_braces, my_brackets
+, my_comma, my_semi
 , my_reserved, my_equals
-, my_commaSep
+, my_commaSep, my_semiSep
+, my_identifier
+, my_stringLiteral
 , listify
 , parsed_info
 )
@@ -41,9 +43,13 @@ my_parens = parens haskell
 my_brackets = brackets haskell
 my_braces = braces haskell
 my_comma = comma haskell
+my_semi = semi haskell
 my_equals = reservedOp haskell "="
 my_reserved = reserved haskell
 my_commaSep = commaSep haskell
+my_semiSep = semiSep haskell
+my_identifier = identifier haskell
+my_stringLiteral = stringLiteral haskell
 
 
 readerParen man p =

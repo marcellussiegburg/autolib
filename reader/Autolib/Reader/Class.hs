@@ -5,6 +5,7 @@ module Reader.Class where
 import Parsec
 
 class Reader a where
+
       reader :: Parser a
       reader = readerPrec 0 -- default
 

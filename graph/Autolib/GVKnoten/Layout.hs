@@ -16,6 +16,9 @@ import FiniteMap
 import Maybe
 import Monad ( foldM )
 
+import qualified Dot.Node
+import qualified Dot.Graph
+
 import Random
 import System
 
@@ -39,8 +42,27 @@ layout graph = do
 
     writeFile infile $ show gn
     system $ unwords [ "neato", "-s", "-o", outfile , infile ]
+    system $ unwords [ "rm", infile ]
+    pos <- get_positions outfile
+    return $ listToFM $ do
+        ( id, p ) <- fmToList pos
+	return ( look mf $ read id, p )
+
+get_positions :: FilePath -> IO ( FiniteMap String B.Position )
+get_positions outfile = do
+    cs <- readFile outfile
+    system $ unwords [ "rm", outfile ]
+    let g = read cs :: Dot.Graph.Type
+    return $ listToFM $ do 
+	  n <- Dot.Graph.nodes g
+	  Just p <- return $ Dot.Node.position n
+	  return ( Dot.Node.ident n, p )
+
+get_positions_stefan :: FilePath -> IO ( FiniteMap String B.Position )
+get_positions_stefan outfile = do
+
     gvknoten <- parse outfile
-    system $ unwords [ "rm", infile, outfile ]
+    system $ unwords [ "rm", outfile ]
 
     -- todo: hier fehlt noch eine skalierung? oder nicht?
     let f = 0.017
@@ -50,7 +72,7 @@ layout graph = do
     let positions = addListToFM_C 
 		    ( error "GVKnoten.Layout.positions" ) emptyFM $ do 
 	    v <- gvknoten
-	    return ( look mf $ read $ ident v 
+	    return ( read $ ident v 
 		   , convert $ pos v )
     return positions
 
@@ -74,7 +96,7 @@ layer :: ( Ord a, Show a, ToDoc [a] )
 layer g xs = do
     let done = mkSet $ keysFM $ graph_layout g
     fm <- layout $ restrict (union xs done) g
-    print fm
+    -- print fm
     return $ g { graph_layout = fm }
 
 ---------------------------------------------------------------------------
