@@ -15,11 +15,14 @@ import Sets
 import ToDoc
 import Reader
 
+import TES.Sexp
 import TES.Parsec
 
 
 data TRS v c  = TRS
-	 { comment :: String
+	 { annotations :: [ Sexp ]
+	 , theory    :: Maybe Sexp
+	 , strategy  :: Maybe Sexp
 	 , variables :: Set v -- ^ nullary symbols
 	 , signature :: Set c -- ^ all symbols (not including variables, I hope)
 	 , rules :: [ Rule v c ]
@@ -35,16 +38,50 @@ type TES = TRS Identifier Identifier
 
 instance ( TRSC v c ) 
 	 => ToDoc ( TRS v c ) where
-    toDoc t = vcat $ text ( "# " ++ comment t )
-		   : toDoc ( setToList $ variables t )
-		   : map toDoc ( rules t )
+    toDoc t = vcat [ vcat $ map toDoc $ annotations t 
+		   , case theory t of Just x -> toDoc x ; Nothing -> empty
+		   , case strategy t of Just x -> toDoc x ; Nothing -> empty
+		   , toDoc ( wrap "VAR" $ setToList $ variables t )
+		   , toDoc ( wrap "RULES" $ rules t )
+		   ]
 
 instance ( TRSC v c )
 	 => Show ( TRS v c ) where show = render . toDoc
 
+instance Read TES where
+    readsPrec = parsec_readsPrec
+
 instance Reader TES where
     readerPrec p = do
-        whiteSpace tes_prefix
+        whiteSpace trs
+	let trs0 = TRS { annotations = []
+		     , theory = Nothing
+		     , strategy = Nothing
+		     , variables = emptySet
+		     , signature = emptySet
+		     , rules = []
+		     }
+        fs <- many line
+	let t = foldr (.) id fs trs0
+	-- TODO: extract variables, signature
+	return t
+
+line :: TRSC v c 
+     => Parser ( TRS v c -> TRS v c )
+line = TES.Parsec.parens $ do
+     f <- identifier TES.Parsec.trs :: Parser String
+     case f of
+	  "RULES" -> do
+	      rs <- many reader :: Parser [ Rule v c ]
+	      return $ \ t -> t { rules = rules t ++ rs }
+
+	  _ -> do
+              args <- many reader :: Parser [ Sexp ] 
+	      return $ \ t -> t { annotations = annotations t 
+			            ++ [ List $ Leaf f  : args ]
+				}
+
+{-
 
         vs <- option -- wild guess: if keine vars angegeben:
 	             [ mknullary "x", mknullary "y", mknullary "z" ]
@@ -52,7 +89,7 @@ instance Reader TES where
 	let vars =  mkSet $ do v <- vs ; return $ v { i_arity = 0 }
 
         whiteSpace tes_prefix -- kommentare erlaubt
-	rs <- many ( readerPrec 0 ) -- regeln
+
 
         whiteSpace tes_prefix -- kommentare erlaubt
 	option () $ foot
@@ -77,12 +114,7 @@ foot = do
     many $ satisfy (const True) -- ignore
     return ()
 
-
-
-
-instance Read TES where
-    readsPrec = parsec_readsPrec
-
+-}
 
 symbols :: Ord c => [ Rule v c ] -> Set c
 symbols rules = unionManySets $ do

@@ -16,6 +16,16 @@ import Text.ParserCombinators.Parsec.Combinator
 import Text.ParserCombinators.Parsec.Language
 import Text.ParserCombinators.Parsec.Token
 
+trs = makeTokenParser
+    $ emptyDef
+       { commentLine = "" 
+       , commentStart = ""
+       , commentEnd = ""
+       , reservedNames = [ ]
+       , reservedOpNames = [ "->", "," ]
+       }
+       
+
 tes_prefix = makeTokenParser 
     $ emptyDef
        { commentLine = "#" 
