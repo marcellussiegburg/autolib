@@ -2,11 +2,15 @@ module Schichten
 
 ( schichten 
 , schichten'
+, bfs
 )
 
 where
 
 import Set
+
+bfs :: Ord a => ( a -> Set a ) -> a -> [a]
+bfs f x0 = concat $ map setToList $ schichten f x0
 
 schichten :: Ord a => (a -> Set a) -> a -> [ Set a ]
 schichten f x0 = schichten' f (unitSet x0)
