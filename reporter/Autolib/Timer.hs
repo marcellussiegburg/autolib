@@ -5,7 +5,7 @@ module Inter.Timer where
 import Concurrent
  
 -- if timer expires,
--- write default value into channel
+-- insert default result
 
 -- TODO: das ist eventuell zu lazy?
 -- wenn die action einen nicht ganz ausgewerteten wert schreibt?
@@ -17,7 +17,10 @@ timed d def action = do
          x <- action
 	 writeChan ch x
     tpid <- forkIO $ do
-         threadDelay $ d * 10^6
+         sequence_ $ do
+             i <- [ 1 .. d ]
+	     return $ do threadDelay $ 10^6
+			 yield
 	 writeChan ch def
     x <- readChan ch
     killThread apid
