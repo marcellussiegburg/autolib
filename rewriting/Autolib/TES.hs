@@ -16,6 +16,7 @@ import Autolib.TES.Rule
 import Autolib.TES.Data
 
 import Autolib.TES.Enum
+import Autolib.TES.Binu
 import Autolib.TES.Identifier
 import Autolib.TES.Type
 import Autolib.TES.In
