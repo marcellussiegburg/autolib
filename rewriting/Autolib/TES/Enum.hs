@@ -11,10 +11,13 @@ import Autolib.TES.Data
 import Autolib.TES.Identifier
 import Autolib.TES.Position
 import Autolib.TES.Sexp
+import Autolib.TES.Binu
 
 import Autolib.Util.Splits
 import Autolib.Util.Zufall
 
+import Autolib.Reader
+import Autolib.ToDoc
 import Autolib.FiniteMap
 import System.Random
 import Control.Monad.State
@@ -56,19 +59,8 @@ instance ( Choose a b, Choose a c ) => Choose a (b, c) where
 	r  <- choose a sr
 	return ( l, r )
 
--- | restricted case: binary symbol and nullary symbols
-data Binu c = Binu
-	  { binary  :: [c]
-	  , unary   :: [c]
-	  , nullary :: [c]
-	  }
-
-b = Binu { binary  = [ mkbinary "f" ]
-	 , unary   = []
-	 , nullary = [ mknullary "a" ]
-	 }
-
-instance Symbol c => Choose (Binu c) (Term a c) where
+instance ( Reader [c], ToDoc [c], Symbol c ) 
+    => Choose (Binu c) (Term a c) where
     choose conf s = 
         if s < 2 
 	then do
@@ -136,6 +128,11 @@ instance Choose Plain ( Term a Identifier ) where
 	return $ Node ( mach $ length xs ) xs
 
 -----------------------------------------------------------------------------
+
+b = Binu { binary  = [ mkbinary "f" ]
+	 , unary   = []
+	 , nullary = [ mknullary "a" ]
+	 }
 
 -- | combine 4 = [[4], [3,1], [2,2], [2,1,1], [1,1,1,1]]
 combine i = combi i i
@@ -229,7 +226,7 @@ decorate :: Pick p
 	 -> Term a Identifier
          -> p ( Term b Identifier )
 decorate full t = do
-    sub <- distribute full $ count t
+    sub <- distribute full $ Autolib.TES.Enum.count t
     return $ markup t sub
 
 -- | count arities of symbols
