@@ -8,7 +8,7 @@ import IO
 import Control.Monad ( when )
 import Random
 
-import Autolib.Util.Datei 
+import Autolib.Util.Chmod
 
 class ToDot a where 
       toDot :: a -> Autolib.Dot.Graph.Type
@@ -41,7 +41,7 @@ mkDot a prog fmt path = do
           return ( fmtfile, fmt, ExitFailure 1 )
        else do
 	  ex <- system' $ unwords [ prog, "-T" ++ fmt, "-o", fmtfile, dotfile ]
-	  perm "go+r" fmtfile
+	  chmod "go+r" fmtfile
 	  return ( fmtfile , fmt , ex )
 
 --------------------------------------------------------------------------
