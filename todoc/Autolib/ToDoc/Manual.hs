@@ -59,7 +59,7 @@ instance ToDoc String where
     toDocPrec p cs = 
 	  let (kurz, lang) = splitAt max_string_length cs
 	      alles = kurz ++ if null lang then "" else "..."
-	  in  char '"' <> text alles <> char '"'
+	  in  text $ show alles
 
 putz :: ToDoc [a] => [a] -> IO ()
 -- benutzt implizit  take max_list_length

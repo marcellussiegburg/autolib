@@ -24,6 +24,14 @@ instance ToDoc a => ToDoc (Long a) where
     toDoc (Long xs) = unclipped_dutch_list $ map toDoc xs
 
 
+instance Reader (Long Char) where
+    reader = fmap Long reader
+
+instance ToDoc (Long Char) where
+    toDoc (Long cs) = text ( show cs ) -- should do the escaping
+
+
+
 
 
 
