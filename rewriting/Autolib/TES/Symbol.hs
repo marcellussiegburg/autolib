@@ -13,4 +13,5 @@ class ( Eq s, Ord s, ToDoc s, Reader s ) => Symbol s where
 instance ( Show a, Symbol a ) => Symbol (Aged a) where
     arity = arity . it
 
+
     

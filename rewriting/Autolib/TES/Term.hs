@@ -25,6 +25,12 @@ data Term v c = Node c [ Term v c ]
 	      | Var v
      deriving ( Eq, Ord )
 
+
+isvar ( Var _ ) = True
+isvar _ = False
+
+unvar ( Var v ) = v
+
 instance ( ToDoc c, ToDoc v ) => ToDoc (Term v c) where
     toDoc ( Var v ) = toDoc v
     toDoc ( Node t xs ) = toDoc t <> 
@@ -55,31 +61,19 @@ vmap ::  (v -> w) -> ( Term v c -> Term w c )
 vmap f (Var v) = Var (f v)
 vmap f (Node c args) = Node c $ map (vmap f) args
 
-subterms :: Term v c -> [ Term v c ]
-subterms t = t : case t of
-    Var v -> []
-    Node c args -> do arg <- args ; subterms arg
+----------------------------------------------------------
 
-instance Size (Term v c) where
-    size t = length $ do
-	 Node _ _ <- subterms t
-	 return ()
-
-syms :: Ord c => Term v c -> Set c
-syms t = mkSet $ do
-    Node c _ <- subterms t
-    return c
-
-vars :: Ord v => Term v c -> Set v
-vars t = mkSet $ do
-    Var v <- subterms t
-    return v
-
-isvar ( Var _ ) = True
-isvar _ = False
-
-unvar ( Var v ) = v
 
 -- | replace variables by variables
-apply :: Ord a => FiniteMap a b -> Term a c -> Term b c
-apply fm = vmap ( lookupWithDefaultFM fm (error "TES.Close.apply") )
+applyvar :: Ord a => FiniteMap a b -> Term a c -> Term b c
+applyvar fm = vmap 
+	    ( lookupWithDefaultFM fm (error "TES.Close.applyvar") )
+
+-- | replace variables by terms
+-- note the typing: subst must be total on the vars!
+apply :: Ord v
+      => FiniteMap v ( Term u c ) 
+      -> Term v c 
+      -> Term u c
+apply fm ( Var v ) = lookupWithDefaultFM fm (error "TES.Close.apply") v
+apply fm ( Node c args ) = Node c $ map ( apply fm ) args

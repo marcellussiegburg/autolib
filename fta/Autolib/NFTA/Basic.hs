@@ -3,8 +3,10 @@ module NFTA.Basic where
 --  $Id$
 
 import NFTA.Type
+import NFTA.Insert
+import TES.Term
 
--- automaton the recognizes all trees
+-- | automaton the recognizes all trees
 complete :: NFTAC c Int
     => Set c -- ^ signature
     -> NFTA c Int
@@ -15,3 +17,4 @@ complete cs =
 	       c <- setToList $ cs
 	       return ( 0, c, replicate (arity c) 0 )
 	 }
+

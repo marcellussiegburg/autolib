@@ -6,7 +6,7 @@ module NFTA.Insert
 
 where
 
-import NFTA
+import NFTA.Type
 import TES.Term
 
 import Data.List ( partition )

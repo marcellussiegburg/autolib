@@ -5,6 +5,7 @@ module TES.Data where
 
 import TES.Symbol
 import TES.Term
+import TES.Position (syms)
 import TES.Rule
 import TES.Identifier
 
