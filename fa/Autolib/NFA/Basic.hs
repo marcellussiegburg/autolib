@@ -49,7 +49,10 @@ word w =
 	}
 
 epsilon :: ( ToDoc [c] , NFAC c Int ) => NFA c Int
-epsilon  = ( word [] ) { nfa_info = text "Epsilon" }
+epsilon = ( word [] ) 
+     -- geht nicht mit hugs - Nov 2002
+     -- wahrscheinlich wg. polymorph. update?
+	   { nfa_info = text "Epsilon" }
 
 letter :: ( ToDoc [c],  NFAC c Int ) => c -> NFA c Int
 letter c = word [ c ]
