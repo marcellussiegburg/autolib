@@ -7,7 +7,7 @@ module Autolib.Reader.Basic
 , my_comma, my_semi, my_dot, my_star
 , my_reserved, my_equals
 , my_commaSep, my_semiSep
-, my_identifier
+, my_identifier, my_symbol
 , my_integer
 , my_stringLiteral
 , my_whiteSpace
@@ -61,6 +61,7 @@ my_reserved = reserved haskell
 my_commaSep = commaSep haskell
 my_semiSep = semiSep haskell
 my_identifier = identifier haskell
+my_symbol = symbol haskell
 my_stringLiteral = stringLiteral haskell
 my_integer = integer haskell
 my_whiteSpace = whiteSpace haskell
