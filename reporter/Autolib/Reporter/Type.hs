@@ -5,6 +5,7 @@ where
 -- $Id$
 
 import ToDoc
+import Maybe (isJust)
 
 import Right
 import Wrong
@@ -46,6 +47,10 @@ newline = inform ( text " " )
 reject :: Doc -> Reporter a
 reject doc = Reporter { result = Nothing,   kommentar = doc }
 
+silent :: Reporter a -> Reporter a
+silent r = r { kommentar = if isJust ( result r ) 
+			   then empty else kommentar r
+	     }
 
 reporter :: Reporter Int -> IO String
 reporter r = do
