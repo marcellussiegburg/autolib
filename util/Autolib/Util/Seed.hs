@@ -1,9 +1,13 @@
 module Util.Seed where
 
+-- $Id$
+
 import Random
 
 seed :: Int -> IO ()
 seed n = do
-     setStdGen $ mkStdGen n
+     let nn = read $ reverse $ show $ n :: Int
+     setStdGen $ mkStdGen nn
+
 
     
