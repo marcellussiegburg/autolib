@@ -146,6 +146,7 @@ import FiniteMap
 import Set
 import ToDoc -- wegen Show Set und Show FiniteMap - FIX!
 import System
+import Util.Datei (perm)
 
 import Char (showLitChar)
 
@@ -252,7 +253,8 @@ getGraphviz graph trans path = do
 	-- putStrLn $ "running command: " ++ show command
 
 	exitCode <- system command	
-	
+
+	perm "go+r" outFile	
 	return (outFile, (getGVFormat trans), exitCode)
 	
 -------------------------------------------------------------------------------
