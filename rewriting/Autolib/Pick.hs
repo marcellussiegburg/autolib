@@ -43,14 +43,25 @@ picks n (x : xs) = do
 
 -------------------------------------------------------------------------
 
--- | partitions  
--- @combine 4 = [[4], [3,1], [2,2], [2,1,1], [1,1,1,1]]@
-combine i = combi i i
+-- | representations as sum of nonincreasing list of summands
+-- @partitions 4 = [[4], [3,1], [2,2], [2,1,1], [1,1,1,1]]@
+partitions i = combi i i
 combi b 0 = return []
 combi b k | k > 0 = do
     x <- pick [ 1 .. min k b ]
     xs <- combi x (k - x)
     return $ x : xs
+
+-- | all representations as sums of positive summands
+unordered_partitions 0 = return []
+unordered_partitions b = do
+    x <- pick [ 1 .. b ]
+    xs <- unordered_partitions $ b - x
+    return $ x : xs
+
+-- | permutations
+permutations :: Pick p => [a] -> p [a]
+permutations xs = permute $ zip xs $ repeat 1
 
 -- | permutations, input has multiplicities
 permute :: Pick p => [(a, Int)] -> p [a]

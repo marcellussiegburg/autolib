@@ -169,7 +169,7 @@ distro :: Pick p
        -> p ( Int, [ Identifier ] )
 distro full (a, n) = do
     let ss = do i <- [ 0 .. ] ; return $ einmach a i
-    cs <- combine n
+    cs <- partitions n
     ps <- ( if full then permute else ordered_permute )
 	  $ zip ss cs
     return ( a, ps )        

@@ -8,6 +8,7 @@ import qualified Text.PrettyPrint.HughesPJ as Pretty
 
 data Output = Text String
 	    | Doc  Pretty.Doc
+	    | Pre  Pretty.Doc
 	    | Image FilePath -- source
 	    | Link FilePath 
 	    | Empty
@@ -21,6 +22,7 @@ class Render r where
 instance Render Pretty.Doc where
     render (Text t) = Pretty.text t
     render (Doc d)  = d
+    render (Pre d)  = d
 
     -- render (Image src) = Pretty.text $ "<img src=" ++ src ++ "/>"
     -- render (Link url) = Pretty.text $ "<a href=" ++ url ++ "/>"

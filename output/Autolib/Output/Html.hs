@@ -14,9 +14,9 @@ instance Render Html.Html where
 	Html.anchor ( Html.tt Html.<< ref ) Html.! [ Html.href ref ]
     render (Empty)  = Html.noHtml
 
-    render (Above x y) = {- Html.p -} ( render x :: Html.Html)
-			 Html.+++ 
-			 Html.p ( render y :: Html.Html )
+    render (Above x y) = ( render x :: Html.Html)
+			 Html.+++ -- Html.br Html.+++
+			 ( render y :: Html.Html )
     render (Itemize xs) = Html.ulist Html.<<
 		         do x <- xs ; return $ Html.li $ render x
     render (Nest x) = Html.blockquote $ render x
