@@ -1,0 +1,10 @@
+-- -*- mode: haskell -*-
+
+module Autolib.Local where
+
+dot :: FilePath
+dot = "@DOT@"
+
+neato :: FilePath
+neato = "@NEATO@"
+
