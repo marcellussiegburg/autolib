@@ -31,10 +31,10 @@ instance Eq Proof where
     p == q = value p == value q
 
 
-instance ToDoc Output where toDoc = Output.render
+instance ToDoc Output where toDoc = Autolib.Output.render
 instance ToDoc Doc where toDoc = id
 
 {-! for Proof derive : ToDoc !-}
 
-instance Show Proof where show = ToDoc.render . toDoc
+instance Show Proof where show = Autolib.ToDoc.render . toDoc
 

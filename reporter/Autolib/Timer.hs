@@ -1,4 +1,4 @@
-module Inter.Timer where
+module Autolib.Timer where
 
 --   $Id$
 
