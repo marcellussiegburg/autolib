@@ -1,4 +1,4 @@
--- -- $Id$
+--  $Id$
 
 module Util.Size where
 
@@ -15,3 +15,6 @@ instance Size (FiniteMap a b) where
 
 instance Size a => Size [a] where
     size = sum . map size
+
+instance Size Char where size = const 1
+instance Size Int  where size = const 1

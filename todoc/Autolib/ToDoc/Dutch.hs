@@ -22,7 +22,7 @@ dutch clip (op, sep, cl) ( x : xs ) =
 	    ]
 
 max_list_length = 50 :: Int
-max_string_length = 50 :: Int
+max_string_length = 70 :: Int
 
 dutch_record :: [ Doc ] -> Doc
 dutch_record = dutch max_list_length ( text "{", comma, text "}" )    
