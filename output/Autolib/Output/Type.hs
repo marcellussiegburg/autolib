@@ -1,8 +1,9 @@
+-- | hier stehen nur der Typ und die Pretty-Instanz
+
 module Autolib.Output.Type where
 
 --   $Id$
 
---| hier stehen nur der Typ und die Pretty-Instanz
 
 import qualified Text.PrettyPrint.HughesPJ as Pretty
 

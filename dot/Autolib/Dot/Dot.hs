@@ -29,6 +29,7 @@ data Layout_Program = Dot
 	     | Neato
      deriving ( Eq, Ord, Read, Show )
 
+progname :: Layout_Program -> String
 progname p = case p of
 	 Dot   -> Autolib.Local.dot
 	 Neato -> Autolib.Local.neato
@@ -73,6 +74,8 @@ meps, meng :: ToDot a => FilePath -> a -> IO FilePath
 meps = mot "-Tps" ".eps"
 meng = mot "-Tpng" ".png"
 
+-- | write command line to log file, then execute
+system' :: String -> IO ExitCode
 system' line = do
     Autolib.Debug.debug $ "system: " ++ line
     system line
@@ -89,7 +92,9 @@ mot opt ext fname a = do
 	   , dotfile , "-o", extfile ]
     system' $ unwords [ "rm" , dotfile ]
     return extfile
-    
+
+-- | render graphical representation
+-- (make dot file, render with neato\/dot, open ghostview)    
 display :: ToDot a => a -> IO ()
 display a = do
     n <- randomRIO (0,10000 :: Int)

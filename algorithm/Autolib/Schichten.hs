@@ -26,6 +26,11 @@ schichten' f xs = schichten_internal f emptySet xs
 {-# specialize schichten  :: (Int -> Set Int) -> Int -> [ Set Int ] #-}
 {-# specialize schichten' :: (Int -> Set Int) -> Set Int -> [ Set Int ] #-}
 
+schichten_internal :: Ord a 
+		   => (a -> Set a)
+		   -> Set a
+		   -> Set a
+		   -> [ Set a ]
 schichten_internal f schon jetzt =
     if isEmptySet jetzt 
     then [] 

@@ -18,6 +18,8 @@ hide f x = ( f x, Hide x )
 seek :: ( b, Hide a) -> a
 seek ( _, Hide x ) = x
 
+-- | merge sort
+sort :: Ord a => [a] -> [a]
 sort [] = []; sort [x] = [x]
 sort xs = let (pre, post) = halves xs in merge (sort pre) (sort post)
    where halves [] = ([], [])

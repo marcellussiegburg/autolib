@@ -21,6 +21,7 @@ data Virtualist v a = Virtualist
 		    }
     deriving ( Eq, Ord )
 
+virtualist :: v -> [a] -> Virtualist v a
 virtualist v xs = Virtualist { unVirtualist = xs, plug = v }
 
 instance Functor ( Virtualist v ) where
