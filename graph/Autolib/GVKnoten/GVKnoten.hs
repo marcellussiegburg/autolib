@@ -6,8 +6,8 @@ import GVKnoten.Type   -- Definition von GVKnoten
 import Graph.Graph     -- Definition von Graph
 import Graph.Viz       -- getGraphviz
 import FiniteMap       -- alle FM-Sachen
-import InstanzTrans    -- myTrans
-import Testgraph       -- test_graph_int, test_graph_str, test_graph_stt
+-- import InstanzTrans    -- myTrans
+-- import Testgraph       -- test_graph_int, test_graph_str, test_graph_stt
 import CPUTime
 
 main :: IO ()
@@ -16,6 +16,10 @@ main = do
 	case argv of
 		_        -> info
 
+
+test_graph_tre = undefined :: Graph Int
+myTrans = undefined
+
 test :: IO ()
 test = do
 	fm <- graph_to_FM_a_gvnode test_graph_tre
@@ -23,15 +27,15 @@ test = do
 
 -- Ziel:     Graph a -> IO ( FiniteMap a GVKnoten )
 -- Problem:  xs = <unendliche Liste fehlt>::[a] 
-graph_to_FM_a_gvnode :: (ShowText a) 
-							=> Graph a -> IO ( FiniteMap Int GVKnoten )
+graph_to_FM_a_gvnode :: (ShowText a, Ord a) 
+		=> Graph a -> IO ( FiniteMap a GVKnoten )
 graph_to_FM_a_gvnode graph = do
 	let 
 			file    = "022"
 			inFile  = file ++ ".dot"
 			outFile = file ++ ".tmp"
 			command = "dot" ++ " -o " ++ outFile ++ " " ++ inFile
- 			-- xs      = [1..]::[a]
+ 			xs      = setToList $ knoten graph
  	( _ , _ , exitCode ) <- getGraphviz ( graph ) myTrans file
 	if exitCode == ExitSuccess
 		then do
@@ -39,7 +43,7 @@ graph_to_FM_a_gvnode graph = do
 			parsed_things <- parse outFile
 			system ("rm " ++ file ++ ".tmp")
 			system ("rm " ++ file ++ ".dot")
-			return ( listToFM $ zip [1..] parsed_things )
+			return ( listToFM $ zip xs $ parsed_things )
 		else error "Problem mit dem Graph-Viz"
 
 showFiniteMap :: (Show a, Show b) => FiniteMap a b -> String 
