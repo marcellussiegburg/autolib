@@ -79,24 +79,25 @@ work = do
 	    return $ xs ++ zs
 
 burn :: ( ReactorC w a t )
-	=> ( a -> Maybe w )   -- weight (prefer smaller weights, remove Noth)
-	-> ( a ->  t ) -- tagging
-	-> ( a -> a -> [a] ) -- next generation
-	-> [ a ] -- initial elements
-	-> [ a ] -- generated
-burn w t o s = evalState work 
-	$ Reactor { weight = w, op = o, start = s, tag = t
+	=> ( a -> Maybe w )   -- ^ weight (prefer smaller weights, remove Noth)
+	-> ( a ->  t ) -- ^ tagging
+	-> ( a -> a -> [a] ) -- ^ next generation
+	-> [ a ] -- ^ initial elements
+	-> [ a ] -- ^ generated
+burn w t o s = s ++ evalState work 
+	( Reactor { weight = w, op = o, start = s, tag = t
 		  , done = emptySet , tags = emptySet
 		  , todo = mkSet $ do x <- s ; return ( w x, x )
 		  }
+	)
 
 -------------------------------------------------------------------------
 
 reactor :: ( Ord a, Ord b )
-	=> ( a -> Maybe b )   -- weight (prefer smaller weights, remove Noth)
-	-> ( a -> a -> [a] ) -- next generation
-	-> [ a ] -- initial elements
-	-> [ a ] -- generated
+	=> ( a -> Maybe b )   -- ^ weight (prefer smaller weights, remove Noth)
+	-> ( a -> a -> [a] ) -- ^ next generation
+	-> [ a ] -- ^ initial elements
+	-> [ a ] -- ^ generated
 reactor weight op start = start ++
         handle ( mkSet $ annotate start ) ( annotate start )
     where annotate xs = do x <- xs ; return ( weight x, x )

@@ -29,13 +29,24 @@ import Letters
 
 data RS t  = RS
 	 { annotations :: [ Sexp ]
-	 , theory    :: Maybe Sexp
-	 , strategy  :: Maybe Sexp
+	 , theory    :: Maybe [ Sexp ]
+	 , strategy  :: Maybe [ Sexp ]
+
 --	 , variables :: Set v -- ^ nullary symbols
 --	 , signature :: Set c -- ^ all symbols (not including variables, I hope)
 	 , separate :: Bool
 	 , rules :: [ ( t, t ) ]
 	 }
+
+from_rules :: Bool -> [ ( t,t ) ] -> RS t
+from_rules sep rs = RS { annotations = []
+		   , theory = Nothing
+		   , strategy = Nothing
+		   , separate = sep
+		   , rules = rs
+		   }
+
+from_srs = from_rules True
 
 type TRS v c = RS ( Term v c )
 
@@ -63,8 +74,12 @@ rhss trs = do (l,r) <- rules trs ; return r
 instance ( ToDoc (t, t), Show (t, t) ) 
 	 => ToDoc ( RS t ) where
     toDoc t = vcat [ vcat $ map toDoc $ annotations t 
-		   , case theory t of Just x -> toDoc x ; Nothing -> empty
-		   , case strategy t of Just x -> toDoc x ; Nothing -> empty
+		   , case theory t of 
+			  Just x -> toDoc $ List $ Leaf "THEORY"   :  x 
+			  Nothing -> empty
+		   , case strategy t of 
+		          Just x -> toDoc $ List $ Leaf "STRATEGY" :  x 
+			  Nothing -> empty
 		   -- , toDoc ( wrap "VAR" $ setToList $ variables t )
 		   , toDoc $ ( if separate t then wrap_sep "," else wrap )
                              "RULES" $ rules t 
@@ -113,6 +128,14 @@ line = TES.Parsec.parens TES.Parsec.trs $  do
 	  "RULES" -> do
 	      rs <- many reader
 	      return $ \ t -> t { rules = rules t ++ rs }
+	  "THEORY" -> do
+              args <- many reader
+	      return $ \ t -> t { theory   = Just args
+				}
+	  "STRATEGY" -> do
+              args <- many reader
+	      return $ \ t -> t { strategy = Just args
+				}
 	  _ -> do
               args <- many reader
 	      return $ \ t -> t { annotations = annotations t 
