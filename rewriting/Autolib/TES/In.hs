@@ -1,3 +1,9 @@
+-- | Term parsing
+-- implementation is a bit complicated
+-- because the module should account for
+-- both prefix and infix function symbols
+-- and some of them may be user-defined.
+
 module TES.In where
 
 --  $Id$
@@ -19,17 +25,53 @@ import Data.Maybe
 import Data.List ( partition )
 import Control.Monad ( mzero, guard )
 
+data Config c = Config
+	      { reserved_symbols :: [ c ]
+	      , allow_new_symbols :: Bool
+  -- ^ if False:
+  -- no user-defined function symbols of @arity > 0@,
+  -- user-def. symbols of @arity == 0@ are parsed as variables
+  --
+  -- if True:
+  -- user-defined function symbols (any @arity >= 0@) are allowed
+  -- this implies that there will be no @Var v@ nodes in the parse tree
+	      }
+    deriving ( Show, Read )
+
 treader :: ( Symbol c, Reader v )
-	    => [c] -- ^ predefined symbols (with precedences)
-	    -> Bool -- ^ True : parse unknown as symbol
-		    --  False : parse unknown as variable 
+	    => Config c
 	    -> Parser ( Term v c )
-treader ops flag = do
-    buildExpressionParser (operators ops) (atomic ops flag)
+treader conf = do
+    buildExpressionParser (operator_table conf) (atomic conf)
 
+operator_table :: ( Symbol c , Reader v )
+	  => Config c
+	  -> OperatorTable Char () ( Term v c )
+operator_table conf  =
+    do let tp = token_parser conf
+       ops <- reverse $ collectBy precedence 
+		      $ filter is_operator
+		      $ reserved_symbols conf
+       return $ do op <- ops 
+		   case arity op of
+		       1 -> return $ Prefix ( do 
+				     reservedOp tp (show op)
+				     return $ \ x -> Node op [x] )
+		       2 -> return $ Infix ( do 
+				     reservedOp tp (show op)
+				     return $ \ x y -> Node op [x,y] ) 
+				  ( assoc op )
+		       _ -> [] -- ignore others (dangerous?)
 
-tafel ops = 
-       let ( nulls, sonst ) =  partition ( \ op -> 0 == arity op ) ops
+collectBy :: Ord b => (a -> b) -> [a] -> [[a]]
+-- from lowest to highest
+collectBy f xs = 
+    eltsFM $ addListToFM_C (++) emptyFM $ do
+        x <- xs ; return (f x, [x])
+
+token_parser conf = 
+       let ( nulls, sonst ) = partition is_constant
+			    $ reserved_symbols conf
        in makeTokenParser $ emptyDef
 		   { commentLine = "" 
 		   , commentStart = ""
@@ -38,36 +80,11 @@ tafel ops =
 		   , reservedOpNames = map show sonst
 		   }
 
-operators :: ( Symbol c , Reader v )
-	  => [c]
-	  -> OperatorTable Char () ( Term v c )
-operators opps  =
-    do ops <- reverse $ collectBy precedence 
-		      $ filter ( isJust  . precedence )
-		      $ opps
-       return $ do op <- ops 
-		   case arity op of
-		       1 -> return $ Prefix ( do 
-				     reservedOp (tafel opps) (show op)
-				     return $ \ x -> Node op [x] )
-		       2 -> return $ Infix ( do 
-				     reservedOp (tafel opps) (show op)
-				     return $ \ x y -> Node op [x,y] ) 
-				  ( assoc op )
-		       _ -> []
-
-collectBy :: Ord b => (a -> b) -> [a] -> [[a]]
--- from lowest to highest
-collectBy f xs = 
-    eltsFM $ addListToFM_C (++) emptyFM $ do
-        x <- xs ; return (f x, [x])
-
 atomic :: ( Symbol c, Reader v )
-       => [ c ]
-       -> Bool
+       => Config c
        -> Parser (Term v c)
-atomic ops flag = 
-      TES.Parsec.parens trs ( treader ops flag )
+atomic conf = 
+      TES.Parsec.parens (token_parser conf) (treader conf)
 {-
   <|> do
         t <- readerPrec 0 -- symbol (not infix!)
@@ -82,9 +99,9 @@ atomic ops flag =
 			     False -> mzero
 	     Just xs -> return $ Node ( set_arity (length xs) t ) xs
 -}
-  <|> choice ( do op <- ops
-	          guard $ arity op == 0
-	          return $ do reserved (tafel ops) (show op)
+  <|> choice ( do op <- reserved_symbols conf
+	          guard $ is_constant op
+	          return $ do reserved (token_parser conf) (show op)
 	                      return $ Node op []
 	     )
 
@@ -93,7 +110,9 @@ atomic ops flag =
 	 return $ Var v
 
 instance Reader (Term Identifier Identifier ) where
-    readerPrec p =  treader [] True
+    readerPrec p =  treader $ Config { reserved_symbols = [] 
+				     , allow_new_symbols = True
+				     }
 
 instance Read (Term Identifier Identifier) where
     readsPrec = parsec_readsPrec
