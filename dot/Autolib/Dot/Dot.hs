@@ -49,7 +49,9 @@ display a = do
     writeFile dotfile $ show $ toDot $ a
     let p = toDotProgram a
     system $ unwords 
-	   [ p , "-Tps" , "-Grankdir=LR", dotfile , "-o", epsfile ]
+	   [ p , "-Tps" 
+	   -- , "-Grankdir=LR"
+	   , dotfile , "-o", epsfile ]
     system $ unwords [ "rm" , dotfile ]
     system $ unwords
 	   [ "gv" , epsfile ]
