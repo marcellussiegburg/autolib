@@ -3,6 +3,8 @@
 -- autor Georg Martius
 -- mai99dgf@studserv.uni-leipzig.de
 
+-- geänderte ToDoc/Show-Instanzen joe@informatik.uni-leipzig.de
+
 
 module Graph.Type (
       module Graph.Graph
@@ -39,11 +41,15 @@ instance (ToDoc a, ToDoc (Set a)) => ToDoc (Graph a) where
       ])
       
 instance ToDoc a => ToDoc (Kante a) where
+{-
     toDoc k = text "Kante" <+> braces ( 
       fsep $ punctuate comma
       [ text "von" <+> equals <+> toDoc (von k)
       , text "nach" <+> equals <+> toDoc (nach k)
       ])
+-}
+    toDoc k = text "kante" <+> toDoc (von k) <+> toDoc (nach k)
+
 
 instance ToDoc (Graph a) => Show (Graph a) where
 {-    showsPrec p g = showString $ unlines 
