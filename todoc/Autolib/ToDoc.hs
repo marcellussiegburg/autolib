@@ -57,11 +57,14 @@ instance (ToDoc a, ToDoc b, ToDoc c) => ToDoc (a, b, c) where
 	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z]
 
 instance ToDoc a => ToDoc [a] where
-    toDocPrec p xs = 
+    toDocPrec p xs = dutch (text "[", comma, text "]") $ map toDoc xs
+
+{-
         let (kurz, lang) = splitAt max_list_length xs
 	    kdocs = map (toDocPrec 0) kurz
 	    alles = kdocs ++  [ text "..." |  not $ null lang ]
 	in  brackets $ fsep $ punctuate comma $ alles
+-}
 
 instance (ToDoc a, ToDoc b) => ToDoc (Either a b) where
     toDocPrec p (Left  x) = docParen (p >= fcp) $ text "Left " <+> toDocPrec fcp x
@@ -101,6 +104,21 @@ instance ToDoc a => ToDoc (Maybe a) where
     -- vorsicht, da fehlen eventuell klammern (now fixed)
     toDocPrec p ( Just x ) = docParen (p >= fcp) $ text "Just" <+> toDocPrec fcp x
 
+--------------------------------------------------------------------------
 
+-- dutch style
+
+dutch :: (Doc, Doc, Doc) -> [ Doc ] -> Doc
+dutch (op, sep, cl) [] = op <+> cl
+dutch (op, sep, cl) ( x : xs ) = 
+    let ( kurz, lang ) = splitAt max_list_length xs
+	over = if null lang then empty else sep <+> text "..."
+    in  cat [ op  <+> x
+	    , cat $ do y <- kurz ; return $ sep <+> y
+	    , over
+	    , cl
+	    ]
+
+    
 
 
