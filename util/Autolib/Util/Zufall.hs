@@ -1,4 +1,6 @@
-module Util.Zufall where
+module Util.Zufall 
+
+where
 
 -- $Id$
 
@@ -8,6 +10,11 @@ entweder :: IO a -> IO a -> IO a
 entweder x y = do
     f <- randomRIO (False, True)
     if f then x else y
+
+entweders :: [ IO a ] -> IO a
+entweders acts = do
+    act <- eins acts
+    act
 
 eins :: [a] -> IO a
 eins xs =  do
