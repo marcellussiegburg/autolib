@@ -10,9 +10,6 @@ import qualified Pretty
 
 import Maybe (isJust, fromMaybe)
 
--- import Right
--- import Wrong
-
 data Reporter a = 
      Reporter { result :: Maybe a 
 	      , kommentar :: Output
@@ -59,9 +56,23 @@ instance Monad Reporter where
 
     fail msg = reject $ Pretty.text $ "*** fail: " ++ msg
 
+
 output :: Output -> Reporter ()
-output o = Reporter { result = Just () , action = return () , kommentar = o }
+output o = Reporter 
+	 { result = Just () 
+	 , action = return () 
+	 , kommentar = o 
+	 }
     
+reject :: Pretty.Doc -> Reporter a
+reject d = Reporter 
+	 { result = Nothing
+	 , action = return ()
+	 , kommentar = Doc d 
+	 }
+
+--------------------------------------------------------------------------
+
 inform :: Pretty.Doc -> Reporter ()
 inform = output . Doc
 
@@ -70,9 +81,6 @@ newline = inform ( Pretty.text " " )
 
 nested :: Int -> Reporter a -> Reporter a
 nested d r = r { kommentar = Nest $ kommentar r }
-
-reject :: Pretty.Doc -> Reporter a
-reject d = Reporter { result = Nothing, action = return (),  kommentar = Doc d }
 
 repo :: Reporter a -> Pretty.Doc
 repo = Output.render .  kommentar
