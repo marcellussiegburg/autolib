@@ -22,12 +22,26 @@ kommentiere doc r = r { kommentar = doc $$ kommentar r }
 
 instance Monad Reporter where
     return x = Reporter { result = return x , kommentar = empty }
-    m >>= f  = kommentiere ( kommentar m ) $ case result m of
-	         Just x  -> f x
-		 Nothing -> Reporter { result = Nothing, kommentar = empty }
+
+    -- ein bißchen um die ecke programmiert,
+    -- damit die zusammensetzung der dokumente lazy ist
+    -- d. h. wir wollen die texte so früh wie möglich sehen,
+    -- unabhängig vom fortgang der rechnung
+    m >>= f  = 
+        let k = kommentar m
+	    x = do r <- result m ; return $ f r
+	    l = ( case x of Nothing -> empty ; Just n -> kommentar n ) :: Doc
+	in  Reporter { kommentar = k $$ l
+		     , result = do r <- x ; result r
+		     }
+
     
 inform :: Doc -> Reporter ()
 inform doc = Reporter { result = Just () , kommentar = doc }
+
+newline :: Reporter ()
+newline = inform ( text " " )
+
 
 reject :: Doc -> Reporter a
 reject doc = Reporter { result = Nothing,   kommentar = doc }
