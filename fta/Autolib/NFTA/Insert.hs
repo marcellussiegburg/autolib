@@ -85,9 +85,10 @@ ins :: NFTAC c s
 ins gen pick (p, Node c args ) = do
     qs  <- mapM ( \ arg -> case arg of
 			 Var v -> return v
-			 _     -> do n <- gen c
-                                     add_state n
-				     ins gen pick (n, arg)
+			 Node c' _ -> do 
+			      n <- gen c'
+                              add_state n
+			      ins gen pick (n, arg)
 		 ) args
     add_trans ( p, pick c, qs )
     return p
