@@ -9,6 +9,7 @@ import Reporter
 import ToDoc
 import Data.FiniteMap
 
+
 -- |  check if term is linear
 -- if not: fail, if yes: return ()
 is_linear_term :: TRSC v c

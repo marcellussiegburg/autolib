@@ -1,7 +1,8 @@
-module TES.Data where
 
--- implements term rewriting systems
+-- | implements term rewriting systems
 -- as represented in the .tes-format
+
+module TES.Data where
 
 import TES.Symbol
 import TES.Term
@@ -19,8 +20,8 @@ import TES.Parsec
 
 data TRS v c  = TRS
 	 { comment :: String
-	 , variables :: Set v -- nullary symbols
-	 , signature :: Set c -- all symbols
+	 , variables :: Set v -- ^ nullary symbols
+	 , signature :: Set c -- ^ all symbols (not including variables, I hope)
 	 , rules :: [ Rule v c ]
 	 }
 
