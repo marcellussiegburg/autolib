@@ -46,21 +46,21 @@ instance ToDoc Char where toDocPrec p = text . show
 instance ToDoc () where toDocPrec p = text . show
 
 instance (ToDoc a, ToDoc b) => ToDoc (a, b) where
-    toDocPrec p (x,y) = dutch_record
+    toDocPrec p (x,y) = dutch_tuple
 	      $ [ toDocPrec 0 x, toDocPrec 0 y ]
 
 instance (ToDoc a, ToDoc b, ToDoc c) => ToDoc (a, b, c) where
-    toDocPrec p (x,y,z) = dutch_record
+    toDocPrec p (x,y,z) = dutch_tuple
 	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z]
 
 instance (ToDoc a, ToDoc b, ToDoc c, ToDoc d) => ToDoc (a, b, c, d) where
-    toDocPrec p (x,y,z,q) = dutch_record
+    toDocPrec p (x,y,z,q) = dutch_tuple
 	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z, toDocPrec 0 q]
 
 -- brauchen wir tatsächlich, für SQLqueries
 instance (ToDoc a, ToDoc b, ToDoc c, ToDoc d, ToDoc e) 
     => ToDoc (a, b, c, d, e) where
-    toDocPrec p (x,y,z,q,r) = dutch_record
+    toDocPrec p (x,y,z,q,r) = dutch_tuple
 	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z
 		, toDocPrec 0 q, toDocPrec 0 r
 		]

@@ -17,3 +17,4 @@ uniqs xs = helper emptySet xs where
 	   if elementOf x done
 	   then helper done xs
 	   else x : helper ( addToSet done x ) xs
+
