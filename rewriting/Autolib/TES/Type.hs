@@ -23,6 +23,7 @@ import Autolib.Reader
 import Autolib.Hash
 
 
+
 class ( Hash v,  Show v, Show c
       , Ord v, ToDoc v, ToDoc [v]
       , Reader v

@@ -42,16 +42,21 @@ data RS c t  = RS
     deriving ( Eq, Ord )
 
 
-from_rules :: Bool -> [ ( t,t ) ] -> RS c t
+from_rules :: Letters [(t,t)] c
+	   => Bool -> [ ( t,t ) ] -> RS c t
 from_rules sep rs = RS { annotations = []
 		   , theory = Nothing
 		   , strategy = Nothing
-		   , signature = error "TES.Data.from_rules"
+		   , signature = letters rs
 		   , separate = sep
 		   , rules = rs
 		   }
 
+from_srs :: Letters [(t,t)] c
+	   => [ ( t,t ) ] -> RS c t
 from_srs = from_rules True
+
+
 
 type TRS v c = RS c ( Term v c )
 

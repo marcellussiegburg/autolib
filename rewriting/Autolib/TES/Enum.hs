@@ -2,6 +2,8 @@
 -- ideally, complete enumeration
 -- and random generation should share almost all code
 
+-- TODO: move class Pick into separate module
+
 module Autolib.TES.Enum where
 
 import Autolib.TES.Term
@@ -96,7 +98,7 @@ instance ( Symbol c , Choose a (Term Identifier c) )
 	r <- choose conf sr
         insert_variable ( mknullary "x" ) ( l, r )
 
-insert_variable :: Pick p 
+insert_variable :: ( Ord c , Pick p )
 		=> Identifier 
 	        -> ( Term Identifier c, Term Identifier c )
 		-> p ( RS c (Term Identifier c))
