@@ -89,7 +89,8 @@ full_hull op base = help (mkSet base) base where
 ocs :: TRSC v c
     => TRS v c 
     -> [ Rule Int c ]
-ocs trs = full_hull combine
+ocs trs = -- full_hull combine
+          single_hull combine
 	$ map normalize
 	$ rules trs 
 
