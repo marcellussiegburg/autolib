@@ -1,17 +1,9 @@
--- $Header$
+module Size 
 
-module Size where
+-- veraltet
+-- $Id$
 
-import Set
-import FiniteMap
+( module Util.Size )
 
-class Size a where size :: a -> Int
 
-instance Size (Set a) where 
-    size = cardinality
-
-instance Size b => Size (FiniteMap a b) where
-    size = sum . map size . eltsFM 
-
-instance Size a => Size [a] where
-    size = sum . map size
+where import Util.Size
