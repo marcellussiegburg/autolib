@@ -24,6 +24,11 @@ eins xs =  do
 einige :: Int -> [a] -> IO [a]
 einige n xs = sequence $ replicate n $ eins xs
 
+genau :: Eq a => Int -> [a] -> IO [a]
+genau 0 _ = return []
+genau n xs = do x <- eins xs
+		ys <- genau (pred n) $ filter (/=x) xs
+		return $ x : ys
 
 repeat_until :: IO a -> (a -> Bool) -> IO a
 repeat_until act p = 
