@@ -143,7 +143,7 @@ module Graph.Viz
 
 import Graph.Graph
 import FiniteMap
-import Set
+import Sets
 import ToDoc -- wegen Show Set und Show FiniteMap - FIX!
 import System
 
@@ -194,6 +194,8 @@ data GVEdge = GVEdge
 	, labelGVE :: Maybe GVLabel
 	, xattsGVE :: Maybe GVXAtts
 	} deriving (Show, Eq, Ord)
+
+instance ToDoc GVEdge where toDoc = text . show
 	
 instance Show GVProg where
 	show Default = "dot" 

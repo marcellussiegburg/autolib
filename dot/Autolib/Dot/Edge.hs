@@ -1,5 +1,7 @@
 module Dot.Edge where
 
+-- $Id$
+
 -- implement only those attribs that would be needed
 -- for drawing finite automata (= directed edge-labelled graphs)
 

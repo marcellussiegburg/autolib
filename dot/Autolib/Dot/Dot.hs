@@ -50,7 +50,7 @@ display a = do
     let p = toDotProgram a
     system $ unwords 
 	   [ p , "-Tps" 
-	   -- , "-Grankdir=LR"
+	   , "-Grankdir=LR"
 	   , dotfile , "-o", epsfile ]
     system $ unwords [ "rm" , dotfile ]
     system $ unwords

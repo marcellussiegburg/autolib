@@ -23,6 +23,10 @@ import qualified Exp.Env as E
 import Normalize
 import Minimize
 
+import qualified Det
+import qualified Trim
+import qualified Mirror
+
 import qualified Basic
 
 import ToDoc ( toDoc )

@@ -68,7 +68,7 @@ compact a xss =
 	     x <- setToList xs
 	     return ( x, xs )
         fun = fromMaybe (error "NFA.Equiv.compact") . lookupFM fm
-    in  amap fun a
+    in  aumap fun a
 
 ----------------------------------------------------------------------
 
