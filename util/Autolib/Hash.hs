@@ -16,7 +16,7 @@ instance Hash () where
 
 instance (Hash a, Hash b) => Hash (a, b) where
     -- not recommended (should be cached instead)
-    hash (a, b) = hash a + 3 + 107 * hash b
+    hash (a, b) = hash a + 30007 + 10007 * hash b
 
 instance (Hash a, Hash b, Hash c) => Hash (a, b, c) where
     -- not recommended (should be cached instead)
