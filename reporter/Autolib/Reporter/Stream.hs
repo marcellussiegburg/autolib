@@ -83,11 +83,16 @@ nicht doc x = x { continue = case continue x of
     Next n -> Next $ nicht doc $ n
    }
 
--- | if argument computation stops, then report True anyway
--- fixme: --factors and not success interact badly
+-- | report True in case of success
+-- and False (not Fail) in case of failure
 erfolg :: Doc -> Type -> Type
 erfolg doc x = x { continue = case continue x of
-    Fail msg -> Fail msg
+    Fail msg -> Result $ Proof 
+		{ value = False
+		, formula = doc
+		, reason = msg
+		, history = [] 
+		}
     Result p -> Result $ Proof 
 		{ value = True
 		, formula = doc
