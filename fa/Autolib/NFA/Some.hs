@@ -21,7 +21,7 @@ some alpha s = do
 		  q <- eins ss
 		  c <- eins $ setToList alpha
 		  return (p, c, q)
-    let a = NFA { info = funni "some" [ toDoc alpha , toDoc s ]
+    let a = NFA { nfa_info = funni "some" [ toDoc alpha , toDoc s ]
 		 , states = mkSet ss
 		 , starts = unitSet st
 		 , finals = unitSet fi
