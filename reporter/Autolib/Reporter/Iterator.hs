@@ -1,33 +1,32 @@
 module Reporter.Iterator where
 
--- -- $Id$
+--  $Id$
 
 import Reporter.Type
 import ToDoc
 import Informed
 
--- zustandstyp s
--- jeweils ein rechenschritt
-
+-- | for stepwise computations
+-- s is state type
 data Iterator a = forall s . 
-     Iterator Doc
-	      ( s -> Reporter (Either s a) ) -- stepper
-            s
+     Iterator Doc -- ^ description
+              ( Reporter s ) -- ^ produce initial state
+	      ( s -> Reporter (Either s a) ) -- ^ stepper
 
 instance Informed ( Iterator a ) where
-    info ( Iterator doc step start ) = doc
+    info ( Iterator doc start step ) = doc
 
 
 instance Functor Iterator where
-    fmap f ( Iterator doc step start ) 
+    fmap f ( Iterator doc start step  ) 
        = Iterator ( funni "fmap <function>" [ doc ] )
+	       ( start )
                ( \ s -> do
 		     n <- step s
 		     case n of
 		          Left s' -> return $ Left s'
 		          Right x -> return $ Right $ f x
                )
-	       ( start )
 
 
 

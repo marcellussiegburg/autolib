@@ -26,6 +26,8 @@ data Term v c = Node c [ Term v c ]
 	      | Var v
      deriving ( Eq, Ord )
 
+top :: Term v c -> c
+top (Node c args ) = c 
 
 class ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) => TRSC v c -- no methods
 instance ( Show v, Show c, Ord v, ToDoc v, ToDoc [v], Symbol c ) => TRSC v c 
@@ -86,3 +88,4 @@ apply :: Ord v
       -> Term u c
 apply fm ( Var v ) = lookupWithDefaultFM fm (error "TES.Term.apply") v
 apply fm ( Node c args ) = Node c $ map ( apply fm ) args
+

@@ -13,4 +13,5 @@ alphamap f a =
 	 , finals = finals a
 	 , trans = smap ( \ (ps, c, q) -> (ps, f c, q) ) 
 	 	$ trans a
+	 , eps   = eps a
 	 }

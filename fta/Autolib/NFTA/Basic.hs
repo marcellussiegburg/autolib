@@ -16,5 +16,6 @@ complete cs =
 	 , trans  = mkSet $ do
 	       c <- setToList $ cs
 	       return ( 0, c, replicate (arity c) 0 )
+	 , eps    = mkSet []
 	 }
 

@@ -1,13 +1,13 @@
 module Reporter.Parallel where
 
--- -- $Id$
+--  $Id$
 
 import Reporter.Type
 import Reporter.Iterator
 import ToDoc
 
 
--- execute several reporters in parallel
+-- | execute several reporters in parallel
 -- the first with a result stops all others
 parallel :: [ Iterator a ]
 	 -> Reporter (Maybe a)
@@ -15,7 +15,8 @@ parallel [] = do
     inform $ text "empty iterator list"
     return Nothing
 
-parallel (it @ ( Iterator name fun state )  : its) = do
+parallel (it @ ( Iterator name prod fun )  : its) = do
+    state <- prod
     inform $ text "execute one step of iterator" $$ nest 4 name
     res  <- nested 8 $ wrap $ fun state
     case res of
@@ -24,7 +25,7 @@ parallel (it @ ( Iterator name fun state )  : its) = do
              parallel its
          Just ( Left next ) -> do
 	     inform $ text "keeping iterator" $$ nest 4 name
-	     parallel $ its ++ [ Iterator name fun next ]
+	     parallel $ its ++ [ Iterator name ( return next ) fun ]
          Just ( Right result) -> do
 	     inform $ text "stopping all iterators"
 	     return $ Just result

@@ -53,8 +53,9 @@ exec x = do
 
 make :: Iterator ( Bool, String ) -> Type
 -- the stream of outputs of the iterator (lazily)
-make ( Iterator doc step start ) =
+make ( Iterator doc prod step ) =
     let rep = do
+	    start <- prod
             inform $ text "execute one step for iterator" <+> doc
             res <- nested 4 $ step start
             inform $ text "... one step for iterator" <+> doc
@@ -65,7 +66,7 @@ make ( Iterator doc step start ) =
 	           Nothing -> Fail $ "failed: " ++ ToDoc.render doc 
 		   Just x -> case x of
 		       Left state -> Next $ make
-	                                  $ Iterator doc step state
+	                                  $ Iterator doc (return state) step 
 		       Right a -> Result a
 	     }
 
