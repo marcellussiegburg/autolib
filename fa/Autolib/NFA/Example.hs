@@ -3,10 +3,12 @@ module NFA.Example where
 -- $Id$
 
 import NFA
+import ToDoc
 
 example :: NFA Char Int
 example = NFA 
-    { states = mkSet [ 1, 2, 3]
+    { nfa_info = text "example"
+    , states = mkSet [ 1, 2, 3]
     , starts = mkSet [ 2]
     , finals = mkSet [ 2]
     , trans = listToFM [ ((1, 'a'), mkSet [ 2])

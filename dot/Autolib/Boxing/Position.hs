@@ -38,6 +38,9 @@ instance Num Position where
     d @ Position { width = f, height = 0 } * e 
           = Position { width = width e * f, height = height e * f }
 
+    signum = error "instance Num Position: signum method missing"
+    abs    = error "instance Num Position: abs    method missing"
+
 instance Fractional Position where
     -- damit wir 0.5 * p schreiben können
     fromRational r = Position { width = fromRational r, height = 0 }
