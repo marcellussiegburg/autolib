@@ -4,33 +4,42 @@ module Reporter.Boolean.Data where
 
 import Char
 
--- | warning: the ordering here determines the precedence in parsing
-data Oper = First | Or | And 
+-- | unary operator
+data Up = Not | Success
      deriving ( Eq, Ord, Show, Enum, Bounded )
 
-name :: Oper -> String
-name = map toLower . show
+uname :: Up -> String
+uname = map toLower . show
+
+-- | binary operator
+-- warning: the ordering here determines the precedence in parsing
+data Bop = Par | Or | And 
+     deriving ( Eq, Ord, Show, Enum, Bounded )
+
+bname :: Bop -> String
+bname = map toLower . show
 
 
-data Boolean i = Not ( Boolean i )
-              | Fun Oper [ Boolean i ]
+
+data Boolean i = Uf Up ( Boolean i )
+              | Bof Bop [ Boolean i ]
 	      | Atomic i
 
 instance Functor Boolean where
     fmap f (Atomic x) = Atomic (f x)
-    fmap f (Not x) = Not (fmap f x)
-    fmap f (Fun op xs) = Fun op $ map (fmap f) xs
+    fmap f (Uf up x) = Uf up (fmap f x)
+    fmap f (Bof bop xs) = Bof bop $ map (fmap f) xs
 
 -- | compute flat normal form
-bin :: Oper -> Boolean i -> Boolean i -> Boolean i 
-bin op x @ (Fun fx xs) y @ (Fun fy ys) 
-    | op == fx && fx == fy  = Fun op $ xs ++ ys
-bin op x @ (Fun fx xs) y 
-    | op == fx              = Fun op $ xs ++ [y] 
-bin op x y @ (Fun fy ys) 
-    | op == fy		    = Fun op $ [x] ++ ys
+bin :: Bop -> Boolean i -> Boolean i -> Boolean i 
+bin op x @ (Bof fx xs) y @ (Bof fy ys) 
+    | op == fx && fx == fy  = Bof op $ xs ++ ys
+bin op x @ (Bof fx xs) y 
+    | op == fx              = Bof op $ xs ++ [y] 
+bin op x y @ (Bof fy ys) 
+    | op == fy		    = Bof op $ [x] ++ ys
 bin op x y 
-    | otherwise             = Fun op [ x, y ]
+    | otherwise             = Bof op [ x, y ]
 
 
 

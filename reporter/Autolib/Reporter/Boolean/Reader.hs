@@ -12,18 +12,27 @@ instance Reader i => Read (Boolean i) where readsPrec = parsec_readsPrec
 
 expression :: Reader i 
 	   => Parser ( Boolean i )
-expression = buildExpressionParser operators atomic
+expression = buildExpressionParser binary_operators atomic
 
 atomic :: Reader i
        => Parser ( Boolean i )
 atomic =   my_parens expression
-       <|> do my_reserved "not" ; a <- atomic ; return $ Not a
+       <|> do unary_operators 
        <|> do a <- reader ; return $ Atomic a
        <?> "atomic expression"
 
-operators = do
-    op <- reverse [ minBound .. maxBound ] -- largest predecence first
-    return [ Infix ( do { my_reserved $ name op ; return $ bin op }
+unary_operators :: Reader i
+		=> Parser ( Boolean i )
+unary_operators = foldr1 (<|>) $ do
+    up <- reverse [ minBound .. maxBound ] -- precedence doesn't matter
+    return $ do
+	 my_reserved $ uname up
+	 arg <- atomic
+	 return $ Uf up arg
+
+binary_operators = do
+    bop <- reverse [ minBound .. maxBound ] -- largest predecence first
+    return [ Infix ( do { my_reserved $ bname bop ; return $ bin bop }
                  <?> "operator" ) AssocLeft
 	   ]
     

@@ -14,10 +14,13 @@ import ToDoc
 build :: Boolean ( Iterator Proof )
      -> Reporter.Stream.Type
 build f @ ( Atomic i ) = make ( toDoc f ) i
-build f @ ( Not x ) = nicht ( toDoc f ) $ build x
-build f @ ( Fun op xs ) = 
+build f @ ( Uf up x ) = 
+    let fun = case up of 
+	    Not -> nicht ; Success -> erfolg
+    in  fun ( toDoc f ) $ build x
+build f @ ( Bof op xs ) = 
     let fun = case op of 
-	    And -> und ; Or -> oder ; First -> erster
+	    And -> und ; Or -> oder ; Par -> erster
     in  fun ( toDoc f ) $ map build xs
 
 eval :: Boolean ( Iterator Proof )

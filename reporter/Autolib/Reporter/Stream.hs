@@ -3,7 +3,7 @@ module Reporter.Stream
 ( Type
 , make
 , exec
-, nicht, und, oder, erster
+, nicht, erfolg, und, oder, erster
 , module Output
 , module Reporter.Proof
 )
@@ -69,7 +69,8 @@ make d ( Iterator doc prod step ) =
 		       Right a -> Result a
 	     }
 
----------------------------------------------------------------------------
+-----------------------------------------------------------------------
+
 
 nicht :: Doc -> Type -> Type
 nicht doc x = x { continue = case continue x of
@@ -80,6 +81,19 @@ nicht doc x = x { continue = case continue x of
 		, reason = explain p
 		}
     Next n -> Next $ nicht doc $ n
+   }
+
+-- | if argument computation stops, then report True anyway
+-- fixme: --factors and not success interact badly
+erfolg :: Doc -> Type -> Type
+erfolg doc x = x { continue = case continue x of
+    Fail msg -> Fail msg
+    Result p -> Result $ Proof 
+		{ value = True
+		, formula = doc
+		, reason = explain p
+		}
+    Next n -> Next $ erfolg doc $ n
    }
 
 und, oder :: Doc -> [ Type ] -> Type
