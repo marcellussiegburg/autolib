@@ -69,5 +69,3 @@ sequential_compact a =
 	    , trans = trans'
 	    }
 
-
-lookupset fm = lookupWithDefaultFM fm emptySet
