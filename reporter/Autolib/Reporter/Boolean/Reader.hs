@@ -7,17 +7,18 @@ import Reader
 
 import Text.ParserCombinators.Parsec.Expr
 
-instance Boolit i => Reader (Boolean i) where
-    readerPrec p = expression
+instance Reader i => Reader (Boolean i) where readerPrec p = expression
+instance Reader i => Read (Boolean i) where readsPrec = parsec_readsPrec
 
-expression :: Boolit i 
+expression :: Reader i 
 	   => Parser ( Boolean i )
 expression = buildExpressionParser operators atomic
 
-atomic :: Boolit i
+atomic :: Reader i
        => Parser ( Boolean i )
 atomic =   my_parens expression
-       <|> reader
+       <|> do my_reserved "not" ; a <- atomic ; return $ Not a
+       <|> do a <- reader ; return $ Atomic a
        <?> "atomic expression"
 
 operators = 

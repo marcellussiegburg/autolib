@@ -1,11 +1,9 @@
 module Reader.Basic 
 
-( parse
-, parsec_readsPrec
+( parsec_readsPrec
 , readerParen
-, (<|>)
 , my_parens, my_braces, my_brackets
-, my_comma, my_semi
+, my_comma, my_semi, my_dot
 , my_reserved, my_equals
 , my_commaSep, my_semiSep
 , my_identifier
@@ -44,6 +42,7 @@ my_brackets = brackets haskell
 my_braces = braces haskell
 my_comma = comma haskell
 my_semi = semi haskell
+my_dot = dot haskell
 my_equals = reservedOp haskell "="
 my_reserved = reserved haskell
 my_commaSep = commaSep haskell

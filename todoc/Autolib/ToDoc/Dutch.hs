@@ -3,6 +3,7 @@ module ToDoc.Dutch where
 --  $Id$
 
 import ToDoc.Class
+import Data.List (intersperse)
 
 -- output sequences in "dutch style"
 -- i. e. wrapped lines start (instead of end) with separators 
@@ -37,9 +38,8 @@ clipped_dutch_list c  = dutch c ( text "[", comma, text "]" )
 dutch_list :: [ Doc ] -> Doc
 dutch_list = clipped_dutch_list max_list_length
 
--------------------------------------------------------------------
+-----------------------------------------------------------------------
 
--- | this is missing in the library
-dot :: Doc
-dot = char '.'
+sepBy :: Doc -> [ Doc ] -> Doc
+sepBy s ds = fsep $ intersperse s ds
 

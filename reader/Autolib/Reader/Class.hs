@@ -1,8 +1,14 @@
-module Reader.Class where
+module Reader.Class 
+
+( module Reader.Class
+, module Text.ParserCombinators.Parsec
+)
+
+where
 
 --   $Id$
 
-import Text.ParserCombinators.Parsec
+import Text.ParserCombinators.Parsec hiding ( label )
 
 class Reader a where
 

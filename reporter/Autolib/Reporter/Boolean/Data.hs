@@ -2,9 +2,6 @@ module Reporter.Boolean.Data where
 
 --  $Id$
 
-import ToDoc
-import Reader
-
 data Boolean i = Not ( Boolean i )
               | And [ Boolean i ]
 	      | Or  [ Boolean i ]

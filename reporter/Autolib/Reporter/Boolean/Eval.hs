@@ -3,6 +3,7 @@ module Reporter.Boolean.Eval where
 --  $Id$
 
 import Reporter.Boolean.Data
+import Reporter.Type
 import Reporter.Stream
 import Reporter.Iterator
 
