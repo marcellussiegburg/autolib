@@ -2,29 +2,34 @@ module Reporter.Boolean.Data where
 
 --  $Id$
 
+import Char
+
+-- | warning: the ordering here determines the precedence in parsing
+data Oper = First | Or | And 
+     deriving ( Eq, Ord, Show, Enum, Bounded )
+
+name :: Oper -> String
+name = map toLower . show
+
 data Boolean i = Not ( Boolean i )
-              | And [ Boolean i ]
-	      | Or  [ Boolean i ]
+              | Fun Oper [ Boolean i ]
 	      | Atomic i
 
 instance Functor Boolean where
     fmap f (Atomic x) = Atomic (f x)
     fmap f (Not x) = Not (fmap f x)
-    fmap f (And xs) = And $ map (fmap f) xs
-    fmap f (Or xs) = Or $ map (fmap f) xs
+    fmap f (Fun op xs) = Fun op $ map (fmap f) xs
 
 -- | compute flat normal form
-bin_and :: Boolean i -> Boolean i -> Boolean i 
-bin_and (And xs) (And ys) = And $ xs ++ ys
-bin_and (And xs) y = And $ xs ++ [y]
-bin_and x (And ys) = And $ [x] ++ ys
-bin_and x y = And [x, y]
+bin :: Oper -> Boolean i -> Boolean i -> Boolean i 
+bin op x @ (Fun fx xs) y @ (Fun fy ys) 
+    | op == fx && fx == fy  = Fun op $ xs ++ ys
+bin op x @ (Fun fx xs) y 
+    | op == fx              = Fun op $ xs ++ [y] 
+bin op x y @ (Fun fy ys) 
+    | op == fy		    = Fun op $ [x] ++ ys
+bin op x y 
+    | otherwise             = Fun op [ x, y ]
 
--- | compute flat normal form
-bin_or :: Boolean i -> Boolean i -> Boolean i 
-bin_or (Or xs) (Or ys) = Or $ xs ++ ys
-bin_or (Or xs) y = Or $ xs ++ [y]
-bin_or x (Or ys) = Or $ [x] ++ ys
-bin_or x y = Or [x, y]
 
 

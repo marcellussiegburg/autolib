@@ -21,11 +21,9 @@ atomic =   my_parens expression
        <|> do a <- reader ; return $ Atomic a
        <?> "atomic expression"
 
-operators = 
-    [ [ op "and" bin_and AssocLeft ]
-    , [ op "or" bin_or AssocLeft ]
-    ]
-    where
-      op name f assoc   =
-         Infix ( do { my_reserved name; return f }
-                 <?> "operator" ) assoc
+operators = do
+    op <- reverse [ minBound .. maxBound ] -- largest predecence first
+    return [ Infix ( do { my_reserved $ name op ; return $ bin op }
+                 <?> "operator" ) AssocLeft
+	   ]
+    

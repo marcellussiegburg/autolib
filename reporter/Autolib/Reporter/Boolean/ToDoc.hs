@@ -8,12 +8,10 @@ import ToDoc
 instance ToDoc i => ToDoc (Boolean i) where
     toDocPrec p ( Not x ) 
 	= text "not" <+> toDocPrec 5 x
-    toDocPrec p ( And xs ) 
-	= docParen ( p > 3 ) 
-	$ sepBy ( text "and" ) $ map ( toDocPrec 3 ) xs
-    toDocPrec p ( Or xs ) 
-	= docParen ( p > 1 ) 
-	$ sepBy ( text "or" ) $ map ( toDocPrec 1 ) xs
+    toDocPrec p ( Fun op xs ) 
+	= let pop = 1 + fromEnum op
+	  in   docParen ( p > pop ) 
+	     $ sepBy ( text "and" ) $ map ( toDocPrec pop ) xs
     toDocPrec p ( Atomic a ) 
 	= toDocPrec p a
 

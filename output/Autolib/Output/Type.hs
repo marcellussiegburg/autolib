@@ -23,8 +23,13 @@ class Render r where
 instance Render Pretty.Doc where
     render (Text t) = Pretty.text t
     render (Doc d)  = d
-    render (Image src) = Pretty.text $ "<img src=" ++ src ++ "/>"
-    render (Link url) = Pretty.text $ "<a href=" ++ url ++ "/>"
+
+    -- render (Image src) = Pretty.text $ "<img src=" ++ src ++ "/>"
+    -- render (Link url) = Pretty.text $ "<a href=" ++ url ++ "/>"
+
+    render (Image src) = Pretty.text "<img>"
+    render (Link url) = Pretty.text "<a href>"
+
     render (Empty)  = Pretty.empty
 
     render (Above x y) = render x Pretty.$$ render y
