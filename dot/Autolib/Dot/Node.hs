@@ -16,7 +16,7 @@ data Type = Type { ident :: String
 blank :: Type
 blank =  Type {  ident = error "Dot.Edge.ident"
 		 , label = Nothing
-		 , shape = Nothing
+		 , shape = Just "circle"
 		 , color = Nothing
 		 , style = Nothing
 		 }
