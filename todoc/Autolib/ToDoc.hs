@@ -37,6 +37,7 @@ instance ToDoc Double where toDoc = double
 instance ToDoc Bool where toDoc = text . show
 instance ToDoc Char where toDoc = text . show
 
+instance ToDoc () where toDoc = text . show
 
 instance (ToDoc a, ToDoc b) => ToDoc (a, b) where
     toDoc (x,y) = parens 

@@ -80,11 +80,11 @@ trenner sigma a xss = do
     x : ys <- tails $ setToList xs
     y <- ys
     c <- setToList sigma
-    guard $ not $ equ c a fm x y
+    guard $ not $ eqqu c a fm x y
     return ( x, y, c )
     
-equ :: Ord s => Char -> NFA s -> Mappe s -> (s -> s -> Bool)
-equ c a fm p q = 
+eqqu :: Ord s => Char -> NFA s -> Mappe s -> (s -> s -> Bool)
+eqqu c a fm p q = 
     let x = nachfolger a p c
 	y = nachfolger a q c
     in lookupFM fm x == lookupFM fm y
