@@ -31,10 +31,7 @@ import Wrong
 
 import qualified Exception
 
-fname :: String
-fname ="result.text"
-
-wrapper :: Reporter Int -> IO ()
+wrapper :: Reporter Int -> IO ( Maybe Int )
 wrapper r = do
     let (res, com) = export r
     print ( com :: Doc )
@@ -43,16 +40,22 @@ wrapper r = do
 	    right $ i
  	Nothing -> do
             wrong
-    put res
+    return res
 
-put :: Maybe Int -> IO ()
-put res = do
-    writeFile fname $ show res
+result_string :: Maybe Int -> String
+result_string mres = case mres of
+    Nothing -> "NO"
+    Just i  -> "OK # Size: " ++ show i
+
+put :: FilePath -> Maybe Int -> IO ()
+put fpath res = do
+    writeFile fpath $ show res
     
-get :: IO ( Maybe Int )
-get = do
-       cs <- readFile $ fname
+get :: FilePath -> IO ( Maybe Int )
+get fpath = do
+       cs <- readFile $ fpath
        return $ read cs
   `Exception.catch` 
        \ any -> return Nothing
+
     
