@@ -46,29 +46,21 @@ instance ToDoc Char where toDocPrec p = text . show
 instance ToDoc () where toDocPrec p = text . show
 
 instance (ToDoc a, ToDoc b) => ToDoc (a, b) where
-    toDocPrec p (x,y) = parens 
-	      $ fsep 
-	      $ punctuate comma
+    toDocPrec p (x,y) = dutch_record
 	      $ [ toDocPrec 0 x, toDocPrec 0 y ]
 
 instance (ToDoc a, ToDoc b, ToDoc c) => ToDoc (a, b, c) where
-    toDocPrec p (x,y,z) = parens 
-	      $ fsep 
-	      $ punctuate comma
+    toDocPrec p (x,y,z) = dutch_record
 	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z]
 
 instance (ToDoc a, ToDoc b, ToDoc c, ToDoc d) => ToDoc (a, b, c, d) where
-    toDocPrec p (x,y,z,q) = parens 
-	      $ fsep 
-	      $ punctuate comma
+    toDocPrec p (x,y,z,q) = dutch_record
 	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z, toDocPrec 0 q]
 
 -- brauchen wir tatsächlich, für SQLqueries
 instance (ToDoc a, ToDoc b, ToDoc c, ToDoc d, ToDoc e) 
     => ToDoc (a, b, c, d, e) where
-    toDocPrec p (x,y,z,q,r) = parens 
-	      $ fsep 
-	      $ punctuate comma
+    toDocPrec p (x,y,z,q,r) = dutch_record
 	      $ [ toDocPrec 0 x, toDocPrec 0 y, toDocPrec 0 z
 		, toDocPrec 0 q, toDocPrec 0 r
 		]
@@ -134,13 +126,17 @@ dutch clip (op, sep, cl) ( x : xs ) =
     let ( kurz, lang ) = splitAt clip xs
 	over = if null lang then empty else sep <+> text "..."
     in  cat [ op  <+> x
-	    , cat $ do y <- kurz ; return $ sep <+> y
+	    , fsep -- cat 
+	    $ do y <- kurz ; return $ sep <+> y
 	    , over
 	    , cl
 	    ]
 
 dutch_record :: [ Doc ] -> Doc
 dutch_record = dutch max_list_length ( text "{", comma, text "}" )    
+
+dutch_tuple :: [ Doc ] -> Doc
+dutch_tuple = dutch max_list_length ( text "(", comma, text ")" )    
 
 clipped_dutch_list :: Int -> [ Doc ] -> Doc
 clipped_dutch_list c  = dutch c ( text "[", comma, text "]" )    
