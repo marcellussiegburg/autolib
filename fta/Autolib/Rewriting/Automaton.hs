@@ -8,12 +8,14 @@ import qualified Autolib.NFTA.Ops
 import qualified Autolib.NFTA.Trim
 import qualified Autolib.NFTA.Normalize
 import qualified Autolib.NFTA.Compact
+import qualified Autolib.NFTA.Complement
 import qualified Autolib.NFTA.Epsilon
 
 import qualified Autolib.NFA
 import qualified Autolib.NFA.Basic
 import qualified Autolib.NFA.Ops
 import qualified Autolib.NFA.Trim
+import qualified Autolib.NFA.Minus
 import qualified Autolib.NFA.Normalize
 
 
@@ -22,6 +24,7 @@ import Autolib.ToDoc
 import Autolib.Reader
 import Autolib.Hash
 import Autolib.Sets
+import Autolib.Letters
 import Autolib.Util.Size
 
 class ( Symbol c, ToDoc [c], Reader [c]
@@ -54,6 +57,8 @@ class  Automaton a where
     
     intersection :: ( FAC c s, FAC c t, FAC c Int ) 
 		 => a c s -> a c t -> a c Int
+    complement :: ( FAC c s , FAC c Int )
+               => a c s -> a c Int
 
 
 instance Automaton Autolib.NFTA.NFTA where
@@ -63,9 +68,12 @@ instance Automaton Autolib.NFTA.NFTA where
     complete = Autolib.NFTA.Basic.complete
     normalize = Autolib.NFTA.Normalize.normalize
     compact  = Autolib.NFTA.Compact.compact . Autolib.NFTA.Epsilon.uneps
-    trim     = Autolib.NFTA.Trim.trim
+    trim     = Autolib.NFTA.Trim.trim . Autolib.NFTA.Epsilon.uneps
     intersection a b = Autolib.NFTA.Normalize.normalize
-                     $ Autolib.NFTA.Ops.intersection a b
+                     $ Autolib.NFTA.Ops.intersection 
+                         ( Autolib.NFTA.Epsilon.uneps a ) 
+			 ( Autolib.NFTA.Epsilon.uneps b )
+    complement = Autolib.NFTA.Complement.complement
 
 instance Automaton Autolib.NFA.NFA where
     lstates  = Autolib.NFA.lstates
@@ -76,3 +84,4 @@ instance Automaton Autolib.NFA.NFA where
     trim     = Autolib.NFA.Trim.trim
     intersection a b = Autolib.NFA.Normalize.normalize
                      $ Autolib.NFA.Ops.intersection a b
+    complement a = Autolib.NFA.Minus.complement (setToList $ letters a) a

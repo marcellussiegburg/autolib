@@ -86,7 +86,7 @@ instance ToDoc Identifier where
     toDoc = text . name
 instance Reader Identifier where 
     readerPrec p = do
-        i <- many1 (satisfy isAlphaNum)
+        i <- many1 (satisfy isAlphaNum <|> Autolib.Reader.char '_')
 	     <|> operator trs
 	whiteSpace trs
 	return $ mk (-1) i

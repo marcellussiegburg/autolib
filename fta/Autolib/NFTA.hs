@@ -19,6 +19,8 @@ import Autolib.NFTA.Path
 import Autolib.NFTA.Dot
 import Autolib.NFTA.Compact
 import Autolib.NFTA.Trim
+import Autolib.NFTA.Det
+import Autolib.NFTA.Complement
 import Autolib.NFTA.Normalize
 
 

@@ -43,8 +43,8 @@ complete alpha a =
 	    }
 
 -- | geht immer (argument wird erst deterministisch gemacht)
-complement :: ( NFAC c Int, ToDoc [c], NFAC c (Set Int) ) 
-	   => [c] -> NFA c Int -> NFA c Int
+complement :: ( NFAC c s, ToDoc [c], NFAC c (Set Int) ) 
+	   => [c] -> NFA c s -> NFA c Int
 complement alpha a = complete alpha $ normalize $ det a
 
 -- | vorsicht: geht nur, wenn argument bereits deterministisch ist
