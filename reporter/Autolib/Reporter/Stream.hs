@@ -19,19 +19,18 @@ import Reporter.Boolean.Type
 import Reporter.Iterator
 import Reporter.Proof
 
--- | lazy constructive (?) logic. 
+-- | lazy constructive logic. 
 -- Streams are produced by steps of computations.
--- A step either produces a Result (True/False),
+-- A step either produces a Result (Boolean)
 -- or it produces a Fail,
 -- or it produces some output (an Output)
 -- and wants to continue with another step.
 -- The idea is to have a lazy implementation
 -- of the boolean connectives.
-
 data Type
      = Cons { cons_info :: Doc
 	    , message :: Output
-	    , activity :: IO () -- could be any monad
+	    , activity :: IO () -- ^ could be any monad
 	    , continue :: Continue
 	    }
 
@@ -116,14 +115,12 @@ erster :: Doc ->  [ Type ] -> Type
 erster doc = helper doc Nothing False -- impure
 
 -- | direction is used this: if subcomputation gives result 
--- with Just x /= direction,
+-- with Just x neq direction,
 -- then x is immediate result. So we need
 -- Just True for und, Just False for oder, Nothing for erster
-
--- | pure is True as long as there is no Fail in the arguments
+-- pure is True as long as there is no Fail in the arguments
 -- this is used in case the argument list gets empty
 -- if it is pure, then we can use the default result
-
 helper :: Doc -> Maybe Proof -> Bool -> [ Type ] -> Type
 helper doc  direction pure [] = 
     Cons { cons_info = doc
