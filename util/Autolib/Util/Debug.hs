@@ -4,6 +4,8 @@ module Util.Debug
 
 where
 
+import Monad (when)
+
 debugging :: Bool
 debugging = False
 
