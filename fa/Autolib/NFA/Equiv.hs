@@ -13,11 +13,6 @@ import FiniteMap
 import List (partition, tails)
 import Maybe (fromMaybe,maybeToList)
 
-import Challenger 
-import qualified Web.Konfiguration as K
-import qualified Web.Instanz as I
-import qualified Util.Datei as D
-
 
 type Klassen s = Set (Set s)
 type Mappe   s = FiniteMap s Int
@@ -26,39 +21,6 @@ type Trenner s = ( s, s, Char )
 
 ----------------------------------------------------------------------
 
-data Equiv = Equiv deriving ( Read, Show ) 
-
-instance ( Show s, Ord s
-	 , ToDoc (NFA s), Read (NFA s)
-	 , ToDoc [[Trenner s]], Read [[Trenner s]], Show [[Trenner s]]
-	 )
-    => Problem Equiv ( NFA s ) [[Trenner s]] where
-    
-       -- String ist der Dateiname ohne Endung
-       -- return: datei, Typ (endung), ExitCode des Systemaufrufs
-       -- getInstanz :: p -> i -> b -> String -> IO(String, String, ExitCode
-       getInstanz Equiv a tss dateiName =
-             -- mkDot a "dot" "png" dateiName
-	     mkDot a "neato" "png" dateiName
-
-
-publish :: (Read s, ToDoc [s], ToDoc s, Ord s, Show s)
-	 => String -> ( NFA s ) -> IO String
--- schreibt file unter public_html und gibt url darauf zurück
-publish mat ( a :: NFA s ) = do 
-    let e = Aufgabe { problem = Equiv
-		    , instanz = a
-		    , beweis  = error "Equiv.e.beweis" :: [[Trenner s]]
-		    }
-    let autor = "0"
-    let nr = read mat 
-    let i = Ident { aufgabe = nr }
-    I.erzeugeInstanzDatei e i autor False
-    let d = I.aufgabenDateiname (show Equiv) nr
-    return $ K.absolute_url d
-    
-
-----------------------------------------------------------------------
 
 toMappe :: Ord s => Klassen s -> Mappe s
 toMappe xss = listToFM $ do
