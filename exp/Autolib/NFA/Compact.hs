@@ -3,7 +3,10 @@ module Autolib.NFA.Compact where
 -- -- $Id$
 
 import Autolib.NFA.Type
-import Autolib.Exp
+import Autolib.Exp.Type
+import Autolib.Exp.Read
+import Autolib.Exp.Print
+import Autolib.Exp.Syntax
 import Autolib.Symbol
 
 import Data.FiniteMap

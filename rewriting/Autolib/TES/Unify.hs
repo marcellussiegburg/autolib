@@ -11,7 +11,7 @@ module Autolib.TES.Unify
 where
 
 import Autolib.TES.Term
-import Autolib.TES.Symbol
+import Autolib.Symbol
 import Autolib.TES.Position
 
 import Data.FiniteMap
@@ -19,8 +19,8 @@ import Data.Maybe
 import Data.Set
 import Control.Monad
 
-import ToDoc
-import Util.Size
+import Autolib.ToDoc
+import Autolib.Util.Size
 
 -- | view variables as symbols
 pack :: Term v c -> Term any (Either v c)

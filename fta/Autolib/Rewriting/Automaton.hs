@@ -2,23 +2,23 @@ module Rewriting.Automaton where
 
 --  $Id$
 
-import qualified NFTA
-import qualified NFTA.Basic
-import qualified NFTA.Normalize
-import qualified NFTA.Compact
-import qualified NFTA.Epsilon
+import qualified Autolib.NFTA
+import qualified Autolib.NFTA.Basic
+import qualified Autolib.NFTA.Normalize
+import qualified Autolib.NFTA.Compact
+import qualified Autolib.NFTA.Epsilon
 
-import qualified NFA
-import qualified NFA.Basic
-import qualified NFA.Normalize
+import qualified Autolib.NFA
+import qualified Autolib.NFA.Basic
+import qualified Autolib.NFA.Normalize
 
 import SRS.Aged
-import TES.Symbol
-import ToDoc
-import Reader
-import Hash
-import Sets
-import Util.Size
+import Autolib.Symbol
+import Autolib.ToDoc
+import Autolib.Reader
+import Autolib.Hash
+import Autolib.Sets
+import Autolib.Util.Size
 
 class ( Symbol c, ToDoc [c]
       , Ord s , ToDoc s

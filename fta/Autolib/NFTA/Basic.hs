@@ -1,13 +1,13 @@
-module NFTA.Basic where
+module Autolib.NFTA.Basic where
 
 --  $Id$
 
-import NFTA.Type
-import NFTA.Insert
-import TES.Term
+import Autolib.NFTA.Type
+import Autolib.NFTA.Insert
+import Autolib.TES.Term
 
-import Util.Wort ( alle )
-import qualified Relation
+import Autolib.Util.Wort ( alle )
+import qualified Autolib.Relation as Relation
 
 -- | automaton the recognizes all trees
 complete :: NFTAC c Int

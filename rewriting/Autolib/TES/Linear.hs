@@ -5,8 +5,8 @@ module Autolib.TES.Linear where
 import Autolib.TES.Term
 import Autolib.TES.Position
 import Autolib.TES.Data
-import Reporter
-import ToDoc
+import Autolib.Reporter
+import Autolib.ToDoc
 import Data.FiniteMap
 
 

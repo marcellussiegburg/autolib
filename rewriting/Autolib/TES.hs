@@ -20,5 +20,12 @@ import Autolib.TES.Identifier
 import Autolib.TES.Type
 import Autolib.TES.In
 import Autolib.TES.Out
-import Autolib.TES.Step
+import Autolib.TES.Linear
+import Autolib.TES.Over
+import Autolib.TES.OC
+import Autolib.TES.Inverse
+
+
+
+
 

@@ -8,8 +8,8 @@ import Autolib.TES.Over.Lap
 import Autolib.TES.Unify
 import Autolib.TES.Data
 
-import Reporter
-import ToDoc
+import Autolib.Reporter
+import Autolib.ToDoc
 
 import Data.List ( tails )
 import Data.Maybe ( maybeToList )

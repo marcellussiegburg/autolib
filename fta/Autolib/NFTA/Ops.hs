@@ -1,9 +1,9 @@
-module NFTA.Ops where
+module Autolib.NFTA.Ops where
 
 --  $Id$
 
-import NFTA.Type
-import qualified Relation
+import Autolib.NFTA.Type
+import qualified Autolib.Relation as Relation
 
 alphamap :: ( NFTAC c s, NFTAC d s )
 	 => ( c -> d )	

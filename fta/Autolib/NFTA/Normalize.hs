@@ -1,8 +1,9 @@
-module NFTA.Normalize where
+module Autolib.NFTA.Normalize where
 
 --  $Id$
 
-import NFTA
+import Autolib.NFTA.Type
+import Autolib.NFTA.Ops
 import Data.FiniteMap
 
 normalize :: ( NFTAC c s, NFTAC c Int )
@@ -10,5 +11,5 @@ normalize :: ( NFTAC c s, NFTAC c Int )
 normalize a = 
     let fm = listToFM $ zip (lstates a) [0 .. ]
 	fun = lookupWithDefaultFM fm 
-	      ( error $ "NFTA.normalize" ++ show a )
+	      ( error $ "Autolib.NFTA.normalize" ++ show a )
     in  statemap fun a

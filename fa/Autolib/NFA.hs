@@ -30,6 +30,10 @@ import Autolib.NFA.Eq
 import Autolib.NFA.Restrict
 import Autolib.NFA.Check
 import Autolib.NFA.Example
+import Autolib.NFA.Compact
+import Autolib.NFA.Finite
+import Autolib.NFA.Factors
+import Autolib.NFA.Link
 
 import Autolib.Letters
 

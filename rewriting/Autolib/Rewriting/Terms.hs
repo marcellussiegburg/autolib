@@ -6,8 +6,8 @@ module Rewriting.Terms where
 --  $Id$
 
 import Rewriting.Address
-import TES.Term
-import qualified TES.Position as T
+import Autolib.TES.Term
+import qualified Autolib.TES.Position as T
 
 instance Sub ( Term v ) where
     -- top (leftmost) symbol

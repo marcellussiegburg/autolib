@@ -6,20 +6,20 @@
 -- and has an incoming edge from the state node q0
 -- and outgoing edges labelled i to state nodes qi
 
-module NFTA.Path where
+module Autolib.NFTA.Path where
 
 --  $Id$
 
-import qualified NFTA.Type as T -- trees
-import qualified NFA.Type as W -- words
+import qualified Autolib.NFTA.Type as T -- trees
+import qualified Autolib.NFA.Type as W -- words
 
-import Sets
-import ToDoc
-import Reader
+import Autolib.Sets
+import Autolib.ToDoc
+import Autolib.Reader
 
-import TES.Symbol
-import Util.Size
-import Hash
+import Autolib.Symbol
+import Autolib.Util.Size
+import Autolib.Hash
 
 ----------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ make :: ( T.NFTAC c s )
 make t = 
     let states = T.lstates t
 	trans  = T.ltrans  t
-    in  W.NFA { W.nfa_info = text "NFTA.Path.make ()"
+    in  W.NFA { W.nfa_info = text "Autolib.NFTA.Path.make ()"
 	      , W.states = mkSet $  map State      states
 		                 ++ map Transition trans 
 	      , W.starts = smap State $ T.finals t

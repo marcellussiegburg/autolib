@@ -1,4 +1,4 @@
-module NFTA.Epsilon 
+module Autolib.NFTA.Epsilon 
 
 ( eclosure_down
 , eclosure_up
@@ -9,12 +9,12 @@ where
 
 --  $Id$
 
-import NFTA.Type
-import Sets
-import qualified Relation
-import qualified Relation.Type 
+import Autolib.NFTA.Type
+import Autolib.Sets
+import qualified Autolib.Relation as Relation
+-- import qualified Autolib.Relation.Type 
 import Control.Monad ( guard )
-import Util.Uniq
+import Autolib.Util.Uniq
 
 -- | from the root to the leaves
 eclosure_down :: NFTAC c s

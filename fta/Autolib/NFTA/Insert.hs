@@ -1,6 +1,6 @@
 -- | insert new transitions (and states) into an automaton
 
-module NFTA.Insert 
+module Autolib.NFTA.Insert 
 
 --  $Id$
 
@@ -10,16 +10,16 @@ module NFTA.Insert
 
 where
 
-import NFTA.Type
-import TES.Term
-import Rewriting.Path
+import Autolib.NFTA.Type
+import Autolib.TES.Term
+import Autolib.Rewriting.Path
 
-import qualified Relation
+import qualified Autolib.Relation as Relation
 import Data.List ( partition )
 
 import Control.Monad.State
 
-import Reader
+import Autolib.Reader
 
 
 

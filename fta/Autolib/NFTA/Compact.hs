@@ -1,4 +1,4 @@
-module NFTA.Compact 
+module Autolib.NFTA.Compact 
 
 ( compact )
 
@@ -6,11 +6,11 @@ where
 
 --  $Id$
 
-import NFTA.Type
-import NFTA.Ops
-import Util.Fix
+import Autolib.NFTA.Type
+import Autolib.NFTA.Ops
+import Autolib.Util.Fix
 import Data.FiniteMap
-import qualified Relation
+import qualified Autolib.Relation as Relation
 
 -- | collect equivalent states into one
 
@@ -30,5 +30,5 @@ step a =
 	       ( _ , qs ) <- fmToList fm
 	       q <- qs
 	       return ( q, head qs )
-        fu = lookupWithDefaultFM cp ( error "NFTA.compact" )
+        fu = lookupWithDefaultFM cp ( error "Autolib.NFTA.compact" )
     in  statemap fu a

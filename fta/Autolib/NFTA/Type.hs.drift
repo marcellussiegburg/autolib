@@ -1,24 +1,24 @@
 -- -*- mode: haskell -*-
 
-module NFTA.Type 
+module Autolib.NFTA.Type 
 
-( module NFTA.Type
-, module Sets
-, module TES.Symbol
+( module Autolib.NFTA.Type
+, module Autolib.Sets
+, module Autolib.Symbol
 )
 
 where
 
 --  $Id$
 
-import Sets
-import Letters
-import Util.Size
-import TES.Symbol
-import Reader
-import ToDoc
-import qualified Relation
-import Hash
+import Autolib.Sets
+import Autolib.Letters
+import Autolib.Util.Size
+import Autolib.Symbol
+import Autolib.Reader
+import Autolib.ToDoc
+import qualified Autolib.Relation as Relation
+import Autolib.Hash
 
 class ( Symbol c
       , Ord s , ToDoc s

@@ -1,11 +1,11 @@
 -- -*- mode: haskell -*-
 
-module Rewriting.Path.Data   where
+module Autolib.Rewriting.Path.Data   where
 
 --  $Id$
 
-import Reader
-import ToDoc
+import Autolib.Reader
+import Autolib.ToDoc
 
 class     ( Reader x, ToDoc x ) => RT x
 instance  ( Reader x, ToDoc x ) => RT x

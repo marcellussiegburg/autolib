@@ -8,7 +8,7 @@ module Autolib.NFA.Finite
 where
 
 import Autolib.NFA.Type
-import qualified Autolib.Relation
+import qualified Autolib.Relation as Relation
 
 
 finite :: NFAC c a => NFA c a -> Bool

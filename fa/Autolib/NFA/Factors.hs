@@ -5,7 +5,7 @@ module Autolib.NFA.Factors where
 import Autolib.NFA.Type
 import Autolib.NFA.Trim
 
-import Autolib.Data.Set
+import Data.Set
 
 -- bestimme die Sprache aller (zusammenhängenden) Teilwörter
 

@@ -12,8 +12,8 @@ import Autolib.TES.Position
 import Autolib.TES.Unify
 import Autolib.TES.Hull
 
-import Util.Size
-import Sets
+import Autolib.Util.Size
+import Autolib.Sets
 import Data.Maybe
 import Data.FiniteMap
 import Control.Monad ( guard )

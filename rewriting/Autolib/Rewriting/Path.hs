@@ -1,7 +1,7 @@
-module Rewriting.Path   
+module Autolib.Rewriting.Path   
 
 ( Path
-, module Rewriting.Path.Data
+, module Autolib.Rewriting.Path.Data
 )
 
 where
@@ -10,10 +10,10 @@ where
 
 import Data.FiniteMap
 
-import Rewriting.Path.Data 
+import Autolib.Rewriting.Path.Data 
 
-import Reader
-import ToDoc
+import Autolib.Reader
+import Autolib.ToDoc
 
 class ( Show (FiniteMap v s)
       , Show (term v c)
