@@ -12,6 +12,7 @@ data Proof =
      Proof { value  :: Bool
 	   , formula :: Doc
 	   , reason :: Output
+	   , history :: [ Output ]
 	   }
 
 
@@ -22,6 +23,7 @@ explain p = foldr1 Above
 		<+> quoted ( toDoc ( formula p ))
 		-- <+> text "(the formula)"
 	  , Doc $ text "is" <+> toDoc ( value p ) <> text ", because"
+	  , Itemize $ reverse $ history p
 	  , Nest $ reason p
 	  ]
        

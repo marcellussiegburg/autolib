@@ -78,6 +78,7 @@ nicht doc x = x { continue = case continue x of
 		{ value = not $ value p
 		, formula = doc
 		, reason = explain p
+		, history = [] -- history p
 		}
     Next n -> Next $ nicht doc $ n
    }
@@ -91,6 +92,7 @@ erfolg doc x = x { continue = case continue x of
 		{ value = True
 		, formula = doc
 		, reason = explain p
+		, history = [] -- history p
 		}
     Next n -> Next $ erfolg doc $ n
    }
@@ -99,11 +101,13 @@ und, oder :: Doc -> [ Type ] -> Type
 und  doc = helper doc ( Just $ Proof { value = True
 			     , formula = doc
 			     , reason = Text "empty conjunction"
+			     , history = []
 			     }
 		 ) True
 oder doc = helper doc ( Just $ Proof { value = False 
 			      , formula = doc
 				, reason = Text "empty alternative"
+				, history = []
 				}
 		 ) True
 
@@ -132,6 +136,7 @@ helper doc  direction pure [] =
 			 { value = value d
 			 , formula = doc
 			 , reason = explain d
+			 , history = [] -- history d
 			 }
 	      _  -> Fail Empty -- ??
 	 }
@@ -149,6 +154,7 @@ helper doc direction pure xxs @ (x : xs) =
 				{ value = value p
 				, formula = doc
 				, reason = explain p
+				, history = [] -- history p
 				}
 		   else  Next $ helper doc direction --  collect ( reason p ) )
 			         pure   xs

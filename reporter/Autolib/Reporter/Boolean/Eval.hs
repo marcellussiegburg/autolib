@@ -19,9 +19,11 @@ build f @ ( Uf up x ) =
 	    Not -> nicht ; Success -> erfolg
     in  fun ( toDoc f ) $ build x
 build f @ ( Bof op xs ) = 
-    let fun = case op of 
-	    And -> und ; Or -> oder ; Par -> erster
-    in  fun ( toDoc f ) $ map build xs
+    let ( doc , fun ) = case op of 
+	    And -> ( toDoc f           , und    )
+	    Or ->  ( text ".. or .."   , oder   )
+	    Par -> ( text ".. par .."  , erster )
+    in  fun doc $ map build xs
 
 eval :: Boolean ( Iterator Proof )
      -> Reporter ( Either Output Proof )
