@@ -28,11 +28,11 @@ data Kante a  = Kante
 	      , nach      :: a
         } deriving (Eq, Ord)
 
-kante :: a -> a -> (Kante a)
-kante x y = Kante { von = x, nach = y }
-
-
-
+kante :: Ord a => a -> a -> (Kante a)
+-- ungerichteter Graph => Kanten von klein nach groß ordnen.
+kante x y = 
+    if x < y then Kante { von = x, nach = y }
+	     else Kante { von = y, nach = x }
 
 
 -- ToDoc implementation for Graph and Kante
@@ -54,7 +54,7 @@ instance ToDoc (Graph a) => Show (Graph a) where
 instance (ToDoc a) => Show (Kante a) where
   show = render . toDoc
 
-instance Read a => Read (Kante a) where
+instance (Ord a, Read a) => Read (Kante a) where
     readsPrec p cs = do
         ( k, cs ) <- lex cs
 	if k == "Kante" then do
