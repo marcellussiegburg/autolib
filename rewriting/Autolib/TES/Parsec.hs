@@ -24,8 +24,12 @@ trs = makeTokenParser
        , reservedNames = [ ]
        , reservedOpNames = [ "->", "," ]
        }
-       
 
+pseudo_identifier :: Parser String
+pseudo_identifier = do
+    whiteSpace trs
+    many1 $ satisfy $ \ c -> not ( c `elem` "()" )
+           
 tes_prefix = makeTokenParser 
     $ emptyDef
        { commentLine = "#" 

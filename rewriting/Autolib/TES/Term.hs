@@ -64,7 +64,7 @@ tfold fvar fnode = fun where
     fun ( Node f args ) = fnode f ( map fun args )
 
 instance ( ToDoc c, ToDoc v ) => ToDoc (Term v c) where
-    toDoc ( Var v ) = toDoc v
+    toDoc ( Var v ) = ToDoc.brackets $ toDoc v
     toDoc ( Node t xs ) = toDoc t <+> 
 	if null xs 
 	then ToDoc.empty 

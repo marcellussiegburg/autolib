@@ -6,7 +6,7 @@ module TES.Data where
 
 import TES.Symbol
 import TES.Term
-import TES.Position (syms)
+import TES.Position (syms, vars)
 import TES.Rule
 import TES.Identifier
 
@@ -63,58 +63,37 @@ instance Reader TES where
 		     }
         fs <- many line
 	let t = foldr (.) id fs trs0
-	-- TODO: extract variables, signature
-	return t
+	return $ repair_variables t
 
-line :: TRSC v c 
-     => Parser ( TRS v c -> TRS v c )
-line = TES.Parsec.parens $ do
-     f <- identifier TES.Parsec.trs :: Parser String
+line :: Parser ( TES -> TES )
+line = TES.Parsec.parens TES.Parsec.trs $  do
+     f <- identifier  TES.Parsec.trs 
      case f of
 	  "RULES" -> do
-	      rs <- many reader :: Parser [ Rule v c ]
+	      rs <- many reader
 	      return $ \ t -> t { rules = rules t ++ rs }
-
 	  _ -> do
-              args <- many reader :: Parser [ Sexp ] 
+              args <- many reader
 	      return $ \ t -> t { annotations = annotations t 
 			            ++ [ List $ Leaf f  : args ]
 				}
 
-{-
-
-        vs <- option -- wild guess: if keine vars angegeben:
-	             [ mknullary "x", mknullary "y", mknullary "z" ]
-	      $ readerPrec 0 :: Parser [ Identifier ]
-	let vars =  mkSet $ do v <- vs ; return $ v { i_arity = 0 }
-
-        whiteSpace tes_prefix -- kommentare erlaubt
-
-
-        whiteSpace tes_prefix -- kommentare erlaubt
-	option () $ foot
-
-	let sig = sfilter ( \ s -> not (s `elementOf` vars)) 
-		$ symbols rs
-
+repair_variables :: TES -> TES
+repair_variables trs =
+    let vars = mkSet $ do 
+		List ( Leaf "VAR" : vs ) <- annotations trs
+		Leaf v <- vs
+	        return $ mknullary v
 	-- change (some) nullary ids to vars
-	let xform ( Node c [] ) | c `elementOf` vars = Var c
-	    xform ( Node c args ) = Node c ( map xform args )
-
-        return $ TRS { comment = ""
-		     , variables = vars 
-		     , rules = do (l, r) <- rs
-				  return ( xform l, xform r )
-		     , signature = sig 
-		     }
-
-foot :: Parser ()
-foot = do
-    reservedOp tes "~" <|> reserved tes "COMMENT"
-    many $ satisfy (const True) -- ignore
-    return ()
-
--}
+	xform ( Node c [] ) | c `elementOf` vars = Var c
+	xform ( Node c args ) = Node c ( map xform args )
+	-- apply to rules
+        rs = do (l,r) <- rules trs ; return ( xform l, xform r )
+	sig = sfilter ( \ s -> not (s `elementOf` vars)) $ symbols rs
+    in  trs { variables = vars
+	    , signature = sig
+	    , rules = rs
+            }
 
 symbols :: Ord c => [ Rule v c ] -> Set c
 symbols rules = unionManySets $ do

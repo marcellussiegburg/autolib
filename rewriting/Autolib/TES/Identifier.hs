@@ -23,7 +23,6 @@ instance Eq Identifier where
 instance Ord Identifier where
    compare x y = compare (name x) (name y)    
 
-
 instance Symbol Identifier where
      arity = i_arity
 

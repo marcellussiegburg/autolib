@@ -15,9 +15,8 @@ type Rule v c = ( Term v c, Term v c )
 instance Reader ( Term v c ) => Reader ( Rule v c ) where
     readerPrec p = do
         lhs <- readerPrec 0
-	reservedOp tes "->"
+	reservedOp trs "->"
 	rhs <- readerPrec 0
-	option () ( reservedOp tes ";" <|> reservedOp tes "." )
 	return ( lhs, rhs )
 
 instance Reader ( Term v c ) => Read ( Term v c ) where

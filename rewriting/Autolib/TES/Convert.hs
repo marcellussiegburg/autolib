@@ -6,6 +6,7 @@ import TES
 
 import TES.Path
 import TES.Identifier
+import TES.Sexp
 import SRS.Type
 
 import Sets
@@ -17,12 +18,14 @@ import Data.List ( isPrefixOf, partition, tails )
 import Maybe ( isNothing, fromMaybe )
 import Data.FiniteMap
 
-to_tes :: SRS Char -> TES
-to_tes srs = 
+to_trs :: SRS Char -> TES
+to_trs srs = 
     let x = mknullary "x"
 	to_term = foldr ( \ c t -> Node (mkunary [c]) [ t ] ) ( Node x [] )
     in TRS 
-	{ comment   = "SRS: " ++ ( unwords $ words $ show srs )
+	{ annotations  = [ wrap "SRS:" $ srs ]
+	, theory = Nothing
+	, strategy = Nothing
 	, variables = mkSet [ x ]
 	, signature = mkusig $ map (:[]) $ setToList $ letters srs
 	, rules     = do
