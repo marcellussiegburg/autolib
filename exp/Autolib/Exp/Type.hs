@@ -1,7 +1,6 @@
--- $Header$
-
 module Exp.Type where
 
+-- $Id$
 
 data Exp 
 	= Ref String  -- reference to value in evironment
@@ -21,11 +20,5 @@ data Exp
 	| Plus Exp
 	| Power Integer Exp 
     deriving ( Eq, Ord )
-
-data Statement 
-     = Print  Exp
-     | Let String Exp
-
-
 
 

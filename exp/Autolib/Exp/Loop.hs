@@ -1,15 +1,18 @@
--- $Header$
-
 module Main where
 
-import Exp
-import ExpRead
-import Statement
-import Inter
-import Env
-import Shortest
-import NFA
-import Parsec
+-- $Id$
+
+import Exp.Type
+
+import Exp.Statement
+import Exp.Inter
+import Exp.Env
+
+import NFA.Shortest
+import NFA.Type
+import NFA.Dot
+
+import Parsec ( parse )
 
 --------------------------------------------------------------------------
 
@@ -27,6 +30,13 @@ eval env (Print x) = do
      putStr " == "
      inform v
      return env
+eval env (Display x) = do
+     putStrLn $ "-- display statement"
+     let v = inter env x
+     putStr " == "
+     inform v
+     display v
+     return env
 eval env (Let n x) = do
      putStrLn $ "-- assignment statement"
      let v = inter env x
@@ -37,7 +47,7 @@ eval env (Let n x) = do
 
 --------------------------------------------------------------------------
 
-inform :: NFA Int -> IO ()
+inform :: NFA Char Int -> IO ()
 inform a = do
     putStrLn $ "-- minimal det automaton:"
     print a

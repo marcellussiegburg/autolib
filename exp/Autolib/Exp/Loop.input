@@ -4,6 +4,8 @@ let Odd = 1 + 9 ;
 let Smallprimes = 11 + 13 + 19 + 41 + 61 ;
 let Rest = ( Nonzero Sigma^* Odd ) -  ( Sigma^* $ Smallprimes ) ; 
 
+display ( Rest );
+
 let Sevens = 4 6^* 9 ;  -- alle durch 7 teilbar
 let Nines  = 8 0^* 1 ;  -- alle durch 9 teilbar
 let Dreis  = (6 + 9)^* ; -- alle durch 3 teilbar

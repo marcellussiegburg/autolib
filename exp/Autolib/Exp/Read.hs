@@ -80,40 +80,6 @@ instance Reader Exp where
 instance Read Exp where
     readsPrec = parsec_readsPrec
 
---------------------------------------------------------------------------
-
-program :: Parser [ Statement ]
-program = do
-    stats <- many statement
-    eof
-    return stats
-
-statement :: Parser Statement
-statement = do
-    s <- binding <|> printer
-    reservedOp ";"
-    return s
-  <?> "statement"
-
-binding = do
-    reserved "let"
-    lhs <- name
-    reservedOp "="
-    rhs <- expression
-    return $ Let lhs rhs
-  <?> "let binding"    
-
-name = do
-    c <- upper
-    cs <- many alphaNum
-    whiteSpace
-    return $ c : cs
-
-printer = do
-    reserved "print"
-    x <- expression
-    return $ Print x
-  <?> "print statement"
 
 
 
