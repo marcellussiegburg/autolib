@@ -1,6 +1,6 @@
 module TES.Cover where
 
--- $Id$
+--  $Id$
 
 import NFTA
 import TES
