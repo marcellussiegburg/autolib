@@ -17,8 +17,8 @@ import System.IO
 import Control.Exception ( catch )
 
 -- | write output as png to file,
--- in "current-directory/../pics/hashcode.{obj,dot,png}"
--- normally, current-directory = $HOME/public_html/cgi-bin
+-- in "current-directory\/..\/pics\/hashcode.{obj,dot,png}"
+-- normally, current-directory = $HOME\/public_html\/cgi-bin
 -- file name is built from hash value
 -- if so named file is already there,
 -- check whether it corresponds to the object
