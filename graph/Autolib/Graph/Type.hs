@@ -10,6 +10,7 @@ module Graph.Type (
     , module ToDoc
     , module Iso
     , module Number
+    , display
     )
  where
  
@@ -17,6 +18,8 @@ module Graph.Type (
 
 import Graph.Graph
 import Graph.Isomorph
+import Graph.Display
+
 import ToDoc
 import FiniteMap
 import Iso
