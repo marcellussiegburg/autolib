@@ -15,7 +15,7 @@ import Random
 import Autolib.FiniteMap
 import IO
 
--- koordinaten der knoten bestimmen.
+-- | koordinaten der knoten bestimmen.
 -- dabei bereits feststehende koordinaten so lassen (pinning)
 -- geht nur mit neato (?)
 
@@ -27,7 +27,7 @@ newtype Self = Self { unSelf :: Autolib.Dot.Graph.Type }
 
 instance ToDot Self where
     toDot        = unSelf
-    toDotProgram = const "neato"
+    toDotProgram = const Neato
     toDotOptions = const "-s" 
 
 arrange :: Autolib.Dot.Graph.Type 

@@ -10,11 +10,9 @@ unlabelled g = g { show_labels = False
 		   }
 
 neato :: Graph a -> Graph a
-neato g = g { layout_program = "neato" }
+neato g = g { layout_program = Neato }
 
 dot :: Graph a -> Graph a
-dot g = g { layout_program = "dot" }
+dot g = g { layout_program = Dot }
 
-twopi :: Graph a -> Graph a
-twopi g = g { layout_program = "twopi" }
 

@@ -12,12 +12,14 @@ module Autolib.Graph.Graph (
       , GraphC 
      ,  Graph (..), mkGraph
     , Kante (..), kante
+    , Program (..)
 ) where
 
 import Autolib.Graph.Kante
 import qualified Autolib.Graph.Reading.Type as R
 
 import Autolib.Set
+import Autolib.Dot
 import Autolib.Informed
 import Autolib.ToDoc
 import Autolib.Reader
@@ -43,7 +45,7 @@ data Graph a  = Graph
 	      , graph_layout  :: FiniteMap a Position
 	      , bounding :: Position
 	      , layout_hints :: [ String ]
-	      , layout_program :: String
+	      , layout_program :: Program
 	      , show_labels :: Bool
 	      } 
     deriving Typeable
@@ -66,7 +68,7 @@ mkGraph v e = Graph
 	    , graph_layout = emptyFM
 	    , bounding = 0
 	    , layout_hints = [ "-s" ]
-	    , layout_program = "neato"
+	    , layout_program = Neato
 	    , show_labels = True
 	    }
 

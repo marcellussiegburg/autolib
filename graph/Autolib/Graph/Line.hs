@@ -30,7 +30,7 @@ line_graph g =
 		   return ( k, 0.5 * (pos u + pos v) )
 	     , bounding = bounding g         
 	     , layout_hints = [  ]
-	     , layout_program = "dot"
+	     , layout_program = Dot
 	     , show_labels = False
 	     }	       
 

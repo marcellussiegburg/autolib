@@ -9,7 +9,7 @@ import Autolib.Dot.Dot
 
 instance ( Show s, Show c , NFTAC c s ) => ToDot (NFTA c s) where
     toDot = toDot . Autolib.NFTA.Path.make
-    toDotProgram a = "dot"
+    toDotProgram a = Dot
     toDotOptions a = "-Grankdir=LR"
 
 

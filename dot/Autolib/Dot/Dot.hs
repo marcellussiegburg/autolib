@@ -1,6 +1,6 @@
 module Autolib.Dot.Dot where
 
--- -- $Id$
+--  $Id$
 
 import qualified Autolib.Dot.Graph
 import System
@@ -10,10 +10,23 @@ import Random
 
 import Autolib.Util.Chmod
 
+import Autolib.Local
+import Autolib.Reader
+import Autolib.ToDoc
+
+data Program = Dot
+	     | Neato
+     deriving ( Eq, Ord, Read, Show )
+
+progname p = case p of
+	 Dot   -> Autolib.Local.dot
+	 Neato -> Autolib.Local.neato
+
 class ToDot a where 
       toDot :: a -> Autolib.Dot.Graph.Type
-      toDotProgram :: a -> String
-      toDotProgram a = "dot" -- default für gerichtete graphen
+      toDotProgram :: a -> Program
+      -- default für gerichtete graphen:
+      toDotProgram a = Dot
       toDotOptions :: a -> String
       toDotOptions a = "-Grankdir=LR"
 
@@ -21,11 +34,10 @@ instance ToDot a => ToDot [a] where
     toDotProgram xs = toDotProgram ( head xs )
     toDot xs = Autolib.Dot.Graph.besides $ map toDot xs
 
-
 -- gleicher argument/resultat-typ wie Graph.Viz.getGraphviz
 
 mkDot :: ToDot a 
-      => a -> String -> String -> FilePath 
+      => a -> Program -> String -> FilePath 
       -> IO ( FilePath, String, ExitCode )
 mkDot a prog fmt path = do
 
@@ -34,13 +46,13 @@ mkDot a prog fmt path = do
 
     let fmtfile = path ++ "." ++ fmt
 
-    if    ( not $ prog `elem` [ "dot", "neato", "twopi" ]  )
-       || ( not $ fmt  `elem` [ "png", "ps"    ]  )
+    if ( not $ fmt  `elem` [ "png", "ps"    ]  )
        then do   
-          error $ unwords [ "illegal program/format:", prog, fmt ]
+          error $ unwords [ "illegal format:", fmt ]
           return ( fmtfile, fmt, ExitFailure 1 )
        else do
-	  ex <- system' $ unwords [ prog, "-T" ++ fmt, "-o", fmtfile, dotfile ]
+	  ex <- system' $ unwords 
+		[ progname prog, "-T" ++ fmt, "-o", fmtfile, dotfile ]
 	  chmod "go+r" fmtfile
 	  return ( fmtfile , fmt , ex )
 
@@ -59,9 +71,9 @@ mot opt ext fname a = do
     let dotfile = fname ++ ".dot"
     let extfile = fname ++ ext
     writeFile dotfile $ show $ toDot $ a
-    let p = toDotProgram a
     system' $ unwords 
-	   [ p , opt
+	   [ progname $ toDotProgram a 
+	   , opt
 	   , toDotOptions a
 	   , dotfile , "-o", extfile ]
     system' $ unwords [ "rm" , dotfile ]

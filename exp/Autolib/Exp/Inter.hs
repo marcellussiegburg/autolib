@@ -11,7 +11,7 @@ module Autolib.Exp.Inter
 
 where
 
-import Autolib.NFA
+import Autolib.NFA hiding ( Dot )
 
 import Autolib.Exp.Type
 import Autolib.Exp.Read

@@ -33,7 +33,7 @@ independent0 xs = Graph
 		 )
     , bounding = Position { width = 2, height = 2 }
     , layout_hints = [ "-s" ]
-    , layout_program = "neato"
+    , layout_program = Neato
     }
 
 clique :: Ord a => Set a -> Graph a
@@ -67,7 +67,7 @@ path xs =
 	       return ( x , Position { width = w, height = 0 } )
 	  , bounding = 1
     , layout_hints = [ "-s" ]
-    , layout_program = "neato"
+    , layout_program = Neato
 	  }
 
 circle :: Ord a => [ a ] -> Graph a

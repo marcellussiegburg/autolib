@@ -6,6 +6,7 @@ module Autolib.Dot.Dotty where
 import Autolib.Reporter
 import Autolib.ToDoc
 import Autolib.Hash
+
 import qualified Autolib.Output as Output
 
 import Autolib.Dot.Dot
@@ -14,16 +15,6 @@ import Autolib.Size
 
 import System.IO
 import Control.Exception ( catch )
-
-------------------------------------------------------------------
-
-trusted_layouters :: [ FilePath ]
-trusted_layouters = do
-    prog <- [ "dot", "twopi", "neato" ]
-    prefix <- [ "", "/usr/bin/", "/usr/local/bin/"
-	      , "/home/waldmann/built/bin/" 
-	      ]
-    return $ prefix ++ prog
 
 -- | write output as png to file,
 -- in "current-directory/../pics/hashcode.{obj,dot,png}"
@@ -37,9 +28,6 @@ peng :: ( Hash a, Show a, ToDot a )
       => a
       -> Reporter ()
 peng a = do
-    let layouter = toDotProgram a
-    silent $ assert ( layouter `elem` trusted_layouters )
-                    ( text "layout program is trusted?" )
     let it = toDot a
 	pre = "../pics/" ++ ( show $ abs $ hash a )
     let objfile = pre ++ ".obj"
@@ -54,7 +42,8 @@ peng a = do
            writeFile objfile $ show a
            writeFile dotfile $ show it ++ "\n\n"
            system' $ unwords 
-		   [ toDotProgram a , toDotOptions a
+		   [ progname $ toDotProgram a 
+		   , toDotOptions a
 		   , "-Tpng", "-o", pngfile
 		   , dotfile
 		   ]
