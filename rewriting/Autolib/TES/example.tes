@@ -1,0 +1,8 @@
+#A.30
+[x,y,z]
+minsort(nil) -> nil
+minsort(cons(x,y)) -> cons(min(x,y),minsort(del(min(x,y),cons(x,y))))
+min(x,nil) -> x
+min(x,cons(y,z)) -> if(le(x,y),min(x,z),min(y,z))
+del(x,nil) -> nil
+del(x,cons(y,z)) -> if(eq(x,y),z,cons(y,del(x,z)))

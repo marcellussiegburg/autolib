@@ -1,6 +1,7 @@
 module Relation 
 
-( Type
+( Type, Make
+, images
 , make
 , pairs
 , times, plus, trans
@@ -15,7 +16,7 @@ import FiniteMap
 import Fix
 import ToDoc
 
-data Type a b = Relation { unRelation :: FiniteMap a (Set b) }
+data Type a b = Make { unRelation :: FiniteMap a (Set b) }
 
 instance ( Ord a, Ord b, ToDoc a, ToDoc b ) => ToDoc ( Type a b ) where
     toDoc r = text "Relation.make" <+> toDoc ( pairs r )
@@ -27,7 +28,7 @@ instance ( Ord a, Ord b ) => Eq ( Type a b ) where
     r == s = unRelation r == unRelation s
 
 make :: (Ord a, Ord b) => [(a,b)] -> Type a b
-make xys = Relation $ addListToFM_C union emptyFM $ do
+make xys = Make $ addListToFM_C union emptyFM $ do
 	   (x, y) <- xys 
 	   return (x, unitSet y)
 
@@ -51,7 +52,7 @@ times r s = make $  do
 
 plus :: (Ord a, Ord b)
      => Type a b -> Type a b -> Type a b
-plus r s = Relation 
+plus r s = Make
 	 $ plusFM_C union (unRelation r) (unRelation s)
 
 
