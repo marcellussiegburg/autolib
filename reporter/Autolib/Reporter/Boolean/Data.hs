@@ -5,7 +5,7 @@ module Reporter.Boolean.Data where
 import Char
 
 -- | unary operator
-data Up = Not | Success
+data Up = Not | Success | Star
      deriving ( Eq, Ord, Show, Enum, Bounded )
 
 uname :: Up -> String
@@ -13,12 +13,12 @@ uname = map toLower . show
 
 -- | binary operator
 -- warning: the ordering here determines the precedence in parsing
-data Bop = Par | Or | And 
+data Bop = Seq | Par | Or | And 
      deriving ( Eq, Ord, Show, Enum, Bounded )
 
 bname :: Bop -> String
-bname = map toLower . show
-
+bname Seq = "."
+bname op = map toLower $ show $ op
 
 
 data Boolean i = Uf Up ( Boolean i )

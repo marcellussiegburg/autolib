@@ -6,6 +6,8 @@ import Reporter.Boolean.Data
 import ToDoc
 
 instance ToDoc i => ToDoc (Boolean i) where
+    toDocPrec p ( Uf Star x ) 
+	=  toDocPrec 10 x <> text "^*"
     toDocPrec p ( Uf up x ) 
 	= text ( uname up ) <+> toDocPrec 10 x
     toDocPrec p ( Bof op xs ) 

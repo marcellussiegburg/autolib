@@ -12,7 +12,14 @@ instance Reader i => Read (Boolean i) where readsPrec = parsec_readsPrec
 
 expression :: Reader i 
 	   => Parser ( Boolean i )
-expression = buildExpressionParser binary_operators atomic
+expression = buildExpressionParser binary_operators star
+
+star :: Reader i
+     => Parser ( Boolean i )
+star = do
+    a <- atomic
+    f <- option id $ do my_reserved "^*" ; return $ Uf Star
+    return $ f a
 
 atomic :: Reader i
        => Parser ( Boolean i )

@@ -18,7 +18,9 @@ data Proof =
 
 explain :: Proof -> Output
 explain p = foldr1 Above
-	  [ Doc $ text "the value of" <+> quoted ( toDoc ( formula p ))
+	  [ Doc $ text "the value of" 
+		-- <+> quoted ( toDoc ( formula p ))
+		<+> text "(the formula)"
 	  , Doc $ text "is" <+> toDoc ( value p ) <> text ", because"
 	  , Nest $ reason p
 	  ]

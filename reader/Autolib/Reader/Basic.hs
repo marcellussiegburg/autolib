@@ -4,7 +4,7 @@ module Reader.Basic
 , parse_complete
 , readerParen
 , my_parens, my_braces, my_brackets
-, my_comma, my_semi, my_dot
+, my_comma, my_semi, my_dot, my_star
 , my_reserved, my_equals
 , my_commaSep, my_semiSep
 , my_identifier
@@ -55,6 +55,7 @@ my_braces = braces haskell
 my_comma = comma haskell
 my_semi = semi haskell
 my_dot = dot haskell
+my_star = reservedOp haskell "*"
 my_equals = reservedOp haskell "="
 my_reserved = reserved haskell
 my_commaSep = commaSep haskell
