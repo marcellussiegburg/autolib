@@ -3,11 +3,11 @@ module SRS.Rule where
 --  $Id$
 
 
-import TES.Symbol
+import Autolib.Symbol
 import TES.Parsec
 
-import ToDoc
-import Reader
+import Autolib.ToDoc
+import Autolib.Reader
 
 type Rule c = ( [c], [c] )
 

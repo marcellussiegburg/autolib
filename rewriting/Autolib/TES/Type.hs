@@ -11,7 +11,7 @@ where
 --  $Id$
 
 import Autolib.Util.Size
-import TES.Symbol
+import Autolib.Symbol
 import TES.Raw
 import TES.Xml
 

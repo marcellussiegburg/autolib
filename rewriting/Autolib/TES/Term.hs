@@ -1,7 +1,7 @@
 module TES.Term 
 
 ( module TES.Type
-, module TES.Symbol
+, module Autolib.Symbol
 , module TES.Apply
 , module TES.Draw
 )
@@ -10,7 +10,7 @@ where
 
 --   $Id$
 
-import TES.Symbol
+import Autolib.Symbol
 import TES.Identifier
 
 import TES.Type

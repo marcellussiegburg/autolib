@@ -8,7 +8,7 @@ where
 
 import TES.Type
 import qualified Data.Tree as D
-import ToDoc
+import Autolib.ToDoc
 
 data Container = Container String
 instance Show Container where

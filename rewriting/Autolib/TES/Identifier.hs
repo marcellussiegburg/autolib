@@ -13,7 +13,7 @@ where
 
 import Autolib.Sets
 
-import qualified Autolib.ToTex as Tex
+import qualified Autolib.ToTex 
 import Autolib.ToDoc
 import Autolib.Reader
 
@@ -93,5 +93,6 @@ instance Reader Identifier where
 instance Show Identifier where show = render . toDoc
 instance Read Identifier where readsPrec = parsec_readsPrec
 
-instance ToTex.ToTex Identifier where
-    toTex i = ToTex.Macro "mathit" [ ToTex.Req $ ToTex.Direct $ name i ]
+instance Autolib.ToTex.ToTex Identifier where
+    toTex i = Autolib.ToTex.Macro "mathit" 
+	      [ Autolib.ToTex.Req $ Autolib.ToTex.Direct $ name i ]

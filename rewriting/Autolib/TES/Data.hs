@@ -5,7 +5,7 @@ module TES.Data where
 
 --  $Id$
 
-import TES.Symbol
+import Autolib.Symbol
 import TES.Term
 import TES.Position (syms, vars)
 import TES.Rule

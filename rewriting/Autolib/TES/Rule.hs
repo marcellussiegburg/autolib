@@ -2,11 +2,11 @@ module TES.Rule where
 
 --   $Id$
 
-import TES.Symbol
+import Autolib.Symbol
 import TES.Term
 
-import ToDoc
-import Reader
+import Autolib.ToDoc
+import Autolib.Reader
 
 import TES.Parsec
 

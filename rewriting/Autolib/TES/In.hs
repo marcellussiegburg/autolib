@@ -9,10 +9,10 @@ module TES.In where
 --  $Id$
 
 import TES.Type
-import TES.Symbol
+import Autolib.Symbol
 import TES.Identifier
 
-import Reader
+import Autolib.Reader
 
 import TES.Parsec
 import Text.ParserCombinators.Parsec.Combinator (option)
