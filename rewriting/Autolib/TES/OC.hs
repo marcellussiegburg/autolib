@@ -10,7 +10,9 @@ import TES.Rule
 import TES.Data
 import TES.Position
 import TES.Unify
+import TES.Hull
 
+import Util.Size
 import Sets
 import Data.Maybe
 import Data.FiniteMap
@@ -45,6 +47,14 @@ up :: TRSC Int c
 up x y = let flip (l,r) = (r,l)
 	 in  map flip $ down (flip y) (flip x)
 
+inside :: TRSC Int c 
+       => (  Rule Int c -> Rule Int c -> [ Rule Int c ] )
+       -> (  Rule Int c -> Rule Int c -> [ Rule Int c ] )
+inside op = \ x y -> do
+    ( l, r ) <- op x y
+    ( p, r' ) <- positions r
+    return $ normalize ( l, r' )
+
 combine :: TRSC Int c 
 	=> Rule Int c -> Rule Int c 
 	-> [ Rule Int c ]
@@ -54,35 +64,13 @@ combine x y = down x y ++ up x y
 normalize :: ( TRSC v c, TRSC Int c )
 	  => Rule v c -> Rule Int c
 normalize (l, r) = 
-    let fm = listToFM 
-	   -- | user ordering by occurence
-	   $ zip ( nub $ lvars l ++ lvars r ) [ 0 .. ]
+    let -- variables in order of occurences
+	fm = listToFM 
+	   $ zip ( nub $ voccs r ++ voccs l ) [ 0 .. ]
     in  ( applyvar fm l , applyvar fm r )
 	
 
--- | extend by one step 
-single_hull :: Ord a 
-     => (a -> a -> [a]) -- ^ associative operation
-     -> [a] -- ^ initial elements
-     -> [a] 
-single_hull op base = help (mkSet base) base where
-    help done [] = []
-    help done xs = xs ++
-        let ys = do x <- xs ; b <- base ; op x b 
-	    new = nub $ filter ( not . ( `elementOf` done ) ) ys
-	in  help ( done `union` mkSet new ) new 
 
--- | combine totally (many steps)
-full_hull :: Ord a 
-     => (a -> a -> [a]) -- ^ associative operation
-     -> [a] -- ^ initial elements
-     -> [a] 
-full_hull op base = help (mkSet base) base where
-    help done [] = []
-    help done xs = xs ++
-        let ys = do x <- xs ; b <- setToList done ; op x b 
-	    new = nub $ filter ( not . ( `elementOf` done ) ) ys
-	in  help ( done `union` mkSet new ) new 
 
 
 -- | list of overlap closures
@@ -93,6 +81,26 @@ ocs trs = -- full_hull combine
           single_hull combine
 	$ map normalize
 	$ rules trs 
+
+-- | list of forward closures
+fcs :: TRSC v c
+    => TRS v c 
+    -> [ Rule Int c ]
+fcs trs = do
+    limit <- [ 1 .. ]
+    burn ( \ ( l, r ) -> do
+	       let sl =  size l ; sr = size r
+	       guard $ sl + sr < limit
+	       -- guard $ ( length (voccs r) > length (lvars r) )
+	       return $ sl + sr ^ 2
+	    ) 
+	    -- ( \ (l, r) -> (size r, r ) ) -- tagging
+	    ( id ) -- no tagging
+	    ( down )
+	$ map normalize
+	$ rules trs 
+
+
 
 ----------------------------------------------------------------
 
