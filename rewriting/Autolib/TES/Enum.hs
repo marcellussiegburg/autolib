@@ -1,10 +1,8 @@
 -- | enumerate terms over given signature
--- ideally, complete enumeration
--- and random generation should share almost all code
-
--- TODO: move class Pick into separate module
-
 module Autolib.TES.Enum where
+
+import Autolib.Pick
+import Autolib.Choose
 
 import Autolib.TES.Term
 import Autolib.TES.Data
@@ -13,51 +11,12 @@ import Autolib.TES.Position
 import Autolib.TES.Sexp
 import Autolib.TES.Binu
 
-import Autolib.Util.Splits
-import Autolib.Util.Zufall
-
 import Autolib.Reader
 import Autolib.ToDoc
 import Autolib.FiniteMap
-import System.Random
+
+import Control.Monad ( guard )
 import Control.Monad.State
-
--- | class that describes choice:
-class Monad g => Pick g where
-    pick :: [a] -> g a
-    
-
-instance Pick [] where
-    -- take all
-    pick xs = xs 
-
-instance RandomGen g => Pick (State g) where
-    -- take one
-    pick xs = do
-        g <- get
-	let ( i, g' ) = randomR (0, pred $ length xs) g
-	put g'
-	return $ xs !! i
-
-instance Pick IO where
-    pick = eins
-
-
--- | class that describes choosables
-class Choose a b where
-      choose :: Pick p => a -> Int -> p b
-
--- | lazy infinite list
-cache  :: ( Choose a b, Pick p ) => a -> [ p b ]
-cache a = do s <- [ 0 .. ] ; return $ choose a s
-
-instance ( Choose a b, Choose a c ) => Choose a (b, c) where
-    choose a s = do
-        sl <- pick [ 1 .. s - 1 ]
-	l  <- choose a sl
-	let sr = s - sl
-	r  <- choose a sr
-	return ( l, r )
 
 instance ( Reader [c], ToDoc [c], Symbol c ) 
     => Choose (Binu c) (Term a c) where
@@ -113,15 +72,6 @@ data Plain = Plain
 
 mach k = mk k $ show k
 
-instance Choose Plain a => Choose Plain [a] where
-    choose Plain s | s == 0 = do
-        return []
-    choose Plain s | s  > 0 = do
-	t  <- pick [ 1 .. s ] 
-	x  <- choose Plain t 
-	xs <- choose Plain (s - t) 
-	return $ x : xs 
-
 instance Choose Plain ( Term a Identifier ) where
     choose Plain s | s  >= 1  = do
         xs <- choose Plain ( s - 1 )
@@ -133,36 +83,6 @@ b = Binu { binary  = [ mkbinary "f" ]
 	 , unary   = []
 	 , nullary = [ mknullary "a" ]
 	 }
-
--- | combine 4 = [[4], [3,1], [2,2], [2,1,1], [1,1,1,1]]
-combine i = combi i i
-combi b 0 = return []
-combi b k | k > 0 = do
-    x <- pick [ 1 .. min k b ]
-    xs <- combi x (k - x)
-    return $ x : xs
-
--- | each permutation
-permute :: Pick p => [(a, Int)] -> p [a]
-permute [] = return []
-permute things = do
-    ( pre, (x,i) : post ) <- pick $ splits things
-    xs <- permute $ pre ++ [ (x, pred i) | i > 1 ] ++ post
-    return $ x : xs
-
--- | lexicographically rising
-ordered_permute :: Pick p => [(a, Int)] -> p [a]
-ordered_permute things = 
-    helper $ do (x,i) <- things ; return (True,x,i)
-    
-helper [] = return []
-helper fxis = do
-    ( pre, (f,x,i) : post ) <- pick 
-        $ filter ( \ (pre, _) -> all (\ (f,x,i) -> not f) pre)
-	$ splits fxis
-    xs <- helper $ pre ++ [ (False, x, pred i) | i > 1 ] ++ post
-    return $ x : xs
-
 
 pairs :: Int
       -> [ ( Term Identifier Identifier, Term Identifier Identifier ) ]
