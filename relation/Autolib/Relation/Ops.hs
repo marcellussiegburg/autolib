@@ -18,6 +18,10 @@ simages rel xs = unionManySets $ do
     x <- setToList xs
     return $ images rel x
 
+inverse :: ( Ord a, Ord b ) => Type a b -> Type b a
+inverse r = ( make0 $ do ( x, y) <- pairs r ; return (y, x) )
+	    { source = target r, target = source r }
+
 times :: (Ord a, Ord b, Ord c)
       =>  Type a b -> Type b c -> Type a c
 times r s = ( make0 $  do 
