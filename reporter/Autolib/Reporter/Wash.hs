@@ -8,8 +8,8 @@ import Autolib.Output
 import Autolib.Output.Wash
 
 -- wash
-import qualified HTMLMonad  as H
-import qualified CGI        as C
+import qualified Autolib.HTMLMonad  as H
+import qualified Autolib.CGI        as C
 
 
 -- for use  with wash/cgi

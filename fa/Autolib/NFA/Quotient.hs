@@ -6,8 +6,8 @@ module Autolib.NFA.Quotient where
 
 import Autolib.NFA.Type
 import Autolib.NFA.Trim
-import qualified NFA.Ops
-import qualified Sets
+import qualified Autolib.NFA.Ops
+import qualified Autolib.Sets
 
 import Autolib.NFA.Mirror ( mirror )
 

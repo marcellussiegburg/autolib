@@ -7,7 +7,7 @@ import Autolib.Exp.Inter
 
 import Autolib.NFA.Type
 import Autolib.NFA.Shortest ( accepted, is_accepted )
-import qualified NFA.Minus
+import qualified Autolib.NFA.Minus
 import Autolib.Letters
 
 import Autolib.Language.Type

@@ -13,17 +13,17 @@ where
 
 import Autolib.NFA
 import Autolib.Exp
-import qualified NFA.Ops      as Ops
-import qualified NFA.Minus    as Minus
-import qualified NFA.Shuffle  as Shuffle
-import qualified NFA.Quotient as Quotient
+import qualified Autolib.NFA.Ops      as Ops
+import qualified Autolib.NFA.Minus    as Minus
+import qualified Autolib.NFA.Shuffle  as Shuffle
+import qualified Autolib.NFA.Quotient as Quotient
 
-import qualified Exp.Env as E
+import qualified Autolib.Exp.Env as E
 
-import qualified NFA.Det      as Det
-import qualified NFA.Trim     as Trim
-import qualified NFA.Mirror   as Mirror
-import qualified NFA.Basic    as Basic
+import qualified Autolib.NFA.Det      as Det
+import qualified Autolib.NFA.Trim     as Trim
+import qualified Autolib.NFA.Mirror   as Mirror
+import qualified Autolib.NFA.Basic    as Basic
 
 import Autolib.TES.Symbol
 import Autolib.ToDoc

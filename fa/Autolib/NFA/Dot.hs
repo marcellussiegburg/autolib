@@ -11,10 +11,10 @@ where
 import Autolib.NFA.Type
 import Autolib.Dot.Dot
 
-import qualified Dot.Graph
-import qualified Dot.Node
-import qualified Dot.Edge
-import qualified Dot.Arrange
+import qualified Autolib.Dot.Graph
+import qualified Autolib.Dot.Node
+import qualified Autolib.Dot.Edge
+import qualified Autolib.Dot.Arrange
 
 import Autolib.ToDoc
 

@@ -15,7 +15,7 @@ import Autolib.NFA.Normalize
 import Autolib.Letters
 
 import Data.FiniteMap
-import Autolib.qualified Sets
+import qualified Autolib.Sets
 import Autolib.Sets (setToList)
 
 import Autolib.ToDoc ( ToDoc, toDoc )

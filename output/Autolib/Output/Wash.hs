@@ -3,7 +3,7 @@ module Autolib.Output.Wash where
 --   $Id$
 
 import Autolib.Output.Type
-import qualified HTMLMonad
+import qualified Autolib.HTMLMonad
 
 instance Monad m => Render ( HTMLMonad.WithHTML m () ) where
     render (Text t) = HTMLMonad.text t

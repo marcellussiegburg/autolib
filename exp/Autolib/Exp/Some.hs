@@ -12,8 +12,8 @@ import Autolib.Exp.Inter
 import Autolib.NFA
 
 import Autolib.Size
-import qualified NFA.Ops
-import qualified NFA.Basic
+import qualified Autolib.NFA.Ops
+import qualified Autolib.NFA.Basic
 import Autolib.ToDoc hiding ( empty )
 
 import Data.Set

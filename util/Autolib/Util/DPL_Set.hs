@@ -7,7 +7,7 @@ module Autolib.Util.DPL_Set
 where
 
 
-import qualified Util.DPL as D
+import qualified Autolib.Util.DPL as D
 import Autolib.Simple_Set
 import Control.Monad ( guard )
 -- import Data.Set
