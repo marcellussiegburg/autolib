@@ -1,6 +1,6 @@
 module Boxing.Ops where
 
--- $Id$
+-- -- $Id$
 
 import Boxing.Position
 import Boxing.Class

@@ -1,6 +1,6 @@
 module Graph.Knight where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Graph 
 import Graph.Basic

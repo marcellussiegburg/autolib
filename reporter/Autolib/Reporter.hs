@@ -6,7 +6,7 @@ module Reporter
 , module Monad
 )
 
--- $Id$
+-- -- $Id$
 
 where
 

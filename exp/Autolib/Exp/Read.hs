@@ -1,6 +1,6 @@
 module Exp.Read where
 
--- $Id$
+-- -- $Id$
 
 import Exp.Type
 

@@ -1,6 +1,6 @@
 module Util.Teilfolgen where
 
--- $Id$
+-- -- $Id$
 
 teilfolgen :: Int -> [a] -> [[a]]
 teilfolgen k xs | k > length xs = []

@@ -2,7 +2,7 @@ module Reporter.Type
 
 where
 
--- $Id$
+-- -- $Id$
 
 import Output
 

@@ -1,6 +1,6 @@
 module NFA.Language where
 
--- $Id$
+-- -- $Id$
 
 import Exp -- for debugging
 import Exp.Inter
@@ -30,7 +30,7 @@ language tag a =
 
        , sample       = \ c n -> do
             ws <- einige c $ take (n^2 + 1) 
-			 -- $ takeWhile ( \ w -> length w <= n^2 ) 
+			 -- -- $ takeWhile ( \ w -> length w <= n^2 ) 
 			 $ accepted a
 	    return $ nub ws
 

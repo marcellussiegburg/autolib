@@ -1,6 +1,6 @@
 module Util.Closure where
 
--- $Id$
+-- -- $Id$
 
 import Sets
 import Util.Splits

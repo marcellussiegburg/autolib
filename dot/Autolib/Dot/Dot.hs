@@ -1,6 +1,6 @@
 module Dot.Dot where
 
--- $Id$
+-- -- $Id$
 
 import qualified Dot.Graph
 import System

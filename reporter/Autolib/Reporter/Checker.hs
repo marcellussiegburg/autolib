@@ -1,6 +1,6 @@
 module Reporter.Checker where
 
--- $Id$
+-- -- $Id$
 
 import Grammatik.Type
 import Reporter.Type

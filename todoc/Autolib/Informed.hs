@@ -1,6 +1,6 @@
 module Informed where
 
--- $Id$
+-- -- $Id$
 
 import ToDoc
 

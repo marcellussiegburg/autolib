@@ -1,6 +1,6 @@
 module Reporter.Bool where
 
--- $Id$
+-- -- $Id$
 
 import Reporter.Iterator
 import Reporter.Type

@@ -1,6 +1,6 @@
 module Graph.Basic where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Graph hiding ( union )
 import Graph.Display

@@ -1,6 +1,6 @@
 module NFA.Minimize where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type
 import NFA.Dot

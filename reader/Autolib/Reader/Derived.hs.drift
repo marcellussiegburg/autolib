@@ -2,7 +2,7 @@
 
 module Reader.Derived where
 
--- $Id$
+-- -- $Id$
 
 import Reader.Class
 import Reader.Basic

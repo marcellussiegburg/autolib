@@ -1,6 +1,6 @@
 module Relation.Basic where
 
--- $Id$
+-- -- $Id$
 
 import Relation.Type
 import Relation.Ops

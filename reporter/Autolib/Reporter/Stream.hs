@@ -8,7 +8,7 @@ module Reporter.Stream
 
 where
 
--- $Id$
+-- -- $Id$
 
 import Reporter.Type
 import Output

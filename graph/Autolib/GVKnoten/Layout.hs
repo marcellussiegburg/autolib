@@ -1,6 +1,6 @@
 module GVKnoten.Layout where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Graph
 import Graph.Display

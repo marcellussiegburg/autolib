@@ -4,7 +4,7 @@
 
 module TES.Path where
 
--- $Id$
+-- -- $Id$
 
 import TES.Term
 import TES.Data

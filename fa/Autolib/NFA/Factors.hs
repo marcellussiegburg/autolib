@@ -1,6 +1,6 @@
 module NFA.Factors where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type
 import NFA.Trim

@@ -4,7 +4,7 @@ module Graph.Generate
 
 where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Type hiding ( empty , union )
 import Graph.Basic

@@ -1,6 +1,6 @@
 module NFA.Hull
 
--- $Id$
+-- -- $Id$
 
 ( hull
 )

@@ -1,6 +1,6 @@
 module Exp.Simplify where
 
--- $Id$
+-- -- $Id$
 
 import Exp.Type
 

@@ -1,6 +1,6 @@
 module Exp.Example where
 
--- $Id$
+-- -- $Id$
 
 import Exp.Type
 import Sets

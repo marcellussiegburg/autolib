@@ -1,6 +1,6 @@
 module Exp.Some where
 
--- $Id$
+-- -- $Id$
 
 import Exp.Type
 import Exp.Print

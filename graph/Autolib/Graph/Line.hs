@@ -1,6 +1,6 @@
 module Graph.Line where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Graph
 

@@ -1,6 +1,6 @@
 module NFA.Compact where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type
 

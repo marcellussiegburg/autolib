@@ -1,6 +1,6 @@
 module Graph.Incidence where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Graph
 

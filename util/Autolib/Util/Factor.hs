@@ -1,6 +1,6 @@
 module Util.Factor where
 
--- $Id$
+-- -- $Id$
 
 import List ( tails, isPrefixOf )
 

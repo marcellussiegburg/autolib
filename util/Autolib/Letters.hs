@@ -1,6 +1,6 @@
 module Letters where
 
--- $Id$
+-- -- $Id$
 
 import Set
 

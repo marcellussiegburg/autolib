@@ -1,6 +1,6 @@
 module NFA.Mirror where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type
 

@@ -1,6 +1,6 @@
 module LaTeX where
 
--- $Id$
+-- -- $Id$
 
 import ToDoc
 import List (intersperse)

@@ -1,6 +1,6 @@
 module NFA.Epsilon where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type
 import Set

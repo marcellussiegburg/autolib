@@ -7,7 +7,7 @@ module Util.Bild
 
 where
 
--- $Id$
+-- -- $Id$
 
 import Data.Array
 

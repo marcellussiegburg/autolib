@@ -1,7 +1,7 @@
 module Size 
 
 -- veraltet
--- $Id$
+-- -- $Id$
 
 ( module Util.Size )
 

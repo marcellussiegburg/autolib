@@ -1,6 +1,6 @@
 module TES.Symbol where
 
--- $Id$
+-- -- $Id$
 
 import Sets
 

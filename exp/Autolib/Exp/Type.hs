@@ -1,6 +1,6 @@
 module Exp.Type where
 
--- $Id$
+-- -- $Id$
 
 data Exp 
 	= Ref String  -- reference to value in evironment

@@ -1,6 +1,6 @@
 module Output.Wash where
 
--- $Id$
+-- -- $Id$
 
 import Output.Type
 import qualified HTMLMonad

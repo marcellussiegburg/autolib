@@ -1,6 +1,6 @@
 module Graph.Display 
 
--- $Id$
+-- -- $Id$
 
 ( module Dot.Dot
 , dot_numbered

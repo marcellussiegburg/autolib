@@ -1,6 +1,6 @@
 module Util.Edit where
 
--- $Id$
+-- -- $Id$
 
 import Random
 import Control.Monad

@@ -1,6 +1,6 @@
 module Graph.Kante where
 
--- $Id$
+-- -- $Id$
 
 import Reader
 import ToDoc

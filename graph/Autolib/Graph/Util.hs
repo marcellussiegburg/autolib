@@ -1,6 +1,6 @@
 module Graph.Util where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Graph
 import Set

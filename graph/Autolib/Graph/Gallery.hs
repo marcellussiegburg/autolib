@@ -1,6 +1,6 @@
 module Graph.Gallery where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Type
 import Graph.Basic

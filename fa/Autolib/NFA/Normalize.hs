@@ -1,6 +1,6 @@
 module NFA.Normalize where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type
 

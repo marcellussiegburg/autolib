@@ -1,6 +1,6 @@
 module Output.Type where
 
--- $Id$
+-- -- $Id$
 
 -- hier steht nur der Typ und die Pretty-Instanz
 

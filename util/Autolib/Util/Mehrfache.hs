@@ -1,6 +1,6 @@
 module Util.Mehrfache where
 
--- $Id$
+-- -- $Id$
 
 import Data.FiniteMap
 

@@ -1,6 +1,6 @@
 module NFA.Finite 
 
--- $Id$
+-- -- $Id$
 
 ( finite
 )

@@ -1,6 +1,6 @@
 module Reader.Class where
 
--- $Id$
+-- -- $Id$
 
 import Parsec
 

@@ -1,6 +1,6 @@
 module NFA.Some where
 
--- $Id$
+-- -- $Id$
 
 import NFA
 

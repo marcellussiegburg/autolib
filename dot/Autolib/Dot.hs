@@ -1,6 +1,6 @@
 module Dot 
 
--- $Id$
+-- -- $Id$
 
 ( module Dot.Dot
 )

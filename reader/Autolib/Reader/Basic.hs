@@ -16,7 +16,7 @@ module Reader.Basic
 
 where
 
--- $Id$
+-- -- $Id$
 
 import Reader.Class
 import TypeOf -- TODO: what for? Idee ausbauen!

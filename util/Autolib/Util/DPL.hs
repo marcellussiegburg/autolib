@@ -1,4 +1,4 @@
--- $Header$
+-- -- $Id$
 
 module Util.DPL 
 
@@ -8,16 +8,6 @@ where
 
 -- dynamic programming on lists
 
--- $Log$
--- Revision 1.1  2002-12-17 21:26:18  joe
--- mehr fergessen
---
--- Revision 1.1.1.1  2002/05/24 10:46:48  challenger
--- start
---
--- Revision 1.1  2001/11/28 07:25:23  autotool
--- neu: DPL*
---
 
 import LazyST
 import FiniteMap 

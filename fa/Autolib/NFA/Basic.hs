@@ -1,6 +1,6 @@
 module NFA.Basic where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type
 import Set

@@ -1,6 +1,6 @@
 module Reporter.Parallel where
 
--- $Id$
+-- -- $Id$
 
 import Reporter.Type
 import Reporter.Iterator

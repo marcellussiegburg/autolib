@@ -1,6 +1,6 @@
 module Util.Fix where
 
--- $Id$
+-- -- $Id$
 
 fixBy :: Eq b => (a -> b) -> (a -> a) -> a -> a
 fixBy select f x0 = last $ fixesBy select f x0

@@ -1,6 +1,6 @@
 module Util.Doppelte
 
--- $Id$
+-- -- $Id$
 
 ( doppelte
 , doppelteBy

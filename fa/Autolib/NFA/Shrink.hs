@@ -1,6 +1,6 @@
 module NFA.Shrink where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type
 

@@ -3,7 +3,7 @@
 -- autor Georg Martius
 -- mai99dgf@studserv.uni-leipzig.de
 
--- $Id$
+-- -- $Id$
 
 
 module Graph.Graph ( 

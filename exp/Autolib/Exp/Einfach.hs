@@ -1,6 +1,6 @@
 module Exp.Einfach where
 
--- $Id$
+-- -- $Id$
 
 import Exp.Type
 import Exp.Syntax

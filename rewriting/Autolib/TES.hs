@@ -1,6 +1,6 @@
 module TES 
 
--- $Id$
+-- -- $Id$
 
 ( module TES.Symbol
 , module TES.Term

@@ -1,6 +1,6 @@
 module ToDoc 
 
--- $Id$
+-- -- $Id$
 
 ( module ToDoc
 , module Pretty 

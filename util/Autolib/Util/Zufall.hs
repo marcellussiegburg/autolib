@@ -2,7 +2,7 @@ module Util.Zufall
 
 where
 
--- $Id$
+-- -- $Id$
 
 import Random
 

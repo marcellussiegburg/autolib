@@ -1,6 +1,6 @@
 module Util.Hide where
 
--- $Id$
+-- -- $Id$
 
 newtype Hide a = Hide { unHide :: a } deriving Show
 

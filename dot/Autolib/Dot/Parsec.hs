@@ -1,6 +1,6 @@
 module Dot.Parsec where
 
--- $Id$
+-- -- $Id$
 
 import Reader
 import Parsec

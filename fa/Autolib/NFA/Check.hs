@@ -1,6 +1,6 @@
 module NFA.Check where
 
--- $Id$
+-- -- $Id$
 
 import NFA
 import ToDoc

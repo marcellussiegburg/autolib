@@ -1,6 +1,6 @@
 module Util.Seed where
 
--- $Id$
+-- -- $Id$
 
 import Random
 

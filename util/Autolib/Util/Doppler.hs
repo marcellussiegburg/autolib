@@ -5,7 +5,7 @@ module Util.Doppler
 
 where
 
--- $Id$
+-- -- $Id$
 
 -- do BFS, emit duplicate pairs
 -- i. e. identical items with different paths

@@ -1,6 +1,6 @@
 module Util.Generate where
 
--- $Id$
+-- -- $Id$
 
 import Util.Zufall
 import Random

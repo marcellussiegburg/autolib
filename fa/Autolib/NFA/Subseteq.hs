@@ -1,6 +1,6 @@
 module NFA.Subseteq where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type hiding ( subseteq )
 import NFA.Trim

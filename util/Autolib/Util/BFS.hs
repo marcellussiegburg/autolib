@@ -1,6 +1,6 @@
 module Util.BFS 
 
--- $Id$
+-- -- $Id$
 
 ( meetings
 -- for testing

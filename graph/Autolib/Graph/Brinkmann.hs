@@ -1,6 +1,6 @@
 module Graph.Brinkmann where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Graph 
 import Graph.Basic

@@ -6,7 +6,7 @@ module Sets
 
 where
 
--- $Id$
+-- -- $Id$
 
 import Set
 import ToDoc

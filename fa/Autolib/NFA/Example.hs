@@ -1,6 +1,6 @@
 module NFA.Example where
 
--- $Id$
+-- -- $Id$
 
 import NFA
 import ToDoc

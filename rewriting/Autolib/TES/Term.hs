@@ -6,7 +6,7 @@ module TES.Term
 
 where
 
--- $Id$
+-- -- $Id$
 
 import TES.Symbol
 

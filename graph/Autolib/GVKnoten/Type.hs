@@ -1,6 +1,6 @@
 module GVKnoten.Type where
 
--- $Id$
+-- -- $Id$
 
 type Pos = ( Int, Int )
 

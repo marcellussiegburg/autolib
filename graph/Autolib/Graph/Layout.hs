@@ -1,6 +1,6 @@
 module Graph.Layout where
 
--- $Id$
+-- -- $Id$
 
 import Graph.Graph
 

@@ -1,6 +1,6 @@
 module Util.Uniq where
 
--- $Id$
+-- -- $Id$
 
 import Sets
 

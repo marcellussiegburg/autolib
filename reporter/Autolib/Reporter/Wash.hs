@@ -1,6 +1,6 @@
 module Reporter.Wash where
 
--- $Id$
+-- -- $Id$
 
 import Reporter.Type
 

@@ -1,6 +1,6 @@
 module NFA.Contract where
 
--- $Id$
+-- -- $Id$
 
 import NFA.Type
 

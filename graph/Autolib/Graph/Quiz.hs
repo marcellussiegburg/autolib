@@ -1,6 +1,6 @@
 -- this is a Main file
 
--- $Id$
+-- -- $Id$
 
 import Multi.Chooser
 import Multi.Generator

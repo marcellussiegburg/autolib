@@ -1,6 +1,6 @@
 module Util.Perm where
 
--- $Id$
+-- -- $Id$
 
 import Random
 

@@ -1,6 +1,6 @@
 module Exp.Generated where
 
--- $Id$
+-- -- $Id$
 
 import Exp.Type
 import Exp.Inter

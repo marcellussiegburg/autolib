@@ -1,6 +1,6 @@
 module Main where
 
--- $Id$
+-- -- $Id$
 
 import Exp.Type
 
@@ -54,7 +54,7 @@ inform a = do
 
 main :: IO ()
 main = do
-     putStrLn $ "-- $Id$"
+     putStrLn $ "-- -- $Id$"
      putStrLn $ "-- welcome"
      loop $ make [ ( "Eps", NFA.Basic.epsilon) ]
 

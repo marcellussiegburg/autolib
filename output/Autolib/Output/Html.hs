@@ -1,6 +1,6 @@
 module Output.Html where
 
--- $Id$
+-- -- $Id$
 
 import Output.Type
 import qualified Html

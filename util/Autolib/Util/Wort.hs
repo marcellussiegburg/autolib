@@ -1,6 +1,6 @@
 module Util.Wort where
 
--- $Id$
+-- -- $Id$
 
 import Util.Sort
 import Util.Uniq

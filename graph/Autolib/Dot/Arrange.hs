@@ -1,6 +1,6 @@
 module Dot.Arrange where
 
--- $Id$
+-- -- $Id$
 
 import qualified Dot.Graph
 import qualified Dot.Node

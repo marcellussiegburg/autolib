@@ -1,6 +1,6 @@
 module Relation.Type
 
--- $Id$
+-- -- $Id$
 
 ( module Relation.Type
 

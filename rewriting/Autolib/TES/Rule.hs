@@ -1,6 +1,6 @@
 module TES.Rule where
 
--- $Id$
+-- -- $Id$
 
 import TES.Symbol
 import TES.Term

@@ -1,6 +1,6 @@
 module Reporter.Iterator where
 
--- $Id$
+-- -- $Id$
 
 import Reporter.Type
 import ToDoc

@@ -1,6 +1,6 @@
 module TES.Parsec where
 
--- $Id$
+-- -- $Id$
 
 import ParsecLanguage
 import ParsecToken

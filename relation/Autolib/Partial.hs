@@ -1,6 +1,6 @@
 module Partial where
 
--- $Id$
+-- -- $Id$
 
 -- Halbordnung
 
