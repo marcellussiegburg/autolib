@@ -66,7 +66,7 @@ is_constant = (== 0) . arity
 instance Symbol () where
 
 
-instance ( Show a, Symbol a ) => Symbol (Aged a) where
+instance ( HeightC h, Show a, Symbol a ) => Symbol (Aged h a) where
     arity = arity . it
     set_arity a = itmap (set_arity a)  
 
