@@ -7,7 +7,7 @@ import Autolib.NFTA.Cross
 import qualified Autolib.Relation as Relation
 
 import Autolib.ToDoc
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Informed
 
 alphamap :: ( NFTAC c s, NFTAC d s )
@@ -76,5 +76,5 @@ intersection :: ( NFTAC c s, NFTAC c t )
              -> NFTA c (s, t)
 intersection a b = 
     ( Autolib.NFTA.Cross.cross a b )
-    { finals = Autolib.Sets.cross (finals a) (finals b) }
+    { finals = Autolib.Set.cross (finals a) (finals b) }
 

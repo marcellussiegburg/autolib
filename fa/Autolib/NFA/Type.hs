@@ -8,7 +8,7 @@ module Autolib.NFA.Type
 
 where
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Letters
 
 import Autolib.NFA.Data

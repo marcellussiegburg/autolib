@@ -5,7 +5,7 @@ module Autolib.NFA.Basic where
 import Autolib.NFA.Type
 import Autolib.NFA.Shortest (accepted)
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Autolib.ToDoc hiding ( empty )
 
 -- | accepted language is empty?

@@ -26,7 +26,7 @@ import Autolib.Graph.Layout
 import Autolib.GVKnoten.Layout
 
 import Autolib.ToDoc
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Autolib.Iso
 import Autolib.Number
 

@@ -2,7 +2,7 @@ module Autolib.Util.Mehrfache where
 
 -- -- $Id$
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 mehrfacheBy :: Ord b => (a -> b) -> [a] -> [[a]]
 -- nicht lazy genug:

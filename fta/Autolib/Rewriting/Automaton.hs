@@ -24,7 +24,7 @@ import Autolib.Symbol
 import Autolib.ToDoc
 import Autolib.Reader
 import Autolib.Hash
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Letters
 import Autolib.Util.Size
 

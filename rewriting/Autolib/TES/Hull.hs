@@ -2,7 +2,7 @@ module Autolib.TES.Hull where
 
 --  $Id$
 
-import Autolib.Sets
+import Autolib.Set
 import Control.Monad (mzero)
 import Control.Monad.State
 import Data.List ( insert, nub )

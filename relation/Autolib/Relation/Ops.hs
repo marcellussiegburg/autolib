@@ -10,7 +10,7 @@ where
 
 import Autolib.Relation.Type
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Fix
 
 holds :: ( Ord a, Ord b) => Type a b -> a -> b -> Bool

@@ -17,7 +17,7 @@ import qualified Autolib.Dot.Edge
 
 import Autolib.Boxing.Position
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Maybe
 import Control.Monad ( guard )
 

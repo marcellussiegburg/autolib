@@ -9,7 +9,7 @@ import Autolib.Boxing
 
 import qualified Data.Set as Set
 import qualified Data.List as List
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Maybe
 import Control.Monad ( guard )
 import Autolib.ToDoc hiding ( empty )

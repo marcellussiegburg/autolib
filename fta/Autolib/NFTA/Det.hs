@@ -4,12 +4,12 @@ module Autolib.NFTA.Det where
 
 import Autolib.NFTA.Type
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Informed
 import Autolib.ToDoc
 import qualified Autolib.Relation as Relation
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Control.Monad
 
 

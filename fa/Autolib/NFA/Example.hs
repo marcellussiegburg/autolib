@@ -4,7 +4,7 @@ module Autolib.NFA.Example where
 
 import Autolib.NFA.Type
 import Autolib.ToDoc
-import Autolib.Sets
+import Autolib.Set
 
 example :: NFA Char Int
 example = example_sigma $ mkSet "ab"

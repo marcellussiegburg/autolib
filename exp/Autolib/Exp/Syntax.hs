@@ -6,7 +6,7 @@ import Autolib.Exp.Type
 import Autolib.Exp.Print
 
 import Autolib.Reporter
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Util.Size
 import Autolib.Hash
 import Autolib.ToDoc

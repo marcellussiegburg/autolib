@@ -6,7 +6,7 @@ module Autolib.TES.Position where
 
 import Autolib.TES.Term
 import Autolib.Util.Size
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Letters
 
 type Position = [ Int ]

@@ -5,16 +5,16 @@ module Autolib.Relation.Type
 ( module Autolib.Relation.Type
 
 -- damit unsere freunde nichts extra schreiben müssen
-, module Autolib.Sets
-, module Data.FiniteMap
+, module Autolib.Set
+, module Autolib.FiniteMap
 )
 
 where
 
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Util.Size
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 import Autolib.Hash
 import Autolib.ToDoc

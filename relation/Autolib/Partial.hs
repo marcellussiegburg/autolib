@@ -4,7 +4,7 @@ module Autolib.Partial where
 
 -- Halbordnung
 
-import Data.Set
+import Autolib.Set
 import Control.Monad ( guard )
 import Data.List ( isPrefixOf )
 

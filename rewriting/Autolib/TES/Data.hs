@@ -15,12 +15,12 @@ import Autolib.TES.Identifier
 
 import qualified Autolib.SRS.Rule -- only for instances
 
-import Autolib.Sets
+import Autolib.Set
 
 import Autolib.ToDoc
 import Autolib.Reader
 import Data.List ( partition )
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Control.Monad ( guard )
 
 import Autolib.TES.Sexp

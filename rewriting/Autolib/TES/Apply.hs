@@ -5,7 +5,7 @@ module Autolib.TES.Apply where
 import Autolib.TES.Type
 import Autolib.TES.Out
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Maybe
 
 

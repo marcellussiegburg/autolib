@@ -2,7 +2,7 @@
 
 module Autolib.Iso where
 
-import Data.Set
+import Autolib.Set
 
 -- | Klasse fuer den Isomorphietest
 class Iso a where

@@ -13,7 +13,7 @@ module Autolib.NFTA.Path where
 import qualified Autolib.NFTA.Type as T -- trees
 import qualified Autolib.NFA.Type as W -- words
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.ToDoc
 import Autolib.Reader
 

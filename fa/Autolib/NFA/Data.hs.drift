@@ -6,17 +6,17 @@ module Autolib.NFA.Data
 
 ( module Autolib.NFA.Data
 , module Autolib.Informed
-, module Data.FiniteMap
-, module Autolib.Sets
+, module Autolib.FiniteMap
+, module Autolib.Set
 )
 
 where
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Size
 import Autolib.Letters
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Autolib.ReadFM
 
 import Autolib.Informed
@@ -27,6 +27,8 @@ import Autolib.Hash
 import Autolib.Symbol
 
 import Control.Monad (guard)
+import Text.XML.HaXml.Haskell2Xml
+import Data.Typeable
 
 -- mal sehen
 type NFA_Char s = NFA Char s
@@ -70,8 +72,9 @@ data NFAC c s => NFA c s =
 	 , finals :: Set s
 	 , trans  :: FiniteMap (s, c) (Set s)
 	 }
+    deriving Typeable
 
-{-! for NFA derive : ToDoc, Reader !-}
+{-! for NFA derive : ToDoc, Reader, Haskell2Xml !-}
 
 instance NFAC c s
     => Show ( NFA c s ) where

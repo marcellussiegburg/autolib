@@ -11,11 +11,11 @@ import Autolib.Letters
 import Autolib.NFA.Hull
 
 import Data.Set
-import Autolib.Sets (sfilter)
+import Autolib.Set (sfilter)
 
 import Control.Monad.State
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Autolib.ToDoc
 
 

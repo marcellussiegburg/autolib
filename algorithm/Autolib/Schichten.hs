@@ -9,7 +9,7 @@ module Autolib.Schichten
 
 where
 
-import Data.Set
+import Autolib.Set
 
 bfs :: Ord a => ( a -> Set a ) -> a -> [a]
 bfs f x0 = bfs' f (unitSet x0)

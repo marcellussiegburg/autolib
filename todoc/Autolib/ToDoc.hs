@@ -13,6 +13,7 @@ import Autolib.ToDoc.Manual
 import Autolib.ToDoc.Derived
 import Autolib.ToDoc.Typeable
 import Autolib.ToDoc.Dutch
+import Autolib.ToDoc.Xml
 
 
 

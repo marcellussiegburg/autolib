@@ -11,7 +11,7 @@ where
 
 --   $Id$
 
-import Autolib.Sets
+import Autolib.Set
 
 import qualified Autolib.ToTex 
 import Autolib.ToDoc

@@ -5,8 +5,8 @@ module Autolib.NFA.Shortest where
 import Autolib.NFA.Type
 import Autolib.NFA.Trim
 
-import Autolib.Sets
-import Data.FiniteMap
+import Autolib.Set
+import Autolib.FiniteMap
 
 import Autolib.Letters
 import Autolib.Util.Hide

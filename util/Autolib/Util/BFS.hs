@@ -10,9 +10,9 @@ module Autolib.Util.BFS
 
 where
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Maybe
-import Autolib.Sets
+import Autolib.Set
 
 meetings :: Ord a => Int -- höchstens soviele generieren
 	          -> ( a -> [a] ) -> a -> [(a, a)]

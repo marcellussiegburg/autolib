@@ -5,9 +5,9 @@ module Autolib.NFA.Shrink where
 import Autolib.NFA.Type
 
 import Autolib.Util.Size
-import Autolib.Sets
+import Autolib.Set
 import Autolib.OrdFM
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Autolib.ToDoc
 import Autolib.Reporter
 

@@ -6,8 +6,8 @@ module Autolib.NFTA.Trim
 
 where
 
-import Autolib.Sets
-import Data.FiniteMap
+import Autolib.Set
+import Autolib.FiniteMap
 
 import Autolib.NFTA.Type
 import Autolib.NFTA.Ops

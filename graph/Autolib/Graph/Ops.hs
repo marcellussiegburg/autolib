@@ -9,11 +9,11 @@ import Autolib.Graph.Display
 
 import Autolib.Boxing hiding ( grid )
 import Autolib.ToDoc hiding (empty)
-import Autolib.Sets
+import Autolib.Set
 
 import qualified Data.Set as Set
 import qualified Data.List as List
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Maybe
 import Control.Monad ( guard )
 import Autolib.Util.Teilfolgen

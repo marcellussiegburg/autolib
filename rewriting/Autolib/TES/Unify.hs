@@ -14,7 +14,7 @@ import Autolib.TES.Term
 import Autolib.Symbol
 import Autolib.TES.Position
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Maybe
 import Data.Set
 import Control.Monad

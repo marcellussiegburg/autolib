@@ -10,7 +10,7 @@ where
 -- do BFS, emit duplicate pairs
 -- i. e. identical items with different paths
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 doppler :: Ord a 
 	=> Int

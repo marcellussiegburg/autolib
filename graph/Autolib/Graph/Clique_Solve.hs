@@ -5,7 +5,7 @@ import Graph_Util
 import Graph_Clique
 
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 -------------------------------------------------------------------------------
 

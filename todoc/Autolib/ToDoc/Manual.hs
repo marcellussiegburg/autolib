@@ -10,7 +10,7 @@ import Autolib.ToDoc.Dutch
 
 import Data.Set
 import Data.Int
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 instance ToDoc Int   where toDocPrec p = int
 instance ToDoc Int32 where toDocPrec p = int . fromIntegral

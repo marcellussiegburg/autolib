@@ -12,7 +12,7 @@ import Autolib.GVKnoten.Parser
 
 import Autolib.ToDoc
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Maybe
 import Control.Monad ( foldM )
 

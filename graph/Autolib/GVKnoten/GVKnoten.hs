@@ -5,7 +5,7 @@ import GVKnoten.Parser -- (parse14, parse15)
 import GVKnoten.Type   -- Definition von GVKnoten
 import Graph.Graph     -- Definition von Graph
 import Graph.Viz       -- getGraphviz
-import Data.FiniteMap       -- alle FM-Sachen
+import Autolib.FiniteMap       -- alle FM-Sachen
 -- import InstanzTrans    -- myTrans
 -- import Testgraph       -- test_graph_int, test_graph_str, test_graph_stt
 import CPUTime

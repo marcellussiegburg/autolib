@@ -10,7 +10,7 @@ where
 --  $Id$
 
 import Autolib.NFTA.Type
-import Autolib.Sets
+import Autolib.Set
 import qualified Autolib.Relation as Relation
 -- import qualified Autolib.Relation.Type 
 import Control.Monad ( guard )

@@ -3,7 +3,7 @@
 module Autolib.NFTA.Type 
 
 ( module Autolib.NFTA.Type
-, module Autolib.Sets
+, module Autolib.Set
 , module Autolib.Symbol
 )
 
@@ -11,7 +11,7 @@ where
 
 --  $Id$
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Letters
 import Autolib.Util.Size
 import Autolib.Symbol

@@ -18,7 +18,7 @@ import Data.Maybe
 
 import Autolib.Fix
 import Autolib.Letters
-import Autolib.Sets
+import Autolib.Set
 import Autolib.ToDoc
 
 reachable_states_orig :: NFAC c s => NFA c s -> Set s 

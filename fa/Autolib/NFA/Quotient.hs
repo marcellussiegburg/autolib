@@ -7,7 +7,7 @@ module Autolib.NFA.Quotient where
 import Autolib.NFA.Type
 import Autolib.NFA.Trim
 import qualified Autolib.NFA.Ops
-import qualified Autolib.Sets
+import qualified Autolib.Set
 
 import Autolib.NFA.Mirror ( mirror )
 
@@ -22,16 +22,16 @@ right_quotient :: (NFAC c s, NFAC c t)
 	       -> NFA c s
 right_quotient a b =
     let c = Autolib.NFA.Ops.cross a b 
-	ok (p, q) =  Autolib.Sets.elementOf p (finals a)	
-		  && Autolib.Sets.elementOf q (finals b)	
-	d = productive $ c { finals = Autolib.Sets.sfilter ok $ states c }
+	ok (p, q) =  Autolib.Set.elementOf p (finals a)	
+		  && Autolib.Set.elementOf q (finals b)	
+	d = productive $ c { finals = Autolib.Set.sfilter ok $ states c }
 
     in  a { nfa_info = funni "right_quotient" [ info a, info b ]
-	  , finals = Autolib.Sets.mkSet $ do
+	  , finals = Autolib.Set.mkSet $ do
 	      p <- lstates a
 	      guard $ or $ do 
 		    q <- lstarts b
-		    return $ Autolib.Sets.elementOf (p, q) (states d)
+		    return $ Autolib.Set.elementOf (p, q) (states d)
 	      return p
 	  }
 

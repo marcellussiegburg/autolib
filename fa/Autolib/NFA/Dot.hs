@@ -19,7 +19,7 @@ import qualified Autolib.Dot.Arrange
 import Autolib.ToDoc
 
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Maybe
 import Data.List (inits)
 

@@ -7,7 +7,7 @@
 
 
 module Autolib.Graph.Graph ( 
-      module  Autolib.Sets
+      module  Autolib.Set
       , module Autolib.Informed
     ,  Graph (..), mkGraph
     , Kante (..), kante
@@ -16,13 +16,13 @@ module Autolib.Graph.Graph (
 import Autolib.Graph.Kante
 import qualified Autolib.Graph.Reading.Type as R
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Informed
 import Autolib.ToDoc
 import Autolib.Reader
 
 import Autolib.Boxing.Position
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 -------------------------------------------------------------------------------
 

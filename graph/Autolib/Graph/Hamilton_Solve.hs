@@ -5,7 +5,7 @@ import Graph_Util
 import Graph_Hamilton
 
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 -------------------------------------------------------------------------------
 

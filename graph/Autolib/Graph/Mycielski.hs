@@ -8,7 +8,7 @@ import Autolib.Graph.Ops
 import Autolib.Graph.Display
 
 import Autolib.ToDoc
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Autolib.Boxing.Position
 import Autolib.GVKnoten.Layout
 

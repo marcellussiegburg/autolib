@@ -1,7 +1,7 @@
 module Graph_Joe where
 
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 import Control.Monad ( guard )
 

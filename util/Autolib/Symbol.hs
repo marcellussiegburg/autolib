@@ -7,7 +7,7 @@ import Autolib.Reader
 import Text.ParserCombinators.Parsec.Expr 
 
 import Data.Maybe ( isJust )
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Hash
 import Autolib.Util.Size
 

@@ -5,7 +5,7 @@ module Autolib.NFA.Mirror where
 import Autolib.NFA.Type
 
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Autolib.ToDoc
 
 mirror :: NFAC c s

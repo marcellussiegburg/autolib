@@ -3,7 +3,7 @@ module Autolib.Exp.Example where
 -- -- $Id$
 
 import Autolib.Exp.Type
-import Autolib.Sets
+import Autolib.Set
 
 example :: Set Char -> Exp
 example alpha = 

@@ -3,7 +3,7 @@ module Autolib.Reporter.Subset where
 --  $Id$
 
 import Autolib.Reporter.Type
-import Autolib.Sets
+import Autolib.Set
 import Autolib.ToDoc
 import Control.Monad ( when )
 

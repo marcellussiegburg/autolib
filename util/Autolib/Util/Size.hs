@@ -5,7 +5,7 @@
 module Autolib.Util.Size where
 
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 class Size a where 
     size :: a -> Int

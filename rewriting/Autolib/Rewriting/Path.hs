@@ -8,7 +8,7 @@ where
 
 --  $Id$
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 import Autolib.Rewriting.Path.Data 
 

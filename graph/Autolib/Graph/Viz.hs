@@ -142,7 +142,7 @@ module Graph.Viz
 ) where
 
 import Graph.Graph
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Sets
 import ToDoc -- wegen Show Set und Show FiniteMap - FIX!
 import System

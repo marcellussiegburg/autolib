@@ -15,7 +15,7 @@ import Autolib.TES.Sexp
 import Autolib.Util.Splits
 import Autolib.Util.Zufall
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import System.Random
 import Control.Monad.State
 

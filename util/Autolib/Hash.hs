@@ -5,8 +5,8 @@ module Autolib.Hash where
 import Data.Int
 import Data.HashTable (hashInt)
 
-import Data.FiniteMap
-import Data.Set
+import Autolib.FiniteMap
+import Autolib.Set
 
 class Eq a => Hash a where
       hash :: a -> Int32

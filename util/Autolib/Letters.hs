@@ -4,7 +4,7 @@ module Autolib.Letters where
 
 --   $Id$
 
-import Data.Set
+import Autolib.Set
 
 class Ord b => Letters a b | a -> b where
       letters :: a -> Set b

@@ -5,7 +5,7 @@ module Autolib.Exp.Einfach where
 import Autolib.Exp.Type
 import Autolib.Exp.Syntax
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Reporter
 import Autolib.ToDoc
 

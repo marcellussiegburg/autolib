@@ -11,7 +11,7 @@ where
 
 import Data.STRef.Lazy
 import Control.Monad.ST.Lazy
-import Data.FiniteMap 
+import Autolib.FiniteMap 
 
 import Data.List (inits, tails)
 import Control.Monad (guard)

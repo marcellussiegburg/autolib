@@ -11,7 +11,7 @@ import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token
 import Text.ParserCombinators.Parsec.Language ( haskell )
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Int
 
 instance Reader Integer where reader = integer haskell

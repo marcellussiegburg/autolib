@@ -11,7 +11,7 @@ where
 import Autolib.Reader
 import Autolib.ToDoc
 import Autolib.Letters
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Hash
 import Autolib.Size
 

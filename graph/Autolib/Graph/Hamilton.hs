@@ -4,7 +4,7 @@ import Autolib.Graph
 import Autolib.Graph.Util
 
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 import Auswertung
 import Right

@@ -2,7 +2,7 @@ module Autolib.Util.Uniq where
 
 -- -- $Id$
 
-import Autolib.Sets
+import Autolib.Set
 
 -- | produce a lazy (!) sublist of entries with all duplicates removed
 uniq :: Eq a => [a] -> [a]

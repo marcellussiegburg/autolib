@@ -5,9 +5,9 @@ module Autolib.NFTA.Cross where
 import Autolib.NFTA.Type
 import qualified Autolib.Relation as Relation
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Informed
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 cross :: (NFTAC c s, NFTAC c t) 
       => NFTA c s -> NFTA c t 
@@ -22,7 +22,7 @@ cross a b =
             return ((p,p'), zip qs qs')
         fm = mapFM ( \ c pqs -> do (p, qs) <- pqs ; return (p, (c, qs)) )
            $ intersectFM_C combine (collect a) (collect b)
-        ss = Autolib.Sets.cross (states a) (states b)
+        ss = Autolib.Set.cross (states a) (states b)
     in  NFTA { nfta_info = funni "cross" [ info a, info b ]
              , alphabet = intersect (alphabet a) (alphabet b)
 	     , states = ss

@@ -2,7 +2,7 @@ module Autolib.Exp.Env where
 
 --  $Id$
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Set
 
 type Env a = FiniteMap String a

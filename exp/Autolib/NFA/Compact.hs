@@ -9,8 +9,8 @@ import Autolib.Exp.Print
 import Autolib.Exp.Syntax
 import Autolib.Symbol
 
-import Data.FiniteMap
-import Autolib.Sets
+import Autolib.FiniteMap
+import Autolib.Set
 import Autolib.Letters
 import Control.Monad ( guard )
 

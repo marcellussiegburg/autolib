@@ -4,9 +4,9 @@ module Autolib.Graph.Line where
 
 import Autolib.Graph.Graph
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Util.Teilfolgen
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Control.Monad ( guard )
 
 line_graph :: Ord a => Graph a -> Graph ( Kante a )

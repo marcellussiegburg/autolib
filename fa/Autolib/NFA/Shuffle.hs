@@ -5,8 +5,8 @@ module Autolib.NFA.Shuffle ( shuffle ) where
 import Autolib.NFA
 import Autolib.NFA.Trim
 
-import Autolib.Sets hiding ( subseteq )
-import Data.FiniteMap
+import Autolib.Set hiding ( subseteq )
+import Autolib.FiniteMap
 
 
 shuffle :: (NFAC c s, NFAC c t) 

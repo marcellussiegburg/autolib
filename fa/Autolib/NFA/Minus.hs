@@ -14,9 +14,9 @@ import Autolib.NFA.Normalize
 
 import Autolib.Letters
 
-import Data.FiniteMap
-import qualified Autolib.Sets as Sets
-import Autolib.Sets (setToList)
+import Autolib.FiniteMap
+import qualified Autolib.Set as Sets
+import Autolib.Set (setToList)
 
 import Autolib.ToDoc ( ToDoc, toDoc )
 import Control.Monad ( guard )

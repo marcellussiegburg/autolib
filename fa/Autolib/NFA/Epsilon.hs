@@ -5,7 +5,7 @@ module Autolib.NFA.Epsilon where
 import Autolib.NFA.Type
 import Data.Set
 import Control.Monad ( guard )
-import Data.FiniteMap 
+import Autolib.FiniteMap 
 
 import qualified Autolib.Relation as Relation
 

@@ -2,7 +2,7 @@ module Autolib.Util.Closure where
 
 -- -- $Id$
 
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Util.Splits
 import Autolib.Util.Uniq
 

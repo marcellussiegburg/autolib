@@ -8,7 +8,7 @@ import Autolib.Exp.Type
 import Autolib.Exp.Syntax
 
 import Autolib.Report
-import Autolib.Sets
+import Autolib.Set
 import Autolib.Wrong
 
 sanity :: Set Char -> Set String -> Exp -> Report ()

@@ -4,7 +4,7 @@ module Autolib.NFTA.Normalize where
 
 import Autolib.NFTA.Type
 import Autolib.NFTA.Ops
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 normalize :: ( NFTAC c s, NFTAC c Int )
 	  => NFTA c s -> NFTA c Int

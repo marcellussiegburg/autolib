@@ -1,7 +1,7 @@
-module Autolib.Sets
+module Autolib.Set
 
 ( module Data.Set
-, module Autolib.Sets
+, module Autolib.Set   
 )
 
 where
@@ -9,7 +9,7 @@ where
 --   $Id$
 
 import Data.Set
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Autolib.ToDoc
 import Autolib.Reader
 

@@ -13,9 +13,9 @@ import Autolib.TES.Unify
 import Autolib.TES.Hull
 
 import Autolib.Util.Size
-import Autolib.Sets
+import Autolib.Set
 import Data.Maybe
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Control.Monad ( guard )
 import Data.Char
 import Data.List ( nub )

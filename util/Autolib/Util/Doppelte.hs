@@ -9,7 +9,7 @@ module Autolib.Util.Doppelte
 where
 
 import Autolib.Util.Hide
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 
 

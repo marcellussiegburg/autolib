@@ -7,7 +7,7 @@ import Autolib.TES.Position
 import Autolib.TES.Data
 import Autolib.Reporter
 import Autolib.ToDoc
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 
 -- |  check if term is linear

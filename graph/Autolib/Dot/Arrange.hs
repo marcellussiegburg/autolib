@@ -12,7 +12,7 @@ import Autolib.Boxing.Position
 import Data.Set
 import Control.Monad ( foldM )
 import Random
-import Data.FiniteMap
+import Autolib.FiniteMap
 import IO
 
 -- koordinaten der knoten bestimmen.

@@ -9,7 +9,7 @@ where
 import Autolib.NFTA.Type
 import Autolib.NFTA.Ops
 import Autolib.Util.Fix
-import Data.FiniteMap
+import Autolib.FiniteMap
 import qualified Autolib.Relation as Relation
 
 -- | collect equivalent states into one

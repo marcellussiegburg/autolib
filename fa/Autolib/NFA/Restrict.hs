@@ -4,8 +4,8 @@ module Autolib.NFA.Restrict where
 
 import Autolib.NFA.Type
 
-import Autolib.Sets
-import Data.FiniteMap
+import Autolib.Set
+import Autolib.FiniteMap
 import Autolib.Size
 
 import Autolib.ToDoc

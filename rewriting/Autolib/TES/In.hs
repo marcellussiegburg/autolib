@@ -22,7 +22,7 @@ import Text.ParserCombinators.Parsec.Expr
 import Text.ParserCombinators.Parsec.Token
 import Text.ParserCombinators.Parsec.Language
 
-import Data.FiniteMap
+import Autolib.FiniteMap
 import Data.Maybe
 import Data.List ( partition )
 import Control.Monad ( mzero, guard )

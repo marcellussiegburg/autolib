@@ -16,7 +16,7 @@ import Util.Sort
 import Control.Monad ( guard )
 import Data.List ( isPrefixOf, partition, tails )
 import Maybe ( isNothing, fromMaybe )
-import Data.FiniteMap
+import Autolib.FiniteMap
 
 to_trs :: Symbol c 
        => SRS c -> TRS Identifier c
