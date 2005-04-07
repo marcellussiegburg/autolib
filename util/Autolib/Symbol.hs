@@ -22,7 +22,11 @@ class ( Size s, Hash s, Eq s, Ord s, ToDoc s, Show s, Reader s )
     set_arity a s = error "Symbol.set_arity undefined"
 
     precedence :: s -> Maybe Int
-    precedence _ = Nothing -- default: not as operator
+    precedence _ = Nothing 
+       -- ^default: not as operator, i. e. prefix notation
+       -- if @Just p@, then for binary ops: use infix notation;
+       -- for unary ops, use prefix notation without parentheses
+       -- (allows  "! ! x!!)
 
     assoc :: s -> Assoc
     assoc _ = AssocNone
@@ -53,8 +57,18 @@ unused n cs =
 	    then error "no more unused symbols available"
 	    else take n fs
 
+-- | unary: omit parens around argument
+-- binary: use infix notation
 is_operator :: Symbol s => s -> Bool
-is_operator = isJust . precedence 
+is_operator s = is_binary_operator s || is_unary_operator s
+
+is_binary_operator :: Symbol s => s -> Bool
+is_binary_operator s = 
+    ( 2 == arity s ) && isJust ( precedence s )
+
+is_unary_operator  :: Symbol s => s -> Bool
+is_unary_operator s = 
+    ( 1 == arity s ) && isJust ( precedence s )
 
 is_constant :: Symbol s => s -> Bool
 is_constant = (== 0) . arity

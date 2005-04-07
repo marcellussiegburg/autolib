@@ -28,14 +28,12 @@ import Data.List ( partition )
 import Control.Monad ( mzero, guard )
 
 data Config c = Config
-        -- FIXME:  nullary symbols are in _operator_ now,
-        -- should go into _function_ 
-	      { reserved_operator_symbols :: [ c ]
-              , reserved_function_symbols :: [ c ]
+	      { reserved_symbols :: [ c ]
 	      , allow_new_symbols :: Bool
   -- ^ if False:
   -- no user-defined function symbols of @arity > 0@,
-  -- user-def. symbols of @arity == 0@ are parsed as variables
+  -- user-def. symbols of @arity == 0@ 
+  -- that have no arguments are parsed as variables,
   --
   -- if True:
   -- user-defined function symbols (any @arity >= 0@) are allowed
@@ -56,7 +54,7 @@ operator_table conf  =
     do let tp = token_parser conf
        ops <- reverse $ collectBy precedence 
 		      $ filter is_operator
-		      $ reserved_operator_symbols conf
+		      $ reserved_symbols conf
        return $ do op <- ops 
 		   case arity op of
 		       1 -> return $ Prefix ( do 
@@ -66,7 +64,7 @@ operator_table conf  =
 				     reservedOp tp (show op)
 				     return $ \ x y -> Node op [x,y] ) 
 				  ( assoc op )
-		       _ -> [] -- ignore others (dangerous?)
+		       _ -> error "Autolib.TES.In.operator_table"
 
 -- | from lowest to highest
 collectBy :: Ord b => (a -> b) -> [a] -> [[a]]
@@ -76,7 +74,7 @@ collectBy f xs =
 
 token_parser conf = 
        let ( nulls, sonst ) = partition is_constant
-			    $ reserved_operator_symbols conf
+			    $ reserved_symbols conf
        in makeTokenParser $ emptyDef
 		   { commentLine = "" 
 		   , commentStart = ""
@@ -92,19 +90,19 @@ atomic conf =
   let tp = token_parser conf 
   in
           Autolib.TES.Parsec.parens tp (treader conf)
-      <|> choice ( do op <- reserved_operator_symbols conf
-      	              guard $ is_constant op
-      	              return $ do reserved tp (show op)
-      	                          return $ Node op []
+      <|> choice ( do op <- reserved_symbols conf
+      	              guard $ not $ is_operator op
+      	              return $ do 
+                          reserved tp (show op)
+                          args <- option []
+                               $ Autolib.TES.Parsec.parens tp
+      		               $ commaSep tp
+      	                       $ treader conf
+                          if ( length args == arity op )
+                             then return $ Node op args
+                             else fail $ "wrong number of arguments for: " 
+                                       ++ show op
       	         )
-      <|> choice ( do t <- reserved_function_symbols conf
-                      return $ do
-                          reserved tp ( show t )
-                          xs <- Autolib.TES.Parsec.parens tp
-                               $ commaSep tp
-                               $ treader conf
-                          return $ Node ( set_arity (length xs) t ) xs
-                 )
       <|> if allow_new_symbols conf
           then do 
               t <- readerPrec 0 
@@ -119,8 +117,7 @@ atomic conf =
 
 -- instance Reader (Term Identifier Identifier ) where
 instance ( Symbol c, Reader v ) => Reader ( Term v c ) where
-    readerPrec p =  treader $ Config { reserved_operator_symbols = [] 
-                                     , reserved_function_symbols = [] 
+    readerPrec p =  treader $ Config { reserved_symbols = [] 
 				     , allow_new_symbols = True
 				     }
 
