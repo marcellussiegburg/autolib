@@ -32,12 +32,14 @@ mapFM = mapWithKey
 addToFM fm k a = insert k a fm
 addToFM_C fun m k a = insertWith fun k a m
 
--- | NO: http://www.haskell.org/pipermail/libraries/2005-February/003341.html
--- addListToFM m pairs = foldr (\ (k,a) -> insert k a) m pairs
--- addListToFM_C fun m pairs = foldr (\ (k, a) -> insertWith fun k a) m pairs
 
-addListToFM m = union m . fromList
-addListToFM_C fun m = unionWith fun m . fromList
+addListToFM m pairs = foldr (\ (k,a) -> insert k a) m pairs
+addListToFM_C fun m pairs = foldr (\ (k, a) -> insertWith fun k a) m pairs
+
+-- better performance according to <http://www.haskell.org/pipermail/libraries/2005-February/003341.html>
+-- BUT these are not equivalent!
+-- addListToFM m = union m . fromList
+-- addListToFM_C fun m = unionWith fun m . fromList
 
 plusFM = union
 plusFM_C = unionWith

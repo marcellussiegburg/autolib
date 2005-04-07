@@ -13,7 +13,7 @@ uname = map toLower . show
 
 -- | binary operator
 -- warning: the ordering here determines the precedence in parsing
-data Bop = Seq | Par | Or | And 
+data Bop = Seq | Before | Par | Or | And 
      deriving ( Eq, Ord, Show, Enum, Bounded )
 
 bname :: Bop -> String

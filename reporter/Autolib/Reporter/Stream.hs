@@ -3,7 +3,7 @@ module Autolib.Reporter.Stream
 ( Type
 , make
 , exec
-, nicht, erfolg, und, oder, erster
+, nicht, erfolg, und, oder, erster, before
 , module Autolib.Output
 , module Autolib.Reporter.Proof
 )
@@ -115,6 +115,34 @@ oder doc = helper doc ( Just $ Proof { value = False
 				, history = []
 				}
 		 ) True
+
+
+-- | evaluate first stream. if it returns result, then this is it.
+-- if it fails, evaluate second stream etc.
+before :: Doc -> [ Type ] -> Type
+before doc [] = 
+    Cons { cons_info = doc
+	 , message = Empty
+         , activity = return ()
+	 , continue = Fail Empty -- FIXME
+         }
+before doc (x : xs) = 
+    Cons { cons_info = doc
+	 , message = message x
+	 , activity = activity x
+	 , continue = case continue x of
+	       Fail msg -> Next -- FIXME: collect msg
+	             $ before doc xs
+	       Result p -> 
+		   Result $ Proof
+				{ value = value p
+				, formula = doc
+				, reason = explain p
+				, history = [] -- history p
+				}
+	       Next x' -> Next $ before doc ( x' : xs )
+	 }
+
 
 -- | as soon as any of the argument streams produces a result
 -- this is taken as the overall result

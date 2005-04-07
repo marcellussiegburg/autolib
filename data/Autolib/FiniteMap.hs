@@ -1,7 +1,9 @@
+#define OLDFM 1
+
 module Autolib.FiniteMap
 
 ( 
-#if (__GLASGOW_HASKELL__ < 604)
+#if (OLDFM==1)
   module Data.FiniteMap
 #else
   module Autolib.Data.Map
@@ -15,7 +17,7 @@ import Autolib.Reader
 import Autolib.ToDoc
 import Autolib.Set
 
-#if (__GLASGOW_HASKELL__ < 604)
+#if (OLDFM==1)
 import Data.FiniteMap
 #else
 import Autolib.Data.Map
@@ -25,7 +27,7 @@ import Autolib.Xml
 
 import Data.Typeable
 
-#if (__GLASGOW_HASKELL__ < 604)
+#if (OLDFM==1)
 instance ( Ord a, Ord b ) => Ord ( FiniteMap a b ) where
     compare f g = compare (fmToList f) (fmToList g)
 #endif

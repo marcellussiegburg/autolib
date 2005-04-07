@@ -23,6 +23,7 @@ build f @ ( Bof op xs ) =
 	    And -> ( toDoc f           , und    )
 	    Or ->  ( text ".. or .."   , oder   )
 	    Par -> ( text ".. par .."  , erster )
+	    Before -> ( text ".. Before .."  , before )
     in  fun doc $ map build xs
 
 eval :: Boolean ( Iterator Proof )
