@@ -23,10 +23,10 @@ class ( Size s, Hash s, Eq s, Ord s, ToDoc s, Show s, Reader s )
 
     precedence :: s -> Maybe Int
     precedence _ = Nothing 
-       -- ^default: not as operator, i. e. prefix notation
+       -- ^default: not as operator, i. e. prefix notation with parentheses
        -- if @Just p@, then for binary ops: use infix notation;
        -- for unary ops, use prefix notation without parentheses
-       -- (allows  "! ! x!!)
+       -- (allows  "! ! x")
 
     assoc :: s -> Assoc
     assoc _ = AssocNone

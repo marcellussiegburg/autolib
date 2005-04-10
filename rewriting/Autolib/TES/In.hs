@@ -57,9 +57,13 @@ operator_table conf  =
 		      $ reserved_symbols conf
        return $ do op <- ops 
 		   case arity op of
+                       1 -> mzero
+		       -- prefix operators will be handled in atomic
+{-
 		       1 -> return $ Prefix ( do 
 				     reservedOp tp (show op)
 				     return $ \ x -> Node op [x] )
+-}
 		       2 -> return $ Infix ( do 
 				     reservedOp tp (show op)
 				     return $ \ x y -> Node op [x,y] ) 
@@ -90,6 +94,13 @@ atomic conf =
   let tp = token_parser conf 
   in
           Autolib.TES.Parsec.parens tp (treader conf)
+      <|> choice ( do op <- reserved_symbols conf
+		      guard $ is_unary_operator op
+		      return $ do
+		          reserved tp ( show op )
+		          arg <- atomic conf
+		          return $ Node op [ arg ]
+                 )
       <|> choice ( do op <- reserved_symbols conf
       	              guard $ not $ is_operator op
       	              return $ do 

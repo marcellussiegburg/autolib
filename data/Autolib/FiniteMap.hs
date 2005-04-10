@@ -1,4 +1,4 @@
-#define OLDFM 1
+#define OLDFM 0
 
 module Autolib.FiniteMap
 
