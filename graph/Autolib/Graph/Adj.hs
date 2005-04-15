@@ -44,11 +44,20 @@ from_adjazenz_matrix m =
 
 -------------------------------------------------------------------------------
 
+{- specification:
 wegematrix :: Ord a => Graph a -> AdjMatrix
 wegematrix g = let m = adjazenz_matrix g
 	       in sig $ foldl1 add $ do
 	          i <- [ 1 .. cardinality (knoten g) ]
 		  return $ pow i m
+-}
+
+-- | faster via horner schema
+wegematrix :: Ord a => Graph a -> AdjMatrix
+wegematrix g = let a = adjazenz_matrix g
+		   n = cardinality $ knoten g
+	       in sig $ foldr ( \ v m -> add v $ prod v m ) a 
+		      $ replicate (pred n) a
 
 -------------------------------------------------------------------------------
 
