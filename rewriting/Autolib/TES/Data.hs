@@ -8,6 +8,7 @@ module Autolib.TES.Data where
 --  $Id$
 
 import Autolib.Symbol
+import Autolib.Size
 
 import Autolib.TES.Term
 import Autolib.TES.Position (syms, vars)
@@ -16,7 +17,9 @@ import Autolib.TES.Identifier
 
 import qualified Autolib.SRS.Rule -- only for instances
 
+
 import Autolib.Set
+import Autolib.Hash
 
 import Autolib.ToDoc
 import Autolib.Reader
@@ -30,6 +33,7 @@ import Autolib.TES.Position (symsl)
 
 import Autolib.Letters
 
+
 data RS c t  = RS
 	 { annotations :: [ Sexp ]
 	 , theory    :: Maybe [ Sexp ]
@@ -38,24 +42,59 @@ data RS c t  = RS
 --	 , variables :: Set v -- ^ nullary symbols
 	 , signature :: Set c -- ^ all symbols (not including variables, I hope)
 	 , separate :: Bool
-	 , rules :: [ ( t, t ) ]
+	 , rules :: [ Rule t ]
 	 }
     deriving ( Eq, Ord )
 
+instance ( Eq c, Eq t, Hash t ) => Hash ( RS c t ) where
+    hash rs = hash ( rules rs )
 
-from_rules :: Letters [(t,t)] c
+instance Size t => Size (RS c t) where
+    size rs = size ( rules rs )
+
+{-# DEPRECATED rules "use strict_rules or non_strict_rules" #-}
+
+strict_rules rs = do
+    Rule { lhs = l, strict = True, rhs = r } <- rules rs
+    return (l, r)
+
+non_strict_rules rs = do
+    Rule { lhs = l, strict = False, rhs = r } <- rules rs
+    return (l, r)
+
+all_rules rs = do
+    strict_rules rs ++ non_strict_rules rs
+
+with_rules :: Letters t c
+	   => RS c' t' -> [ Rule t ] -> RS c t
+with_rules srs rs = 
+     RS
+	 { annotations = annotations srs
+	 , theory  = theory srs
+	 , strategy  = strategy srs
+	 , separate = separate srs
+
+	 , signature = letters rs
+	 , rules = rs
+	 }
+
+from_strict_rules :: Letters t c
 	   => Bool -> [ ( t,t ) ] -> RS c t
-from_rules sep rs = RS { annotations = []
+from_strict_rules sep rs = 
+    let rools = do
+          (l, r) <- rs
+	  return $ Rule { lhs = l, strict = True, rhs = r }
+    in  RS { annotations = []
 		   , theory = Nothing
 		   , strategy = Nothing
-		   , signature = letters rs
+		   , signature = letters rools
 		   , separate = sep
-		   , rules = rs
+		   , rules = rools
 		   }
 
-from_srs :: Letters [(t,t)] c
+from_srs :: Letters t c
 	   => [ ( t,t ) ] -> RS c t
-from_srs = from_rules True
+from_srs = from_strict_rules True
 
 
 
@@ -67,25 +106,37 @@ type SES = RS Identifier [ Identifier ]
 
 instance ( Ord c , Letters t c ) => Letters ( RS c t ) c where
     letters rs = unionManySets $ do 
-        (l, r) <- rules rs
-	return $ letters l `union` letters r
+        r <- rules rs
+	return $ letters (lhs r) `union` letters (rhs r)
 
 {-
 instance ( Ord v , Letters ( Term v c ) v ) => Letters ( TRS v c ) v where    letters  = variables
 -}
 
 variables rs =  unionManySets $ do 
-        (l, r) <- rules rs
-	return $ vars l `union` vars r
+        r <- rules rs
+	return $ vars (lhs r) `union` vars (rhs r)
 
 lhss :: RS c t -> [ t ]
-lhss trs = do (l,r) <- rules trs ; return l
+lhss trs = strict_lhss trs ++ non_strict_lhss trs
 
 rhss :: RS c t -> [ t ]
-rhss trs = do (l,r) <- rules trs ; return r
+rhss trs = strict_rhss trs ++ non_strict_rhss trs
+
+strict_lhss :: RS c t -> [ t ]
+strict_lhss trs = do (l,r) <- strict_rules trs ; return l
+
+non_strict_lhss :: RS c t -> [ t ]
+non_strict_lhss trs = do (l,r) <- non_strict_rules trs ; return l
+
+strict_rhss :: RS c t -> [ t ]
+strict_rhss trs = do (l,r) <- strict_rules trs ; return r
+
+non_strict_rhss :: RS c t -> [ t ]
+non_strict_rhss trs = do (l,r) <- non_strict_rules trs ; return r
 
 
-instance ( ToDoc (t, t), Show (t, t), Symbol c ) 
+instance ( ToDoc (Rule t), Symbol c ) 
 	 => ToDoc ( RS c t ) where
     toDoc t = vcat [ vcat $ map toDoc $ annotations t 
 		   , case theory t of 
@@ -113,7 +164,7 @@ instance Reader TES where
 	       $ repair_variables 
 	       $ tes { separate = False }
 
-plain_reader :: Reader (t, t) => Parser ( RS c t )
+plain_reader :: Reader (Rule t) => Parser ( RS c t )
 plain_reader =  do
         whiteSpace trs
 	let trs0 = RS { annotations = []
@@ -127,7 +178,7 @@ plain_reader =  do
         fs <- many line
 	return $ foldr (.) id fs trs0
 
-line :: Reader (t, t) =>  Parser ( RS c t -> RS c t )
+line :: Reader (Rule t) =>  Parser ( RS c t -> RS c t )
 line = Autolib.TES.Parsec.parens Autolib.TES.Parsec.trs $  do
      f <- identifier  Autolib.TES.Parsec.trs 
      case f of
@@ -163,7 +214,9 @@ repair_variables trs =
 	xform ( Node c [] ) | c `elementOf` vs = Var c
 	xform ( Node c args ) = Node c ( map xform args )
 	-- apply to rules
-        rs = do (l,r) <- rules trs ; return ( xform l, xform r )
+        rs = do rule <- rules trs ; return $ rule { lhs = xform $ lhs rule
+						  , rhs = xform $ rhs rule
+						  }
 	sig = sfilter ( \ s -> not (s `elementOf` vs)) $ symbols rs
     in  trs { rules = rs
 	    , signature = sig
@@ -204,7 +257,7 @@ varying_arities :: ( Symbol c , ToDoc v )
 		=> TRS v c -> [ (c, FiniteMap Int Doc) ]
 varying_arities tes = do
     let fm = addListToFM_C plusFM emptyFM $ do
-		( k, rule @ ( l, r ) ) <- zip [ 0 :: Int .. ] $ rules tes
+		( k, rule @ Rule {lhs =l, rhs = r} ) <- zip [ 0 :: Int .. ] $ rules tes
 		( loc, t ) <- [ ( "lhs", l ), ( "rhs", r ) ]
 		let inf = vcat [ fsep [ text "in", text loc
 				      , text "of rule number", toDoc k
@@ -217,9 +270,9 @@ varying_arities tes = do
     guard $ 1 < sizeFM occs
     return ( c, occs )
 
-symbols :: Ord c => [ Rule v c ] -> Set c
+-- symbols :: Ord c => [ Rule v c ] -> Set c
 symbols rules = unionManySets $ do
-    (l, r) <- rules
-    [ syms l , syms r ]
+    r <- rules
+    [ syms $ lhs r , syms $ rhs r ]
 
 

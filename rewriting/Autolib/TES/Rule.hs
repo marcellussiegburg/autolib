@@ -5,31 +5,51 @@ module Autolib.TES.Rule where
 --   $Id$
 
 import Autolib.Symbol
+import Autolib.Size
+import Autolib.Letters
 import Autolib.TES.Term
 
 import Autolib.ToDoc
 import Autolib.Reader
+import Autolib.Set
+import Autolib.Hash
 
 import Autolib.TES.Parsec
 
-type Rule v c = ( Term v c, Term v c )
 
-instance ( Reader c, Reader ( Term v c ) ) => Reader ( Rule v c ) where
-    reader = rule_reader
-instance ( ToDoc c, ToDoc ( Term v c ) ) => ToDoc ( Rule v c ) where
+data Rule t = Rule { lhs :: t
+		   , rhs :: t
+		   , strict :: Bool
+		   }
+    deriving ( Eq, Ord )
+
+instance Hash t => Hash ( Rule t ) where
+    hash r = hash ( lhs r, rhs r, strict r )
+
+instance Size t => Size ( Rule t ) where
+    size r = size (lhs r) + size (rhs r)
+
+instance ToDoc (t ) => ToDoc ( Rule t ) where
     toDoc = rule_writer
 
-rule_reader :: (  Reader t )
-	    => Parser (t , t)
+rule_writer r = fsep [ toDoc $ lhs r
+		   , if strict r then text "->" else text "->="
+		   , toDoc $ rhs r
+		   ]
+
+instance Reader (t) => Reader ( Rule t ) where
+    reader = rule_reader
+
+rule_reader :: Reader (t) => Parser ( Rule t )
 rule_reader = do
-        lhs <- readerPrec 0
-	reservedOp trs "->"
-	rhs <- readerPrec 0
-	return ( lhs, rhs )
+        l <- reader
+	s <-     do reservedOp trs "->" ; return True
+	     <|> do reservedOp trs "->=" ; return False
+	r <- reader
+	return $ Rule { lhs = l, strict = s, rhs = r }
 
-rule_writer :: ToDoc t 
-	    => (t,  t) -> Doc
-rule_writer (lhs, rhs) = hsep [ toDoc lhs, text "->", toDoc rhs ]
 
+instance Letters t c => Letters (Rule t) c where
+    letters rule = union (letters $ lhs rule) (letters $ rhs rule)
     
 

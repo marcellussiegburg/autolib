@@ -57,7 +57,7 @@ insert_variable v ( l, r ) = do
 	p <- pick $ leafpos l
 	q <- pick $ leafpos r
 	let x = mknullary "x" 
-        let trs = from_rules False 
+        let trs = from_strict_rules False 
 	        $ [ ( poke (vmap undefined l) (p, Var x)
 		    , poke (vmap undefined r) (q, Var x) 
 		    ) 
@@ -104,12 +104,12 @@ rules v = do
     rs <- insert_variable v (l0, r0)
     guard $ or $ do 
        -- some variables at least at depth 2
-       (l, r) <- Autolib.TES.Data.rules rs
+       (l, r) <- Autolib.TES.Data.strict_rules rs
        p <- varpos r 
        return $ 1 < length p
     guard $ or $ do
        -- some symbols have arity > 1
-       (l, r) <- Autolib.TES.Data.rules rs
+       (l, r) <- Autolib.TES.Data.strict_rules rs
        c <- symsl r
        return $ 1 < arity c
 

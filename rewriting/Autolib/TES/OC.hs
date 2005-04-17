@@ -22,9 +22,10 @@ import Data.List ( nub )
 
 -- | 
 down :: TRSC Int c 
-	=> Rule Int c -> Rule Int c 
-	-> [ Rule Int c ]
-down (l1, r1) (l2, r2) = do
+	=> Rule (Term Int c) -> Rule (Term Int c)
+	-> [ Rule (Term Int c) ]
+down (Rule {lhs = l1, strict = s1, rhs = r1}) 
+     (Rule { lhs = l2, strict = s2, rhs = r2}) = do
     let vs1 = vars l1 `union` vars r1
 	m1 = maximum $ 0 : setToList vs1
 	vs2 = vars l2 `union` vars r2
@@ -37,46 +38,46 @@ down (l1, r1) (l2, r2) = do
     -- guard $ not $ isvar s
     u <- maybeToList $ mgu s l2'
     return $ normalize
-	   $ ( apply_partial u $ l1 
-	     , apply_partial u $ poke r1 (p, r2')
-	     )
+	   $ Rule { lhs =  apply_partial u $ l1 
+		  , strict = s1 || s2
+		  , rhs = apply_partial u $ poke r1 (p, r2')
+		  }
 
 up :: TRSC Int c 
-	=> Rule Int c -> Rule Int c 
-	-> [ Rule Int c ]
-up x y = let flip (l,r) = (r,l)
+	=> Rule (Term Int c) -> Rule (Term Int c) 
+	-> [ Rule (Term Int c) ]
+up x y = let flip rule = rule { lhs = rhs rule, rhs = lhs rule }
 	 in  map flip $ down (flip y) (flip x)
 
 inside :: TRSC Int c 
-       => (  Rule Int c -> Rule Int c -> [ Rule Int c ] )
-       -> (  Rule Int c -> Rule Int c -> [ Rule Int c ] )
+       => (  Rule (Term Int c) -> Rule (Term Int c) -> [ Rule (Term Int c) ] )
+       -> (  Rule (Term Int c) -> Rule (Term Int c) -> [ Rule (Term Int c) ] )
 inside op = \ x y -> do
-    ( l, r ) <- op x y
-    ( p, r' ) <- positions r
-    return $ normalize ( l, r' )
+    rule <- op x y
+    ( p, r' ) <- positions $ rhs rule
+    return $ normalize $ rule { rhs = r' }
 
 combine :: TRSC Int c 
-	=> Rule Int c -> Rule Int c 
-	-> [ Rule Int c ]
+	=> Rule (Term Int c) -> Rule (Term Int c) 
+	-> [ Rule (Term Int c) ]
 combine x y = down x y ++ up x y
 
 -- | so that vars are [0 ..]
 normalize :: ( TRSC v c, TRSC Int c )
-	  => Rule v c -> Rule Int c
-normalize (l, r) = 
+	  => Rule (Term v c) -> Rule (Term Int c)
+normalize (rule @ Rule { lhs = l, strict = s, rhs = r}) = 
     let -- variables in order of occurences
 	fm = listToFM 
 	   $ zip ( nub $ voccs r ++ voccs l ) [ 0 .. ]
-    in  ( applyvar fm l , applyvar fm r )
-	
-
-
-
+    in  Rule { lhs = applyvar fm l
+	     , strict = s
+	     , rhs = applyvar fm r
+	     }
 
 -- | list of overlap closures
 ocs :: TRSC v c
     => TRS v c 
-    -> [ Rule Int c ]
+    -> [ Rule (Term Int c) ]
 ocs trs = -- full_hull combine
           single_hull combine
 	$ map normalize
@@ -85,10 +86,10 @@ ocs trs = -- full_hull combine
 -- | list of forward closures
 fcs :: TRSC v c
     => TRS v c 
-    -> [ Rule Int c ]
+    -> [ Rule (Term Int c) ]
 fcs trs = do
     limit <- [ 1 .. ]
-    burn ( \ ( l, r ) -> do
+    burn ( \ ( Rule { lhs = l, rhs = r } ) -> do
 	       let sl =  size l ; sr = size r
 	       guard $ sl + sr < limit
 	       -- guard $ ( length (voccs r) > length (lvars r) )
@@ -99,22 +100,3 @@ fcs trs = do
 	    ( down )
 	$ map normalize
 	$ rules trs 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
