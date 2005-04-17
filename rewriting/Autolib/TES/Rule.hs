@@ -30,22 +30,31 @@ instance Size t => Size ( Rule t ) where
     size r = size (lhs r) + size (rhs r)
 
 instance ToDoc (t ) => ToDoc ( Rule t ) where
-    toDoc = rule_writer
-
-rule_writer r = fsep [ toDoc $ lhs r
+    toDoc r = fsep [ toDoc $ lhs r
 		   , if strict r then text "->" else text "->="
 		   , toDoc $ rhs r
 		   ]
 
-instance Reader (t) => Reader ( Rule t ) where
-    reader = rule_reader
+instance ToDoc c => ToDoc ( Rule [c] ) where
+    toDoc r = fsep [ hsep $ map toDoc $ lhs r
+		   , if strict r then text "->" else text "->="
+		   , hsep $ map toDoc $ rhs r
+		   ]
 
-rule_reader :: Reader (t) => Parser ( Rule t )
-rule_reader = do
+instance Reader (t) => Reader ( Rule t ) where
+    reader = do
         l <- reader
 	s <-     do reservedOp trs "->" ; return True
 	     <|> do reservedOp trs "->=" ; return False
 	r <- reader
+	return $ Rule { lhs = l, strict = s, rhs = r }
+
+instance Reader c => Reader ( Rule [c] ) where
+    reader = do
+        l <- many reader
+	s <-     do reservedOp trs "->=" ; return False
+	     <|> do reservedOp trs "->" ; return True
+	r <- many reader
 	return $ Rule { lhs = l, strict = s, rhs = r }
 
 

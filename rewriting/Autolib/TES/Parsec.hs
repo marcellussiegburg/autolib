@@ -22,7 +22,7 @@ trs = makeTokenParser
        , commentStart = ""
        , commentEnd = ""
        , reservedNames = [ ]
-       , reservedOpNames = [ "->", "," ]
+       , reservedOpNames = [ "->", "->=", "," ]
        }
 
 pseudo_identifier :: Parser String
