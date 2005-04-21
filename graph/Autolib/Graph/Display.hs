@@ -15,11 +15,11 @@ import qualified Autolib.Dot.Graph
 import qualified Autolib.Dot.Node
 import qualified Autolib.Dot.Edge
 
-import Autolib.Boxing.Position
-
 import Autolib.FiniteMap
 import Data.Maybe
-import Control.Monad ( guard )
+import Control.Monad ( liftM )
+
+-------------------------------------------------------------------------------
 
 instance ( Show a, Ord a ) => ToDot ( Graph a ) where
     toDotProgram = layout_program
@@ -30,9 +30,38 @@ instance ( Show a, Ord a ) => ToDot ( Graph a ) where
 	in  dot_numbered g num
     toDotOptions = unwords . layout_hints 
 
+instance ( Show a, Ord a, Show b ) => ToDot ( Graph a , Kante a -> b ) where
+    toDotProgram = layout_program . fst
+    toDot (g,w) =
+        let vs = setToList $ knoten g
+	    fm = listToFM $ zip vs $ [ 0 :: Int .. ] 
+            num = fromMaybe (error "Graph.Display.num") . lookupFM fm
+	in  dot_weight_numbered g num ( Just . show . w )
+    toDotOptions = unwords . layout_hints . fst
+
+instance ( Show a, Ord a, Show b ) 
+    => ToDot ( Graph a , Kante a -> Maybe b ) where
+    toDotProgram = layout_program . fst
+    toDot (g,w) =
+        let vs = setToList $ knoten g
+	    fm = listToFM $ zip vs $ [ 0 :: Int .. ] 
+            num = fromMaybe (error "Graph.Display.num") . lookupFM fm
+	in  dot_weight_numbered g num ( liftM show . w )
+    toDotOptions = unwords . layout_hints . fst
+
+-------------------------------------------------------------------------------
+
+
 dot_numbered :: ( Show a, Ord a, Show b ) 
 	     => Graph a -> ( a -> b ) -> Autolib.Dot.Graph.Type
-dot_numbered g num = 
+dot_numbered g num = dot_weight_numbered g num (\_->Nothing)
+
+dot_weight_numbered :: ( Show a, Ord a, Show b ) 
+	            => Graph a 
+		    -> ( a -> b ) 
+		    -> ( Kante a -> Maybe String )
+		    -> Autolib.Dot.Graph.Type
+dot_weight_numbered g num w =
     let 
             pins = graph_layout g
 
@@ -56,11 +85,12 @@ dot_numbered g num =
 				     , Autolib.Dot.Node.position = Just p
 				     }
 
-            es = do Kante { von = p, nach = q } <- setToList $ kanten g
+            es = do k@Kante { von = p, nach = q } <- setToList $ kanten g
                     return $ Autolib.Dot.Edge.blank
                            { Autolib.Dot.Edge.from  = show $ num p
                            , Autolib.Dot.Edge.to    = show $ num q
 			   , Autolib.Dot.Edge.directed = False
+			   , Autolib.Dot.Edge.label = w k
                            }
 
         in  Autolib.Dot.Graph.Type 
@@ -70,5 +100,3 @@ dot_numbered g num =
             , Autolib.Dot.Graph.edges = es 
             , Autolib.Dot.Graph.attributes = []
             }
-
-
