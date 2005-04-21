@@ -6,7 +6,7 @@ import Autolib.Graph.Type ( Graph , knoten , kanten , kante , mkGraph )
 import Autolib.Set ( mkSet , cardinality , setToList , elementOf )
 
 import Data.List ( groupBy , intersperse , transpose )
-import Data.Array ( Array , array , bounds , assocs , listArray )
+import Data.Array ( Array , array , bounds , assocs , listArray , (//) , (!) )
 
 import Control.Monad ( guard )
 
@@ -52,12 +52,25 @@ wegematrix g = let m = adjazenz_matrix g
 		  return $ pow i m
 -}
 
--- | faster via horner schema
+-- | wegematrix naiv via horner schema: O(n^4)
 wegematrix :: Ord a => Graph a -> AdjMatrix
 wegematrix g = let a = adjazenz_matrix g
 		   n = cardinality $ knoten g
 	       in sig $ foldr ( \ v m -> add v $ prod v m ) a 
 		      $ replicate (pred n) a
+
+-- | wegematrix per algorithmus von warshall: O(n^3)
+warshall :: Ord a => Graph a -> AdjMatrix
+warshall g = 
+    let a = adjazenz_matrix g
+        n = size a
+        update m (k,i,j)
+	    | and [ m ! (i,k) == 1 , m ! (k,j) == 1 ] = m // [((i,j),1)]
+	    | otherwise                               = m
+    in foldl update a $ do k <- [1..n]
+			   i <- [1..n]
+			   j <- [1..n]
+			   return (k,i,j)
 
 -------------------------------------------------------------------------------
 
