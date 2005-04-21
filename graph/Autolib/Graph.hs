@@ -37,3 +37,4 @@ import Autolib.Graph.Valid
 -- import Autolib.Graph.Viz
 
 import Autolib.Graph.Adj
+import Autolib.Graph.SpanTree
