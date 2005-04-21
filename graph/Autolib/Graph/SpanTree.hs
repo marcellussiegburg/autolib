@@ -12,8 +12,10 @@ module Autolib.Graph.SpanTree
 
 where
 
-import Autolib.Graph.Type -- ( Graph , knoten , kanten , Kante (..) )
-import Autolib.Set
+import Autolib.Graph.Type ( Graph , knoten , kanten , Kante (..) )
+import Autolib.Set ( Set , setToList , elementOf , unitSet , addToSet 
+		   , delFromSet , emptySet , isEmptySet
+		   )
 
 import Control.Monad ( guard )
 
