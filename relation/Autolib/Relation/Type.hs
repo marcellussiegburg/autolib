@@ -42,7 +42,8 @@ instance ( Ord a, Ord b, ToDoc [(a,b)] ) => Show ( Type a b ) where
     show = render . toDoc
 
 instance ( Ord a, Ord b, Reader a, Reader b ) => Reader ( Type a b ) where
-    readerPrec d = readerParen (d > 9) $ do
+    readerPrec d = do
+        guard $ d < 9
         my_reserved "Relation.make"
 	pairs <- reader
 	return $ make pairs

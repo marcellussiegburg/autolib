@@ -49,11 +49,12 @@ instance (ToDoc a, ToDoc b) => ToDoc (FiniteMap a b)
 
 
 instance ( Ord a, Reader a, Reader b ) => Reader ( FiniteMap a b ) where
-    reader = default_reader
+    atomic_readerPrec p = default_readerPrec p
 
-default_reader ::  ( Ord a, Reader a, Reader b ) 
-	       => Parser ( FiniteMap a b )
-default_reader = do
+default_readerPrec ::  ( Ord a, Reader a, Reader b ) 
+	       => Int -> Parser ( FiniteMap a b )
+default_readerPrec p = do
+        guard ( p < 9 )
         my_reserved "listToFM"
 	xys <-  reader
 	return $ listToFM xys
@@ -67,7 +68,8 @@ instance  (ToDoc s, ToDoc c) => ToDoc (FiniteMap (s, c) (Set s)) where
 
 instance  ( Ord c, Ord s, Reader s, Reader c, Reader [s] ) 
         => Reader (FiniteMap (s, c) (Set s)) where
-    reader = default_reader <|> do 
+    atomic_readerPrec p = default_readerPrec p <|> do 
+        guard $ p < 9
         my_reserved "collect"
         xys <- reader
         return $ collect xys

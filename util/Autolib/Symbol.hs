@@ -21,12 +21,12 @@ class ( Size s, Hash s, Eq s, Ord s, ToDoc s, Show s, Reader s )
     set_arity :: Int -> s -> s
     set_arity a s = error "Symbol.set_arity undefined"
 
+    -- | default: not as operator, i. e. prefix notation with parentheses
+    -- if @Just p@, then for binary ops: use infix notation;
+    -- for unary ops, use prefix notation without parentheses
+    -- (allows  "! ! x")
     precedence :: s -> Maybe Int
     precedence _ = Nothing 
-       -- ^default: not as operator, i. e. prefix notation with parentheses
-       -- if @Just p@, then for binary ops: use infix notation;
-       -- for unary ops, use prefix notation without parentheses
-       -- (allows  "! ! x")
 
     assoc :: s -> Assoc
     assoc _ = AssocNone

@@ -1,3 +1,5 @@
+{-# OPTIONS -fallow-overlapping-instances -fglasgow-exts -fallow-undecidable-instances #-}
+
 module Autolib.Set
 
 ( module Data.Set
@@ -35,7 +37,8 @@ instance Ord a => Ord (Set a) where
 #endif
 
 instance ( Ord a, Reader [a] ) => Reader ( Set a ) where
-    readerPrec d = readerParen ( d > 9 ) $ do
+    atomic_readerPrec d = do
+        guard $ d < 9
         my_reserved "mkSet"
 	xs <- reader
 	return $ mkSet xs

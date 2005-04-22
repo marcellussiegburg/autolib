@@ -34,8 +34,9 @@ instance ToDoc a => ToDoc (Kante a) where
 		    sep ( map ( toDocPrec fcp )  [ von k, nach k ] )
 
 instance (Ord a, Reader a) => Reader (Kante a) where
-    readerPrec d = readerParen (d > 9) 
-      $ do my_reserved "kante"
+    atomic_readerPrec d = do 
+           guard $ d < 9
+           my_reserved "kante"
 	   v <- readerPrec 10
 	   n <- readerPrec 10
 	   return $ kante v n

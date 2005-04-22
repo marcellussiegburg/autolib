@@ -13,27 +13,27 @@ import Text.ParserCombinators.Parsec.Language ( haskell )
 
 import Data.Int
 
-instance Reader Integer where reader = integer haskell
-instance Reader Int   where reader = fmap fromIntegral $ integer haskell
-instance Reader Int32 where reader = fmap fromIntegral $ integer haskell
-instance Reader Int16 where reader = fmap fromIntegral $ integer haskell
-instance Reader Char    where reader = charLiteral haskell
-instance Reader String  where reader = stringLiteral haskell
-instance Reader Double where reader = float haskell
+instance Reader Integer where atomic_reader = integer haskell
+instance Reader Int   where atomic_reader = fmap fromIntegral $ integer haskell
+instance Reader Int32 where atomic_reader = fmap fromIntegral $ integer haskell
+instance Reader Int16 where atomic_reader = fmap fromIntegral $ integer haskell
+instance Reader Char    where atomic_reader = charLiteral haskell
+instance Reader String  where atomic_reader = stringLiteral haskell
+instance Reader Double where atomic_reader = float haskell
 
 
 instance Reader () where 
-    reader = my_parens ( return () )
+    atomic_reader = my_parens ( return () )
 
 
 instance (Reader a, Reader b) => Reader (a, b) where
-    reader = my_parens $ do 
+    atomic_reader = my_parens $ do 
 	     x <- reader ; my_comma
 	     y <- reader
 	     return (x, y)
 
 instance (Reader a, Reader b, Reader c) => Reader (a, b, c) where
-    reader = my_parens $ do 
+    atomic_reader = my_parens $ do 
 	     x <- reader ; my_comma
 	     y <- reader ; my_comma
 	     z <- reader
@@ -41,7 +41,7 @@ instance (Reader a, Reader b, Reader c) => Reader (a, b, c) where
 
 
 instance (Reader a, Reader b, Reader c, Reader d ) => Reader (a, b, c, d) where
-    reader = my_parens $ do 
+    atomic_reader = my_parens $ do 
 	     x <- reader ; my_comma
 	     y <- reader ; my_comma
 	     z <- reader ; my_comma
@@ -50,7 +50,7 @@ instance (Reader a, Reader b, Reader c, Reader d ) => Reader (a, b, c, d) where
 
 
 instance (Reader a, Reader b, Reader c, Reader d, Reader e ) => Reader (a, b, c, d, e) where
-    reader = my_parens $ do 
+    atomic_reader = my_parens $ do 
 	     x <- reader ; my_comma
 	     y <- reader ; my_comma
 	     z <- reader ; my_comma
@@ -62,7 +62,7 @@ instance (Reader a, Reader b, Reader c, Reader d, Reader e ) => Reader (a, b, c,
 
 
 instance Reader a => Reader [a] where
-    reader = listify reader
+    atomic_reader = listify reader
 
 listify :: Parser a -> Parser [a] 
 listify p = my_brackets ( commaSep haskell p )

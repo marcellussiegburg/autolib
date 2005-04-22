@@ -1,3 +1,6 @@
+{-# OPTIONS -fglasgow-exts -fallow-overlapping-instances -fallow-undecidable-instances #-}
+
+
 module Autolib.ToDoc.Xml where
 
 --  $Id$

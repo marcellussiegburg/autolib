@@ -1,8 +1,7 @@
 module Autolib.Reader.Basic 
 
-( parse_complete
-, readerParen
-, my_parens, my_braces, my_brackets
+( 
+  my_parens, my_braces, my_brackets
 , my_comma, my_semi, my_dot, my_star
 , my_reserved, my_equals
 , my_commaSep, my_semiSep
@@ -17,7 +16,7 @@ where
 
 --   $Id$
 
-import Autolib.Reader.Class
+-- import Autolib.Reader.Class
 -- import Autolib.TypeOf -- TODO: what for? Idee ausbauen!
 
 import Text.ParserCombinators.Parsec
@@ -27,13 +26,6 @@ import Text.ParserCombinators.Parsec.Language ( haskell )
 import qualified Text.PrettyPrint.HughesPJ as Pretty
 
 import Control.Monad ( guard )
-
-parse_complete :: Parser p -> Parser p
-parse_complete p = do 
-    whiteSpace haskell
-    x <- p
-    eof
-    return x
 
 my_parens :: Parser a -> Parser a
 my_parens = parens haskell
@@ -71,9 +63,12 @@ my_integer = integer haskell
 my_whiteSpace :: Parser ()
 my_whiteSpace = whiteSpace haskell
 
+-- | read with enclosing parens
 readerParen :: Bool -> Parser a -> Parser a
-readerParen man p =
-    my_parens p <|> do	guard $ not man ; p
+readerParen man p
+    = try ( do guard $ not man ; p )
+    <|> my_parens ( readerParen False p )
+
 
 -- | das schreiben wir in alle *_info - komponenten
 -- die werden nicht geparst

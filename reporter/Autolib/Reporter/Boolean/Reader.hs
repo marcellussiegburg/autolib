@@ -7,7 +7,7 @@ import Autolib.Reader
 
 import Text.ParserCombinators.Parsec.Expr
 
-instance Reader i => Reader (Boolean i) where readerPrec p = expression
+instance Reader i => Reader (Boolean i) where atomic_readerPrec p = expression
 
 expression :: Reader i 
 	   => Parser ( Boolean i )

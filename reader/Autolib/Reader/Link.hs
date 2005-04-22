@@ -5,6 +5,7 @@ module Autolib.Reader.Link where
 --  $Id$
 
 import Autolib.Reader.Class
+import Autolib.Reader.Basic
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token
@@ -14,7 +15,7 @@ import Control.Monad
 
 -- | mutual default instances
 instance Read a => Reader a where
-    readerPrec p = do
+    atomic_readerPrec p = do
        input <- getInput
        case readsPrec p input of
 	    [(x, rest)] -> do 

@@ -1,4 +1,4 @@
---  -*- mode: haskell -*-
+{-# OPTIONS -fallow-overlapping-instances #-}
 
 module Autolib.ToDoc.Derived where
 
@@ -9,4 +9,9 @@ import Autolib.ToDoc.Class
 {-! for Bool derive: ToDoc !-}
 {-! for Maybe derive: ToDoc !-}
 {-! for Either derive: ToDoc !-}
+
+-- Local Variables: 
+-- mode: haskell
+-- End:
+
 
