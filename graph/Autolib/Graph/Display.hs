@@ -21,6 +21,7 @@ import Control.Monad ( liftM )
 
 -------------------------------------------------------------------------------
 
+-- einfacher graph
 instance ( Show a, Ord a ) => ToDot ( Graph a ) where
     toDotProgram = layout_program
     toDot g =
@@ -30,6 +31,7 @@ instance ( Show a, Ord a ) => ToDot ( Graph a ) where
 	in  dot_numbered g num
     toDotOptions = unwords . layout_hints 
 
+-- graphen mit kantengewichten
 instance ( Show a, Ord a, Show b ) => ToDot ( Graph a , Kante a -> b ) where
     toDotProgram = layout_program . fst
     toDot (g,w) =
@@ -39,6 +41,7 @@ instance ( Show a, Ord a, Show b ) => ToDot ( Graph a , Kante a -> b ) where
 	in  dot_weight_numbered g num ( Just . show . w )
     toDotOptions = unwords . layout_hints . fst
 
+-- graphen mit vielleicht kantengewichten
 instance ( Show a, Ord a, Show b ) 
     => ToDot ( Graph a , Kante a -> Maybe b ) where
     toDotProgram = layout_program . fst
@@ -48,6 +51,28 @@ instance ( Show a, Ord a, Show b )
             num = fromMaybe (error "Graph.Display.num") . lookupFM fm
 	in  dot_weight_numbered g num ( liftM show . w )
     toDotOptions = unwords . layout_hints . fst
+
+-- graphen mit vielleicht kantengewichten und vielleicht kantenstilen
+instance ( Show a , Ord a , Show b )
+    => ToDot ( Graph a , Kante a -> Maybe b , Kante a -> Maybe String ) where
+    toDotProgram (g,_,_) = layout_program g
+    toDot (g,w,s) =
+        let vs = setToList $ knoten g
+	    fm = listToFM $ zip vs $ [ 0 :: Int .. ] 
+            num = fromMaybe (error "Graph.Display.num") . lookupFM fm
+	in  dot_numbered' g num ( liftM show . w ) s
+    toDotOptions (g,_,_) = unwords $ layout_hints g
+
+-- zwei graphen: der zweite wird benutzt, um kanten des ersten hervorzuheben
+instance ( Show a , Ord a , Show b )
+    => ToDot ( Graph a , Graph a , Kante a -> Maybe b ) where
+    toDotProgram (g,_,_) = layout_program g
+    toDotOptions (g,_,_) = unwords $ layout_hints g
+    toDot (x,y,w) = toDot ( x , w
+			  ,\ k -> if k `elementOf` (kanten y) 
+			          then Just "solid" 
+			          else Just "dotted" 
+			  )
 
 -------------------------------------------------------------------------------
 
@@ -61,7 +86,15 @@ dot_weight_numbered :: ( Show a, Ord a, Show b )
 		    -> ( a -> b ) 
 		    -> ( Kante a -> Maybe String )
 		    -> Autolib.Dot.Graph.Type
-dot_weight_numbered g num w =
+dot_weight_numbered g num w = dot_numbered' g num w (\_->Nothing)
+
+dot_numbered' :: ( Show a, Ord a, Show b ) 
+	      => Graph a 
+	      -> ( a -> b ) 
+	      -> ( Kante a -> Maybe String ) -- label
+	      -> ( Kante a -> Maybe String ) -- style
+	      -> Autolib.Dot.Graph.Type
+dot_numbered' g num w s =
     let 
             pins = graph_layout g
 
@@ -91,6 +124,7 @@ dot_weight_numbered g num w =
                            , Autolib.Dot.Edge.to    = show $ num q
 			   , Autolib.Dot.Edge.directed = False
 			   , Autolib.Dot.Edge.label = w k
+			   , Autolib.Dot.Edge.edge_style = s k
                            }
 
         in  Autolib.Dot.Graph.Type 
