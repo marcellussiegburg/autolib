@@ -6,6 +6,7 @@ module Autolib.Graph.SpanTree
 
 ( st       -- Ord a => Graph a -> Graph a
 , mst      -- ( Ord a , Ord b ) => Graph a -> Weight (Kante a) b -> Graph a
+, msts     -- ( Ord a , Ord b ) => Graph a -> Weight (Kante a) b -> [Graph a]
 , weight   -- Num b => Graph a -> Weight (Kante a) b -> b
 , Weight   -- type Weight a b = a -> b
 )
