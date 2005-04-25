@@ -68,10 +68,13 @@ instance ( Show a , Ord a , Show b )
     => ToDot ( Graph a , Graph a , Kante a -> Maybe b ) where
     toDotProgram (g,_,_) = layout_program g
     toDotOptions (g,_,_) = unwords $ layout_hints g
-    toDot (x,y,w) = toDot ( x , w
-			  ,\ k -> if k `elementOf` (kanten y) 
-			          then Just "solid" 
-			          else Just "dotted" 
+    toDot (x,y,w) = toDot ( x 
+			  , \ k -> if k `elementOf` (kanten y)
+			           then w k
+			           else Nothing
+			  , \ k -> if k `elementOf` (kanten y) 
+			           then Just "solid" 
+			           else Just "dotted" 
 			  )
 
 -------------------------------------------------------------------------------
