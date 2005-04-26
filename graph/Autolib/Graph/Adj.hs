@@ -8,7 +8,7 @@ import Autolib.Set ( mkSet , cardinality , setToList , elementOf )
 import Data.List ( groupBy , intersperse , transpose )
 import Data.Array ( Array , array , bounds , assocs , listArray , (//) , (!) )
 
-import Control.Monad ( guard )
+import Control.Monad ( guard , liftM )
 
 import Autolib.FiniteMap ( listToFM , lookupWithDefaultFM )
 
@@ -61,12 +61,38 @@ wegematrix g = let a = adjazenz_matrix g
 
 -- | wegematrix per algorithmus von warshall: O(n^3)
 warshall :: Ord a => Graph a -> AdjMatrix
-warshall g = 
-    let a = adjazenz_matrix g
-        n = size a
-        update m (k,i,j)
+warshall = generic_floyd_warshall update
+    where update m (k,i,j)
 	    | and [ m ! (i,k) == 1 , m ! (k,j) == 1 ] = m // [((i,j),1)]
 	    | otherwise                               = m
+
+-- | matrix der länge der kürzesten wege via floyd-warshall: O(n^3)
+floyd_warshall :: Ord a => Graph a -> AdjMatrix
+floyd_warshall = generic_floyd_warshall update
+    where update m (k,i,j)
+	    | m!(i,k) == 0                = m
+	    | m!(k,j) == 0                = m
+	    | m!(i,j) == 0                = m // [((i,j),m!(i,k) + m!(k,j))]
+	    | m!(i,j) > m!(i,k) + m!(k,j) = m // [((i,j),m!(i,k) + m!(k,j))]
+	    | otherwise                   = m
+
+rad_diam :: Ord a => Graph a -> Maybe (Integer,Integer)
+rad_diam g = let ms = map maximum $ zeilen $ floyd_warshall g
+                 r = minimum ms
+		 d = maximum ms
+             in case r of 0 -> Nothing ; _ -> Just (r,d)
+
+rad, diam :: Ord a => Graph a -> Maybe Integer
+rad = liftM fst . rad_diam
+diam = liftM snd . rad_diam
+
+-------------------------------------------------------------------------------
+
+generic_floyd_warshall :: Ord a 
+    => ( AdjMatrix -> (Int,Int,Int) -> AdjMatrix ) -> Graph a -> AdjMatrix
+generic_floyd_warshall update g = 
+    let a = adjazenz_matrix g
+	n = size a
     in foldl update a $ do k <- [1..n]
 			   i <- [1..n]
 			   j <- [1..n]
