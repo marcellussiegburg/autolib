@@ -88,8 +88,8 @@ instance GraphC a
     => Container ( Graph a ) ( R.Graph a ) where
     label _ = "Graph"
     pack g =  R.Graph { R.knoten = knoten g 
-				, R.kanten = kanten g
-   				}
+		      , R.kanten = kanten g
+   		      }
     unpack h = mkGraph ( R.knoten h ) (R.kanten h )
 
 instance GraphC a => Reader ( Graph a ) where
