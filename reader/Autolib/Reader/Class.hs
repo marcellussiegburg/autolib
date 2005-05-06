@@ -30,19 +30,26 @@ import Text.ParserCombinators.Parsec.Language ( haskell )
 -- to require enclosing parentheses, 
 -- explicitely use @reader_Paren True@
 
+-- problems with legacy code:
+-- they don't want automatic paren parsing
+-- and they just implement reader
+-- and we don't want to change their code (ideally)
+-- but perhaps we call their (defaulted) atomic_reader
+
 class Reader a where
+
+      atomic_reader :: Parser a
+      atomic_reader = reader -- ??
+      
+      atomic_readerPrec :: Int -> Parser a
+      atomic_readerPrec d = atomic_reader 
 
       readerPrec :: Int -> Parser a
       readerPrec d = readerParenPrec d atomic_readerPrec
-
+      
       reader :: Parser a
       reader = readerPrec 0
 
-      atomic_reader :: Parser a
-      atomic_reader = atomic_readerPrec 0 -- default
-
-      atomic_readerPrec :: Int -> Parser a
-      atomic_readerPrec d = atomic_reader -- default
 
 -- | read with enclosing parens
 readerParenPrec :: Int -> ( Int -> Parser a ) -> Parser a
