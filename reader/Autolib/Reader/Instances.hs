@@ -12,6 +12,7 @@ import Text.ParserCombinators.Parsec.Token
 import Text.ParserCombinators.Parsec.Language ( haskell )
 
 import Data.Int
+import Data.Ratio
 
 instance Reader Integer where atomic_reader = integer haskell
 instance Reader Int   where atomic_reader = fmap fromIntegral $ integer haskell
@@ -21,6 +22,12 @@ instance Reader Char    where atomic_reader = charLiteral haskell
 instance Reader String  where atomic_reader = stringLiteral haskell
 instance Reader Double where atomic_reader = float haskell
 
+instance Reader Rational where
+    atomic_reader = do my_whiteSpace
+		       x <- reader ; my_whiteSpace
+		       reservedOp haskell "%" ; my_whiteSpace
+		       y <- reader ; my_whiteSpace
+		       return $ x % y
 
 instance Reader () where 
     atomic_reader = my_parens ( return () )
