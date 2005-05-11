@@ -7,6 +7,7 @@ module Autolib.Graph.Reading.Type where
 import Autolib.Graph.Kante
 
 import Autolib.ToDoc
+import Autolib.Symbol
 import Autolib.Reader
 import Autolib.Set
 import Autolib.Hash

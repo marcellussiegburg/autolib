@@ -54,7 +54,7 @@ class Reader a where
 -- | read with enclosing parens
 readerParenPrec :: Int -> ( Int -> Parser a ) -> Parser a
 readerParenPrec d pp
-    = try ( pp d )
+    = pp d -- try ( pp d ) -- don't try
     <|> my_parens ( readerParenPrec 0 pp )
 
 parse_complete :: Parser p -> Parser p
