@@ -26,6 +26,10 @@ instance (Hash a, Hash b, Hash c, Hash d) => Hash (a, b, c, d) where
     -- not recommended (should be cached instead)
     hash (a, b, c, d) = hash ((a, b), hash (c, d))
 
+instance (Hash a, Hash b, Hash c, Hash d, Hash e) => Hash (a, b, c, d, e) where
+    -- not recommended (should be cached instead)
+    hash (a, b, c, d, e) = hash ((a, b), hash (c, d, e))
+
 
 instance (Hash a) => Hash [a] where
     hash [] = 314159

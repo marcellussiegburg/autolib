@@ -1,0 +1,80 @@
+{-# OPTIONS -fallow-overlapping-instances #-}
+
+--   $Id$
+
+module Autolib.ENFA.Data
+
+( module Autolib.ENFA.Data
+, NFAC
+, module Autolib.Informed
+, module Autolib.FiniteMap
+, module Autolib.Set
+)
+
+where
+
+import Autolib.Size
+import Autolib.Letters
+
+import Autolib.NFA.Data ( NFAC )
+import qualified Autolib.Relation
+
+import Autolib.ToDoc
+import Autolib.Informed
+import Autolib.Set
+import Autolib.FiniteMap
+import Autolib.Reader
+import Autolib.Hash
+
+import Autolib.Symbol
+
+import Control.Monad (guard)
+import Text.XML.HaXml.Haskell2Xml
+import Data.Typeable
+
+
+
+data NFAC c s => ENFA c s = ENFA 
+         { enfa_info   :: Doc   -- ^ wird nicht gelesen und auch nicht geprintet
+	 , alphabet :: Set c
+	 , states :: Set s
+	 , starts :: Set s
+	 , finals :: Set s
+	 , trans  :: FiniteMap (s, c) (Set s)
+	 , eps :: Autolib.Relation.Type s s -- ^  always transitive and reflexive
+	 }
+    deriving Typeable
+
+{-! for ENFA derive : ToDoc, Reader !-}
+-- derive Haskell2Xml is broken (in DrIFT)
+
+lstates :: NFAC c a => ENFA c a -> [ a ]
+lstates = setToList . states
+lstarts :: NFAC c a => ENFA c a -> [ a ]
+lstarts = setToList . starts
+lfinals :: NFAC c a => ENFA c a -> [ a ]
+lfinals = setToList . finals
+
+
+instance NFAC c s    => Informed (ENFA c s) where
+    info = enfa_info
+    informed i a = a { enfa_info = i }
+
+instance NFAC c s    => Size (ENFA c s) where 
+    size = cardinality . states
+
+instance NFAC c s    => Hash ( ENFA c s ) where
+    hash  = hash . essence
+
+instance NFAC c s    => Eq ( ENFA c s ) where
+    a == b  =  essence a == essence b
+
+essence a = ( states a, starts a, finals a, trans a 
+	    , Autolib.Relation.pairs $ eps a 
+	    )
+
+
+-- Local Variables:
+-- mode: haskell
+-- End:
+
