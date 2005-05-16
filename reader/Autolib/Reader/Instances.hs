@@ -23,15 +23,27 @@ instance Reader String  where atomic_reader = stringLiteral haskell
 instance Reader Double where atomic_reader = float haskell
 
 instance Reader Rational where
+{-
+    atomic_reader = do -- my_whiteSpace
+		       x <- reader
+                       -- my_whiteSpace
+		       reservedOp haskell "%" 
+                       -- my_whiteSpace
+		       y <- reader 
+                       my_whiteSpace
+		       return $ x % y
+-}
     atomic_reader = try ( do my_whiteSpace
 			     x <- reader ; my_whiteSpace
 			     reservedOp haskell "%" ; my_whiteSpace
 			     y <- reader ; my_whiteSpace
 			     return $ x % y
 			)
-		    <|> ( do my_whiteSpace ; x <- reader ; my_whiteSpace
+		    <|> ( do my_whiteSpace 
+                             x <- reader ; my_whiteSpace
 			     return $ x % 1
 			)
+
 
 instance Reader () where 
     atomic_reader = my_parens ( return () )

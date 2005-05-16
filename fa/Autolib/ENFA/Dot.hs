@@ -7,6 +7,8 @@ module Autolib.ENFA.Dot () where
 import Autolib.ENFA.Data
 import Autolib.Dot.Dot
 import Autolib.Symbol
+import Autolib.ToDoc
+import Autolib.Reader
 import Autolib.Size
 import Autolib.Hash
 import qualified Autolib.NFA as N
@@ -18,6 +20,8 @@ data Letter c = Epsilon | Single c
 instance Show c => Show ( Letter c ) where
     show ( Epsilon )  = "eps"
     show ( Single c ) = show c
+
+instance Reader ( Letter c ) -- dummy
 
 instance Hash c => Hash ( Letter c ) where
     hash Epsilon = 13
