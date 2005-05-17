@@ -9,6 +9,7 @@ import Autolib.ToDoc.Class
 import Autolib.ToDoc.Dutch
 
 import Data.Int
+import Data.Typeable ( Typeable )
 
 instance ToDoc Int   where toDocPrec p = int
 instance ToDoc Int32 where toDocPrec p = int . fromIntegral
@@ -49,7 +50,6 @@ instance ToDoc a => ToDoc [a] where
 -}
 
 
-
 instance ToDoc (a -> b) where
     toDocPrec p f = text "<<function>>"
 
@@ -60,8 +60,23 @@ instance ToDoc String where
 	      alles = kurz ++ if null lang then "" else "..."
 	  in  text $ show alles
 
+-- | (un)clipped lists/strings
+
+data Clip a = Full [a] | Clip Int [a]
+	      deriving ( Eq , Ord , Show , Read , Typeable )
+
+instance ToDoc a => ToDoc (Clip a) where 
+    toDocPrec p (Full   xs) = unclipped_dutch_list $ map toDoc xs
+    toDocPrec p (Clip n xs) = clipped_dutch_list n $ map toDoc xs
+
+-- overlapping
+instance ToDoc (Clip Char) where
+    toDocPrec p (Full   cs) = text cs
+    toDocPrec p (Clip n cs) = 
+	  let (kurz, lang) = splitAt n cs
+	      alles = kurz ++ if null lang then "" else "..."
+	  in  text $ show alles
+
 putz :: ToDoc [a] => [a] -> IO ()
 -- benutzt implizit  take max_list_length
 putz = putStrLn . render . toDoc 
-
-

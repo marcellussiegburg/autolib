@@ -6,6 +6,7 @@ module Autolib.ToDoc
 
 ( module Autolib.ToDoc.Class
 , module Autolib.ToDoc.Dutch
+, Clip ( Full , Clip )
 )
 
 where
@@ -16,6 +17,3 @@ import Autolib.ToDoc.Derived
 import Autolib.ToDoc.Typeable
 import Autolib.ToDoc.Dutch
 import Autolib.ToDoc.Xml
-
-
-
