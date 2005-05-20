@@ -139,6 +139,14 @@ plus a =
 		 }
 
 star :: NFAC c Int => NFA c Int -> NFA c Int
+
+-- BUG: star(empty) = {epsilon} aber star(empty)={} wurde hier berechnet 
+-- FIX: Eine Anfrage hier reinbauen
+-- Problem: Die Rückverfolgung über plus führt auf trim und immer
+-- tiefer, deswegen als einfache und schnelle Abhilfe nur hier diesen
+-- Fall betrachten. Voraussetzung: Der Rest haut hin...
+
+star a | isEmptySet (finals a) = epsilon
 star a =
     let b = plus a
     in	b { nfa_info = funni "star" [ info a ]
