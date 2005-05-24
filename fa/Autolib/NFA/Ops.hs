@@ -146,11 +146,9 @@ star :: NFAC c Int => NFA c Int -> NFA c Int
 -- tiefer, deswegen als einfache und schnelle Abhilfe nur hier diesen
 -- Fall betrachten. Voraussetzung: Der Rest haut hin...
 
-star a | isEmptySet (finals a) = epsilon
-star a =
-    let b = plus a
-    in	b { nfa_info = funni "star" [ info a ]
-	  , finals = Sets.union (finals b) (starts b) 
-	  }
-
-
+star a 
+    | isEmptySet (finals b) = epsilon
+    | otherwise             = b { nfa_info = funni "star" [ info a ]
+				, finals = Sets.union (finals b) (starts b) 
+				}
+    where b = plus a
