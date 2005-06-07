@@ -4,7 +4,9 @@
 -- provide old Data.FiniteMap interface
 -- but use new Data.Map implementation
 
-module Autolib.Data.Map where
+module Autolib.Data.Map 
+
+where
 
 import Data.Map
 
@@ -20,6 +22,7 @@ keysFM = keys
 fmToList = assocs
 listToFM = fromList
 delFromFM = flip delete
+foldFM = foldWithKey
 
 -- | explicit signature is necessary
 -- because the new type would not use Maybe but Monad m => m instead

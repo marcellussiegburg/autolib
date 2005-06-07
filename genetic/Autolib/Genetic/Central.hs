@@ -73,7 +73,7 @@ step conf vpool = do
 	    z <- mutate conf x
 	    return $ (fitness conf z, z)
 
-    let vpool' = id -- take (size conf)
+    let vpool' = take (size conf)
 	       $ compact (num_compact conf)
 	       $ combis ++ mutants ++ popul vpool
 
@@ -93,7 +93,7 @@ compact d vas = reverse $ do
              (v, a) <- vas
              return (v, [a])
     (i, (v, as)) <- zip [1..] $ fmToList fm
-    a <- take i $ setToList $ mkSet as
+    a <- take d $ setToList $ mkSet as
     return (v, a)
 
 
