@@ -61,8 +61,8 @@ monomial = do
     return $ foldl (.) id (reverse fs) $ x
 
 atom :: Symbol c => Parser (RX c)
-atom =      parens expression 
-       <|>  do b <- basic ; whiteSpace; return b
+atom =      do b <- basic ; whiteSpace; return b
+       <|>  parens expression 
 
 basic :: Symbol c => Parser (RX c)
 basic = do c <- satisfy isUpper 
