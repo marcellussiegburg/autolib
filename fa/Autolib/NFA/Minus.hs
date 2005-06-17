@@ -46,12 +46,16 @@ complete alpha a =
 -- | geht immer (argument wird erst deterministisch gemacht)
 complement :: ( NFAC c s, ToDoc [c], NFAC c (Set Int) ) 
 	   => [c] -> NFA c s -> NFA c Int
-complement alpha a = complete alpha $ normalize $ det a
+complement alpha a 
+    = informed ( funni "complement" [ toDoc alpha, info a ] )   
+    $ complete alpha $ normalize $ det a
 
 -- | vorsicht: geht nur, wenn argument bereits deterministisch ist
 complement_det :: ( NFAC c Int, ToDoc [c], NFAC c (Set Int) ) 
 	       => [c] -> NFA c Int -> NFA c Int
-complement_det alpha a = complete alpha $ normalize $ a
+complement_det alpha a 
+    = informed ( funni "complement_det" [ toDoc alpha, info a ] )   
+    $ complete alpha $ normalize $ a
 
 -- | difference
 minus :: ( NFAC c Int, NFAC c (Int, Int), NFAC c (Set Int), ToDoc [c] )
@@ -71,7 +75,9 @@ symdiff :: (NFAC c Int, NFAC c (Either Int Int), NFAC c (Int, Int)
 	   , ToDoc [c], NFAC c (Set Int)) 
 	=> NFA c Int -> NFA c Int -> NFA c Int
 -- TODO: effizienter implementieren
-symdiff a b = normalize $ union (minus a b) (minus b a)
+symdiff a b 
+    = informed ( funni "symdiff" [ info a, info b ] )
+    $ normalize $ union (minus a b) (minus b a)
 
 -- | difference, if second argument is already deterministic 
 -- note: precondition is NOT checked

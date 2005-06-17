@@ -1,4 +1,4 @@
--- $Id$
+--  $Id$
 
 -- | (minimale) (auf-)spannende bäume nach algorithmus von prim
 
