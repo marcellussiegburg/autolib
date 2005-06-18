@@ -32,10 +32,10 @@ instance Ord a => Boxing (Graph a) where
 
 --------------------------------------------------------------------------
 
-gmap :: ( Ord a, Ord b ) => (a -> b ) -> ( Graph a -> Graph b )
--- durch nicht injektive mappen
+-- | durch nicht injektive mappen
 -- kann man hier auch kontrahieren
 -- TODO: das layout geht dann aber kaputt 
+gmap :: ( Ord a, Ord b ) => (a -> b ) -> ( Graph a -> Graph b )
 gmap f g = g
 	 { knoten = mapSet f $ knoten g
 	 , kanten = mapSet ( \ k -> kante (f $ von k) (f $ nach k) )
@@ -75,19 +75,19 @@ unions0 = foldr union0 empty
 
 -------------------------------------------------------------------------
 
+-- | bilder nebeneinander, aber knotenmengen gemeinsam
 union1 ::  Ord a => Graph a -> Graph a -> Graph a
--- bilder nebeneinander, aber knotenmengen gemeinsam
 union1 g1 g2 = informed ( funni "union" [ info g1, info g2 ] )
 	     $ texinformed (  texinfo g1 ++ "+" ++ texinfo g2 )
-	     $ beside g1 g2
+	     $ Autolib.Boxing.beside g1 g2
 
+-- | richtig disjunkte union
 union  :: ( Ord a, Ord b) => Graph a -> Graph b -> Graph (Either a b)
--- richtig disjunkte union
 union g1 g2 = union1 (gmap Left g1) (gmap Right g2)
 
+-- | knotenmengen gemeinsam (benutzt in partit)
 times0 :: (Ord a) 
        => Graph a -> Graph a -> Graph a
--- knotenmengen gemeinsam (benutzt in partit)
 times0 l r = informed ( funni "times" [ info l, info r ] )
 	  $ texinformed (  texinfo l ++ "*" ++ texinfo r )
 	  $ union0 l r  `links0` do
@@ -95,9 +95,9 @@ times0 l r = informed ( funni "times" [ info l, info r ] )
 	      v <- setToList $ knoten r
 	      return $ kante u v
 
+-- | knotenmengen disjunkt machen
 times ::  (Ord a, Ord b ) 
       => Graph a -> Graph b -> Graph (Either a b)
--- knotenmengen disjunkt machen
 times l r = times0 ( gmap Left l ) ( gmap Right r )
 
 partit :: ( ToDoc a, Ord a)
@@ -139,18 +139,18 @@ restrict xs g =
 
 ---------------------------------------------------------------------------
 
+-- | addiert eine kante
 link :: ( ToDoc a, Ord a) 
      => Graph a -> Kante a -> Graph a
--- addiert eine kante
 link g k = informed ( fsep [info g, text "+" ,toDoc (von k), toDoc( nach k) ] )
          $ link0 g k
 
 link0 :: Ord a => Graph a -> Kante a -> Graph a
 link0 g k = g { kanten = Set.union (kanten g) (Set.unitSet k) }
 
+-- | addiert mehrere kanten
 links ::  ( ToDoc a, Ord a)
        => Graph a -> [ Kante a ] -> Graph a
--- addiert mehrere kanten
 links g ks = informed ( fsep [info g, text "+" , toDoc ks ] )
            $ links0 g ks 
 
@@ -158,12 +158,12 @@ links0 :: Ord a => Graph a -> [Kante a] -> Graph a
 links0 = foldl link0
 
 
+-- | entfernt kante
 unlink :: Ord a => Graph a -> Kante a  -> Graph a
--- entfernt kante
 unlink g k = g { kanten = kanten g `Set.minusSet` unitSet k }
 
+-- | entfernt kante
 unlinks :: Ord a => Graph a -> [ Kante a ]  -> Graph a
--- entfernt kante
 unlinks g ks = g { kanten = kanten g `Set.minusSet` mkSet ks }
 
 --------------------------------------------------------------------

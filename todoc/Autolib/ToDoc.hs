@@ -6,11 +6,15 @@ module Autolib.ToDoc
 
 ( module Autolib.ToDoc.Class
 , module Autolib.ToDoc.Dutch
+, module Autolib.ToDoc.Beside
+, module Autolib.ToDoc.Frame
 , Clip ( Full , Clip )
 )
 
 where
 
+import Autolib.ToDoc.Beside
+import Autolib.ToDoc.Frame
 import Autolib.ToDoc.Class
 import Autolib.ToDoc.Manual
 import Autolib.ToDoc.Derived

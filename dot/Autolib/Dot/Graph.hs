@@ -60,7 +60,7 @@ beside l r =
 	}
 
 besides :: [ Type ] -> Type
-besides = foldr1 beside
+besides = foldr1 Autolib.Dot.Graph.beside
 
 instance ToDoc Type where
     toDoc d = 
