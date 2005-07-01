@@ -12,6 +12,7 @@ where
 
 import Text.PrettyPrint.HughesPJ 
 
+-- | should be re-readable with Reader
 class ToDoc a where 
     toDoc :: a -> Doc
     -- default:
@@ -20,6 +21,14 @@ class ToDoc a where
     toDocPrec :: Int -> a -> Doc
     -- default:
     toDocPrec p = toDoc -- dangerous?
+
+-- | like ToDoc, but not intended to be re-readable
+class ToDoc a => Nice a where 
+    nice :: a -> Doc
+    nice = toDoc
+    nicePrec :: Int -> a -> Doc
+    nicePrec p = toDocPrec p
+
 
 -- | mutual default instances
 -- so that you only have to define one of them

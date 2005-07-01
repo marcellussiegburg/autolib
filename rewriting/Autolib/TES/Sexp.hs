@@ -26,7 +26,14 @@ instance ToDoc Sexp where
     toDoc ( Leaf x ) = text x
     toDoc ( List [] ) = parens empty
     toDoc ( List (x : xs) ) = 
-	    parens $  toDoc x <+> vcat ( map toDoc xs )
+	    parens $  toDoc x <+> zippo xs
+
+zippo [] = empty
+zippo [x] = toDoc x
+zippo ( x : y : rest ) = vcat
+      [ toDoc x <+> toDoc y 
+      , zippo rest
+      ]
 
 
 instance Reader Sexp where

@@ -1,4 +1,4 @@
-{-# OPTIONS -fallow-overlapping-instances #-}
+{-# OPTIONS -fallow-overlapping-instances -fallow-undecidable-instances -fglasgow-exts -fallow-incoherent-instances #-}
 
 module Autolib.ToDoc.Manual where
 
@@ -7,6 +7,8 @@ module Autolib.ToDoc.Manual where
 
 import Autolib.ToDoc.Class
 import Autolib.ToDoc.Dutch
+import Autolib.ToDoc.Frame
+import Autolib.ToDoc.Beside
 
 import Data.Int
 import Data.Typeable ( Typeable )
@@ -49,6 +51,10 @@ instance ToDoc a => ToDoc [a] where
 	in  brackets $ fsep $ punctuate comma $ alles
 -}
 
+instance Nice String where nice = toDoc
+
+instance Nice a => Nice [a] where
+    nice xs = frame $ besides $ map nice xs
 
 instance ToDoc (a -> b) where
     toDocPrec p f = text "<<function>>"
