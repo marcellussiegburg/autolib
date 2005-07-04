@@ -24,11 +24,13 @@ class ToDoc a where
 
 -- | like ToDoc, but not intended to be re-readable
 class ToDoc a => Nice a where 
-    nice :: a -> Doc
-    nice = toDoc
     nicePrec :: Int -> a -> Doc
     nicePrec p = toDocPrec p
 
+nice :: Nice a => a -> Doc
+nice = nicePrec 0
+
+instance ToDoc a => Nice a
 
 -- | mutual default instances
 -- so that you only have to define one of them

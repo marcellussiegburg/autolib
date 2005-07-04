@@ -1,4 +1,4 @@
-{-# OPTIONS -fallow-overlapping-instances -fglasgow-exts -fallow-undecidable-instances #-}
+{-# OPTIONS -fallow-overlapping-instances -fglasgow-exts -fallow-undecidable-instances -fallow-incoherent-instances #-}
 
 module Autolib.Set
 
@@ -46,6 +46,11 @@ instance ( Ord a, Reader [a] ) => Reader ( Set a ) where
 instance ToDoc [a] => ToDoc (Set a)
     where toDocPrec p s = docParen (p >= fcp) 
 			$ text "mkSet" <+> toDocPrec fcp (setToList s)
+
+
+instance Nice [a] => Nice (Set a)
+    where nicePrec p s = docParen (p >= fcp) 
+			$ text "mkSet" <+> nicePrec fcp (setToList s)
 
 
 --  http://www.haskell.org//pipermail/haskell/2005-January/015164.html

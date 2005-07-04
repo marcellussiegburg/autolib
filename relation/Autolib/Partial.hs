@@ -50,7 +50,7 @@ instance Partial a => Partial (Set a) where
 -- ist natürlich wohlfundiert
 instance Eq a => Partial [a] where leq = isPrefixOf
 
--- |ein paar einfache instazen, damit wir beispiele haben
-instance Ord a => Partial a where geq = (<=)
+-- |ein paar einfache instanzen, damit wir beispiele haben
+instance Ord a => Partial a where geq = (>=)
 
  
