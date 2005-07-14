@@ -92,7 +92,10 @@ instance ToDoc Identifier where
     toDoc = text . name
 instance Reader Identifier where 
     readerPrec p = do
-        i <- many1 (satisfy isAlphaNum <|> Autolib.Reader.char '_')
+        i <- many1 (     satisfy isAlphaNum 
+                     <|> Autolib.Reader.char '_'
+                     <|> Autolib.Reader.char '\'' -- TPDB needs that
+                   )
 	     <|> operator trs
 	whiteSpace trs
 	return $ mk (-1) i
