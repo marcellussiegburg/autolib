@@ -32,10 +32,10 @@ links a steps =
         cs = mkSet $ do ( p, c, q ) <- steps ; [ c    ]
     in  a { alphabet = union ( alphabet a ) cs
 	  , states   = union ( states   a ) qs
-	  , trans    = addListToFM_C union ( trans a ) $ do
-              (p, c, q ) <- steps
-	      return ((p, c), unitSet q)
-          , eps      = Relation.plus ( eps a ) ( Relation.flat qs )
+	  , trans    = addListToFM_C ( plusFM_C union ) ( trans a ) $ do
+              ( p, c, q ) <- steps
+	      return (p, listToFM [(c, unitSet q)] )
+          , eps      = Relation.plus ( eps a ) ( Relation.empty qs )
 	  }
 
 link  :: NFAC c a

@@ -40,7 +40,7 @@ to_NFA a = N.NFA
 	 , N.states = states a
 	 , N.starts = starts a
          , N.finals = finals a
-	 , N.trans  = collect $  do (p, c, q ) <- unCollect ( trans a )
+	 , N.trans  = collect $  do (p, c, q ) <- tunCollect ( trans a )
 				    return ( p, Single c, q )
 			      ++ do ( p, q ) <- R.pairs ( eps a )
 				    return ( p, Epsilon, q )

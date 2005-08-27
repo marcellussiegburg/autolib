@@ -1,4 +1,4 @@
-{-# OPTIONS -fallow-overlapping-instances #-}
+{-# OPTIONS -fallow-overlapping-instances -fallow-incoherent-instances #-}
 
 --   $Id$
 
@@ -32,7 +32,7 @@ import Control.Monad (guard)
 import Text.XML.HaXml.Haskell2Xml
 import Data.Typeable
 
-
+type Trans c s =  FiniteMap s ( FiniteMap c ( Set s ))
 
 data NFAC c s => ENFA c s = ENFA 
          { enfa_info   :: Doc   -- ^ wird nicht gelesen und auch nicht geprintet
@@ -40,10 +40,34 @@ data NFAC c s => ENFA c s = ENFA
 	 , states :: Set s
 	 , starts :: Set s
 	 , finals :: Set s
-	 , trans  :: FiniteMap (s, c) (Set s)
-	 , eps :: Autolib.Relation.Type s s -- ^  always transitive and reflexive
+
+	 -- , trans  :: FiniteMap (s, c) (Set s)
+	 , trans :: Trans c s
+
+	 , eps :: Autolib.Relation.Type s s 
+	 -- | yes: is transitive and reflexive
+	 , eps_is_trans_reflex :: Bool
 	 }
     deriving Typeable
+
+tcollect :: NFAC c s 
+	 => [ (s, c, s) ] 
+	 -> Trans c s
+tcollect pcqs = addListToFM_C ( plusFM_C union ) emptyFM $ do
+    ( p, c, q ) <- pcqs
+    return ( p, listToFM [ (c, unitSet q) ] )
+
+tunCollect :: NFAC c s
+	   => Trans c s
+	   -> [ (s, c, s) ]
+tunCollect t = do
+    ( p, fm ) <- fmToList t
+    ( c, qs ) <- fmToList fm   
+    q <- setToList qs
+    return ( p, c, q )
+
+
+{-# DEPRECATE eps #-}
 
 {-! for ENFA derive : ToDoc, Reader !-}
 -- derive Haskell2Xml is broken (in DrIFT)
@@ -55,6 +79,14 @@ lstarts = setToList . starts
 lfinals :: NFAC c a => ENFA c a -> [ a ]
 lfinals = setToList . finals
 
+eclosure :: NFAC c s => ENFA c s -> s -> Set s
+eclosure a =
+    if eps_is_trans_reflex a 
+    then Autolib.Relation.images              (eps a)
+    else Autolib.Relation.trans_reflex_images (eps a)
+
+leclosure :: NFAC c s => ENFA c s -> s -> [s]
+leclosure a = setToList . eclosure a 
 
 instance NFAC c s    => Informed (ENFA c s) where
     info = enfa_info
@@ -71,6 +103,7 @@ instance NFAC c s    => Eq ( ENFA c s ) where
 
 essence a = ( states a, starts a, finals a, trans a 
 	    , Autolib.Relation.pairs $ eps a 
+	    -- FIXME: what if they're not transitive
 	    )
 
 

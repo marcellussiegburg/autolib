@@ -17,10 +17,11 @@ alphamap f a =
 	 , states = states a
 	 , starts = starts a
 	 , finals = finals a
-	 , trans = collect $ do
-	      ( p, c, q ) <- unCollect $ trans a
+	 , trans = tcollect $ do
+	      ( p, c, q ) <- tunCollect $ trans a
 	      return ( p, f c, q )
 	 , eps  = eps a
+	 , eps_is_trans_reflex = eps_is_trans_reflex a
 	 }
 
 statemap :: ( NFAC c a, NFAC c b ) 
@@ -32,10 +33,11 @@ statemap f a =
 	 , states = smap f $ states a
 	 , starts = smap f $ starts a
 	 , finals = smap f $ finals a
-	 , trans = collect $ do
-	      ( p, c, q ) <- unCollect $ trans a
+	 , trans = tcollect $ do
+	      ( p, c, q ) <- tunCollect $ trans a
 	      return ( f p, c, f q )
 	 , eps  = R.bothmap f f $ eps a
+	 , eps_is_trans_reflex = eps_is_trans_reflex a
 	 }
 
 
@@ -47,15 +49,17 @@ from_NFA a =
 	 , states = N.states a
 	 , starts = N.starts a
 	 , finals = N.finals a
-	 , trans  = N.trans  a
-	 , eps    = R.flat $ N.states a
+	 , trans  = tcollect $ unCollect $ N.trans  a
+	 , eps    = R.empty $ N.states a
+	 , eps_is_trans_reflex = False
 	 }
 
 -- | add epsilon transition
--- (resulting eps table is reflexive and transitive)
 add_eps :: NFAC c a => ENFA c a -> [( a, a )] -> ENFA c a
 add_eps a pqs =
-    a { eps = R.reflex_trans $ R.inserts ( eps a ) pqs }
+    a { eps = ( if eps_is_trans_reflex a then R.reflex_trans else id )
+	      $ R.inserts ( eps a ) pqs 
+      }
 
 
 -- | replace Nothing transitions by eps transitions
@@ -67,12 +71,13 @@ from_maybe_NFA a =
 	 , states = N.states a
 	 , starts = N.starts a
 	 , finals = N.finals a
-	 , trans  = collect $ do
+	 , trans  = tcollect $ do
                   (p, Just c, q ) <- N.unCollect $ N.trans a
 		  return (p, c, q)
-	 , eps    = R.inserts ( R.flat $ N.states a ) $ do
+	 , eps    = R.inserts ( R.empty $ N.states a ) $ do
                   (p, Nothing, q ) <- N.unCollect $ N.trans a
 		  return (p, q)                  
+	 , eps_is_trans_reflex = False
 	 }
 
 unJust (Just x) = x
@@ -87,7 +92,7 @@ to_maybe_NFA a =
 	 , N.finals = finals a
 	 , N.trans  = N.collect 
              $ do
-                  (p, c, q ) <- unCollect $ trans a
+                  (p, c, q ) <- tunCollect $ trans a
 		  return (p, Just c, q)
             ++ do
                   (p, q ) <- R.pairs $ eps a

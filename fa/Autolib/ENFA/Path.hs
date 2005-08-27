@@ -14,6 +14,7 @@ data Step c a = Step { from :: a
 
 type Path c a = [ Step c a ]
 
+
 -- | find paths whose image corresponds to given string
 -- TODO: find only such paths that begin and end with a real (non-eps) step
 
@@ -34,7 +35,7 @@ paths_from :: ( Eq b, NFAC c a )
       -> [ b ] 
       -> [ Path c a ]
 paths_from compat a p w = do
-        q <- setToList $ images ( eps a ) p
+        q <- leclosure a p
         f <- real_paths_from compat a q w
         return $ if p == q 
 		 then f
@@ -50,13 +51,13 @@ real_paths_from :: ( Eq b, NFAC c a )
       -> [ Path c a ]
 real_paths_from compat a p [] = return []
 real_paths_from compat a p (x : xs) = do
-    y <- do
-        y <- setToList $ alphabet a
-	guard $ compat x y
-	return y
-    q <- setToList $ lookupset ( trans a ) ( p, y )
+    Just fm <- return $ lookupFM ( trans a ) p
+    ( y, qs ) <- fmToList fm
+    guard $ compat x y
+    q <- setToList qs
     f <- paths_from compat a q xs    
     return $ Step { from = p, mark = Just y, to = q } : f
+
 
 
 

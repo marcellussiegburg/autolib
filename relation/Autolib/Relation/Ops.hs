@@ -13,6 +13,8 @@ import Autolib.Relation.Type
 import Autolib.Set
 import Autolib.Fix
 
+import Autolib.Schichten ( bfs )
+
 holds :: ( Ord a, Ord b) => Type a b -> a -> b -> Bool
 holds rel x y = y `elementOf` images rel x
 
@@ -20,6 +22,9 @@ holds rel x y = y `elementOf` images rel x
 
 images :: ( Ord a, Ord b ) => Type a b -> a -> Set b
 images rel x = lookupset (unRelation rel) x
+
+trans_reflex_images ::  ( Ord a ) => Type a a -> a -> Set a
+trans_reflex_images rel x = mkSet $ bfs ( \ x -> images rel x ) x
 
 {-# INLINE pre_images #-}
 

@@ -15,6 +15,6 @@ uneps a =
 		, N.states  = states a
 		, N.starts = starts a
 		, N.finals = finals a
-		, N.trans = trans a
+		, N.trans = N.collect $ tunCollect $ trans a
 		}
    `add_epsilons` R.pairs ( eps a )
