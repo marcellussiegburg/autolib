@@ -35,7 +35,12 @@ links a steps =
 	  , trans    = addListToFM_C ( plusFM_C union ) ( trans a ) $ do
               ( p, c, q ) <- steps
 	      return (p, listToFM [(c, unitSet q)] )
-          , eps      = Relation.plus ( eps a ) ( Relation.empty qs )
+	  , mirror_trans    = 
+                       addListToFM_C ( plusFM_C union ) ( mirror_trans a ) $ do
+              ( p, c, q ) <- steps
+	      return (q, listToFM [(c, unitSet p)] )
+          , eps        = Relation.plus ( eps a ) ( Relation.empty qs )
+          , mirror_eps = Relation.plus ( mirror_eps a ) ( Relation.empty qs )
 	  }
 
 link  :: NFAC c a

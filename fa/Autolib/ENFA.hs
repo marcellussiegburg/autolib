@@ -17,4 +17,5 @@ import Autolib.ENFA.Dot
 
 -- not exported, but mentioned here for the linker
 import Autolib.ENFA.Path
+import Autolib.ENFA.Reach
 import Autolib.ENFA.Link

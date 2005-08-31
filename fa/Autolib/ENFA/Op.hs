@@ -20,7 +20,11 @@ alphamap f a =
 	 , trans = tcollect $ do
 	      ( p, c, q ) <- tunCollect $ trans a
 	      return ( p, f c, q )
+	 , mirror_trans = tcollect $ do
+	      ( p, c, q ) <- tunCollect $ mirror_trans a
+	      return ( p, f c, q )	      
 	 , eps  = eps a
+	 , mirror_eps  = mirror_eps a
 	 , eps_is_trans_reflex = eps_is_trans_reflex a
 	 }
 
@@ -36,7 +40,11 @@ statemap f a =
 	 , trans = tcollect $ do
 	      ( p, c, q ) <- tunCollect $ trans a
 	      return ( f p, c, f q )
+	 , mirror_trans = tcollect $ do
+	      ( p, c, q ) <- tunCollect $ mirror_trans a
+	      return ( f p, c, f q )
 	 , eps  = R.bothmap f f $ eps a
+	 , mirror_eps  = R.bothmap f f $ mirror_eps a
 	 , eps_is_trans_reflex = eps_is_trans_reflex a
 	 }
 
@@ -44,13 +52,16 @@ statemap f a =
 
 from_NFA :: NFAC c a => N.NFA c a -> ENFA c a
 from_NFA a = 
-    ENFA { enfa_info = N.nfa_info a 
+    let u = unCollect $ N.trans  a
+    in ENFA { enfa_info = N.nfa_info a 
 	 , alphabet = N.alphabet a
 	 , states = N.states a
 	 , starts = N.starts a
 	 , finals = N.finals a
-	 , trans  = tcollect $ unCollect $ N.trans  a
+	 , trans  = tcollect u
+	 , mirror_trans = mitcollect u
 	 , eps    = R.empty $ N.states a
+	 , mirror_eps    = R.empty $ N.states a
 	 , eps_is_trans_reflex = False
 	 }
 
@@ -59,6 +70,8 @@ add_eps :: NFAC c a => ENFA c a -> [( a, a )] -> ENFA c a
 add_eps a pqs =
     a { eps = ( if eps_is_trans_reflex a then R.reflex_trans else id )
 	      $ R.inserts ( eps a ) pqs 
+      , mirror_eps =  ( if eps_is_trans_reflex a then R.reflex_trans else id )
+	      $ R.inserts ( mirror_eps a ) $ do (p,q) <- pqs ; return (q,p)
       }
 
 
@@ -66,17 +79,22 @@ add_eps a pqs =
 from_maybe_NFA :: ( NFAC (Maybe c) a, NFAC c a )
 	       => N.NFA (Maybe c) a -> ENFA c a
 from_maybe_NFA a = 
-    ENFA { enfa_info = N.nfa_info a 
+    let u = do
+                  (p, Just c, q ) <- N.unCollect $ N.trans a
+		  return (p, c, q)
+    in ENFA { enfa_info = N.nfa_info a 
 	 , alphabet = smap unJust $ sfilter isJust $ N.alphabet a
 	 , states = N.states a
 	 , starts = N.starts a
 	 , finals = N.finals a
-	 , trans  = tcollect $ do
-                  (p, Just c, q ) <- N.unCollect $ N.trans a
-		  return (p, c, q)
+	 , trans  = tcollect u
+	 , mirror_trans = mitcollect u
 	 , eps    = R.inserts ( R.empty $ N.states a ) $ do
                   (p, Nothing, q ) <- N.unCollect $ N.trans a
 		  return (p, q)                  
+	 , mirror_eps    = R.inserts ( R.empty $ N.states a ) $ do
+                  (p, Nothing, q ) <- N.unCollect $ N.trans a
+		  return (q, p)                  
 	 , eps_is_trans_reflex = False
 	 }
 

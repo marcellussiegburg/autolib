@@ -43,12 +43,25 @@ data NFAC c s => ENFA c s = ENFA
 
 	 -- , trans  :: FiniteMap (s, c) (Set s)
 	 , trans :: Trans c s
+	 , mirror_trans :: Trans c s
 
 	 , eps :: Autolib.Relation.Type s s 
+	 , mirror_eps :: Autolib.Relation.Type s s 
+
 	 -- | yes: is transitive and reflexive
 	 , eps_is_trans_reflex :: Bool
 	 }
     deriving Typeable
+
+
+mirror :: NFAC c s
+       => ENFA c s
+       -> ENFA c s
+mirror a = a { trans = mirror_trans a
+	     , mirror_trans = trans a
+	     , eps = mirror_eps a
+	     , mirror_eps = eps a
+	     }
 
 tcollect :: NFAC c s 
 	 => [ (s, c, s) ] 
@@ -56,6 +69,11 @@ tcollect :: NFAC c s
 tcollect pcqs = addListToFM_C ( plusFM_C union ) emptyFM $ do
     ( p, c, q ) <- pcqs
     return ( p, listToFM [ (c, unitSet q) ] )
+
+mitcollect :: NFAC c s 
+	 => [ (s, c, s) ] 
+	 -> Trans c s
+mitcollect pcqs = tcollect $ do (p,c,q) <- pcqs ; return (q,c,p)
 
 tunCollect :: NFAC c s
 	   => Trans c s
