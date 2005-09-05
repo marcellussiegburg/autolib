@@ -22,6 +22,7 @@ import Autolib.Symbol
 
 import Data.List (intersperse)
 import Autolib.Util.Size
+import Autolib.Util.Wort
 import Autolib.Hash
 
 import Data.Char
@@ -64,8 +65,8 @@ instance Ord Identifier where
 instance Symbol Identifier where
      arity = i_arity
      set_arity a x = x { i_arity = a }
-     pool = do c <- pool :: [ Char ]
-	       return $ mknullary [c]
+     pool = do w <- alles ( pool :: [ Char ] ) 3
+	       return $ mknullary w
      stringify    = concat 
 		  . intersperse "+"
 		  . map name
