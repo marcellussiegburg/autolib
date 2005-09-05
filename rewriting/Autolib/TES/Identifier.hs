@@ -66,6 +66,7 @@ instance Symbol Identifier where
      arity = i_arity
      set_arity a x = x { i_arity = a }
      pool = do w <- alles ( pool :: [ Char ] ) 3
+	       guard $ not $ null w
 	       return $ mknullary w
      stringify    = concat 
 		  . intersperse "+"
@@ -101,8 +102,6 @@ instance Reader Identifier where
 	whiteSpace trs
 	return $ mk (-1) i
 
-instance Show Identifier where show = render . toDoc
-instance Read Identifier where readsPrec = parsec_readsPrec
 
 instance Autolib.ToTex.ToTex Identifier where
     toTex i = Autolib.ToTex.Macro "mathit" 
