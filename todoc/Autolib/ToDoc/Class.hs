@@ -27,8 +27,8 @@ class ToDoc a => Nice a where
     nicePrec :: Int -> a -> Doc
     nicePrec p = toDocPrec p
 
-nice :: Nice a => a -> Doc
-nice = nicePrec 0
+    nice :: a -> Doc
+    nice = nicePrec 0
 
 instance ToDoc a => Nice a
 
