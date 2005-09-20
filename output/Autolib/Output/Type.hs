@@ -12,6 +12,7 @@ data Output = Text String
 	    | Pre  Pretty.Doc
 	    | Image FilePath -- source
 	    | Link FilePath 
+	    | Named_Link String FilePath 
 	    | Empty
 	    | Above  Output Output
 	    | Beside Output Output
@@ -31,6 +32,7 @@ instance Render Pretty.Doc where
 
     render (Image src) = Pretty.text "<img>"
     render (Link url) = Pretty.text "<a href>"
+    render (Named_Link name url) = Pretty.text "<a href>"
 
     render (Empty)  = Pretty.empty
 
