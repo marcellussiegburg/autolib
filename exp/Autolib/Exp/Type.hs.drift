@@ -8,6 +8,13 @@ import Data.Typeable
 import Text.XML.HaXml.Haskell2Xml
 
 -- | regular expressions
+--
+-- see 'Autolib.Exp.Read' for input syntax
+--
+-- see 'Autolib.Exp.Inter.std' and
+-- see 'Autolib.Exp.Inter.std_sigma'
+-- for pre-defined identifiers
+
 data RX c
 	= Ref String  -- ^ reference to value in evironment
 	| Letter c
