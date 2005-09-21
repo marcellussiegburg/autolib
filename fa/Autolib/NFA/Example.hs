@@ -10,17 +10,18 @@ example :: NFA Char Int
 example = example_sigma $ mkSet "ab"
 
 example_sigma :: Set Char -> NFA Char Int
-example_sigma s =
-    let a : b : _ = setToList s
-    in  NFA 
+example_sigma s = NFA 
     { nfa_info = funni "example" [ info s ]
     , alphabet = s
     , states = mkSet [ 1, 2, 3]
     , starts = mkSet [ 2]
     , finals = mkSet [ 2]
-    , trans = listToFM [ ((1, a), mkSet [ 2])
-                       , ((2, a), mkSet [ 1, 3])
-                       , ((2, b), mkSet [ 3])
-                       , ((3, b), mkSet [ 2])
-                       ]
+    , trans = collect $
+         case setToList s of
+              a : b : _ -> 
+                  [ (1, a, 2), (2, a, 1), (2, a, 3) 
+                  , (2, b, 3), (3, b, 2)
+                  ]
+              [ a ] -> [  (1, a, 2), (2, a, 1), (2, a, 3) ]
+              [] -> []
     }
