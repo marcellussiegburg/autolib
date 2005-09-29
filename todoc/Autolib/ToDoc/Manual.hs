@@ -88,7 +88,7 @@ instance ToDoc String where
 	      alles = kurz ++ if null lang then "" else "..."
 	  in  text $ show alles
 
--- | (un)clipped lists\/strings
+-- (un)clipped lists/strings
 
 data Clip a = Full [a] | Clip Int [a]
 	      deriving ( Eq , Ord , Show , Read , Typeable )
