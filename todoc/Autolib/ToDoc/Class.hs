@@ -32,10 +32,13 @@ class ToDoc a => Nice a where
 
 instance ToDoc a => Nice a
 
+{-
 -- | mutual default instances
 -- so that you only have to define one of them
 instance Show a => ToDoc a where 
     toDocPrec p x = text ( showsPrec p x "" )
+-}
+
 instance ToDoc a => Show a where 
     showsPrec p x cs = render ( toDocPrec p x ) ++ cs
 

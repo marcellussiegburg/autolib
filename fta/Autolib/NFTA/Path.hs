@@ -51,9 +51,9 @@ data Node c s = Transition ( s, c, [s] )
 	      | State s
      deriving ( Eq, Ord )
 
-instance ( Show c, Show s ) => Show (Node c s) where
-    show ( Transition (q, c, qs) ) = show c
-    show ( State s ) = show s
+instance ( ToDoc c, ToDoc s ) => ToDoc (Node c s) where
+    toDoc ( Transition (q, c, qs) ) = toDoc c
+    toDoc ( State s ) = toDoc s
 
 instance Read (Node c s)
 
@@ -65,9 +65,9 @@ data Edge = Edge Int
 	  | Nil
      deriving ( Eq, Ord )
 
-instance Show Edge where
-    show (Edge i) = show i
-    show Nil = ""
+instance ToDoc Edge where
+    toDoc (Edge i) = toDoc i
+    toDoc Nil = empty
 
 instance Read Edge
 

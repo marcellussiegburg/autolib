@@ -17,9 +17,9 @@ import qualified Autolib.Relation as R
 data Letter c = Epsilon | Single c
     deriving ( Eq, Ord )
 
-instance Show c => Show ( Letter c ) where
-    show ( Epsilon )  = "eps"
-    show ( Single c ) = show c
+instance ToDoc c => ToDoc ( Letter c ) where
+    toDoc ( Epsilon )  = text "eps"
+    toDoc ( Single c ) = toDoc c
 
 instance Reader ( Letter c ) -- dummy
 

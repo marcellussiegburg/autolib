@@ -12,6 +12,7 @@ import Autolib.ToDoc.Beside
 
 import Data.Int
 import Data.Typeable ( Typeable )
+import Data.Ratio
 
 instance ToDoc Int   where toDocPrec p = int
 instance ToDoc Int32 where toDocPrec p = int . fromIntegral
@@ -20,6 +21,14 @@ instance ToDoc Integer where toDocPrec p = integer
 instance ToDoc Float where toDocPrec p = float
 instance ToDoc Double where toDocPrec p = double
 
+instance ToDoc Char where toDocPrec p = text . show
+
+instance ( Integral a, ToDoc a ) => ToDoc ( Ratio a ) where 
+    toDocPrec p r = docParen ( p > 0 )
+        $ hsep [ toDoc ( numerator r ) , text "%", toDoc ( denominator r ) ]
+
+instance ToDoc () where
+    toDocPrec p () = dutch_tuple $ [ ]
 
 instance (ToDoc a, ToDoc b) => ToDoc (a, b) where
     toDocPrec p (x,y) = dutch_tuple
