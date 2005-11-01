@@ -10,11 +10,13 @@ where
 
 import Autolib.Tex
 
-class Show a => ToTex a where 
+class ToTex a where 
     toTex :: a -> Tex
+
+instance Show a => ToTex a where
     toTex = Direct . show  -- default
 
-instance ToTex Int
+
 
 
 
