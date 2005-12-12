@@ -47,3 +47,6 @@ sepBy s ds = fsep $ intersperse s ds
 quoted :: Doc -> Doc
 quoted d = char '`' <> d <> char '\''
 
+(</>) :: Doc -> Doc -> Doc
+l </> r = l $+$ nest 4 r
+

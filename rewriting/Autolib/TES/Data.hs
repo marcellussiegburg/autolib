@@ -146,10 +146,19 @@ instance ( ToDoc (Rule t), Symbol c )
 		          Just x -> toDoc $ List $ Leaf ("STRATEGY") :  x 
 			  Nothing -> empty
 		   -- , toDoc ( wrap "VAR" $ setToList $ variables t )
-		   , toDoc $ ( if separate t then wrap_sep "," else wrap )
-                             "RULES" $ rules t 
+		   -- , toDoc $ ( if separate t then wrap_sep "," else wrap )
+                   --          "RULES" $ rules t 
+                   , Autolib.ToDoc.parens 
+                   $ text "RULES" <+> ( vcat $ init' $ do
+                         r <- rules t
+                         [ toDoc r
+                            , if separate t then Autolib.ToDoc.comma 
+                              else empty ] )
 		   ]
 
+-- | like init except for [] return []
+init' [] = []
+init' xs = init xs
 
 instance Reader SES where
     readerPrec p = do
