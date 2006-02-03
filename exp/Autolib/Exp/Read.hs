@@ -5,7 +5,7 @@ module Autolib.Exp.Read where
 import Autolib.Exp.Type
 import Autolib.Symbol
 
-import Char
+import Data.Char
 
 import Autolib.Reader
 

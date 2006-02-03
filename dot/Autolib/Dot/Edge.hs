@@ -2,17 +2,17 @@ module Autolib.Dot.Edge where
 
 -- -- $Id$
 
--- implement only those attribs that would be needed
--- for drawing finite automata (= directed edge-labelled graphs)
-
 import Autolib.ToDoc
 import Autolib.Reader
 
 import Text.ParserCombinators.Parsec (option, Parser)
 import Autolib.Dot.Parsec
 
-import Maybe ( maybeToList )
+import Data.Maybe ( maybeToList )
 
+
+-- | implement only those attribs that would be needed
+-- for drawing finite automata (= directed edge-labelled graphs)
 
 data Type = Type { from	      :: String
 		 , to	      :: String

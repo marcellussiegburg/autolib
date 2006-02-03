@@ -4,7 +4,7 @@ where
 
 -- -- $Id$
 
-import Random
+import System.Random
 
 entweder :: IO a -> IO a -> IO a
 entweder x y = do
@@ -48,9 +48,9 @@ selektion k xs = do
 	 return $ y : ys
 
 
-summe :: Int -> Int -> IO [ Int ]
--- finde eine zerlegung von n in genau k summanden >= 1
+-- | finde eine zerlegung von n in genau k summanden >= 1
 -- achtung: ist nicht gleichverteilt (?)
+summe :: Int -> Int -> IO [ Int ]
 summe k n | k < 0 = error "Util.Zufall.summe: k < 0"
 summe k n | n < 0 = error "Util.Zufall.summe: n < 0"
 summe k n | n < k = error $ "Util.Zufall.summe: n < k" ++ show (k, n)

@@ -3,7 +3,7 @@ module Autolib.Util.Generate where
 --  $Id$
 
 import Autolib.Util.Zufall
-import Random
+import System.Random
 
 -- | erzeugt "zufälligen" dinge fixierter größe
 type Generator a = Int -> IO ( a )

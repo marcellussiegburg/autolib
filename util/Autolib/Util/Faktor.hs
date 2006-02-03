@@ -8,8 +8,9 @@ module Autolib.Util.Faktor
 where
 
 
+-- | in Primzahlpotenzen
 type Zerlegung = [(Integer, Int)]
--- in Primzahlpotenzen
+
 
 zerlege :: Integer -> Zerlegung
 zerlege n | n <= 0 = error "Util.Zerlegung.zerlege"

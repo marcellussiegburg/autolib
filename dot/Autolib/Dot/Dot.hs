@@ -13,10 +13,11 @@ where
 --  $Id$
 
 import qualified Autolib.Dot.Graph
-import System
-import IO
 import Control.Monad ( when )
-import Random
+import System.Random
+import System.Exit
+import System.Cmd
+import System.IO
 
 import Autolib.Util.Chmod
 

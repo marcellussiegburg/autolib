@@ -13,7 +13,7 @@ import Autolib.Graph.Ops
 import Autolib.Util.Generate
 import Autolib.Util.Zufall
 
-import Random
+import System.Random
 
 conf :: Config ( Graph Int )
 conf  = Config 

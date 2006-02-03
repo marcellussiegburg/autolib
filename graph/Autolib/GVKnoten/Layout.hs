@@ -19,10 +19,10 @@ import Control.Monad ( foldM )
 import qualified Autolib.Dot.Node
 import qualified Autolib.Dot.Graph
 
-import Random
-import System
+import System.Random
+import System.Cmd
 
--- in der eingabe können einige knoten schon gepinnt sein
+-- | in der eingabe können einige knoten schon gepinnt sein
 -- dazu benutze graph.graph_layout
 
 layout :: ( Ord a, Show a ) 

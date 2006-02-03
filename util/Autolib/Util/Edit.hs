@@ -2,7 +2,7 @@ module Autolib.Util.Edit where
 
 -- -- $Id$
 
-import Random
+import System.Random
 import Control.Monad
 
 import Autolib.Util.Zufall ( eins )

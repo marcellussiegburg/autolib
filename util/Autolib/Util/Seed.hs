@@ -2,7 +2,7 @@ module Autolib.Util.Seed where
 
 -- -- $Id$
 
-import Random
+import System.Random
 
 seed :: Int -> IO ()
 seed n = do
