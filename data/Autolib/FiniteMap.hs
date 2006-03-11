@@ -47,11 +47,11 @@ instance ( Typeable a, Typeable b ) => Typeable (FiniteMap a b) where
 
 instance (ToDoc a, ToDoc b) => ToDoc (FiniteMap a b)
     where toDocPrec p fm = 
-	      docParen (p >= fcp) $ text "listToFM" <+> toDocPrec fcp (fmToList fm)
+	      docParen (p >= fcp) $ text "listToFM" </> toDocPrec fcp (fmToList fm)
 
 instance (Nice a, Nice b) => Nice (FiniteMap a b)
     where nicePrec p fm = 
-	      docParen (p >= fcp) $ text "listToFM" <+> nicePrec fcp (fmToList fm)
+	      docParen (p >= fcp) $ text "listToFM" </> nicePrec fcp (fmToList fm)
 
 
 instance ( Ord a, Reader a, Reader b ) => Reader ( FiniteMap a b ) where

@@ -33,6 +33,7 @@ import Autolib.TES.Position (symsl)
 
 import Autolib.Letters
 
+import Data.Typeable
 
 data RS c t  = RS
 	 { annotations :: [ Sexp ]
@@ -44,7 +45,7 @@ data RS c t  = RS
 	 , separate :: Bool
 	 , rules :: [ Rule t ]
 	 }
-    deriving ( Eq, Ord )
+    deriving ( Eq, Ord, Typeable )
 
 instance ( Eq c, Eq t, Hash t ) => Hash ( RS c t ) where
     hash rs = hash ( rules rs )

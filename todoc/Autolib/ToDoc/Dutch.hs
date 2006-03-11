@@ -27,6 +27,10 @@ max_string_length = 70 :: Int
 dutch_record :: [ Doc ] -> Doc
 dutch_record = dutch (Just max_list_length) ( text "{", comma, text "}" )    
 
+named_dutch_record :: String -> [ Doc ] -> Doc
+named_dutch_record tag = 
+    dutch ( Just max_list_length ) ( text tag <+> text "{", comma, text "}" )
+
 dutch_tuple :: [ Doc ] -> Doc
 dutch_tuple = dutch (Just max_list_length) ( text "(", comma, text ")" )    
 
