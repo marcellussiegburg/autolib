@@ -48,8 +48,8 @@ instance ToDoc Type where
 		   ]
 	<+> brackets ( fsep $ punctuate comma $ do
 	    ( name, fun ) <- [ ("label", fmap show . label)
-			     , ("headlabel", fmap show . headlabel)
-			     , ("taillabel", fmap show . taillabel)
+			     , ("headlabel", headlabel)
+			     , ("taillabel", taillabel)
 			     , ("style", edge_style)
 			     , ("color", color)
 			     , ("len", edge_length)
