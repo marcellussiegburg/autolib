@@ -26,7 +26,11 @@ instance ToDoc Ordering where toDocPrec p = text . show
 
 instance ( Integral a, ToDoc a ) => ToDoc ( Ratio a ) where 
     toDocPrec p r = docParen ( p > 0 )
-        $ hsep [ toDoc ( numerator r ) , text "%", toDoc ( denominator r ) ]
+        $ hsep [ toDoc ( numerator r ) , text "/", toDoc ( denominator r ) ]
+
+instance ToDoc Rational where
+    toDocPrec p r = docParen ( p > 0 )
+        $ hsep [ toDoc ( numerator r ) , text "/", toDoc ( denominator r ) ]
 
 instance ToDoc () where
     toDocPrec p () = dutch_tuple $ [ ]
