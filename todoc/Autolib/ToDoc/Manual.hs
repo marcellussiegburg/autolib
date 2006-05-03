@@ -97,7 +97,7 @@ instance ToDoc (a -> b) where
 
 -- overlapping
 instance ToDoc String where
-    toDocPrec _ = text
+    toDocPrec _ = text . show
 
 {- BUG #132 -> keine Verkürzungen mehr, bitte
     toDocPrec p cs = 
@@ -117,8 +117,8 @@ instance ToDoc a => ToDoc (Clip a) where
 
 -- overlapping
 instance ToDoc (Clip Char) where
-    toDocPrec _ (Full   cs) = text cs
-    toDocPrec _ (Clip _ cs) = text cs
+    toDocPrec _ (Full   cs) = text $ show cs
+    toDocPrec _ (Clip _ cs) = text $ show cs
 
 {- BUG #132 -> keine Verkürzungen mehr, bitte
     toDocPrec p (Clip n cs) = 
