@@ -97,10 +97,14 @@ instance ToDoc (a -> b) where
 
 -- overlapping
 instance ToDoc String where
+    toDocPrec _ = text
+
+{- BUG #132 -> keine Verkürzungen mehr, bitte
     toDocPrec p cs = 
 	  let (kurz, lang) = splitAt max_string_length cs
 	      alles = kurz ++ if null lang then "" else "..."
 	  in  text $ show alles
+-}
 
 -- (un)clipped lists/strings
 
@@ -113,11 +117,15 @@ instance ToDoc a => ToDoc (Clip a) where
 
 -- overlapping
 instance ToDoc (Clip Char) where
-    toDocPrec p (Full   cs) = text cs
+    toDocPrec _ (Full   cs) = text cs
+    toDocPrec _ (Clip _ cs) = text cs
+
+{- BUG #132 -> keine Verkürzungen mehr, bitte
     toDocPrec p (Clip n cs) = 
 	  let (kurz, lang) = splitAt n cs
 	      alles = kurz ++ if null lang then "" else "..."
 	  in  text $ show alles
+-}
 
 putz :: ToDoc [a] => [a] -> IO ()
 -- benutzt implizit  take max_list_length
