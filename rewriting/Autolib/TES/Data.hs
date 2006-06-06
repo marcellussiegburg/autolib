@@ -150,16 +150,16 @@ instance ( ToDoc (Rule t), Symbol c )
 		   -- , toDoc $ ( if separate t then wrap_sep "," else wrap )
                    --          "RULES" $ rules t 
                    , Autolib.ToDoc.parens 
-                   $ text "RULES" <+> ( vcat $ init' $ do
-                         r <- rules t
-                         [ toDoc r
-                            , if separate t then Autolib.ToDoc.comma 
-                              else empty ] )
-		   ]
+                   $ text "RULES" <+> ( vcat $ rundown (separate t) $ rules t )
+                   ]
 
--- | like init except for [] return []
-init' [] = []
-init' xs = init xs
+rundown :: ToDoc ( Rule t ) 
+        => Bool -> [ Rule t ] -> [ Doc ]
+rundown sep [] = []
+rundown sep [ r ] = [ toDoc r ]
+rundown sep ( r : rs ) 
+    = ( toDoc r <+> if sep then Autolib.ToDoc.comma else Autolib.ToDoc.empty )
+    : rundown sep rs
 
 instance Reader SES where
     readerPrec p = do
