@@ -55,7 +55,7 @@ instance ( ToDoc c, ToDoc s ) => ToDoc (Node c s) where
     toDoc ( Transition (q, c, qs) ) = toDoc c
     toDoc ( State s ) = toDoc s
 
-instance Read (Node c s)
+instance Reader (Node c s)
 
 instance ( Hash c, Hash s ) => Hash ( Node c s ) where
     hash ( Transition t ) = hash t
@@ -69,7 +69,7 @@ instance ToDoc Edge where
     toDoc (Edge i) = toDoc i
     toDoc Nil = empty
 
-instance Read Edge
+instance Reader Edge
 
 instance Hash ( Edge ) where
     hash ( Edge x ) = hash x

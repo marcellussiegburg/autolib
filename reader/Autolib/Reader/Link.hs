@@ -14,6 +14,8 @@ import Text.ParserCombinators.Parsec.Language ( haskell )
 import Control.Monad
 
 -- | mutual default instances
+--  this is fundamentally dangerous
+#if(0)
 instance Read a => Reader a where
     atomic_readerPrec p = do
        input <- getInput
@@ -22,6 +24,7 @@ instance Read a => Reader a where
 	        setInput rest
 		return x
             _ -> pzero -- TODO: better error reporting?
+#endif
 
 instance Reader a => Read a where
     readsPrec = parsec_readsPrec
