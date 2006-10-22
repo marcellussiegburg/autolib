@@ -34,7 +34,7 @@ subsetequ a0 b0 = do
 
     if res 
        then inform $ text "Ja."
-       else inform $ fsep [ text "Nein. Wenigstens diese Wörter sind in"
+       else inform $ fsep [ text "Nein. Wenigstens diese WÃ¶rter sind in"
 			     ,  info a0
 			     , comma, text "aber nicht in"
 			     ,  info b0, colon

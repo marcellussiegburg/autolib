@@ -27,9 +27,9 @@ mycielski g = informed ( funni "mycielski" [ info g ] )
 	 (u, v) <- [(von k, nach k), (nach k, von k)]
 	 return $ kante (Left u) (Right (Left v))
 
--- | th Grötzsch graph 'mycielski $ mycielski $ path [1, 2]'
+-- | th GrÃ¶tzsch graph 'mycielski $ mycielski $ path [1, 2]'
 grotzsch :: Graph Int
-grotzsch = informed ( text "Grötzsch" )
+grotzsch = informed ( text "GrÃ¶tzsch" )
          $ mycielski $ mycielski $ path [1, 2]
 
 

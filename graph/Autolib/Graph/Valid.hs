@@ -25,6 +25,6 @@ valid g =
 	then ( False, text "Schlingen sind nicht erlaubt:"
 		      <+> toDoc loops )
 	else if not $ isEmptySet aussen
-	then ( False, text "Diese Kanten-Endpunkte gehören nicht zur Knotenmenge:"
+	then ( False, text "Diese Kanten-Endpunkte gehÃ¶ren nicht zur Knotenmenge:"
 		      <+> toDoc aussen )
 	else ( True,  text "Das ist ein einfacher schlingenfreier Graph.")

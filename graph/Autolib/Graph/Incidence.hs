@@ -11,7 +11,7 @@ import Control.Monad ( guard )
 
 incidence_graph :: Ord a => Graph a -> Graph ( Either a ( Kante a ) )
 incidence_graph g = 
-    let v = mapSet Left ( knoten g ) `union` mapSet Right ( kanten g )
+    let v = smap Left ( knoten g ) `union` smap Right ( kanten g )
 	e = mkSet $ do 
 	       k <- setToList $ kanten g
 	       v <- [ von k, nach k ]

@@ -24,10 +24,10 @@ data Reporter a =
 	      , transformer :: StdGen -> StdGen
 	      }
      
--- die action wird (evtl.) ausgeführt,
+-- die action wird (evtl.) ausgefÃ¼hrt,
 -- aber separat, d. h. innerhalb des reporters
 -- kann man ihre ergebnisse nicht verwenden
--- ist also nur sinnvoll für reine ausgaben (tracing usw.)
+-- ist also nur sinnvoll fÃ¼r reine ausgaben (tracing usw.)
 
 instance Functor Reporter where
     fmap f r = r { result = fmap f $ result r }
@@ -46,10 +46,10 @@ instance Monad Reporter where
 			, transformer = id
 			}
 
-    -- ein bißchen um die ecke programmiert,
+    -- ein biÃŸchen um die ecke programmiert,
     -- damit die zusammensetzung der dokumente lazy ist
-    -- d. h. wir wollen die texte so früh wie möglich sehen,
-    -- unabhängig vom fortgang der rechnung
+    -- d. h. wir wollen die texte so frÃ¼h wie mÃ¶glich sehen,
+    -- unabhÃ¤ngig vom fortgang der rechnung
     m >>= f  = 
         let k = kommentar m
 	    x = do r <- result m ; return $ f r
@@ -134,7 +134,7 @@ lazy_cheporter r =
 cheporter :: Reporter Bool -> ( Bool, Pretty.Doc )
 cheporter r = lazy_cheporter $ do
     f <- r
-    assert f $ Pretty.text "Bedingung erfüllt?"
+    assert f $ Pretty.text "Bedingung erfÃ¼llt?"
 
 porterche :: ( Bool, Pretty.Doc ) -> Reporter ()
 porterche ( p, d ) = if p then inform d else reject d 

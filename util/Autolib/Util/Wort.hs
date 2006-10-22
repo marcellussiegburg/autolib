@@ -52,5 +52,5 @@ hint xs =
 	(erst, dann) = splitAt 5 xs
     in	show erst
 	++ if null dann then ""
-	   else "... noch " ++ show (length dann) ++ " Stück"
+	   else "... noch " ++ show (length dann) ++ " Stueck"
 

@@ -46,7 +46,7 @@ proper_subset ( d1 , s1 ) ( d2 , s2 ) = do
 	     , toDoc no
 	     ]
     let no_eq = minusSet s2 s1
-    when ( isEmptySet no_eq ) $ reject $ vcat [ text "Nein, die Mengen stimmen überein." ]
+    when ( isEmptySet no_eq ) $ reject $ vcat [ text "Nein, die Mengen stimmen Ã¼berein." ]
     inform $ text "Ja."
 
 -------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ eq m1 @ ( d1, s1 ) m2 @ ( d2, s2 ) = do
 	   , nest 4 $ fsep [ d1, equals, toDoc s1 ]
 	   , text "und die Menge"
 	   , nest 4 $ fsep [ d2, equals, toDoc s2 ]
-	   , text "überein?"
+	   , text "Ã¼berein?"
 	   ]
     nested 4 $ do
         subeq m1 m2

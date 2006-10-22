@@ -32,7 +32,7 @@ sanity_alpha alpha x = do
     let strange = letters `minusSet` alpha
     when  ( not $ isEmptySet strange )
 	   $ reject $ vcat
-	   [ text "Ausdruck enth‰lt unbekannte Buchstaben:"
+	   [ text "Ausdruck enth√§lt unbekannte Buchstaben:"
 	   , nest 4 $ toDoc strange
 	   , text "zugelassen sind nur:"
 	   , nest 4 $ toDoc alpha
@@ -48,7 +48,7 @@ sanity_keys keys x = do
     let strange = refs `minusSet` keys
     when ( not $ isEmptySet strange )   
 	   $ reject $ vcat
-	   [ text "Ausdruck enth‰lt unbekannte Bezeichner:"
+	   [ text "Ausdruck enth√§lt unbekannte Bezeichner:"
 	   , nest 4 $ toDoc strange
 	   , text "zugelassen sind nur:"
 	   , nest 4 $ toDoc keys

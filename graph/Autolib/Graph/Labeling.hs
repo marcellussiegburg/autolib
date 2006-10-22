@@ -21,7 +21,7 @@ valid g f =
 	then ( False, text "Diesen Knoten wird kein Wert zugeordnet:"
 		      <+> toDoc fehlt )
 	else if not $ isEmptySet zuviel
-	then ( False, text "Diese Urbilder sind überhaupt keine Knoten:"
+	then ( False, text "Diese Urbilder sind Ã¼berhaupt keine Knoten:"
 		      <+> toDoc zuviel )
 	else ( True, text "Jedem Knoten wird genau ein Wert zugeordnet." )
 

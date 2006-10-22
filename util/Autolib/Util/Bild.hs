@@ -1,3 +1,5 @@
+{-# OPTIONS -fallow-overlapping-instances #-}
+
 module Autolib.Util.Bild 
 
 ( Bild 
@@ -22,8 +24,6 @@ instance ToDoc Bild where
 	return $ text $ do
 	    x <- [ l ..  r ]
 	    return $ b ! (x,y)
-
-instance Show Bild where show = render . toDoc
 
 class ToBild a where
       toBild :: a -> Bild

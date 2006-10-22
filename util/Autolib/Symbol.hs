@@ -1,3 +1,5 @@
+{-# OPTIONS -fallow-incoherent-instances #-}
+
 module Autolib.Symbol where
 
 --   $Id$

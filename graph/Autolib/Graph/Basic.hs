@@ -7,7 +7,7 @@ import Autolib.Graph.Display
 
 import Autolib.Boxing
 
-import qualified Data.Set as Set
+import qualified Autolib.Set as Set
 import qualified Data.List as List
 import Autolib.FiniteMap
 import Data.Maybe

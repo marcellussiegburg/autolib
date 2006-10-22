@@ -9,9 +9,9 @@ import Autolib.Graph.Display
 
 import Autolib.Boxing hiding ( grid )
 import Autolib.ToDoc hiding (empty)
-import Autolib.Set
+import Autolib.Set as Set
 
-import qualified Data.Set as Set
+
 import qualified Data.List as List
 import Autolib.FiniteMap
 import Data.Maybe
@@ -37,8 +37,8 @@ instance Ord a => Boxing (Graph a) where
 -- TODO: das layout geht dann aber kaputt 
 gmap :: ( Ord a, Ord b ) => (a -> b ) -> ( Graph a -> Graph b )
 gmap f g = g
-	 { knoten = mapSet f $ knoten g
-	 , kanten = mapSet ( \ k -> kante (f $ von k) (f $ nach k) )
+	 { knoten = smap f $ knoten g
+	 , kanten = smap ( \ k -> kante (f $ von k) (f $ nach k) )
 				   $ kanten g
 	 , graph_layout = listToFM $ do
 	       ( v, p ) <- fmToList $ graph_layout g

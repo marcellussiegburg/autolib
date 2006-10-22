@@ -1,9 +1,9 @@
-{-# OPTIONS -fallow-overlapping-instances -fglasgow-exts -fallow-undecidable-instances -fallow-incoherent-instances #-}
+{-# OPTIONS -fallow-overlapping-instances -fglasgow-exts -fallow-undecidable-instances -fallow-incoherent-instances -fno-monomorphism-restriction #-}
 
 module Autolib.Set
 
-( module Data.Set
-, module Autolib.Set   
+( Set
+, module Autolib.Set 
 , module Autolib.Xml
 )
 
@@ -12,12 +12,6 @@ where
 --   $Id$
 
 import Data.Set 
-#if (__GLASGOW_HASKELL__ >= 604)
-       hiding ( filter, map, null, size, split
-	      , empty, intersection, insert, valid, singleton
-	      , (\\), fold, partition, delete
-	      )
-#endif
 import Data.Typeable
 import Autolib.ToDoc
 import Autolib.Reader
@@ -28,20 +22,15 @@ import Autolib.Xml
 
 instance Ord a => Container (Set a) [a] where
     label _ = "Set"
-    pack = setToList
-    unpack = mkSet
-
-#if (__GLASGOW_HASKELL__ < 604)
-instance Ord a => Ord (Set a) where
-    compare xs ys = compare (setToList xs) (setToList ys)
-#endif
+    pack = toList
+    unpack = fromList
 
 instance ( Ord a, Reader [a] ) => Reader ( Set a ) where
     atomic_readerPrec d = do
         guard $ d < 9
         my_reserved "mkSet"
 	xs <- reader
-	return $ mkSet xs
+	return $ fromList xs
 
 instance ToDoc [a] => ToDoc (Set a)
     where toDocPrec p s = docParen (p >= fcp) 
@@ -66,24 +55,48 @@ instance ( Typeable a ) =>  Typeable ( Set a ) where
 		[ typeOf ((undefined :: Set a -> a) s) ]
 
 
-subseteq :: Ord a => Set a -> Set a -> Bool
-subseteq xs ys = isEmptySet $ xs `minusSet` ys
+isEmptySet = Data.Set.null
 
+emptySet = Data.Set.empty
+unitSet = Data.Set.singleton
+
+delFromSet = flip Data.Set.delete
+addToSet = flip Data.Set.insert
+elementOf = Data.Set.member
+
+cardinality = Data.Set.size
+
+union = Data.Set.union
+unionManySets = Data.Set.unions
+
+intersect = Data.Set.intersection
+
+minusSet = Data.Set.difference
+
+mkSet :: Ord a => [a] -> Set a
+mkSet = fromList
+
+setToList :: Set a -> [a]
+setToList = toAscList
+
+subseteq :: Ord a => Set a -> Set a -> Bool
+subseteq xs ys = Data.Set.null $ xs `difference` ys
 
 smap :: (Ord a, Ord b) => (a -> b) -> (Set a -> Set b)
-smap f = mkSet . map f . setToList
+smap = Data.Set.map
 
 sfilter :: Ord a => (a -> Bool) -> (Set a -> Set a)
-sfilter p = mkSet . filter p . setToList
+sfilter = Data.Set.filter
 
 nonempty :: Ord a => Set a -> Bool
-nonempty s = not (isEmptySet s)
+nonempty = not . Data.Set.null 
 
 cross :: (Ord a, Ord b) => Set a -> Set b -> Set (a, b)
-cross xs ys = mkSet $ do x <- setToList xs; y <- setToList ys; return (x, y)
+cross xs ys = fromList $ do 
+    x <- toList xs; y <- toList ys; return (x, y)
 
 teilmengen :: Ord a => Int -> Set a -> [ Set a ]
-teilmengen n = map mkSet . teilfolgen n . setToList
+teilmengen n = Prelude.map fromList . teilfolgen n . toList
     
 subsets ::  Ord a => Set a -> [ Set a ]
 subsets s = do n <- [ 0 .. cardinality s ] ; teilmengen n s

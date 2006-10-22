@@ -112,7 +112,7 @@ present :: (NFAC c s, Ord (Set (State c s))
 	     => NFA c s -> Doc
 present a =
     ( text "Zur Sprache" <+> info a )
-    $+$ nest 4 (  vcat [ text "gehören unter anderem diese Wörter:"
+    $+$ nest 4 (  vcat [ text "gehÃ¶ren unter anderem diese WÃ¶rter:"
 		       , toDoc $ take 20 $ accepted a
 		       ] )
 

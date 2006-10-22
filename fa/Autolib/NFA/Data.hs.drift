@@ -1,4 +1,4 @@
--- -*- mode: haskell -*-
+{-# OPIONS -fallow-incoherent-instances #-}
 
 --   $Id$
 
@@ -37,6 +37,7 @@ class ( Ord c, Ord s
       , Symbol c
       , ToDoc [c]
       , ToDoc s, ToDoc [s]
+      , Show s -- ??
       , Reader [c]
       , Reader s, Reader [s]
 	        
@@ -49,6 +50,7 @@ instance ( Ord c, Ord s
 	 , Hash c, Hash s
       , ToDoc [c]
       , ToDoc s, ToDoc [s]
+      , Show s -- ??
       , Reader [c]
       , Reader s, Reader [s]
       ) => NFAC c s
@@ -64,7 +66,7 @@ data NFAC c s => NFA c s =
 	 }
     deriving Typeable
 
-{-! for NFA derive : ToDoc, Reader, Haskell2Xml !-}
+{-! for NFA derive : ToDoc, Reader !-}
 
 instance NFAC c s
     => Informed (NFA c s) where
@@ -85,3 +87,6 @@ instance NFAC c s
 
 essence a = ( states a, starts a, finals a, trans a )
 
+-- local variables:
+-- mode: haskell
+-- end

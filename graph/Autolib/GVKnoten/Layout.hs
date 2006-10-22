@@ -11,7 +11,7 @@ import Autolib.GVKnoten.Type
 import Autolib.GVKnoten.Parser
 
 import Autolib.ToDoc
-import Data.Set
+import Autolib.Set
 import Autolib.FiniteMap
 import Data.Maybe
 import Control.Monad ( foldM )
@@ -31,7 +31,7 @@ layout :: ( Ord a, Show a )
 layout graph = do
 
     let 
-        fm = listToFM $ zip ( setToList $ knoten graph ) [ 1 .. ]
+        fm = listToFM $ zip ( setToList $ knoten graph ) [ 1 :: Int .. ]
 	mf = invert fm
         gn = dot_numbered ( graph   ) ( look fm )
 

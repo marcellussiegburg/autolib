@@ -20,13 +20,13 @@ restrict_states a = do
 
     let nostarts  = sfilter forbidden $ starts a
     when ( nonempty nostarts ) $ reject $ vcat
-	 [ text "Diese Startzustände sind nicht deklariert:"
+	 [ text "Diese StartzustÃ¤nde sind nicht deklariert:"
 	 , nest 4 $ toDoc nostarts
 	 ]
 
     let nofinals  = sfilter forbidden $ finals a
     when ( nonempty nofinals ) $ reject $ vcat
-	 [ text "Diese akzeptierenden Zustände sind nicht deklariert:"
+	 [ text "Diese akzeptierenden ZustÃ¤nde sind nicht deklariert:"
 	 , nest 4 $ toDoc nofinals 
 	 ]
 
@@ -35,10 +35,10 @@ restrict_states a = do
 	    guard $ forbidden p || forbidden q
 	    return rule
     when ( not $ null norules ) $ reject $ vcat
-	 [ text "Diese Übergangsregeln benutzen nicht deklarierte Zustände:"
+	 [ text "Diese Ãœbergangsregeln benutzen nicht deklarierte ZustÃ¤nde:"
 	 , nest 4 $ toDoc norules
 	 ]
-    inform $ text "OK: Alle benutzten Zustände wurden auch deklariert."
+    inform $ text "OK: Alle benutzten ZustÃ¤nde wurden auch deklariert."
 
 
 restrict_alpha
@@ -51,18 +51,18 @@ restrict_alpha alpha a = do
 	    guard $ not (x `elementOf` alpha)
 	    return rule
     when ( not $ null noletters ) $ reject $ vcat
-	 [ text "Diese Übergangsregeln benutzen nicht erlaubte Buchstaben:"
+	 [ text "Diese Ãœbergangsregeln benutzen nicht erlaubte Buchstaben:"
 	 , nest 4 $ toDoc noletters
 	 ]
-    inform $ text "OK: Die Übergangsregeln benutzen nur erlaubte Buchstaben."
+    inform $ text "OK: Die Ãœbergangsregeln benutzen nur erlaubte Buchstaben."
 
 restrict_size
    :: NFAC c a
    => Int -> NFA c a 
    -> Reporter ()
 restrict_size s a = do
-    inform $ fsep [ text "Der Automat soll höchstens", toDoc s
-		  , text "Zustände haben."
+    inform $ fsep [ text "Der Automat soll hÃ¶chstens", toDoc s
+		  , text "ZustÃ¤nde haben."
 		  , text "Er besitzt", toDoc (size a), text "."
 		  ]
     when ( size a > s ) $ reject $ text "Das ist zuviel."

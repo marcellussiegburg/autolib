@@ -50,7 +50,7 @@ graphToGraphInt (Graph { knoten = knoten, kanten =  kanten }) =
     let
         knotenToInt = mkKnotenToInt emptyFM (setToList knoten) 0
         knotenSet = eltSet knotenToInt
-        kantenSet = mapSet (kantenMapping knotenToInt) kanten
+        kantenSet = smap (kantenMapping knotenToInt) kanten
     in
         mkGraph knotenSet kantenSet 
     where
