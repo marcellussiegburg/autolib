@@ -122,16 +122,14 @@ inserts r xys = plus r $ make xys
 trans :: Ord a => Type a a -> Type a a
 trans r = fix ( \ s -> plus r $ times r s ) r
 
+
 -- |  reflexive closure
 reflex :: Ord a => Type a a -> Type a a
-reflex r = ( make0 $ do x <- setToList $ source r ; return (x, x) )
-	 { source = source r
-	 , target = source r -- ??
-	 }
+reflex r = plus ( identic $ source r ) r
 
 -- | reflexive and transitive closure
 reflex_trans :: Ord a => Type a a -> Type a a
-reflex_trans r = plus (reflex r) (trans r) 
+reflex_trans r = plus (identic $ source r) (trans r) 
 
 minima :: Ord a => Type a a -> Set a
 minima r = source r `minusSet` mkSet ( do (x,y) <- pairs r ; return y )
