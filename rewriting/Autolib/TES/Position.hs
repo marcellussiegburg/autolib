@@ -113,11 +113,9 @@ pokes :: Term v c
 pokes = foldl poke
 
 
-
+-- gives number of positions
 instance Size (Term v c) where
-    size t = length $ do
-	 Node _ _ <- subterms t
-	 return ()
+    size t = length $ subterms t
 
 -- | size w each constant subtree replaced by one node
 vsize :: Term v c -> Int

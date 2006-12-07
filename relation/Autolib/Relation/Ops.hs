@@ -88,6 +88,20 @@ plus r s = Make
                plusFM_C union (inverse_unRelation r) (inverse_unRelation s)
 	 }
 
+difference :: (Ord a, Ord b)
+     => Type a b -> Type a b -> Type a b
+difference r s = R.make_on ( R.source r, R.target r ) $ do
+    (x, y) <- R.pairs r
+    guard $ not $ R.holds s x y
+    return ( x, y )
+
+intersection :: (Ord a, Ord b)
+     => Type a b -> Type a b -> Type a b
+intersection r s = R.make_on ( R.source r, R.target r ) $ do
+    (x, y) <- R.pairs r
+    guard $ R.holds s x y
+    return ( x, y )
+
 insert :: (Ord a, Ord b)
        => Type a b -> (a,b) -> Type a b
 insert r (x,y) = r
