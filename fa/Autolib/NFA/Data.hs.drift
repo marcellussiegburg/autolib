@@ -1,4 +1,4 @@
-{-# OPIONS -fallow-incoherent-instances #-}
+{-# OPTIONS -fglasgow-exts -fallow-undecidable-instances #-}
 
 --   $Id$
 

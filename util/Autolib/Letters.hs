@@ -1,4 +1,4 @@
-{-# OPTIONS -fglasgow-exts -fallow-overlapping-instances #-}
+{-# OPTIONS -fglasgow-exts -fallow-undecidable-instances #-}
 
 module Autolib.Letters where
 

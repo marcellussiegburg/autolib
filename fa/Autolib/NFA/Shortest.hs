@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts #-}
+
 --  $Id$
 
 module Autolib.NFA.Shortest where
@@ -113,7 +115,7 @@ present :: (NFAC c s, Ord (Set (State c s))
 present a =
     ( text "Zur Sprache" <+> info a )
     $+$ nest 4 (  vcat [ text "gehören unter anderem diese Wörter:"
-		       , toDoc $ take 20 $ accepted a
+		       , toDoc $ take 20 $ some_shortest a -- accepted a
 		       ] )
 
 

@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts #-}
+
 module Autolib.Reporter.Checker where
 
 --  $Id$

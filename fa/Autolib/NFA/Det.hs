@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts #-}
+
 -- -- $Id$
 
 module Autolib.NFA.Det 

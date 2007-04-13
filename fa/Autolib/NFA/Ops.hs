@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts #-}
+
 module Autolib.NFA.Ops where
 
 --  $Id$

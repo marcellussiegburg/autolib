@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts #-}
+
 module Autolib.NFA.Subseteq where
 
 -- -- $Id$
@@ -26,9 +28,10 @@ subsetequ a0 b0 = do
 	dis = 5 -- soviele anzeigen
 
     let ein = -- einfach mal testen
-	      filter ( not . is_accepted b ) $ take cut $ accepted a
+	      filter ( not . is_accepted b ) 
+                     $ take cut $ some_shortest a 
 	zwei = -- richtig die automaten subtrahieren
-	      accepted $ minus a b
+	      some_shortest $ minus a b
 	noh = if null ein then zwei else ein
 	res = null noh
 
