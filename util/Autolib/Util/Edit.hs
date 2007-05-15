@@ -2,7 +2,7 @@ module Autolib.Util.Edit where
 
 -- -- $Id$
 
-import System.Random
+import Autolib.Util.Zufall
 import Control.Monad
 
 import Autolib.Util.Zufall ( eins )
@@ -26,26 +26,26 @@ insert_slice from to at w =
 
 max_edit = 3 :: Int
     
-some_cut :: [a] -> IO [a]
+some_cut :: RandomC m => [a] -> m [a]
 some_cut w = if length w < max_edit then return w else do
     d <- randomRIO ( 1 , max_edit )
     i <- randomRIO ( 0 , length w - d )
     return  $ cut i (i+d) w
     
-some_mirror :: [a] -> IO [a]
+some_mirror :: RandomC m => [a] -> m [a]
 some_mirror w = if length w < max_edit then return w else do
     d <- randomRIO ( 1 , max_edit )
     i <- randomRIO ( 0 , length w - d )
     return  $ mirror i (i+d) w
 
-some_insert_slice :: [a] -> IO [a]
+some_insert_slice :: RandomC m => [a] -> m [a]
 some_insert_slice w = if length w < max_edit then return w else do
     d <- randomRIO ( 1 , max_edit )
     i <- randomRIO ( 0 , length w - d )
     k <- randomRIO (0    , length w - 1)
     return $ insert_slice i (i+d) k w
 
-edit :: [a] -> IO [a]
+edit :: RandomC m => [a] -> m [a]
 edit w = do
     f <- eins 
        [ some_cut 
@@ -55,7 +55,7 @@ edit w = do
     f w
 
 
-edits :: [a] -> IO [a]
+edits :: RandomC m => [a] -> m [a]
 edits w = do
     k <- randomRIO (1, max_edit) -- ??
     foldM ( \ u _ -> edit u ) w $ replicate k ()

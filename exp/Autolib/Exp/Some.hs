@@ -17,26 +17,26 @@ import qualified Autolib.NFA.Basic as Basic
 import Autolib.ToDoc hiding ( empty )
 
 import Autolib.Set
-import System.Random
+-- import System.Random
 
 -- | erzeugt irgendeinen ausdruck  x  über gegebenem alphabet
 -- mit  size x  <= 2 * s
 -- mit wenigstens zwei sternen
 -- mit  DFA-größe >= s
 -- tatsächlich rechnen wir gleich den DFA mit aus
-nontrivial :: NFAC c Int
+nontrivial :: ( RandomC m,  NFAC c Int )
 	   => Set c 
 	   -> Int 
-	   -> IO (RX c, NFA c Int)
+	   -> m (RX c, NFA c Int)
 nontrivial alpha s = 
     repeat_until ( some alpha (2 * s) )
 	( \ (x,a) -> 2 <= stars x
 	             && size a >= s )
 
 
-some :: NFAC c Int
+some :: ( NFAC c Int, RandomC m )
      => Set c -> Int 
-     -> IO ( RX c, NFA c Int)
+     -> m ( RX c, NFA c Int)
 some alpha s | s <= 1 = do 
 	   x <- eins (setToList alpha)
 	   return ( Letter x, Basic.word [x] )
