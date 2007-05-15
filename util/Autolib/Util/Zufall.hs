@@ -1,7 +1,7 @@
 module Autolib.Util.Zufall 
 
 ( module Autolib.Util.Zufall
-, Random, RandomC, randomRIO, lift
+, module Autolib.Util.RandoM
 )
 
 where
@@ -9,7 +9,6 @@ where
 import Autolib.Util.RandoM
 
 -- -- $Id$
-
 
 someIO :: RandomC m => [a] -> Int -> m [a]
 someIO alpha 0 = return []

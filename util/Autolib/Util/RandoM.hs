@@ -6,7 +6,7 @@ module Autolib.Util.RandoM
 
 where
 
-import System.Random ( StdGen, randomR, Random, getStdGen )
+import System.Random ( StdGen, randomR, Random, getStdGen, mkStdGen )
 import qualified System.Random
 
 import Control.Monad.State
@@ -25,6 +25,9 @@ instance RandomC RandoM where
         let ( x, g1 ) = randomR bnd g0
         put g1
         return x
+
+randomly :: Int -> RandoM a -> a
+randomly seed action = evalState action ( mkStdGen seed ) 
 
 lift :: RandoM a -> IO a
 lift action = do
