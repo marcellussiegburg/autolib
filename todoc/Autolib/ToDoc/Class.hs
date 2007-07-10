@@ -3,14 +3,16 @@
 module Autolib.ToDoc.Class 
 
 ( module Autolib.ToDoc.Class
-, module Text.PrettyPrint.HughesPJ
+-- , module Text.PrettyPrint.HughesPJ
+, module Autolib.Multilingual.Doc
 )
 
 where
 
 --  $Id$
 
-import Text.PrettyPrint.HughesPJ 
+-- import Text.PrettyPrint.HughesPJ 
+import Autolib.Multilingual.Doc
 
 -- | should be re-readable with Reader
 class ToDoc a where 
