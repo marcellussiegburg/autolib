@@ -1,4 +1,20 @@
-module Autolib.Multilingual.Doc where
+module Autolib.Multilingual.Doc 
+
+( Doc
+, Language (..)
+, Style
+, render, render_for
+, text, multitext
+, vcat, hcat, cat, fsep, hsep, sep, empty
+, nest, parens, brackets, braces
+, char, int, integer, double, float
+, (<+>), (<>), ($$), ($+$)
+, punctuate
+, equals, comma
+)
+
+
+where
 
 import qualified Text.PrettyPrint.HughesPJ as PP
 import qualified Data.Map
@@ -7,6 +23,8 @@ import Data.List ( nub )
 
 ----------------------------------------------------------------
 -- Types
+
+type Style = PP.Style
 
 data Language = DE | UK | NL
     deriving ( Read, Show, Eq, Ord, Bounded, Enum )
@@ -17,6 +35,8 @@ data Doc = Doc
 
 render = render_for DE
 render_for lang = PP.render . specialize lang
+
+instance Show Doc where show = render
 
 ----------------------------------------------------------------
 -- Accessors, Constructors
@@ -69,19 +89,34 @@ fold_list op xs =
 
 vcat = fold_list PP.vcat
 hcat = fold_list PP.hcat
+cat = fold_list PP.cat
+
 fsep = fold_list PP.fsep
 hsep = fold_list PP.hsep
+sep = fold_list PP.sep
 
 nest d = fold_unary ( PP.nest d )
 parens = fold_unary PP.parens
+brackets = fold_unary PP.brackets
+braces = fold_unary PP.braces
 
+punctuate x [] = []
+punctuate x [y] = [y]
+punctuate x (y : ys) = y <> x : punctuate x ys
+ 
 comma = uniform PP.comma
+equals = uniform PP.equals
 char c = uniform ( PP.char c )
 
 uniform d = multidoc
       $ do l <- [ minBound .. maxBound ] ; return ( l, d )
 
+int = uniform . PP.int
+integer = uniform . PP.integer
+float = uniform . PP.float
+double = uniform . PP.double
+
 empty = uniform PP.empty
 
-sep = fold_list PP.sep
+
 

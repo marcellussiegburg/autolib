@@ -1,6 +1,7 @@
 module Autolib.ToDoc.Beside where
 
-import Text.PrettyPrint.HughesPJ
+-- import Text.PrettyPrint.HughesPJ
+import Autolib.Multilingual.Doc
 
 beside = beside_with " "
 

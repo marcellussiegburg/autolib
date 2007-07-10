@@ -5,7 +5,8 @@ module Autolib.Output.Type where
 --   $Id$
 
 
-import qualified Text.PrettyPrint.HughesPJ as Pretty
+-- import qualified Text.PrettyPrint.HughesPJ as Pretty
+import qualified Autolib.Multilingual.Doc as Pretty
 
 data Output = Text String
 	    | Doc  Pretty.Doc

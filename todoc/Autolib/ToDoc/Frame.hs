@@ -1,6 +1,7 @@
 module Autolib.ToDoc.Frame where
 
-import Text.PrettyPrint.HughesPJ
+-- import Text.PrettyPrint.HughesPJ
+import Autolib.Multilingual.Doc
 
 frame :: Doc -> Doc
 frame d = 
