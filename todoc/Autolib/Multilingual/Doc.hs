@@ -1,3 +1,5 @@
+{-# OPTIONS -fglasgow-exts #-}
+
 module Autolib.Multilingual.Doc 
 
 ( Doc
@@ -15,7 +17,7 @@ module Autolib.Multilingual.Doc
 
 where
 
-import Autolib.Multilingual.Language
+import Autolib.Multilingual
 
 import qualified Text.PrettyPrint.HughesPJ as PP
 import qualified Data.Map
@@ -27,9 +29,7 @@ import Data.List ( nub )
 
 type Style = PP.Style
 
-data Doc = Doc 
-         { contents :: Map Language PP.Doc 
-         }
+type Doc = Autolib.Multilingual.Type PP.Doc
 
 render = render_for DE
 render_for lang = PP.render . specialize lang
@@ -39,46 +39,14 @@ instance Show Doc where show = render
 ----------------------------------------------------------------
 -- Accessors, Constructors
 
-specialize :: Language -> Doc -> PP.Doc
-specialize lang doc = 
-    case Data.Map.lookup lang ( contents doc )  of
-        Just this -> this
-        Nothing   -> PP.text $ "no output for language " ++ show lang
-
 -- | use default language 
 text :: String -> Doc
 text cs = multitext [ ( DE, cs )]
 
 -- | use several languages
 multitext :: [(Language, String)] -> Doc
-multitext = multidoc . map ( \ ( l, cs ) -> ( l, PP.text cs ) )
-
--- | use several languages
-multidoc :: [(Language, PP.Doc)] -> Doc
-multidoc arg = Doc 
-    { contents = Data.Map.fromList arg }
-
-----------------------------------------------------------------
--- Combinators
-
-fold_unary :: ( PP.Doc -> PP.Doc )
-           -> Doc
-           -> Doc
-fold_unary op x = Doc { contents = Data.Map.map op $ contents x }
-
-fold_binary :: ( PP.Doc -> PP.Doc -> PP.Doc ) 
-      -> Doc -> Doc 
-      -> Doc
-fold_binary op x y =
-     Doc { contents = Data.Map.unionWith op ( contents x ) ( contents y ) }
-
-fold_list :: ( [ PP.Doc ] -> PP.Doc ) 
-      -> [ Doc ]
-      -> Doc
-fold_list op xs =
-    let get l = do x <- xs ; return $ specialize l x
-        ls = nub $ concat $ map ( Data.Map.keys . contents ) xs
-    in  multidoc $ do l <- ls ; return ( l, op $ get l )
+multitext = Autolib.Multilingual.make 
+          . map ( \ ( l, cs ) -> ( l, PP.text cs ) )
 
 (<+>) = fold_binary (PP.<+>)
 (<>) = fold_binary (PP.<>)
@@ -108,9 +76,6 @@ colon = uniform PP.colon
 semi = uniform PP.semi
 equals = uniform PP.equals
 char c = uniform ( PP.char c )
-
-uniform d = multidoc
-      $ do l <- [ minBound .. maxBound ] ; return ( l, d )
 
 int = uniform . PP.int
 integer = uniform . PP.integer
