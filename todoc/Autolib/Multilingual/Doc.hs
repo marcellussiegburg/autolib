@@ -1,7 +1,6 @@
 module Autolib.Multilingual.Doc 
 
 ( Doc
-, Language (..)
 , Style
 , render, render_for
 , text, multitext
@@ -16,6 +15,8 @@ module Autolib.Multilingual.Doc
 
 where
 
+import Autolib.Multilingual.Language
+
 import qualified Text.PrettyPrint.HughesPJ as PP
 import qualified Data.Map
 import Data.Map ( Map )
@@ -25,9 +26,6 @@ import Data.List ( nub )
 -- Types
 
 type Style = PP.Style
-
-data Language = DE | UK | NL
-    deriving ( Read, Show, Eq, Ord, Bounded, Enum )
 
 data Doc = Doc 
          { contents :: Map Language PP.Doc 
