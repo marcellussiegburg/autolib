@@ -4,11 +4,8 @@ module Autolib.Reporter.Type
 
 where
 
--- -- $Id$
-
 import Autolib.Output
 
--- import qualified Text.PrettyPrint.HughesPJ as Pretty
 import qualified Autolib.Multilingual.Doc as Pretty
 
 import Data.Maybe (isJust, fromMaybe)

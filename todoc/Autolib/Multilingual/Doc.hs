@@ -9,8 +9,8 @@ module Autolib.Multilingual.Doc
 , nest, parens, brackets, braces
 , char, int, integer, double, float
 , (<+>), (<>), ($$), ($+$)
-, punctuate
-, equals, comma
+, punctuate, doubleQuotes
+, equals, comma, colon, semi
 )
 
 
@@ -99,12 +99,15 @@ nest d = fold_unary ( PP.nest d )
 parens = fold_unary PP.parens
 brackets = fold_unary PP.brackets
 braces = fold_unary PP.braces
+doubleQuotes = fold_unary PP.doubleQuotes
 
 punctuate x [] = []
 punctuate x [y] = [y]
 punctuate x (y : ys) = y <> x : punctuate x ys
  
 comma = uniform PP.comma
+colon = uniform PP.colon
+semi = uniform PP.semi
 equals = uniform PP.equals
 char c = uniform ( PP.char c )
 

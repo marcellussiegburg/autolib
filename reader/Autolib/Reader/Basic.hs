@@ -23,7 +23,7 @@ import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token
 import Text.ParserCombinators.Parsec.Language ( haskell )
 
-import qualified Text.PrettyPrint.HughesPJ as Pretty
+import qualified Autolib.ToDoc as Pretty
 
 import Control.Monad ( guard )
 
