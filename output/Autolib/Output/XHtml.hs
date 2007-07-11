@@ -1,9 +1,12 @@
+{-# OPTIONS -fglasgow-exts #-}
+
 module Autolib.Output.XHtml where
 
 --   $Id$
 
 import Autolib.Output.Type
-import qualified Text.XHtml as Html
+-- import qualified Text.XHtml as Html
+import qualified Autolib.Multilingual.Html as Html
 
 instance Render Html.Html where
     render (Text t) = Html.stringToHtml t
@@ -11,9 +14,11 @@ instance Render Html.Html where
     render (Image src) = 
 	Html.image Html.! [ Html.src src, Html.alt src ]
     render (Link ref) =  
-	Html.anchor ( Html.tt Html.<< ref  ) Html.! [ Html.href ref ]
+	Html.anchor ( Html.tt $ Html.stringToHtml ref  ) 
+            Html.! [ Html.href ref ]
     render (Named_Link name ref) =  
-	Html.anchor ( Html.tt Html.<< name ) Html.! [ Html.href ref ]
+	Html.anchor ( Html.tt $ Html.stringToHtml name ) 
+            Html.! [ Html.href ref ]
     render (Empty)  = Html.noHtml
 
     render (Above x Empty) = render x
@@ -32,8 +37,7 @@ instance Render Html.Html where
 	    ry = render y :: Html.Html
         in  rx Html.+++ ry
 
-    render (Itemize xs) = Html.ulist Html.<<
-		         do x <- xs ; return $ Html.li $ render x
+    render (Itemize xs) = Html.itemize $ map ( Html.li . render ) xs
     render (Nest x) = Html.blockquote $ render x
 
 

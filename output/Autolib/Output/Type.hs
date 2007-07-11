@@ -1,10 +1,11 @@
+{-# OPTIONS -fglasgow-exts #-}
+
 -- | hier stehen nur der Typ und die Pretty-Instanz
 
 module Autolib.Output.Type where
 
---   $Id$
-
 import qualified Autolib.Multilingual.Doc as Pretty
+import Autolib.Multilingual
 
 data Output = Text String
 	    | Doc  Pretty.Doc
@@ -23,6 +24,7 @@ class Render r where
 
 instance Render Pretty.Doc where
     render (Text t) = Pretty.text t
+
     render (Doc d)  = d
     render (Pre d)  = d
 
@@ -38,7 +40,8 @@ instance Render Pretty.Doc where
     render (Above  x y) = render x Pretty.$$ render y
     render (Beside x y) = render x Pretty.<+> render y
 
-    render (Itemize xs) = Pretty.vcat 
-               $ do x <- xs ; return ( Pretty.text "*" Pretty.<+> render x )
+    render (Itemize xs) = Pretty.vcat $ do 
+        x <- xs
+        return ( Pretty.text "*" Pretty.<+> render x )
     render (Nest x) = Pretty.nest 4 $ render x
 

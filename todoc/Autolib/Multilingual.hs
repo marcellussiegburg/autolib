@@ -11,6 +11,9 @@ data Type a = Make
          { contents :: Map Language a
          }
 
+instance Functor Type where 
+    fmap = fold_unary
+
 -- | use several languages
 make :: [(Language, a)] -> Type a
 make arg = Make { contents = Data.Map.fromList arg }
