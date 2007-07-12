@@ -5,8 +5,10 @@ module Autolib.Reporter.Type
 where
 
 import Autolib.Output
+import Autolib.Multilingual
 
-import qualified Autolib.Multilingual.Doc as Pretty
+-- import qualified Autolib.Multilingual.Doc as Pretty
+import Autolib.ToDoc hiding ( render )
 
 import Data.Maybe (isJust, fromMaybe)
 
@@ -61,7 +63,7 @@ instance Monad Reporter where
 		     , transformer = id
 		     }
 
-    fail msg = reject $ Pretty.text $ "*** fail: " ++ msg
+    fail msg = reject $ text $ "*** fail: " ++ msg
 
 
 output :: Output -> Reporter ()
@@ -72,7 +74,7 @@ output o = Reporter
 	 , transformer = id
 	 }
     
-reject :: Pretty.Doc -> Reporter a
+reject :: Doc -> Reporter a
 reject d = Reporter 
 	 { result = Nothing
 	 , action = return ()
@@ -82,16 +84,16 @@ reject d = Reporter
 
 --------------------------------------------------------------------------
 
-inform :: Pretty.Doc -> Reporter ()
+inform :: Doc -> Reporter ()
 inform = output . Doc
 
 newline :: Reporter ()
-newline = inform ( Pretty.text " " )
+newline = inform ( text " " )
 
 nested :: Int -> Reporter a -> Reporter a
 nested d r = r { kommentar = Nest $ kommentar r }
 
-repo :: Reporter a -> Pretty.Doc
+repo :: Reporter a -> Doc
 repo = Autolib.Output.render .  kommentar
 
 -- | wenn ok, dann nichts sagen, sonst fehler melden
@@ -125,27 +127,30 @@ runsIO r = return $ runs r
 
 -- for use in challenger problems
 -- flag is true  iff  reporter returns at all (with any value)
-lazy_cheporter :: Reporter a -> ( Bool, Pretty.Doc )
+lazy_cheporter :: Reporter a -> ( Bool, Doc )
 lazy_cheporter r = 
     ( isJust $ result r
     , render $ kommentar r
     )    
 
-cheporter :: Reporter Bool -> ( Bool, Pretty.Doc )
+cheporter :: Reporter Bool -> ( Bool, Doc )
 cheporter r = lazy_cheporter $ do
     f <- r
-    assert f $ Pretty.text "Bedingung erfüllt?"
+    assert f $ multitext [ (DE, "Bedingung erfüllt?")
+			 , (UK, "Condition satisfied?")
+			 ]
 
-porterche :: ( Bool, Pretty.Doc ) -> Reporter ()
+porterche :: ( Bool, Doc ) -> Reporter ()
 porterche ( p, d ) = if p then inform d else reject d 
 
 ------------------------------------------------------------------
 
-assert :: Bool -> Pretty.Doc -> Reporter ()
+assert :: Bool -> Doc -> Reporter ()
 assert p doc = do
     inform doc
     nested 4 $
-	 if p then inform $ Pretty.text "Ja."
-	      else reject $ Pretty.text "Nein."
+	 if p then inform $ multitext [ (DE, "Ja."), (UK, "Yes.") ]
+	      else reject $ multitext [ (DE, "Nein."), (UK, "No.") ]
+
 
 

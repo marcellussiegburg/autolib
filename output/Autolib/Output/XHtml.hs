@@ -2,15 +2,12 @@
 
 module Autolib.Output.XHtml where
 
---   $Id$
-
 import Autolib.Output.Type
--- import qualified Text.XHtml as Html
 import qualified Autolib.Multilingual.Html as Html
 
 instance Render Html.Html where
     render (Text t) = Html.stringToHtml t
-    render (Doc d)  = Html.pre $ Html.primHtml ( show d )
+    render (Doc d)  = Html.pre $ Html.primHtml $ fmap show  d 
     render (Image src) = 
 	Html.image Html.! [ Html.src src, Html.alt src ]
     render (Link ref) =  

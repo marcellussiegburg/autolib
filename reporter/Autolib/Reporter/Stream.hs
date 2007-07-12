@@ -61,7 +61,8 @@ make d ( Iterator doc prod step ) =
 	  , message = kommentar rep
 	  , activity = action rep
 	  , continue = case mx of
-	           Nothing -> Fail $ Above (Text "failed:") (Nest $ Doc doc)
+	           Nothing -> Fail $ Above (Doc $ text "failed:") 
+					   (Nest $ Doc doc)
 		   Just x -> case x of
 		       Left state -> Next $ make d
 	                                  $ Iterator doc (return state) step 
@@ -105,13 +106,13 @@ erfolg doc x = x { continue = case continue x of
 und, oder :: Doc -> [ Type ] -> Type
 und  doc = helper doc ( Just $ Proof { value = True
 			     , formula = doc
-			     , reason = Text "empty conjunction"
+			     , reason = Doc $ text "empty conjunction"
 			     , history = []
 			     }
 		 ) True
 oder doc = helper doc ( Just $ Proof { value = False 
 			      , formula = doc
-				, reason = Text "empty alternative"
+				, reason = Doc $ text "empty alternative"
 				, history = []
 				}
 		 ) True

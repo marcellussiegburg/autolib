@@ -20,7 +20,7 @@ br = uniform Html.br
 noHtml = uniform Html.noHtml
 
 pre = fmap Html.pre
-primHtml = uniform . Html.primHtml 
+primHtml = fmap Html.primHtml 
 image = uniform Html.image
 
 x ! y  = fmap (Html.! y) x

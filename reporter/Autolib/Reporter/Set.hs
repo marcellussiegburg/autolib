@@ -7,6 +7,7 @@ module Autolib.Reporter.Set where
 import Autolib.Reporter.Type
 import Autolib.Set
 import Autolib.ToDoc
+import Autolib.Multilingual
 import Control.Monad ( when , guard )
 
 -------------------------------------------------------------------------------
@@ -14,20 +15,28 @@ import Control.Monad ( when , guard )
 subeq :: ( Ord a , ToDoc [a] ) => (Doc,Set a) -> (Doc,Set a) -> Reporter ()
 subeq ( d1, s1 ) ( d2, s2 ) = do
     inform $ vcat
-	   [ text "Ist die Menge"
+	   [ multitext [(DE, "Ist die Menge")
+		       , (UK, "Is the set")
+		       ]
 	   , nest 4 $ fsep [ d1, equals, toDoc s1 ]
-	   , text "Teilmenge der Menge"
+	   , multitext [ ( DE, "Teilmenge der Menge")
+		       , ( UK, "a subset of the set")
+		       ]
 	   , nest 4 $ fsep [ d2, equals, toDoc s2 ]
 	   , text "?"
 	   ]
     let no = minusSet s1 s2
     when ( not $ isEmptySet no ) $ reject $ vcat
-	     [ text "Nein, diese Elemente sind"
+	     [ multitext [ (DE, "Nein, diese Elemente sind")
+			 , (UK, "No, these elements are")
+			 ]
 	     , text "in" <+> d1 
-	     , text ", aber nicht in" <+> d2
+	     , multitext [ (DE, ", aber nicht in")
+			 , (UK, ", but not in")
+			 ] <+> d2
 	     , toDoc no
 	     ]
-    inform $ text "Ja."
+    inform $ multitext [(DE,"Ja."), (UK, "Yes.") ]
 
 -------------------------------------------------------------------------------
 

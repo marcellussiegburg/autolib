@@ -39,9 +39,9 @@ instance Show Doc where show = render
 ----------------------------------------------------------------
 -- Accessors, Constructors
 
--- | use default language 
+-- | for all languages
 text :: String -> Doc
-text cs = multitext [ ( DE, cs )]
+text = uniform . PP.text
 
 -- | use several languages
 multitext :: [(Language, String)] -> Doc

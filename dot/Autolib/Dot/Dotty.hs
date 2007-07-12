@@ -63,7 +63,8 @@ peng a = do
          `Control.Exception.catch` \ any -> return ()
     output $ Output.Image pngfile
     output $ Output.Beside
-	        ( Output.Text $ "image rendered by " ++ show ( toDotProgram a )
+	        ( Output.Doc $ text 
+			     $ "image rendered by " ++ show ( toDotProgram a )
 		               ++ ", see " )
 		( Output.Link $ "http://www.graphviz.org/" )
 

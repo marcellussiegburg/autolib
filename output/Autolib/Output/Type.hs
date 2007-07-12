@@ -7,13 +7,13 @@ module Autolib.Output.Type where
 import qualified Autolib.Multilingual.Doc as Pretty
 import Autolib.Multilingual
 
-data Output = Text String
+data Output = Empty
 	    | Doc  Pretty.Doc
 	    | Pre  Pretty.Doc
 	    | Image FilePath -- source
 	    | Link FilePath 
 	    | Named_Link String FilePath 
-	    | Empty
+	    | Text String
 	    | Above  Output Output
 	    | Beside Output Output
 	    | Itemize [ Output ]
@@ -23,6 +23,7 @@ class Render r where
       render :: Output -> r
 
 instance Render Pretty.Doc where
+
     render (Text t) = Pretty.text t
 
     render (Doc d)  = d
