@@ -41,12 +41,16 @@ fold_binary :: ( a -> a -> a )
 fold_binary op x y =
      Make { contents = Data.Map.unionWith op ( contents x ) ( contents y ) }
 
+
+
 fold_list :: ( [ a ] -> b ) 
       -> [ Type a ]
       -> Type b
 fold_list op xs =
     let get l = do x <- xs ; return $ specialize l x
-        ls = nub $ concat $ map ( Data.Map.keys . contents ) xs
+        ls = if null xs 
+             then [ minBound .. maxBound ]
+             else nub $ concat $ map ( Data.Map.keys . contents ) xs
     in  make $ do l <- ls ; return ( l, op $ get l )
 
 uniform d = make
