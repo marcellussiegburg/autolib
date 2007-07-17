@@ -22,8 +22,10 @@ specialize :: Language -> Type a -> a
 specialize lang doc = 
     case Data.Map.lookup lang ( contents doc )  of
         Just this -> this
-        Nothing   -> error $ "no version for language " ++ show lang
-
+        Nothing   -> -- error $ "no version for language " ++ show lang
+             case Data.Map.elems ( contents doc ) of
+                this : _ -> this
+                []    -> error $ "no output (for any language)"
 
 ----------------------------------------------------------------
 -- Combinators
