@@ -28,6 +28,7 @@ x ! y  = fmap (Html.! y) x
 src = Html.src
 alt = Html.alt
 href = Html.href
+name = Html.name
 
 anchor = fmap Html.anchor
 f << doc = fold_list  (f Html.<<)  doc

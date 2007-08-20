@@ -5,8 +5,10 @@ module Autolib.TES.Hull where
 import Autolib.Set
 import Control.Monad (mzero)
 import Control.Monad.State
-import Data.List ( insert, nub )
+import Data.List ( insert, nub, inits )
 import Data.Maybe (isJust)
+
+import qualified Data.Set
 
 data Reactor w a t = 
      Reactor { weight :: a -> w
@@ -114,6 +116,23 @@ reactor weight op start = start ++
 		     ++  handle ( done `union` mkSet new )
 			 ( setToList $ union ( mkSet new ) ( mkSet wxs ) )
 
+
+binary_hull :: Ord a 
+     => (a -> a -> [a]) -- ^ associative operation
+     -> [a] -- ^ initial elements
+     -> [a] 
+binary_hull op base =
+    let handle done todo =
+            case Data.Set.minView todo of
+                 Nothing ->  []
+                 Just ( odo, t ) -> 
+                     let next = Data.Set.fromList $ do
+                            d <- t : Data.Set.toList done
+                            op d t ++ op t d
+                         new = Data.Set.difference next done
+                     in  t : handle (Data.Set.insert t done) 
+                                    (Data.Set.union odo new)
+    in  handle Data.Set.empty $ Data.Set.fromList base
 	  
 -- | extend by one step 
 single_hull :: Ord a 

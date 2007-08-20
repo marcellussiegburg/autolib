@@ -35,7 +35,11 @@ down (Rule {lhs = l1, strict = s1, rhs = r1})
 	-- vars (l1, r1) is disjoint from vars (l2', r2')
 	( l2', r2' ) = ( vmap f l2, vmap f r2 )
     ( p, s ) <- positions r1
-    -- guard $ not $ isvar s
+
+    -- this was commented out? why?
+    -- check  "(VAR x y z) (RULES a -> foo  a -> bar  f(x,y,x,y,z)->f(foo,bar,z,z,z) )"
+    guard $ not $ isvar s
+
     u <- maybeToList $ mgu s l2'
     return $ normalize
 	   $ Rule { lhs =  apply_partial u $ l1 
@@ -79,7 +83,8 @@ ocs :: TRSC v c
     => TRS v c 
     -> [ Rule (Term Int c) ]
 ocs trs = -- full_hull combine
-          single_hull combine
+          -- single_hull combine
+          binary_hull combine
 	$ map normalize
 	$ rules trs 
 
