@@ -75,12 +75,14 @@ mkGraph v e = Graph
 class (  Haskell2Xml a, Haskell2Xml (Kante a)
       , Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Hash a
+      , Reader ( R.Graph a ), ToDoc ( R.Graph a )
       ) => GraphC a 
 
 
 instance (  Haskell2Xml a, Haskell2Xml (Kante a)
       , Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Hash a
+      , Reader ( R.Graph a ), ToDoc ( R.Graph a )
       ) => GraphC a 
 
 

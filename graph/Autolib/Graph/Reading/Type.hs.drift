@@ -12,7 +12,7 @@ import Autolib.Reader
 import Autolib.Set
 import Autolib.Hash
 
-import Text.XML.HaXml.Haskell2Xml
+-- import Text.XML.HaXml.Haskell2Xml
 
 
 data ( Hash a, Ord a
@@ -33,7 +33,7 @@ instance  ( Hash a, ToDoc [a], Reader [a]
       =>   Hash ( Graph a ) where
     hash g = hash ( kanten g , knoten g )
 
-{-! for Graph derive: ToDoc, Reader, Haskell2Xml !-}
+{-! for Graph derive: ToDoc, Reader -}
 
 
 				

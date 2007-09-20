@@ -16,4 +16,4 @@ data Config a v =
           , num_mutate :: Int
           , num_compact :: Int
           }
-     deriving Show
+

@@ -125,12 +125,14 @@ binary_hull op base =
     let handle done todo =
             case Data.Set.minView todo of
                  Nothing ->  []
-                 Just ( odo, t ) -> 
+                 Just ( t, odo ) -> 
                      let next = Data.Set.fromList $ do
                             d <- t : Data.Set.toList done
                             op d t ++ op t d
-                         new = Data.Set.difference next done
-                     in  t : handle (Data.Set.insert t done) 
+                         new = Data.Set.difference next 
+                               (Data.Set.union done todo)
+                     in  t : Data.Set.toList new 
+                         ++  handle (Data.Set.insert t done) 
                                     (Data.Set.union odo new)
     in  handle Data.Set.empty $ Data.Set.fromList base
 	  
