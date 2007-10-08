@@ -35,7 +35,7 @@ import Data.Typeable
 
 -----------------------------------------------------------------
 
-data Graph a  = Graph
+data GraphC a => Graph a  = Graph
 	      { knoten    :: Set a
 	      , kanten    :: Set (Kante a)
 	      -- neue komponenten (nicht show/read-fähig)
@@ -50,16 +50,18 @@ data Graph a  = Graph
 	      } 
     deriving Typeable
 
-instance Informed ( Graph a) where
+instance GraphC a =>  Informed ( Graph a) where
     info = graph_info
     informed i g = g { graph_info = i }
     texinfo = graph_texinfo
     texinformed i g = g { graph_texinfo = i }
 
-instance Size ( Graph a ) where
+instance GraphC a 
+	 => Size ( Graph a ) where
     size g = cardinality $ knoten g
 
-mkGraph :: Set a -> Set (Kante a) -> Graph a
+mkGraph :: GraphC a 
+	=> Set a -> Set (Kante a) -> Graph a
 mkGraph v e = Graph
 	    { knoten = v
 	    , kanten = e
@@ -72,15 +74,15 @@ mkGraph v e = Graph
 	    , show_labels = True
 	    }
 
-class (  Haskell2Xml a, Haskell2Xml (Kante a)
-      , Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+class (  -- Haskell2Xml a, Haskell2Xml (Kante a)
+        Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Hash a
       , Reader ( R.Graph a ), ToDoc ( R.Graph a )
       ) => GraphC a 
 
 
-instance (  Haskell2Xml a, Haskell2Xml (Kante a)
-      , Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+instance (  -- Haskell2Xml a, Haskell2Xml (Kante a)
+        Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Hash a
       , Reader ( R.Graph a ), ToDoc ( R.Graph a )
       ) => GraphC a 

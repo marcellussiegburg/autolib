@@ -14,10 +14,10 @@ import Data.Maybe
 import Control.Monad ( guard )
 import Autolib.ToDoc hiding ( empty )
 
-independent :: Ord a => Set a -> Graph a
+independent :: GraphC a => Set a -> Graph a
 independent = independent0 . setToList
 
-independent0 :: Ord a => [a] -> Graph a
+independent0 :: GraphC a => [a] -> Graph a
 -- klebt zusammen (zeichnet übereinander!)
 independent0 xs = Graph 
     { graph_info = text $ "E_" ++ show (length xs)
@@ -37,10 +37,10 @@ independent0 xs = Graph
     , layout_program = Neato
     }
 
-clique :: Ord a => Set a -> Graph a
+clique :: GraphC a => Set a -> Graph a
 clique = clique0 . setToList
 
-clique0 :: Ord a => [a] -> Graph a
+clique0 :: GraphC a => [a] -> Graph a
 clique0 xs = ( independent0 xs )
 	    { graph_info = text $ "K_" ++ show (length xs)
             , graph_texinfo = "{K_{" ++ show (length xs) ++ "}}"
@@ -50,10 +50,10 @@ clique0 xs = ( independent0 xs )
 			 return $ kante x y
 	    }
 
-empty :: Ord a => Graph a
+empty :: GraphC a => Graph a
 empty = clique $ Set.emptySet
 
-path :: Ord a => [ a ] -> Graph a
+path :: GraphC a => [ a ] -> Graph a
 path xs = 
     Graph { graph_info = text $ "P_" ++ show (length xs)
             , graph_texinfo = "{P_{" ++ show (length xs) ++ "}}"
@@ -71,7 +71,7 @@ path xs =
     , layout_program = Neato
 	  }
 
-circle :: Ord a => [ a ] -> Graph a
+circle :: GraphC a => [ a ] -> Graph a
 circle xs = ( independent0 xs )
 	    { graph_info = text $ "C_" ++ show (length xs)
             , graph_texinfo = "{C_{" ++ show (length xs) ++ "}}"

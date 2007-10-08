@@ -9,7 +9,10 @@ import Autolib.Util.Teilfolgen
 import Autolib.FiniteMap
 import Control.Monad ( guard )
 
-incidence_graph :: Ord a => Graph a -> Graph ( Either a ( Kante a ) )
+incidence_graph :: 
+   ( GraphC a
+   , GraphC ( Either a ( Kante a ) ) 
+   ) => Graph a -> Graph ( Either a ( Kante a ) )
 incidence_graph g = 
     let v = smap Left ( knoten g ) `union` smap Right ( kanten g )
 	e = mkSet $ do 

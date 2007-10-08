@@ -11,14 +11,14 @@ import Autolib.Util.Sort
 
 ------------------------------------------------------------------------------------------
 
-anzKnoten :: Graph a -> Int
+anzKnoten :: GraphC a =>  Graph a -> Int
 anzKnoten g = cardinality $ knoten g
 
-anzKanten :: Graph a -> Int
+anzKanten :: GraphC a => Graph a -> Int
 anzKanten g = cardinality $ kanten g
 
 --Programmiert von Markus Kreuz--
-existKante :: Ord a => Graph a -> a -> a -> Bool
+existKante :: GraphC a => Graph a -> a -> a -> Bool
 existKante g x y = elementOf Kante{von=x,nach=y} (kanten g)
 
 
@@ -26,19 +26,19 @@ existKante g x y = elementOf Kante{von=x,nach=y} (kanten g)
 -- autor M.Lindemeyer
 --
 -- | ueberprueft, ob Knotenmenge leer
-isKnotenEmptyset :: Eq a => Graph a -> Bool
+isKnotenEmptyset ::GraphC a =>  Graph a -> Bool
 isKnotenEmptyset a = (anzKnoten a == 0)
 
 -- | ueberprueft, ob Kantenmengeleer
-isKanteEmptyset :: Eq a => Graph a -> Bool
+isKanteEmptyset :: GraphC a =>  Graph a -> Bool
 isKanteEmptyset a = (anzKanten a == 0)
 
 -- | ueberprueft, ob Knotenanzahl zweier Graphen identisch
-knotensetId :: (Eq a, Eq b) => Graph a -> Graph b -> Bool
+knotensetId :: (GraphC a, GraphC b) => Graph a -> Graph b -> Bool
 knotensetId a b = (anzKnoten a) == (anzKnoten b)
 
 -- | ueberprueft, ob Kantenanzahl zweier Graphen identisch 
-kantensetId :: (Eq a, Eq b) => Graph a -> Graph b -> Bool
+kantensetId :: ( GraphC a, GraphC b) => Graph a -> Graph b -> Bool
 kantensetId a b = (anzKanten a) == (anzKanten b)
 
 
@@ -48,20 +48,20 @@ kantensetId a b = (anzKanten a) == (anzKanten b)
 
 -- | ueberprueft, ob es alle Knoten gibt, auf die die Kanten zeigen
 -- gibt den ersten Knoten zurück, den es nicht in der Knotenmenge gibt
-kantenPassenZuKnoten :: (Ord a, Eq a) => Graph a -> (Bool, Maybe a)
+kantenPassenZuKnoten :: (GraphC a) => Graph a -> (Bool, Maybe a)
 kantenPassenZuKnoten graph =
 	xxand $ map (gibtEsKnotenDerKante graph) (kantenliste graph)
 
--- prüft, ob die beiden Knoten der Kante im Graph exsistieren
+-- | prüft, ob die beiden Knoten der Kante im Graph exsistieren
 -- gibt zusätlich vieleicht den ersten nicht exsistierenden Knoten zurück
-gibtEsKnotenDerKante :: Ord a => Graph a -> Kante a -> (Bool, Maybe a)
+gibtEsKnotenDerKante :: GraphC a => Graph a -> Kante a -> (Bool, Maybe a)
 gibtEsKnotenDerKante graph kante =
 	xand
 	[ ((elementOf (von kante) (knoten graph)), von kante)
 	, ((elementOf (nach kante) (knoten graph)), nach kante)
 	]
 
--- macht eine logische AND Verknüpfung über eine Liste aus Tupeln
+-- | macht eine logische AND Verknüpfung über eine Liste aus Tupeln
 -- ein Tupel besteht aus dem Boolschen Wert und einem beliebigen Datum,
 -- welches anzeigen soll, was hier falsch oder richtig ist
 -- zurückgegeben wird entweder (True, Nothing), wenn nix falsch war
@@ -71,7 +71,7 @@ xand [] = (True, Nothing)
 xand ((False, a):_) = (False, Just a)
 xand ((True, _):rest) = xand rest
 
--- das gleiche wie xand, nur, dass die Eingabe schon (Bool, Maybe a) ist
+-- | das gleiche wie xand, nur, dass die Eingabe schon (Bool, Maybe a) ist
 xxand :: [(Bool, Maybe a)] -> (Bool, Maybe a)
 xxand [] = (True, Nothing)
 xxand ((False, Nothing):_) = (False, Nothing)
@@ -92,19 +92,20 @@ loescheDoppelte a = setToList $ mkSet a
 
 
 ------------------------------------------------------------------------------------------
--- autor M.Lindemeyer
+
+-- | autor M.Lindemeyer
 --
 -- Kanten, Knoten in eine Liste 
-kantenliste :: Graph a -> [Kante a]
+kantenliste :: GraphC a => Graph a -> [Kante a]
 kantenliste a = setToList(kanten a)
-knotenliste :: Graph a -> [a]
+knotenliste :: GraphC a => Graph a -> [a]
 knotenliste a = setToList(knoten a)
 
 ------------------------------------------------------------------------------------------
 -- autor M.Lindemeyer
 --
 -- | Nachfolger eines Knotens aus einem Graph ermitteln
-nachfolger :: Eq a => Graph a -> a -> [a]
+nachfolger :: GraphC a => Graph a -> a -> [a]
 nachfolger a b = do 
                 x <- (kantenliste a)
                 guard $ or [(nach x) == b, (von x) == b]
@@ -116,14 +117,14 @@ nachfolger a b = do
 -- autor M.Lindemeyer
 --
 -- | gradzahl zu einem knoten
-grad :: (Ord a, Eq a) => Graph a -> a -> Int
+grad :: (GraphC a) => Graph a -> a -> Int
 grad a b = length(nachfolger a b)
 
 ------------------------------------------------------------------------------------------
 -- autor M.Lindemeyer
 --
 -- | liste der gradzahlen aller nachbarn zu einem knoten
-grad2 :: (Ord a, Eq a) => Graph a -> a -> [Int]
+grad2 :: ( GraphC a) => Graph a -> a -> [Int]
 grad2 a b = do
             x <- nachfolger a b
             return (grad a x)
@@ -133,10 +134,10 @@ grad2 a b = do
 --
 -- | zusammenhaeng des graphen feststellen
 
-isZusammen :: (Eq a, Ord a) => Graph a -> Bool
+isZusammen :: ( GraphC a) => Graph a -> Bool
 isZusammen a = isEineMap (zusammen (kantenliste a) emptyFM) (knotenliste a) 
 
-zusammen :: (Eq a, Ord a) => [Kante a] -> FiniteMap a a -> FiniteMap a a
+zusammen :: ( GraphC a) => [Kante a] -> FiniteMap a a -> FiniteMap a a
 zusammen [] fm = fm
 zusammen (a:ax) fm = let  
 						x = (root (von a) fm)

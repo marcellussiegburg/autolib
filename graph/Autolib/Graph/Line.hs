@@ -9,7 +9,8 @@ import Autolib.Util.Teilfolgen
 import Autolib.FiniteMap
 import Control.Monad ( guard )
 
-line_graph :: Ord a => Graph a -> Graph ( Kante a )
+line_graph :: ( GraphC a , GraphC ( Kante a ) ) 
+	   => Graph a -> Graph ( Kante a )
 line_graph g = 
     let v = kanten g
 	e = mkSet $ do 

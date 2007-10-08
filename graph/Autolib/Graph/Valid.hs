@@ -12,7 +12,7 @@ import Autolib.Set
 import Control.Monad ( guard )
 import Autolib.ToDoc
 
-valid :: ( ToDoc a, ToDoc [a], Ord a ) 
+valid :: ( ToDoc [a], GraphC a ) 
       => Graph a -> ( Bool, Doc )
 valid g =
     let loops = do k <- setToList $ kanten g

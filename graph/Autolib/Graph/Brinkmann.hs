@@ -13,7 +13,7 @@ import Control.Monad ( guard )
 import Autolib.ToDoc
 
 -- | Bollobas, Modern Graph Theory, page 175
-brinkmann :: Graph Int
+brinkmann :: (GraphC (Int,Int) , GraphC Int ) =>  Graph Int
 brinkmann = informed ( text "Brinkmann" )
 	  $ texinformed ( "\\mathrm{Brinkmann}" )
 	  $ normalize
@@ -22,7 +22,9 @@ brinkmann = informed ( text "Brinkmann" )
 		    , [(-1, 1), (0, 2) ]
 		    ]
 
-brink :: Int -> [[(Int, Int)]] -> Graph (Int, Int)
+brink :: GraphC ( Int,Int) 
+      =>  Int -> [[(Int, Int)]] 
+      -> Graph (Int, Int)
 brink m args = informed ( text "Brink" <+> toDoc (m ,args) )
 	   $ let v = cross ( mkSet [ 0 .. (length args - 1) ] )
 			   ( mkSet [ 0 .. m - 1 ] )

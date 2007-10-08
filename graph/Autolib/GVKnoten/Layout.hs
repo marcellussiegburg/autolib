@@ -25,7 +25,7 @@ import System.Cmd
 -- | in der eingabe können einige knoten schon gepinnt sein
 -- dazu benutze graph.graph_layout
 
-layout :: ( Ord a, Show a ) 
+layout :: ( GraphC a ) 
        => Graph a 
        -> IO (FiniteMap a B.Position)
 layout graph = do
@@ -78,7 +78,7 @@ get_positions_stefan outfile = do
 
 ---------------------------------------------------------------------------
 
-layered_layout :: ( Ord a, Show a, ToDoc [a] )
+layered_layout :: ( GraphC a , ToDoc [a] )
 	       => Graph a -> [ Set a ] 
 	       -> IO ( FiniteMap a B.Position )
 -- idee: mit layers [ l1, l2, .. ]
@@ -90,7 +90,7 @@ layered_layout g layers = do
     h <- foldM layer ( g { graph_layout = emptyFM } ) layers
     return $ graph_layout h
 
-layer :: ( Ord a, Show a, ToDoc [a] )
+layer :: ( GraphC a,  ToDoc [a] )
       => Graph a -> Set a 
       -> IO ( Graph a )
 layer g xs = do

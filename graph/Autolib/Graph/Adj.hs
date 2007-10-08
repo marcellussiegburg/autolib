@@ -2,7 +2,7 @@
 
 module Autolib.Graph.Adj where
 
-import Autolib.Graph.Type ( Graph , knoten , kanten , kante , mkGraph )
+import Autolib.Graph.Type ( Graph, GraphC , knoten , kanten , kante , mkGraph )
 import Autolib.Set ( mkSet , cardinality , setToList , elementOf )
 
 import Data.List ( groupBy , intersperse , transpose )
@@ -19,7 +19,7 @@ type AdjMatrix = Matrix Integer
 
 -------------------------------------------------------------------------------
 
-adjazenz_matrix :: Ord a => Graph a -> AdjMatrix
+adjazenz_matrix :: GraphC a => Graph a -> AdjMatrix
 adjazenz_matrix g = 
     let n = cardinality $ knoten g
 	m = listToFM $ zip [(1::Int)..] $ setToList $ knoten g
@@ -32,7 +32,7 @@ adjazenz_matrix g =
 
 -------------------------------------------------------------------------------
 
-from_adjazenz_matrix :: AdjMatrix -> Graph Int
+from_adjazenz_matrix :: GraphC Int => AdjMatrix -> Graph Int
 from_adjazenz_matrix m = 
     let n = size m
     in mkGraph (mkSet [1..n])
@@ -53,21 +53,21 @@ wegematrix g = let m = adjazenz_matrix g
 -}
 
 -- | wegematrix naiv via horner schema: O(n^4)
-wegematrix :: Ord a => Graph a -> AdjMatrix
+wegematrix :: GraphC a => Graph a -> AdjMatrix
 wegematrix g = let a = adjazenz_matrix g
 		   n = cardinality $ knoten g
 	       in sig $ foldr ( \ v m -> add v $ prod v m ) a 
 		      $ replicate (pred n) a
 
 -- | wegematrix per algorithmus von warshall: O(n^3)
-warshall :: Ord a => Graph a -> AdjMatrix
+warshall :: GraphC a => Graph a -> AdjMatrix
 warshall = generic_floyd_warshall update
     where update m (k,i,j)
 	    | and [ m ! (i,k) == 1 , m ! (k,j) == 1 ] = m // [((i,j),1)]
 	    | otherwise                               = m
 
 -- | matrix der länge der kürzesten wege via floyd-warshall: O(n^3)
-floyd_warshall :: Ord a => Graph a -> AdjMatrix
+floyd_warshall :: GraphC a => Graph a -> AdjMatrix
 floyd_warshall = generic_floyd_warshall update
     where update m (k,i,j)
 	    | m!(i,k) == 0                = m
@@ -76,19 +76,19 @@ floyd_warshall = generic_floyd_warshall update
 	    | m!(i,j) > m!(i,k) + m!(k,j) = m // [((i,j),m!(i,k) + m!(k,j))]
 	    | otherwise                   = m
 
-rad_diam :: Ord a => Graph a -> Maybe (Integer,Integer)
+rad_diam :: GraphC a => Graph a -> Maybe (Integer,Integer)
 rad_diam g = let ms = map maximum $ zeilen $ floyd_warshall g
                  r = minimum ms
 		 d = maximum ms
              in case r of 0 -> Nothing ; _ -> Just (r,d)
 
-rad, diam :: Ord a => Graph a -> Maybe Integer
+rad, diam :: GraphC a => Graph a -> Maybe Integer
 rad = liftM fst . rad_diam
 diam = liftM snd . rad_diam
 
 -------------------------------------------------------------------------------
 
-generic_floyd_warshall :: Ord a 
+generic_floyd_warshall :: GraphC a 
     => ( AdjMatrix -> (Int,Int,Int) -> AdjMatrix ) -> Graph a -> AdjMatrix
 generic_floyd_warshall update g = 
     let a = adjazenz_matrix g

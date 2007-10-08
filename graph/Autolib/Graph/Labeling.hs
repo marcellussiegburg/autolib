@@ -12,7 +12,7 @@ the :: Maybe a -> a
 the (Just x) = x
 the Nothing = error "Labeling.the"
 
-valid :: (Ord a, ToDoc a, ToDoc [a])
+valid :: ( GraphC a, ToDoc [a])
       => Graph a -> Labeling a b -> ( Bool, Doc )
 valid g f = 
     let xs = mkSet $ keysFM f
@@ -38,7 +38,7 @@ injektiv f =
     in	if null multi
 	then ( True, text "Das ist eine injektive Abbildung." )
 	else ( False, fsep [ text "Die Abbildung ist nicht injektiv,"
-			   , text "denn diese Bilder haben mehrere Urbiilder:"
+			   , text "denn diese Bilder haben mehrere Urbilder:"
 			   , toDoc multi
 			   ] )
 

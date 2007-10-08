@@ -13,7 +13,7 @@ module Autolib.Graph.SpanTree
 
 where
 
-import Autolib.Graph.Type ( Graph , knoten , kanten , Kante (..) )
+import Autolib.Graph.Type ( Graph, GraphC , knoten , kanten , Kante (..) )
 import Autolib.Set ( Set , setToList , elementOf , unitSet , addToSet 
 		   , delFromSet , emptySet , isEmptySet
 		   )
@@ -25,15 +25,15 @@ import Control.Monad ( guard )
 type Weight a b = a -> b
 
 -- | gesamtgewicht aller kanten
-weight :: Num b => Graph a -> Weight (Kante a) b -> b
+weight :: ( GraphC a, Num b ) => Graph a -> Weight (Kante a) b -> b
 weight g w = sum $ map w $ setToList $ kanten g
 
 -- | ein minimaler spannender baum bzgl. der gewichtsfunktion
-mst :: ( Ord a , Ord b ) => Graph a -> Weight (Kante a) b -> Graph a
+mst :: ( GraphC a , Ord b ) => Graph a -> Weight (Kante a) b -> Graph a
 mst g = head . msts g
 
 -- | ein spannender baum
-st :: Ord a => Graph a -> Graph a
+st :: GraphC a => Graph a -> Graph a
 st g = head $ msts g ( \ _ -> 1 :: Int )
  
 -------------------------------------------------------------------------------
@@ -41,12 +41,13 @@ st g = head $ msts g ( \ _ -> 1 :: Int )
 -- | alle msts, die der algorithmus von prim von den verschiedenen startknoten
 -- | ausgehend findet, die sind i.A. nicht paarweise voneinander verschieden
 
-msts :: ( Ord a , Ord b ) => Graph a -> Weight (Kante a) b -> [Graph a]
+msts :: ( GraphC a , Ord b ) => Graph a -> Weight (Kante a) b -> [Graph a]
 msts g w = concatMap (msts_from g w) $ setToList $ knoten g
 
 -------------------------------------------------------------------------------
 
-msts_from :: ( Ord a , Ord b ) => Graph a -> Weight (Kante a) b -> a -> [Graph a]
+msts_from :: ( GraphC a , Ord b ) 
+	  => Graph a -> Weight (Kante a) b -> a -> [Graph a]
 msts_from g w a = build (unitSet a) emptySet (delFromSet (knoten g) a)
 
     where kl = setToList $ kanten g
@@ -59,7 +60,8 @@ msts_from g w a = build (unitSet a) emptySet (delFromSet (knoten g) a)
 				          (addToSet   b k) 
 				          (delFromSet v y)
 
-connectors :: Ord a => Set a -> Set a -> [Kante a] -> [(Kante a,(a,a))]
+connectors :: Ord a 
+	   => Set a -> Set a -> [Kante a] -> [(Kante a,(a,a))]
 connectors ls rs ks = do k <- ks
 			 (is,lr) <- is_connector ls rs k
 			 guard is

@@ -10,7 +10,7 @@ import Autolib.Graph.Ops
 
 import Data.Set
 
-
+bspgraph10 :: GraphC Char => Graph Char
 bspgraph10 = 
   links ( independent $ mkSet['a','b','c','d','e','f','g'] )
     [
@@ -27,6 +27,7 @@ bspgraph10 =
       kante 'd' 'e'
       ]
 
+bspgraph101 :: GraphC Char => Graph Char
 bspgraph101 = 
   links (independent $ mkSet['e','f','g','h'] )
     [
@@ -34,6 +35,8 @@ bspgraph101 =
       kante 'f' 'g',                                        
       kante 'g' 'h'
       ]
+
+bspgraph102 :: GraphC Char => Graph Char
 bspgraph102 = links (independent $ mkSet['e','f','g','h'] ) 
     [
       kante 'e' 'f',
@@ -41,6 +44,8 @@ bspgraph102 = links (independent $ mkSet['e','f','g','h'] )
       kante 'g' 'h',
       kante 'h' 'e'
       ]
+
+bspgraph103 :: GraphC Char => Graph Char
 bspgraph103 = links (independent $ mkSet['e','f','g','h','i','j'] ) 
     [
       kante 'e' 'f',
@@ -48,6 +53,8 @@ bspgraph103 = links (independent $ mkSet['e','f','g','h','i','j'] )
       kante 'g' 'h',
       kante 'i' 'j'
       ]
+
+bspgraph11 :: GraphC Char => Graph Char
 bspgraph11 = links (independent $ mkSet['a','b','c','d','e','i','g'] ) 
     [
       kante 'a' 'b',
@@ -63,6 +70,7 @@ bspgraph11 = links (independent $ mkSet['a','b','c','d','e','i','g'] )
       kante 'g' 'e'                                            
       ]
 
+bspgraph1 :: GraphC Char => Graph Char
 bspgraph1 = links (independent $ mkSet['a','b','c','d','e','f'] ) 
     [
       kante 'a' 'b',
@@ -74,6 +82,8 @@ bspgraph1 = links (independent $ mkSet['a','b','c','d','e','f'] )
       kante 'd' 'f',
       kante 'e' 'f'                                        
       ]
+
+bspgraph2 :: GraphC Char => Graph Char
 bspgraph2 = links (independent $ mkSet['a','b','c','d','e','f'] ) 
     [
       kante 'a' 'b',
@@ -85,6 +95,8 @@ bspgraph2 = links (independent $ mkSet['a','b','c','d','e','f'] )
       kante 'd' 'f',
       kante 'e' 'f'                                        
       ]
+
+bspgraph3 :: GraphC Char => Graph Char
 bspgraph3 = links (independent $ mkSet['a','b','c','d','e','f'] ) 
     [
       kante 'a' 'b',
@@ -96,6 +108,8 @@ bspgraph3 = links (independent $ mkSet['a','b','c','d','e','f'] )
       kante 'd' 'e',
       kante 'd' 'f'                                        
       ]
+
+bspgraph4 :: GraphC Char => Graph Char
 bspgraph4 = links (independent $ mkSet['a','b','c','d','e','f'] ) 
     [
       kante 'a' 'b',
@@ -107,6 +121,8 @@ bspgraph4 = links (independent $ mkSet['a','b','c','d','e','f'] )
       kante 'd' 'e',
       kante 'd' 'a'                                        
       ]
+
+bspgraph5 :: GraphC Char => Graph Char
 bspgraph5 = links (independent $ mkSet['a','b','c','d','e','g'] ) 
     [
       kante 'b' 'a',
@@ -118,6 +134,8 @@ bspgraph5 = links (independent $ mkSet['a','b','c','d','e','g'] )
       kante 'd' 'e',
       kante 'd' 'a'                                        
       ]
+
+bspgraph6 :: GraphC Char => Graph Char
 bspgraph6 = links (independent $ mkSet['a','b','c','d','e','g','h'] ) 
     [
       kante 'b' 'a',
@@ -130,6 +148,8 @@ bspgraph6 = links (independent $ mkSet['a','b','c','d','e','g','h'] )
       kante 'h' 'h',
       kante 'd' 'a'                                        
       ]
+
+bspgraph7 :: GraphC Char => Graph Char
 bspgraph7 = links (independent $ mkSet "abcdefgh" ) 
     [
       kante 'b' 'a',

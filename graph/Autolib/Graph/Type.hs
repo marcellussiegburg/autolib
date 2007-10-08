@@ -34,18 +34,19 @@ import Autolib.Number
 
 
 -- | Instanziering von der Isomorphieklasse fuer Graphen 
-instance (Eq a, Ord a) => Iso (Graph a) 
+instance (GraphC a) => Iso (Graph a) 
 	where
 	    iso g1 g2 = isIsomorph g1 g2
 
 -- | Instanziering von der Number
-instance (Ord a) => Number (Graph a) (Graph Int) 
+instance ( GraphC a, GraphC Int ) => Number (Graph a) (Graph Int) 
 	where
 	    number g = graphToGraphInt g
 
         
 
-graphToGraphInt :: Ord knotenTyp => Graph knotenTyp -> Graph Int
+graphToGraphInt :: ( GraphC Int, GraphC knotenTyp ) 
+		=> Graph knotenTyp -> Graph Int
 graphToGraphInt (Graph { knoten = knoten, kanten =  kanten }) =
     let
         knotenToInt = mkKnotenToInt emptyFM (setToList knoten) 0

@@ -14,13 +14,13 @@ import Autolib.Graph.Beispiele
 
 ---------------------------------------------------------------------------------------------------
 -- | prueft die Isomorphie 
-isIsomorph :: (Ord a, Eq a, Ord b, Eq b) => Graph a -> Graph b -> Bool
+isIsomorph :: ( GraphC a, GraphC b ) => Graph a -> Graph b -> Bool
 isIsomorph a b = case and[knotensetId a b, kantensetId a b] of
 			True -> isomorphgraph a b 
 			False -> False
 
 -- | vergleicht zwei graphen die nach knotenanzahl und kantenanzahl identisch sind
-isomorphgraph :: (Ord a, Eq a, Ord b, Eq b) => Graph a -> Graph b -> Bool
+isomorphgraph :: ( GraphC a, GraphC b   ) => Graph a -> Graph b -> Bool
 isomorphgraph a b = 
   if (sort(gradliste a))==(sort(gradliste b)) 
     then (sort(grad2liste a))==(sort(grad2liste b))
@@ -29,7 +29,7 @@ isomorphgraph a b =
 ---------------------------------------------
 -- | gradzahlen jeden knotens in eine liste ohne sortierung
 
-gradliste :: (Ord a, Eq a) => Graph a -> [Int]
+gradliste :: ( GraphC a ) => Graph a -> [Int]
 gradliste a = do
               x <- (knotenliste a)
               return (grad a x)
@@ -37,7 +37,7 @@ gradliste a = do
 ---------------------------------------------
 -- | gradzahlen der gradzahlen jeden knotens in eine liste ohne sortierung
 
-grad2liste :: (Ord a, Eq a) => Graph a -> [[Int]]
+grad2liste :: ( GraphC a ) => Graph a -> [[Int]]
 grad2liste a = do
                 x <- (knotenliste a)
                 return (sort(grad2 a x))

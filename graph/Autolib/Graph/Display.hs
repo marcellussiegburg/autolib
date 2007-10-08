@@ -21,8 +21,8 @@ import Control.Monad ( liftM )
 
 -------------------------------------------------------------------------------
 
--- einfacher graph
-instance ( Show a, Ord a ) => ToDot ( Graph a ) where
+-- | einfacher graph
+instance ( GraphC a ) => ToDot ( Graph a ) where
     toDotProgram = layout_program
     toDot g =
         let vs = setToList $ knoten g
@@ -31,8 +31,8 @@ instance ( Show a, Ord a ) => ToDot ( Graph a ) where
 	in  dot_numbered g num
     toDotOptions = unwords . layout_hints 
 
--- graphen mit kantengewichten
-instance ( Show a, Ord a, Show b ) => ToDot ( Graph a , Kante a -> b ) where
+-- | graphen mit kantengewichten
+instance ( GraphC a, Show b ) => ToDot ( Graph a , Kante a -> b ) where
     toDotProgram = layout_program . fst
     toDot (g,w) =
         let vs = setToList $ knoten g
@@ -41,8 +41,8 @@ instance ( Show a, Ord a, Show b ) => ToDot ( Graph a , Kante a -> b ) where
 	in  dot_weight_numbered g num ( Just . show . w )
     toDotOptions = unwords . layout_hints . fst
 
--- graphen mit vielleicht kantengewichten
-instance ( Show a, Ord a, Show b ) 
+-- | graphen mit vielleicht kantengewichten
+instance ( GraphC a,  Show b ) 
     => ToDot ( Graph a , Kante a -> Maybe b ) where
     toDotProgram = layout_program . fst
     toDot (g,w) =
@@ -52,8 +52,8 @@ instance ( Show a, Ord a, Show b )
 	in  dot_weight_numbered g num ( liftM show . w )
     toDotOptions = unwords . layout_hints . fst
 
--- graphen mit vielleicht kantengewichten und vielleicht kantenstilen
-instance ( Show a , Ord a , Show b )
+-- | graphen mit vielleicht kantengewichten und vielleicht kantenstilen
+instance ( GraphC a , Show b )
     => ToDot ( Graph a , Kante a -> Maybe b , Kante a -> Maybe String ) where
     toDotProgram (g,_,_) = layout_program g
     toDot (g,w,s) =
@@ -63,8 +63,8 @@ instance ( Show a , Ord a , Show b )
 	in  dot_numbered' g num ( liftM show . w ) s
     toDotOptions (g,_,_) = unwords $ layout_hints g
 
--- zwei graphen: der zweite wird benutzt, um kanten des ersten hervorzuheben
-instance ( Show a , Ord a , Show b )
+-- | zwei graphen: der zweite wird benutzt, um kanten des ersten hervorzuheben
+instance ( GraphC a , Show b )
     => ToDot ( Graph a , Graph a , Kante a -> Maybe b ) where
     toDotProgram (g,_,_) = layout_program g
     toDotOptions (g,_,_) = unwords $ layout_hints g
@@ -80,18 +80,18 @@ instance ( Show a , Ord a , Show b )
 -------------------------------------------------------------------------------
 
 
-dot_numbered :: ( Show a, Ord a, Show b ) 
+dot_numbered :: ( GraphC a, Show b ) 
 	     => Graph a -> ( a -> b ) -> Autolib.Dot.Graph.Type
 dot_numbered g num = dot_weight_numbered g num (\_->Nothing)
 
-dot_weight_numbered :: ( Show a, Ord a, Show b ) 
+dot_weight_numbered :: ( GraphC a, Show b ) 
 	            => Graph a 
 		    -> ( a -> b ) 
 		    -> ( Kante a -> Maybe String )
 		    -> Autolib.Dot.Graph.Type
 dot_weight_numbered g num w = dot_numbered' g num w (\_->Nothing)
 
-dot_numbered' :: ( Show a, Ord a, Show b ) 
+dot_numbered' :: ( GraphC a, Show b ) 
 	      => Graph a 
 	      -> ( a -> b ) 
 	      -> ( Kante a -> Maybe String ) -- label
