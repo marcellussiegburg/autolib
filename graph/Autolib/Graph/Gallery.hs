@@ -1,6 +1,6 @@
-module Autolib.Graph.Gallery where
-
 -- -- $Id$
+
+module Autolib.Graph.Gallery where
 
 import Autolib.Graph.Type
 import Autolib.Graph.Basic
@@ -10,12 +10,13 @@ import Autolib.Graph.Display
 import Autolib.Dot.Dot
 import Autolib.Util.Zufall
 
-mkQuiz :: FilePath
-       -> [ Graph Int ]
-       -> IO ()
--- schreibt jeden graph in ein eps-file
+-- | schreibt jeden graph in ein eps-file
 -- schreibt ein tex-file, daß alle diese included
 -- und ein tex-file mit allen texinfos (gewürfelt)
+mkQuiz :: GraphC Int
+       => FilePath
+       -> [ Graph Int ]
+       -> IO ()
 mkQuiz  prefix gs = do
     putStrLn $ "Quiz mode"
     gs' <- permutation gs
@@ -45,15 +46,16 @@ mkQuiz  prefix gs = do
 
 
 
-mkGallery :: [ (FilePath, Graph Int) ]
+-- | schreibt jeweils in benanntes epsfile
+mkGallery :: GraphC Int
+	  => [ (FilePath, Graph Int) ]
 	  -> IO ()
--- schreibt jeweils in benanntes epsfile
 mkGallery fgs = do
     putStrLn $ "Gallery mode"
     mapM_ (uncurry mkPic) fgs
 
 
-mkPic :: ( Ord a , Show a )
+mkPic :: ( GraphC a )
       => FilePath -> Graph a
       -> IO FilePath
 mkPic fname g = do

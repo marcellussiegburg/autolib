@@ -15,7 +15,7 @@ import Autolib.GVKnoten.Layout
 -- | Mycielsky construction:
 -- does not introduce triangles
 -- but increases chromatic number by one
-mycielski :: ( Ord a )
+mycielski :: ( GraphC a )
 	  => Graph a 
           -> Graph Int
 mycielski g = informed ( funni "mycielski" [ info g ] )
@@ -27,9 +27,9 @@ mycielski g = informed ( funni "mycielski" [ info g ] )
 	 (u, v) <- [(von k, nach k), (nach k, von k)]
 	 return $ kante (Left u) (Right (Left v))
 
--- | th Grötzsch graph 'mycielski $ mycielski $ path [1, 2]'
+-- | the Grötzsch graph 'mycielski $ mycielski $ path [1, 2]'
 grotzsch :: Graph Int
 grotzsch = informed ( text "Grötzsch" )
-         $ mycielski $ mycielski $ path [1, 2]
+         $ mycielski $ mycielski $ path [1 :: Int, 2]
 
 

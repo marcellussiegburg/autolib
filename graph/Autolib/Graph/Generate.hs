@@ -15,7 +15,8 @@ import Autolib.Util.Zufall
 
 import System.Random
 
-conf :: Config ( Graph Int )
+conf :: GraphC Int
+     => Config ( Graph Int )
 conf  = Config 
       { base = [ \ s -> return $ independent $ mkSet [ 1 .. s ]
                , \ s -> return $ clique      $ mkSet [ 1 .. s ]
@@ -31,7 +32,8 @@ conf  = Config
       , size = error "Autolib.Graph.Generate.conf.size"
       }
 
-some :: Int -> Int -> IO (Graph Int)
+some :: GraphC Int
+     => Int -> Int -> IO (Graph Int)
 some s d = generate $ conf { size = s, depth = d }
 
 
