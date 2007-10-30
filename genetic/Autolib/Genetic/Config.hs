@@ -2,7 +2,7 @@ module Autolib.Genetic.Config where
 
 --  $Id$
 
--- TODO should not depend on IO that much
+-- | TODO should not depend on IO that much
 data Config a v = 
      Config { fitness :: a -> v
           , threshold :: v
@@ -15,5 +15,6 @@ data Config a v =
 	  , mutate  :: a -> IO a
           , num_mutate :: Int
           , num_compact :: Int
+          , num_parallel :: Int
           }
 
