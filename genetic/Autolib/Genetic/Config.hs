@@ -15,6 +15,7 @@ data Config a v =
 	  , mutate  :: a -> IO a
           , num_mutate :: Int
           , num_compact :: Int
+          , num_steps :: Maybe Int -- ^  Nothing -> unbounded
           , num_parallel :: Int
           }
 

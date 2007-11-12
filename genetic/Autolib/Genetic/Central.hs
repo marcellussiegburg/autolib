@@ -2,6 +2,9 @@
 
 module Autolib.Genetic.Central 
 ( evolve 
+, Pool, popul
+, startup, handle
+, connect
 ) 
 
 where
@@ -21,10 +24,18 @@ import Autolib.Set
 
 import Autolib.Genetic.Config
 
+import Data.Maybe
+import Data.IORef
+import Control.Concurrent
+import System.IO
+
 data Pool a v =
      Pool { num :: Int
 	  , popul :: [(v, a)]
           , previous :: v
+          , config :: Config a v
+          , input :: MVar a
+          , outputs :: IORef [ MVar a ] 
           }
 
 -- | output the best items after some steps of computation
@@ -32,34 +43,61 @@ evolve :: (Ord v, ToDoc [(v,a)], Ord a)
        => Config a v
        -> IO [(v,a)]
 evolve conf = do
+    pool <- startup conf
+    pool' <- handle pool 
+    return $ popul pool'
+
+startup conf = do
     pool <- sequence $ replicate (size conf) (generate conf)
-    let handle vpool = do
-            trace conf $ popul vpool
-            let tops = filter ( \ (v, g) -> v > previous vpool ) 
-		     $ popul vpool
-	    when ( not $ null tops )
-                 $ present conf tops
-            let good = filter ( \ (v, g) -> v >= threshold conf ) 
-		     $ popul vpool
-            if null good
-	       then do
-                   vpool' <- step conf vpool
-	           handle vpool'
-	       else do
-		   return good
-    handle $ Pool
-	   { num = 0
+    v <- newEmptyMVar
+    o <- newIORef []
+    return $ Pool
+	   { config = conf
+           , num = 0
            , previous = fitness conf $ head pool
            , popul = map ( \ g -> ( fitness conf g, g ) ) pool
+           , input = v
+           , outputs = o
 	   }
 
+handle vpool = do
+    let conf = config vpool
+    trace conf $ popul vpool
+    let tops = filter ( \ (v, g) -> v > previous vpool ) 
+	     $ popul vpool
+    when ( not $ null tops )
+         $ present conf tops
+    let good = filter ( \ (v, g) -> v >= threshold conf ) 
+	     $ popul vpool
+    let continue = case num_steps conf of
+            Just bound -> num vpool < bound
+            Nothing -> True
+    if null good && continue 
+       then do
+           vpool' <- step vpool
+           handle vpool'
+       else do
+	   return vpool
+
+connect :: Pool a v 
+     -> Pool a v
+     -> IO ( )
+connect p q = do
+    modifyIORef ( outputs p ) ( input q : )
+    modifyIORef ( outputs q ) ( input p : )
 
 step :: ( Ord a, Ord v )
-     => Config a v 
-     -> Pool a v
+     => Pool a v
      -> IO (Pool a v)
-step conf vpool = do
-    let pool = map snd $ popul vpool
+step vpool = do
+    let conf = config vpool
+        pool = map snd $ popul vpool
+
+    malien <- tryTakeMVar $ input vpool
+    let aliens = do
+          x <- maybeToList malien
+          return ( fitness conf x, x )
+    when ( not $ null aliens ) $ hPutStrLn stderr $ "got alien"
 
     -- generate some new ones (crossing)
     combis <- sequence $ replicate (num_combine conf) $ do
@@ -75,9 +113,18 @@ step conf vpool = do
 
     let vpool' = take (size conf)
 	       $ compact (num_compact conf)
-	       $ combis ++ mutants ++ popul vpool
+	       $ aliens ++ combis ++ mutants ++ popul vpool
 
-    return $ Pool
+    -- transport
+    outs <- readIORef $ outputs vpool
+    let ( _, top ) = head vpool'
+    sequence $ do
+        out <- outs
+        return $ do 
+            hPutStrLn stderr "sending alien"
+            tryPutMVar out top
+
+    return $ vpool
 	   { num = succ $ num vpool
 	   , popul = vpool'
            , previous = maximum $ map fst $ popul vpool
