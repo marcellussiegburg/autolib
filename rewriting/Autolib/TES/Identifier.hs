@@ -29,6 +29,8 @@ import Data.Char
 import Data.Int
 import Data.Typeable
 
+import Text.XML.HaXml.Haskell2Xml
+
 -- | don't derive Eq and Ord since arity should be ignored
 data Identifier = Identifier 
 		{ hash_code :: {-# UNPACK #-} ! Int32
@@ -48,6 +50,10 @@ instance Typeable Identifier where
 instance Hash Identifier where hash = hash_code
 
 instance Size Identifier where size = const 1
+
+instance Haskell2Xml Identifier where
+    toContents i = [ CString False $ show i ]
+
 
 mk :: Int -> String -> Identifier
 mk a cs = Identifier
