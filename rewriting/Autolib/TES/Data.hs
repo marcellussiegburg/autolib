@@ -70,14 +70,14 @@ all_rules rs = do
     strict_rules rs ++ non_strict_rules rs
 
 with_rules :: Letters t c
-	   => RS c' t' -> [ Rule t ] -> RS c t
+	   => RS c t' -> [ Rule t ] -> RS c t
 with_rules srs rs = 
      RS
 	 { annotations = annotations srs
 	 , theory  = theory srs
 	 , strategy  = strategy srs
 	 , separate = separate srs
-	 , original_variables = []
+	 , original_variables = original_variables srs
      	 , signature = letters rs
 	 , rules = rs
 	 }
@@ -180,7 +180,7 @@ plain_reader =  do
 	let trs0 = RS { annotations = []
 		     , theory = Nothing
 		     , strategy = Nothing
-		     -- , variables = emptySet
+		     , original_variables = []
 		     , signature = emptySet
 		     , rules = []
 		     , separate = False
