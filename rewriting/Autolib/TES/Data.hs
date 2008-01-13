@@ -40,8 +40,11 @@ data RS c t  = RS
 	 , theory    :: Maybe [ Sexp ]
 	 , strategy  :: Maybe [ Sexp ]
 
---	 , variables :: Set v -- ^ nullary symbols
+	 , original_variables :: [c] -- ^ order as declared, 
+	   -- this is needed to work around a restriction in Rainbow
+
 	 , signature :: Set c -- ^ all symbols (not including variables, I hope)
+
 	 , separate :: Bool
 	 , rules :: [ Rule t ]
 	 }
@@ -74,8 +77,8 @@ with_rules srs rs =
 	 , theory  = theory srs
 	 , strategy  = strategy srs
 	 , separate = separate srs
-
-	 , signature = letters rs
+	 , original_variables = []
+     	 , signature = letters rs
 	 , rules = rs
 	 }
 
@@ -88,6 +91,7 @@ from_strict_rules sep rs =
     in  RS { annotations = []
 		   , theory = Nothing
 		   , strategy = Nothing
+		   , original_variables = []
 		   , signature = letters rools
 		   , separate = sep
 		   , rules = rools
@@ -109,10 +113,6 @@ instance ( Ord c , Letters t c ) => Letters ( RS c t ) c where
     letters rs = unionManySets $ do 
         r <- rules rs
 	return $ letters (lhs r) `union` letters (rhs r)
-
-{-
-instance ( Ord v , Letters ( Term v c ) v ) => Letters ( TRS v c ) v where    letters  = variables
--}
 
 variables rs =  unionManySets $ do 
         r <- rules rs
@@ -216,10 +216,11 @@ repair_variables :: TES -> TES
 repair_variables trs =
     let vhead (List (Leaf "VAR" : _ )) = True 
         vhead _ = False
-        vs = mkSet $ do 
+	ordered_vs = do 
 		List ( Leaf "VAR" : xs ) <- annotations trs
 		Leaf x <- xs
 	        return $ mknullary x
+        vs = mkSet $ ordered_vs
 	-- change (some) nullary ids to vars
 	xform ( Node c [] ) | c `elementOf` vs = Var c
 	xform ( Node c args ) = Node c ( map xform args )
@@ -229,6 +230,7 @@ repair_variables trs =
 						  }
 	sig = sfilter ( \ s -> not (s `elementOf` vs)) $ symbols rs
     in  trs { rules = rs
+	    , original_variables = ordered_vs
 	    , signature = sig
            }
 
