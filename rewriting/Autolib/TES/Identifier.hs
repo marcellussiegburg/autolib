@@ -54,7 +54,10 @@ instance Size Identifier where size = const 1
 
 instance Haskell2Xml Identifier where
     toContents i = -- probably not here: E.xmlEscape E.stdXmlEscaper 
-                 [ CString True $ show i ]
+          -- this introduces whitespace between &lt; and =
+          [ CString False $ show i ] 
+          -- and this creates a CDATA element
+          -- [ CString True $ show i ] 
 
 
 mk :: Int -> String -> Identifier
