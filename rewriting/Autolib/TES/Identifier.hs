@@ -53,11 +53,20 @@ instance Hash Identifier where hash = hash_code
 instance Size Identifier where size = const 1
 
 instance Haskell2Xml Identifier where
-    toContents i = -- probably not here: E.xmlEscape E.stdXmlEscaper 
+    toContents i = 
+          -- probably not here: E.xmlEscape E.stdXmlEscaper 
           -- this introduces whitespace between &lt; and =
-          [ CString False $ show i ] 
+          -- [ CString False $ show i ] 
           -- and this creates a CDATA element
           -- [ CString True $ show i ] 
+          -- so here comes an UGLY HACK:
+          [ CString False $ escape $ show i ] 
+
+escape [] = []
+escape ( c : cs ) = case c of
+    '<' -> "&lt;" ++ escape cs
+    '>' -> "&gt;" ++ escape cs
+    _   -> c :       escape cs
 
 
 mk :: Int -> String -> Identifier
