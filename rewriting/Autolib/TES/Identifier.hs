@@ -53,6 +53,9 @@ instance Hash Identifier where hash = hash_code
 instance Size Identifier where size = const 1
 
 instance Haskell2Xml Identifier where
+    fromContents ( CString _ s : etc ) = ( mkunary s , etc )
+    fromContents ( _ : etc ) = fromContents etc
+
     toContents i = 
           -- probably not here: E.xmlEscape E.stdXmlEscaper 
           -- this introduces whitespace between &lt; and =
