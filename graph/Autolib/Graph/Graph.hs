@@ -1,3 +1,5 @@
+{-# language IncoherentInstances #-}
+
 -- | Graph Datenstruktur mit elementaren Klasseninstanzen
 
 -- autor Georg Martius
@@ -78,6 +80,7 @@ class (  -- Haskell2Xml a, Haskell2Xml (Kante a)
         Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Hash a
       , R.GraphC a
+      , Typeable a
       ) => GraphC a 
 
 
@@ -85,6 +88,7 @@ instance (  -- Haskell2Xml a, Haskell2Xml (Kante a)
         Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Hash a
       , R.GraphC a
+      , Typeable a
       ) => GraphC a 
 
 
