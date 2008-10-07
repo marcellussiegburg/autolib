@@ -16,7 +16,7 @@ import Autolib.Debug
 
 import System.IO
 import System.Directory
-import Control.Exception ( catch )
+import qualified Control.Exception 
 
 -- | write output as png to file,
 -- in "current-directory\/..\/pics\/hashcode.{obj,dot,png}"
@@ -49,7 +49,7 @@ peng a = do
 	       let eq = show a == cs
 	       debug $ "contents ok: " ++ show eq
                return $ eq
-           `Control.Exception.catch` \ any -> return False
+           `Control.Exception.catch` \ ( any :: Control.Exception.IOException ) -> return False
         when ( not done ) $ do      
              writeFileOver objfile $ show a
              writeFileOver dotfile $ show it ++ "\n\n"
@@ -60,7 +60,7 @@ peng a = do
 		   , dotfile
 		   ]
              return ()
-         `Control.Exception.catch` \ any -> return ()
+         `Control.Exception.catch` \ ( any :: Control.Exception.IOException ) -> return ()
     output $ Output.Image pngfile
     output $ Output.Beside
 	        ( Output.Doc $ text 
