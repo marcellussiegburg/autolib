@@ -1,6 +1,9 @@
 module Autolib.Genetic.Config where
 
---  $Id$
+
+data Scheme = Global 
+            | Tournament Int
+    deriving ( Eq, Ord, Show )
 
 -- | TODO should not depend on IO that much
 data Config a v = 
@@ -17,5 +20,6 @@ data Config a v =
           , num_compact :: Int
           , num_steps :: Maybe Int -- ^  Nothing -> unbounded
           , num_parallel :: Int
+          , scheme :: Scheme
           }
 

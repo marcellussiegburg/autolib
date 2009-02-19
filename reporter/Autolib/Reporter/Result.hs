@@ -54,7 +54,9 @@ put fpath res = do
 get :: FilePath -> IO ( Maybe Int )
 get fpath = do
        cs <- readFile $ fpath
-       return $ read cs
-  `Control.Exception.catch` \ ( e :: Control.Exception.IOException ) -> return Nothing
+       return $ read cs 
+    `Control.Exception.catch`
+           \ ( e :: Control.Exception.IOException ) -> return Nothing
+           -- \ any -> return Nothing
 
     

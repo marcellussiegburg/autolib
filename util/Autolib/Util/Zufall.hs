@@ -59,6 +59,13 @@ selektion k xs = do
 	 ys <- selektion (pred k) $ here ++ there
 	 return $ y : ys
 
+subsequence :: RandomC m =>  Int -> [a] -> m ([a], [a])
+subsequence 0 xs = return  ( [], xs )
+subsequence k xs = do
+	 i <- randomRIO (0, length xs - 1)
+	 let (here, y : there) = splitAt i xs
+	 ( ys, zs )  <- subsequence (pred k) $ here ++ there
+	 return ( y : ys, zs )
 
 -- | finde eine zerlegung von n in genau k summanden >= 1
 -- achtung: ist nicht gleichverteilt (?)

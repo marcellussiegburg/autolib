@@ -1,6 +1,6 @@
 module Autolib.Genetic
 
-( Config (..)
+( Config (..), Scheme (..)
 , evolve
 )
 

@@ -86,10 +86,29 @@ connect p q = do
     modifyIORef ( outputs p ) ( input q : )
     modifyIORef ( outputs q ) ( input p : )
 
+
+
 step :: ( Ord a, Ord v )
      => Pool a v
      -> IO (Pool a v)
-step vpool = do
+step vpool | Tournament t <- scheme ( config vpool ) = do
+    let conf = config vpool
+    ( sub, rest ) <- subsequence t $ popul vpool
+    ( [x,y] , _ )   <- subsequence 2 $ map snd sub
+    z <- combine conf x y
+    z' <- mutate conf z
+    let annotate i = ( fitness conf i, i )
+        sub' = take t
+             $ reverse
+             $ sort 
+             $ map annotate [z, z'] ++ sub
+    return $ vpool
+	   { num = succ $ num vpool
+	   , popul = sub' ++ rest
+           , previous = maximum $ map fst $ popul vpool
+	   }
+
+step vpool | Global <- scheme ( config vpool ) = do
     let conf = config vpool
         pool = map snd $ popul vpool
 
@@ -142,6 +161,22 @@ compact d vas = reverse $ do
     (i, (v, as)) <- zip [1..] $ fmToList fm
     a <- take d $ setToList $ mkSet as
     return (v, a)
+
+
+
+
+weighted_einige :: Int -> [a] -> IO [a]
+weighted_einige 0 xs = return []
+weighted_einige k xs | k == length xs = return xs
+weighted_einige k (x:xs) = einsM 
+    [ do ys <- weighted_einige (k-1) xs ; return $ x : ys
+    , weighted_einige k xs
+    ]
+
+einsM :: [ IO a ] -> IO a
+einsM xs = do x <- eins xs ; x
+
+    
 
 
 -- | entferne k zufällig gewählte elemente
