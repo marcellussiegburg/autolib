@@ -93,18 +93,20 @@ step :: ( Ord a, Ord v )
      -> IO (Pool a v)
 step vpool | Tournament t <- scheme ( config vpool ) = do
     let conf = config vpool
-    ( sub, rest ) <- subsequence t $ popul vpool
-    ( [x,y] , _ )   <- subsequence 2 $ map snd sub
-    z <- combine conf x y
-    z' <- mutate conf z
-    let annotate i = ( fitness conf i, i )
-        sub' = take t
+    ( pre, sub, post ) <- contiguous_subsequence t $ popul vpool
+    fresh <- sequence $ replicate t $ do
+        ( [x,y] , _ )   <- subsequence 2 $ map snd sub
+        z <- combine conf x y
+        z <- mutate conf z
+        return ( fitness conf z, z )
+    sub' <- permutation
+             $ take t
              $ reverse
              $ sort 
-             $ map annotate [z, z'] ++ sub
+             $ fresh ++ sub
     return $ vpool
 	   { num = succ $ num vpool
-	   , popul = sub' ++ rest
+	   , popul = pre ++ sub' ++ post
            , previous = maximum $ map fst $ popul vpool
 	   }
 

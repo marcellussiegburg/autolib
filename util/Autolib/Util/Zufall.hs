@@ -67,6 +67,13 @@ subsequence k xs = do
 	 ( ys, zs )  <- subsequence (pred k) $ here ++ there
 	 return ( y : ys, zs )
 
+contiguous_subsequence :: RandomC m =>  Int -> [a] -> m ([a], [a], [a])
+contiguous_subsequence k xs = do
+         start <- randomRIO ( 0, length xs - k )
+         let ( pre, midpost ) = splitAt start xs
+             ( mid, post ) = splitAt k midpost
+	 return ( pre, mid, post )
+
 -- | finde eine zerlegung von n in genau k summanden >= 1
 -- achtung: ist nicht gleichverteilt (?)
 summe ::  RandomC m => Int -> Int -> m [ Int ]
