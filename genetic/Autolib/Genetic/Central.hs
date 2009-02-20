@@ -99,11 +99,10 @@ step vpool | Tournament t <- scheme ( config vpool ) = do
         z <- combine conf x y
         z <- mutate conf z
         return ( fitness conf z, z )
+    candidates <- randomized_sort $ fresh ++ sub
     sub' <- permutation
              $ take t
-             $ reverse
-             $ sort 
-             $ fresh ++ sub
+             $ reverse candidates
     return $ vpool
 	   { num = succ $ num vpool
 	   , popul = pre ++ sub' ++ post

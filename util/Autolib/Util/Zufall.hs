@@ -8,6 +8,9 @@ where
 
 import Autolib.Util.RandoM
 
+import Data.List ( sort )
+import Control.Monad ( forM )
+
 -- -- $Id$
 
 someIO :: RandomC m => [a] -> Int -> m [a]
@@ -87,3 +90,10 @@ summe k n = do
     xs <- summe (k-1) (n-x)
     return $ x : xs
 
+-- | equal elements will be permuted randomly
+randomized_sort :: Ord a => [a] -> IO [a]
+randomized_sort xs = do
+    xys <- forM xs $ \ x -> do
+        y :: Double <- randomRIO ( 0, 1 )
+        return ( x, y )
+    return $ map fst $ sort xys
