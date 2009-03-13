@@ -1,3 +1,5 @@
+{-# language FlexibleInstances, OverlappingInstances, IncoherentInstances #-}
+
 module Autolib.Graph.Display 
 
 --  $Id$

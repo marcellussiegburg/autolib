@@ -1,4 +1,5 @@
--- -*- mode: haskell -*-
+{-# language DeriveDataTypeable #-} -- -*- mode: haskell -*-
+
 
 module Autolib.Graph.Kante where
 
@@ -10,11 +11,25 @@ import Autolib.Hash
 
 import Data.Typeable
 import Text.XML.HaXml.Haskell2Xml
+import Network.XmlRpc.Internals
+import Network.XmlRpc.THDeriveXmlRpcType
+
 
 data Kante a  = Kante
 	      { von       :: a
 	      , nach      :: a
 	      } deriving (Eq, Ord, Typeable)
+
+instance ( Ord a, XmlRpcType a ) =>  XmlRpcType ( Kante a ) where
+    toValue k = toValue [ ("von"  , toValue $ von k )
+                        , ("nach" , toValue $ nach k )
+                        ]
+    fromValue v = do
+                  t <- fromValue v
+                  f <- getField "von" t
+                  s <- getField "nach" t
+                  return $ kante f s
+    getType _ = TStruct
 
 instance Hash a => Hash (Kante a) where
     hash k = hash ( von k, nach k )

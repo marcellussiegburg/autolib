@@ -1,4 +1,4 @@
--- -*- mode: haskell -*-
+{-# LANGUAGE TypeSynonymInstances #-} -- -*- mode: haskell -*-
 
 module Autolib.Reporter.Proof where
 

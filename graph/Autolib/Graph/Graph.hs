@@ -1,4 +1,4 @@
-{-# language IncoherentInstances #-}
+{-# language IncoherentInstances, OverlappingInstances, FlexibleContexts, FlexibleInstances, MultiParamTypeClasses, UndecidableInstances, DeriveDataTypeable #-}
 
 -- | Graph Datenstruktur mit elementaren Klasseninstanzen
 
@@ -32,10 +32,14 @@ import Autolib.FiniteMap
 import Autolib.Xml
 import Autolib.Size
 import Autolib.Hash
+
 import Text.XML.HaXml.Haskell2Xml
 import Autolib.XmlRpc
+
+import Network.XmlRpc.Internals 
+
 import Data.Typeable
-import Network.XmlRpc.Internals ( XmlRpcType )
+
 
 
 -----------------------------------------------------------------
@@ -54,6 +58,19 @@ data GraphC a => Graph a  = Graph
 	      , show_labels :: Bool
 	      } 
     deriving Typeable
+
+instance GraphC a => XmlRpcType ( Graph a ) where
+    toValue g = toValue [ ("knoten"  , toValue $ knoten g )
+                        , ("kanten" , toValue $ kanten g )
+                        ]
+    fromValue ( ValueStruct v ) = do
+                  f <- getField "knoten" v
+                  ff <- fromValue f
+                  s <- getField "kanten" v
+                  ss <- fromValue s
+                  return $ mkGraph ff ss
+    getType _ = TStruct
+
 
 instance GraphC a =>  Informed ( Graph a) where
     info = graph_info
@@ -84,7 +101,8 @@ class (  -- Haskell2Xml a, Haskell2Xml (Kante a)
       , Hash a
       , R.GraphC a
       , Typeable a
-      , XmlRpcType a
+      , XmlRpcType ( Set a )
+      , XmlRpcType ( Set ( Kante a ))
       ) => GraphC a 
 
 
@@ -93,7 +111,8 @@ instance (  -- Haskell2Xml a, Haskell2Xml (Kante a)
       , Hash a
       , R.GraphC a
       , Typeable a
-      , XmlRpcType a
+      , XmlRpcType ( Set a )
+      , XmlRpcType ( Set ( Kante a ))
       ) => GraphC a 
 
 

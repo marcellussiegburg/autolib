@@ -1,3 +1,5 @@
+{-# language ScopedTypeVariables #-}
+
 module Autolib.Dot.Dotty where
 
 --  $Id$

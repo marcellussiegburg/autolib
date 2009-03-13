@@ -1,3 +1,5 @@
+{-# language FlexibleContexts #-}
+
 module Autolib.Graph.Ops where
 
 -- -- $Id$
@@ -49,7 +51,7 @@ gmap f g = g
 normalize :: ( GraphC Int, GraphC a ) 
 	  => Graph a -> Graph Int
 normalize g =
-    let fm = listToFM $ zip ( setToList $ knoten g ) [ 0 .. ]
+    let fm = listToFM $ zip ( setToList $ knoten g ) [ 0 :: Int .. ]
 	fun = fromMaybe ( error "Graph.Ops.normalize" ) . lookupFM fm
     in	gmap fun g
 

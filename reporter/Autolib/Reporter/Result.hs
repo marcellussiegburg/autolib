@@ -1,3 +1,5 @@
+{-# language ScopedTypeVariables #-}
+
 module Autolib.Reporter.Result where
 
 {-

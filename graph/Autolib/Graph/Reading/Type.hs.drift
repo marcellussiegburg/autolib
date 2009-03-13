@@ -1,4 +1,4 @@
--- -*- mode: haskell -*-
+{-# language FlexibleContexts, UndecidableInstances, FlexibleInstances #-} -- -*- mode: haskell -*-
 
 --  $Id$
 

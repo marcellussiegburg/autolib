@@ -1,4 +1,5 @@
 {-# OPTIONS -fallow-overlapping-instances -fglasgow-exts #-}
+{-# language IncoherentInstances #-}
 
 module Autolib.Reader.Instances where
 

@@ -1,9 +1,19 @@
+{-# LANGUAGE OverlappingInstances, IncoherentInstances, FlexibleContexts, UndecidableInstances #-}
+
 module Autolib.XmlRpc ( ) where
 
 import Autolib.Set 
 
 import Network.XmlRpc.Internals
 import Network.XmlRpc.THDeriveXmlRpcType
+
+instance XmlRpcType Integer where
+    getType _ = TStruct
+    toValue x = toValue ( "integer", toValue $ show x )
+    fromValue ( ValueStruct v ) = do
+        s <- getField "integer" v
+        ss <- fromValue s
+        return $ read ss
 
 instance XmlRpcType ( ) where
     toValue () = toValue ( [ ] :: [()] )
@@ -15,11 +25,12 @@ instance ( XmlRpcType a, XmlRpcType b ) =>  XmlRpcType ( a, b ) where
     toValue (a,b) = toValue [ ("first"  , toValue a )
                         , ("second" , toValue b )
                         ]
-    fromValue v = do
-                  t <- fromValue v
-                  f <- getField "first" t
-                  s <- getField "second" t
-                  return (f, s)
+    fromValue ( ValueStruct v ) = do
+                  f <- getField "first" v
+                  ff <- fromValue f
+                  s <- getField "second" v
+                  ss <- fromValue s
+                  return (ff, ss)
     getType _ = TStruct
 
 
