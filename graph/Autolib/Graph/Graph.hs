@@ -33,7 +33,10 @@ import Autolib.Xml
 import Autolib.Size
 import Autolib.Hash
 import Text.XML.HaXml.Haskell2Xml
+import Autolib.XmlRpc
 import Data.Typeable
+import Network.XmlRpc.Internals ( XmlRpcType )
+
 
 -----------------------------------------------------------------
 
@@ -81,6 +84,7 @@ class (  -- Haskell2Xml a, Haskell2Xml (Kante a)
       , Hash a
       , R.GraphC a
       , Typeable a
+      , XmlRpcType a
       ) => GraphC a 
 
 
@@ -89,6 +93,7 @@ instance (  -- Haskell2Xml a, Haskell2Xml (Kante a)
       , Hash a
       , R.GraphC a
       , Typeable a
+      , XmlRpcType a
       ) => GraphC a 
 
 
