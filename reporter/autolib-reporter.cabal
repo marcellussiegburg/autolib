@@ -8,6 +8,7 @@ Build-Depends:  base==4.*, parsec==2.*, containers, mtl, random,
 		autolib-output, autolib-todoc, autolib-reader, autolib-data
 Synopsis:       reporting 
 Exposed-modules:
+        Autolib.Timer
         Autolib.Reporter
         Autolib.Reporter.Boolean
         Autolib.Reporter.Boolean.Data

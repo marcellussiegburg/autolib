@@ -45,7 +45,8 @@ Exposed-modules:
         Autolib.TES.Unify
         Autolib.TES.Xml
 hs-source-dirs:	.
-extensions: DeriveDataTypeable, MultiParamTypeClasses, FlexibleInstances, FlexibleContexts, UndecidableInstances, FunctionalDependencies
+extensions: DeriveDataTypeable, MultiParamTypeClasses, FlexibleInstances, FlexibleContexts, UndecidableInstances, FunctionalDependencies, OverlappingInstances
+ghc-options: -fglasgow-exts
 build-type: Simple
 
 

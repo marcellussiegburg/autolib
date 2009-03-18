@@ -1,3 +1,5 @@
+{-# language OverlappingInstances, IncoherentInstances #-}
+
 module Autolib.TES.Out where
 
 --  $Id$
