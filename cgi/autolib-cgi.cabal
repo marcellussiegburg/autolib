@@ -1,0 +1,44 @@
+Name:           autolib-util
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, array, process, random, mtl,
+		autolib-data, autolib-todoc
+Synopsis:       utilities
+Exposed-modules:
+        Autolib.Util
+        Autolib.Util.BFS
+        Autolib.Util.Bild
+        Autolib.Util.Chmod
+        Autolib.Util.Closure
+        Autolib.Util.DPL
+        Autolib.Util.DPL_Set
+        Autolib.Util.Debug
+        Autolib.Util.Doppelte
+        Autolib.Util.Doppler
+        Autolib.Util.Edit
+        Autolib.Util.Factor
+        Autolib.Util.Faktor
+        Autolib.Util.Fix
+        Autolib.Util.Generate
+        Autolib.Util.Hamming
+        Autolib.Util.Hide
+        Autolib.Util.Mehrfache
+        Autolib.Util.Perm
+        Autolib.Util.RandoM
+        Autolib.Util.Seed
+        Autolib.Util.Size
+        Autolib.Util.Sort
+        Autolib.Util.Splits
+        Autolib.Util.Teilfolgen
+        Autolib.Util.Uniq
+        Autolib.Util.Wort
+        Autolib.Util.Zufall
+hs-source-dirs:	.
+extensions: TypeSynonymInstances, ScopedTypeVariables, FlexibleContexts
+build-type: Simple
+
+
+
