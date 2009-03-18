@@ -1,0 +1,17 @@
+Name:           autolib-algorithm
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, autolib-data
+Synopsis:       basic algorithms
+Exposed-modules:
+        Autolib.Schichten
+        Autolib.Fix
+hs-source-dirs:	.
+extensions: 
+build-type: Simple
+
+
+
