@@ -12,11 +12,7 @@ where
 --   $Id$
 
 import Text.ParserCombinators.Parsec 
-        hiding ( label 
-#if (__GLASGOW_HASKELL__ >= 604)
-               , State 
-#endif
-               )
+        hiding ( label )
 
 import Control.Monad ( guard )
 import Autolib.Reader.Basic ( my_parens )

@@ -19,7 +19,7 @@ import Data.List ( partition )
 
 import Control.Monad.State
 
-import Autolib.Reader
+import Autolib.Reader ( Reader (..))
 import Autolib.ToDoc
 import Autolib.FiniteMap
 

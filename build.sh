@@ -8,7 +8,7 @@ for pack in \
 do
     echo "entering $pack"
     pushd $pack
-    cabal clean
+    # cabal clean
     cabal install --global --root-cmd=sudo
     cabal sdist
     popd

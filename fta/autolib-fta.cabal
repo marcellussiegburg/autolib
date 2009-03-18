@@ -4,7 +4,7 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, mtl, array,
+Build-Depends:  base==4.*, mtl, array, 
 		autolib-todoc, autolib-reader, autolib-algorithm,
 		autolib-relation, autolib-util, autolib-rewriting, autolib-data, autolib-dot, autolib-fa
 Synopsis:       finite tree automata
