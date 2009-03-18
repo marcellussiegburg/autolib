@@ -1,0 +1,31 @@
+Name:           autolib-exp
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, parsec==2.*, HaXml>=1.13.3,
+		autolib-todoc, autolib-reader, autolib-reporter, autolib-data, autolib-util,
+		autolib-fa
+Synopsis:       regular expressions
+Exposed-modules:
+        Autolib.Exp
+        Autolib.Exp.Einfach
+        Autolib.Exp.Env
+        Autolib.Exp.Example
+        Autolib.Exp.Inter
+        Autolib.Exp.MyTokens
+        Autolib.Exp.Print
+        Autolib.Exp.Read
+        Autolib.Exp.Reverse
+        Autolib.Exp.Sanity
+        Autolib.Exp.Some
+        Autolib.Exp.Syntax
+        Autolib.Exp.Type
+	Autolib.NFA.Compact
+hs-source-dirs:	.
+extensions: DeriveDataTypeable, FlexibleContexts, UndecidableInstances, Rank2Types
+build-type: Simple
+
+
+
