@@ -10,6 +10,7 @@ do
     pushd $pack
     cabal clean
     cabal install --global --root-cmd=sudo
+    cabal sdist
     popd
     echo "leaving $pack"
 done
