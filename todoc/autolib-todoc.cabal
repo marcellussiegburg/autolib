@@ -1,0 +1,29 @@
+Name:           autolib-todoc
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, pretty, containers, xhtml, HaXml==1.13.3
+Synopsis:       formatting
+Exposed-modules:
+	Autolib.Informed
+	Autolib.ToDoc
+	Autolib.Multilingual
+	Autolib.Multilingual.Doc
+	Autolib.Multilingual.Html
+	Autolib.ToDoc.Beside
+	Autolib.ToDoc.Class
+	Autolib.ToDoc.Derived
+	Autolib.ToDoc.Dutch
+	Autolib.ToDoc.Frame
+	Autolib.ToDoc.Manual
+	Autolib.ToDoc.Typeable
+	Autolib.ToDoc.Xml
+	Autolib.Xml
+hs-source-dirs:	.
+extensions: 
+build-type: Simple
+
+
+

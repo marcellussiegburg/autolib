@@ -1,0 +1,17 @@
+Name:           autolib-data
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, containers, autolib-todoc, autolib-reader
+Synopsis:       wrapper for old Set and FiniteMap API 
+Exposed-modules:
+        Autolib.Set
+        Autolib.FiniteMap
+hs-source-dirs:	.
+extensions: 
+build-type: Simple
+
+
+

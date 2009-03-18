@@ -1,0 +1,30 @@
+Name:           autolib-reporter
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, autolib-todoc
+Synopsis:       reporting 
+Exposed-modules:
+        Autolib.Reporter
+        Autolib.Reporter.Boolean
+        Autolib.Reporter.Boolean.Data
+        Autolib.Reporter.Boolean.Eval
+        Autolib.Reporter.Boolean.Reader
+        Autolib.Reporter.Boolean.ToDoc
+        Autolib.Reporter.Boolean.Type
+        Autolib.Reporter.Checker
+        Autolib.Reporter.Iterator
+        Autolib.Reporter.Parallel
+        Autolib.Reporter.Proof
+        Autolib.Reporter.Result
+        Autolib.Reporter.Set
+        Autolib.Reporter.Stream
+        Autolib.Reporter.Type
+hs-source-dirs:	.
+extensions: 
+build-type: Simple
+
+
+
