@@ -8,7 +8,9 @@ Build-Depends:  base==4.*, containers, autolib-todoc, autolib-reader
 Synopsis:       wrapper for old Set and FiniteMap API 
 Exposed-modules:
         Autolib.Set
+        Autolib.Simple_Set
         Autolib.FiniteMap
+        Autolib.Data.Map
 hs-source-dirs:	.
 extensions: 
 build-type: Simple
