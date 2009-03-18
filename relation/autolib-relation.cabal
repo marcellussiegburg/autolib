@@ -4,7 +4,7 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, autolib-todoc
+Build-Depends:  base==4.*, autolib-algorithm, autolib-data, autolib-reader, autolib-todoc, autolib-util
 Synopsis:       relations
 Exposed-modules:
         Autolib.Relation
@@ -12,7 +12,7 @@ Exposed-modules:
         Autolib.Relation.Ops
         Autolib.Relation.Type
 hs-source-dirs:	.
-extensions: 
+extensions: FlexibleContexts, UndecidableInstances
 build-type: Simple
 
 
