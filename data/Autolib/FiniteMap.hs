@@ -1,15 +1,8 @@
 {-# OPTIONS -fallow-overlapping-instances -fglasgow-exts -fallow-undecidable-instances -fallow-incoherent-instances #-}
 
-#define OLDFM 0
-
 module Autolib.FiniteMap
 
-( 
-#if (OLDFM==1 || __GLASGOW_HASKELL__<604)
-  module Data.FiniteMap
-#else
-  module Autolib.Data.Map
-#endif
+( module Autolib.Data.Map
 , module Autolib.FiniteMap
 )
 
@@ -19,28 +12,14 @@ import Autolib.Reader
 import Autolib.ToDoc
 import Autolib.Set
 
-#if (OLDFM==1 || __GLASGOW_HASKELL__<604)
-import Data.FiniteMap
-#else
 import Autolib.Data.Map
-#endif
-
 import Autolib.Xml
 
 import Data.Typeable
 
-#if (OLDFM==1 || __GLASGOW_HASKELL__<604)
-instance ( Ord a, Ord b ) => Ord ( FiniteMap a b ) where
-    compare f g = compare (fmToList f) (fmToList g)
-#endif
-
 instance ( Typeable a, Typeable b ) => Typeable (FiniteMap a b) where
     typeOf (_ :: FiniteMap a b) = 
-#if (__GLASGOW_HASKELL__ < 604)
-	mkAppTy 
-#else
         mkTyConApp
-#endif
                (mkTyCon "FiniteMap") 
 	       [ typeOf (undefined :: a), typeOf (undefined :: b) ]
 

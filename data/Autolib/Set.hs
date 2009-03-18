@@ -16,8 +16,6 @@ import Data.Typeable
 import Autolib.ToDoc
 import Autolib.Reader
 
-import Autolib.Util.Teilfolgen
-
 import Autolib.Xml
 
 instance Ord a => Container (Set a) [a] where
@@ -46,11 +44,7 @@ instance Nice [a] => Nice (Set a)
 
 instance ( Typeable a ) =>  Typeable ( Set a ) where
     typeOf s = 
-#if (__GLASGOW_HASKELL__ < 604)
-        mkAppTy 
-#else
         mkTyConApp
-#endif
                 ( mkTyCon "Set" )
 		[ typeOf ((undefined :: Set a -> a) s) ]
 
@@ -101,4 +95,10 @@ teilmengen n = Prelude.map fromList . teilfolgen n . toList
 subsets ::  Ord a => Set a -> [ Set a ]
 subsets s = do n <- [ 0 .. cardinality s ] ; teilmengen n s
  
+teilfolgen :: Int -> [a] -> [[a]]
+teilfolgen k xs | k > length xs = []
+teilfolgen 0 xs = [[]]
+teilfolgen k (x : xs)
+    =  teilfolgen k xs
+    ++ do ys <- teilfolgen (k-1) xs ; return $ x : ys
  
