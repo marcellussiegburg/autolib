@@ -4,10 +4,14 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, array, process, random, mtl,
-		autolib-data, autolib-todoc
-Synopsis:       utilities
+Build-Depends:  base==4.*, array, process, random, mtl, parsec==2.*,
+		autolib-data, autolib-todoc, autolib-reader
+Synopsis:       utilities (this package is too large)
 Exposed-modules:
+	Autolib.Hash
+	Autolib.Size
+	Autolib.Symbol
+	Autolib.Letters
         Autolib.Util
         Autolib.Util.BFS
         Autolib.Util.Bild
