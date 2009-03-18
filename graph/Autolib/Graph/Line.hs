@@ -5,7 +5,7 @@ module Autolib.Graph.Line where
 import Autolib.Graph.Graph
 
 import Autolib.Set
-import Autolib.Util.Teilfolgen
+
 import Autolib.FiniteMap
 import Control.Monad ( guard )
 

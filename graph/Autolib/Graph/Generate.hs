@@ -13,6 +13,8 @@ import Autolib.Graph.Ops
 import Autolib.Util.Generate
 import Autolib.Util.Zufall
 
+import Autolib.XmlRpc ()
+
 import System.Random
 
 conf :: GraphC Int

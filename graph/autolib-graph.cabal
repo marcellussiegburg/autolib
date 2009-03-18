@@ -1,0 +1,44 @@
+Name:           autolib-graph
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, array, containers, random, haxr>=3000.1.1.1, haxr-th==3000.0.1, HaXml>=1.13.3, process,
+		autolib-reader, autolib-todoc, autolib-data, autolib-dot, autolib-util
+Synopsis:       graphs
+Exposed-modules:
+        Autolib.Graph
+        Autolib.Graph.Adj
+        Autolib.Graph.Basic
+        Autolib.Graph.Beispiele
+        Autolib.Graph.Brinkmann
+        Autolib.Graph.Display
+        Autolib.Graph.Gallery
+        Autolib.Graph.Generate
+        Autolib.Graph.Graph
+        Autolib.Graph.Incidence
+        Autolib.Graph.Isomorph
+        Autolib.Graph.Kante
+        Autolib.Graph.Kneser
+        Autolib.Graph.Knight
+        Autolib.Graph.Labeling
+        Autolib.Graph.Layout
+        Autolib.Graph.Line
+        Autolib.Graph.Mycielski
+        Autolib.Graph.Ops
+        Autolib.Graph.Reading.Type
+        Autolib.Graph.SpanTree
+        Autolib.Graph.Type
+        Autolib.Graph.Util
+        Autolib.Graph.Valid
+        Autolib.GVKnoten.Layout
+        Autolib.GVKnoten.Parser
+        Autolib.GVKnoten.Type
+hs-source-dirs:	.
+ghc-options: -fglasgow-exts
+extensions: MultiParamTypeClasses, FunctionalDependencies, DeriveDataTypeable, FlexibleContexts, UndecidableInstances, FlexibleInstances, IncoherentInstances, OverlappingInstances
+build-type: Simple
+
+
+

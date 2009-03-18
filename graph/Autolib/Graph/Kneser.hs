@@ -8,7 +8,7 @@ import Autolib.Graph.Ops
 import Autolib.Graph.Display
 
 import Autolib.Set
-import Autolib.Util.Teilfolgen
+-- import Autolib.Util.Teilfolgen
 import Control.Monad ( guard )
 import Autolib.ToDoc
 

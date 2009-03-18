@@ -86,14 +86,14 @@ dot_numbered :: ( GraphC a, Show b )
 	     => Graph a -> ( a -> b ) -> Autolib.Dot.Graph.Type
 dot_numbered g num = dot_weight_numbered g num (\_->Nothing)
 
-dot_weight_numbered :: ( GraphC a, Show b ) 
+dot_weight_numbered :: ( GraphC a, Show a, Show b ) 
 	            => Graph a 
 		    -> ( a -> b ) 
 		    -> ( Kante a -> Maybe String )
 		    -> Autolib.Dot.Graph.Type
 dot_weight_numbered g num w = dot_numbered' g num w (\_->Nothing)
 
-dot_numbered' :: ( GraphC a, Show b ) 
+dot_numbered' :: ( GraphC a, Show a, Show b ) 
 	      => Graph a 
 	      -> ( a -> b ) 
 	      -> ( Kante a -> Maybe String ) -- label

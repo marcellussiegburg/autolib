@@ -98,6 +98,7 @@ mkGraph v e = Graph
 
 class (  -- Haskell2Xml a, Haskell2Xml (Kante a)
         Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+      , Show a
       , Hash a
       , R.GraphC a
       , Typeable a
@@ -108,6 +109,7 @@ class (  -- Haskell2Xml a, Haskell2Xml (Kante a)
 
 instance (  -- Haskell2Xml a, Haskell2Xml (Kante a)
         Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+      , Show a
       , Hash a
       , R.GraphC a
       , Typeable a
