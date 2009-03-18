@@ -11,8 +11,9 @@ Exposed-modules:
         Autolib.Relation.Basic
         Autolib.Relation.Ops
         Autolib.Relation.Type
+	Autolib.Partial
 hs-source-dirs:	.
-extensions: FlexibleContexts, UndecidableInstances
+extensions: FlexibleContexts, UndecidableInstances, FlexibleInstances, IncoherentInstances
 build-type: Simple
 
 

@@ -19,6 +19,7 @@ Exposed-modules:
         Autolib.SRS.Rule
        Autolib.Virtualist
        Autolib.Choose
+       Autolib.Pick
          Autolib.TES
         Autolib.TES.Apply
         Autolib.TES.Binu

@@ -22,7 +22,8 @@ Exposed-modules:
 	Autolib.ToDoc.Xml
 	Autolib.Xml
 hs-source-dirs:	.
-extensions: 
+ghc-options: -fglasgow-exts
+extensions: IncoherentInstances
 build-type: Simple
 
 

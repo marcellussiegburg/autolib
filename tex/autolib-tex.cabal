@@ -8,9 +8,10 @@ Build-Depends:  base==4.*, autolib-todoc
 Synopsis:       generic latex interface
 Exposed-modules:
         Autolib.Tex
+        Autolib.LaTeX
         Autolib.ToTex
 hs-source-dirs:	.
-extensions: FlexibleInstances, UndecidableInstances
+extensions: FlexibleInstances, UndecidableInstances, IncoherentInstances
 build-type: Simple
 
 

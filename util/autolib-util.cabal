@@ -42,7 +42,8 @@ Exposed-modules:
         Autolib.Util.Wort
         Autolib.Util.Zufall
 hs-source-dirs:	.
-extensions: TypeSynonymInstances, ScopedTypeVariables, FlexibleContexts
+ghc-options: -fglasgow-exts
+extensions: TypeSynonymInstances, ScopedTypeVariables, FlexibleContexts, IncoherentInstances, OverlappingInstances
 build-type: Simple
 
 

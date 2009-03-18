@@ -23,6 +23,7 @@ Exposed-modules:
         Autolib.Reporter.Stream
         Autolib.Reporter.Type
 hs-source-dirs:	.
+ghc-options: -fglasgow-exts
 extensions: TypeSynonymInstances
 build-type: Simple
 

@@ -9,6 +9,9 @@ Build-Depends:  base==4.*, random, process, containers, directory, parsec==2.*,
 Synopsis:       interface to dot (graphviz language)
 Exposed-modules:
         Autolib.Boxing
+        Autolib.Boxing.Position
+        Autolib.Boxing.Class
+        Autolib.Boxing.Ops
         Autolib.Dot
         Autolib.Dot.Attribute
         Autolib.Dot.Dot
@@ -17,6 +20,7 @@ Exposed-modules:
         Autolib.Dot.Graph
         Autolib.Dot.Node
         Autolib.Dot.Parsec
+        Autolib.Local
 hs-source-dirs:	.
 extensions: 
 build-type: Simple

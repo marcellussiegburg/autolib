@@ -13,9 +13,9 @@ Exposed-modules:
 	Autolib.Reader.Derived
 	Autolib.Reader.Instances
 	Autolib.Reader.Link
-
 hs-source-dirs:	.
-extensions: 
+ghc-options: -fglasgow-exts
+extensions: IncoherentInstances
 build-type: Simple
 
 
