@@ -1,0 +1,32 @@
+Name:           autolib-fta
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, mtl, array,
+		autolib-todoc, autolib-reader, autolib-algorithm,
+		autolib-relation, autolib-util, autolib-rewriting, autolib-data, autolib-dot, autolib-fa
+Synopsis:       finite tree automata
+Exposed-modules:
+        Autolib.NFTA
+        Autolib.NFTA.Basic
+        Autolib.NFTA.Compact
+        Autolib.NFTA.Complement
+        Autolib.NFTA.Cross
+        Autolib.NFTA.Det
+        Autolib.NFTA.Dot
+        Autolib.NFTA.Epsilon
+        Autolib.NFTA.Insert
+        Autolib.NFTA.Normalize
+        Autolib.NFTA.Ops
+        Autolib.NFTA.Path
+        Autolib.NFTA.Shortest
+        Autolib.NFTA.Trim
+        Autolib.NFTA.Type
+hs-source-dirs:	.
+extensions: MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, UndecidableInstances, ScopedTypeVariables
+build-type: Simple
+
+
+
