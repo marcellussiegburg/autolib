@@ -8,6 +8,8 @@ Build-Depends:  base==4.*, array, containers, random, haxr>=3000.1.1.1, haxr-th=
 		autolib-reader, autolib-todoc, autolib-data, autolib-dot, autolib-util
 Synopsis:       graphs
 Exposed-modules:
+        Autolib.Number
+        Autolib.Iso
         Autolib.Graph
         Autolib.Graph.Adj
         Autolib.Graph.Basic
