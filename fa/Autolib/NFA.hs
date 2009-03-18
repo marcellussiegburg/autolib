@@ -1,7 +1,7 @@
 module Autolib.NFA 
 
 ( module Autolib.NFA.Type
-, module Autolib.NFA.Interface
+-- , module Autolib.NFA.Interface
 , module Autolib.NFA.Dot
 , module Autolib.NFA.Shortest
 , module Autolib.NFA.Minimize
@@ -18,7 +18,7 @@ module Autolib.NFA
 where
 
 import Autolib.NFA.Type hiding ( subseteq )
-import Autolib.NFA.Interface
+-- import Autolib.NFA.Interface
 import Autolib.NFA.Dot
 import Autolib.NFA.Shortest
 import Autolib.NFA.Minimize
@@ -32,7 +32,7 @@ import Autolib.NFA.Eq
 import Autolib.NFA.Restrict
 import Autolib.NFA.Check
 import Autolib.NFA.Example
-import Autolib.NFA.Compact
+-- import Autolib.NFA.Compact
 import Autolib.NFA.Finite
 import Autolib.NFA.Factors
 import Autolib.NFA.Link

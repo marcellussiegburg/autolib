@@ -1,0 +1,54 @@
+Name:           autolib-fa
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, HaXml>=1.13.3, mtl,
+		autolib-algorithm, autolib-reader, autolib-todoc, autolib-reporter,
+		autolib-data, autolib-relation, autolib-util, autolib-dot
+Synopsis:       finite automata (for words) 
+Exposed-modules:
+        Autolib.ENFA
+        Autolib.ENFA.Data
+        Autolib.ENFA.Dot
+        Autolib.ENFA.Link
+        Autolib.ENFA.Op
+        Autolib.ENFA.Path
+        Autolib.ENFA.Reach
+        Autolib.ENFA.Uneps
+        Autolib.NFA
+        Autolib.NFA.Basic
+        Autolib.NFA.Check
+        Autolib.NFA.Data
+        Autolib.NFA.Det
+        Autolib.NFA.Dot
+        Autolib.NFA.Epsilon
+        Autolib.NFA.Eq
+        Autolib.NFA.Example
+        Autolib.NFA.Factors
+        Autolib.NFA.Finite
+        Autolib.NFA.Hull
+        Autolib.NFA.Link
+        Autolib.NFA.Minimize
+        Autolib.NFA.Minus
+        Autolib.NFA.Mirror
+        Autolib.NFA.Normalize
+        Autolib.NFA.Ops
+        Autolib.NFA.Quotient
+        Autolib.NFA.Restrict
+        Autolib.NFA.Shortest
+        Autolib.NFA.Shrink
+        Autolib.NFA.Shuffle
+        Autolib.NFA.Some
+        Autolib.NFA.Step
+        Autolib.NFA.Subseteq
+        Autolib.NFA.Trim
+        Autolib.NFA.Type
+hs-source-dirs:	.
+extensions: ScopedTypeVariables, FlexibleContexts, FlexibleInstances, MultiParamTypeClasses, OverlappingInstances,
+	    DeriveDataTypeable, IncoherentInstances
+build-type: Simple
+
+
+

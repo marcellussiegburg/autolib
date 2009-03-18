@@ -3,7 +3,7 @@
 module Autolib.NFA.Dot
 
 ( module Autolib.Dot.Dot
-, toDot_layered
+-- , toDot_layered
 )
 
 where
@@ -14,7 +14,7 @@ import Autolib.Dot.Dot
 import qualified Autolib.Dot.Graph
 import qualified Autolib.Dot.Node
 import qualified Autolib.Dot.Edge
-import qualified Autolib.Dot.Arrange
+-- import qualified Autolib.Dot.Arrange
 
 import Autolib.ToDoc
 
@@ -30,6 +30,7 @@ numeric a =
     let fm = listToFM $ zip (lstates a) $ map show [ 0 :: Int .. ] 
     in  fromMaybe (error "NFA.Dot.numeric") . lookupFM fm
 
+{-
 toDot_layered :: ( NFAC c a , Show a, Show c )
 	      => NFA c a 
 	      -> [ Set a ] 
@@ -42,9 +43,10 @@ toDot_layered a xss = do
 	      pre <- inits $ map (smap num) xss
 	      return $ unionManySets pre
     Autolib.Dot.Arrange.layered d yss
+-}
 
     
--- zustände werden mit [0 .. ] durchnumeriert
+-- | zustände werden mit [0 .. ] durchnumeriert
 -- akzeptierende zustände bekommen doppelkreis drumrum
 -- startzustände bekommen pfeil dran,
 -- dieser kommt aus unsichtbarem zustand mit idents U0, U1, ..
