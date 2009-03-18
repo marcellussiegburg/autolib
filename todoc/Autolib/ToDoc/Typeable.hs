@@ -12,15 +12,9 @@ import Autolib.ToDoc.Dutch
 instance ToDoc TypeRep where
     toDocPrec p t = 
 	let 
-#if (__GLASGOW_HASKELL__ < 604)
-            con  = typerepTyCon t
-	    args = typerepArgs t
-	    str  = tyconString con
-#else
             con  = typeRepTyCon t
 	    args = typeRepArgs t
 	    str  = tyConString con
-#endif
 	in case args of
 	    [] -> text str
 	    [x] | str == "[]" -> brackets $ toDocPrec 0 x
