@@ -24,7 +24,6 @@ import Autolib.Util.Chmod
 import Autolib.Local
 import Autolib.Reader
 import Autolib.ToDoc
-import Autolib.Debug
 
 data Layout_Program = Dot
 		    | Neato
@@ -84,7 +83,7 @@ meng = mot "-Tpng" ".png"
 -- | write command line to log file, then execute
 system' :: String -> IO ExitCode
 system' line = do
-    Autolib.Debug.debug $ "system: " ++ line
+    -- Autolib.Debug.debug $ "system: " ++ line
     system line
 
 mot :: ToDot a => String -> String -> FilePath -> a -> IO FilePath

@@ -1,0 +1,25 @@
+Name:           autolib-dot
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  base==4.*, random, process, containers, directory, parsec==2.*,
+		autolib-todoc, autolib-reader, autolib-data, autolib-util, autolib-output, autolib-reporter
+Synopsis:       interface to dot (graphviz language)
+Exposed-modules:
+        Autolib.Boxing
+        Autolib.Dot
+        Autolib.Dot.Attribute
+        Autolib.Dot.Dot
+        Autolib.Dot.Dotty
+        Autolib.Dot.Edge
+        Autolib.Dot.Graph
+        Autolib.Dot.Node
+        Autolib.Dot.Parsec
+hs-source-dirs:	.
+extensions: 
+build-type: Simple
+
+
+

@@ -14,7 +14,6 @@ import qualified Autolib.Output as Output
 import Autolib.Dot.Dot
 import qualified Autolib.Dot.Graph
 import Autolib.Size
-import Autolib.Debug
 
 import System.IO
 import System.Directory
@@ -42,7 +41,8 @@ peng a = do
         flag <- doesDirectoryExist pics
         when ( not flag ) $ createDirectory pics
         done <- do
-	       debug $ "looking for: " ++ pngfile
+	       let debug msg = return ()
+    	       debug $ "looking for: " ++ pngfile
                ex <- doesFileExist pngfile
 	       when (not ex) $ error "not"
 	       debug $ "looking for: " ++ objfile
