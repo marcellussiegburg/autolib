@@ -41,11 +41,7 @@ data Identifier = Identifier
 
 instance Typeable Identifier where
     typeOf _ = 
-#if (__GLASGOW_HASKELL__ < 604)
-        mkAppTy
-#else
         mkTyConApp
-#endif
                    (mkTyCon "Identifier") [] -- ??
 
 instance Hash Identifier where hash = hash_code
