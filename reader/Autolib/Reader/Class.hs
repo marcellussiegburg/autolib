@@ -3,7 +3,7 @@
 module Autolib.Reader.Class 
 
 ( module Autolib.Reader.Class
-, module Text.ParserCombinators.Parsec
+, module Text.ParserCombinators.Parsec 
 , guard
 )
 
@@ -12,7 +12,7 @@ where
 --   $Id$
 
 import Text.ParserCombinators.Parsec 
-        hiding ( label )
+        hiding ( label, State )
 
 import Control.Monad ( guard )
 import Autolib.Reader.Basic ( my_parens )
