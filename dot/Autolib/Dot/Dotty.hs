@@ -44,7 +44,7 @@ peng a = do
 	       let debug msg = return ()
     	       debug $ "looking for: " ++ pngfile
                ex <- doesFileExist pngfile
-	       when (not ex) $ error "not"
+	       when (not ex) $ ioError $ userError "not"
 	       debug $ "looking for: " ++ objfile
                cs <- readFile objfile
                debug $ "found      : " ++ objfile
