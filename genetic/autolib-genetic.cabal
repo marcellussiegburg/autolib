@@ -1,0 +1,17 @@
+Name:           autolib-genetic
+Version:        1.0
+License:        GPL
+Author:         Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Build-Depends:  base==4.*, autolib-todoc, autolib-data, autolib-util
+Synopsis:       evolutionary algorithms
+Exposed-modules:
+        Autolib.Genetic
+        Autolib.Genetic.Config
+        Autolib.Genetic.Central
+hs-source-dirs:	.
+extensions: FlexibleContexts, UndecidableInstances, FlexibleInstances, IncoherentInstances
+build-type: Simple
+
+
+
