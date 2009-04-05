@@ -5,8 +5,10 @@
 
 module Web.Form 
 
-( render, local, emit 
+( Form
+, render, local, emit 
 , Web.Form.text , glue
+, gensym
 )
 
 where
@@ -17,12 +19,14 @@ import qualified Web.Local as L
 import Text.XHtml
 
 import Control.Monad.State
+import Control.Monad.Error
 
 
 type Env = [(String,String)]
 
 type Form m = StateT Int
-                    ( Local Html m )
+                 ( ErrorT String 
+                              ( Local Html m))
 
 -- text :: Monad m => String -> Form m ()
 text cs = emit $ Text.XHtml.stringToHtml cs
@@ -31,18 +35,32 @@ glue :: [Html] -> Html
 glue = foldr1 (+++)
 
 local = L.local
-emit = lift . L.emit
+emit = lift . lift . L.emit
+
+gensym :: Monad m 
+       => String 
+       -> Form m String
+gensym prefix = do
+    i <- get
+    put $ succ i
+    return $ prefix ++ show i
 
 render :: Monad m 
        => Form m ()
        -> m Html
 render ( f0 :: Form m () ) = do
-    let f1 :: Local Html m ((), Int)
+    let f1 :: ErrorT String (Local Html m) ((), Int)
         f1 = runStateT f0 0
-    let f4 :: m Html
-        f4 = L.runLocalT $ L.global glue f1
-    x <- f4
-    return x
+
+    let f2 :: Local Html m ( Either String ((), Int))
+        f2 = runErrorT f1
+
+    let f3 :: m Html
+        f3 = L.runLocalT $ L.global glue $ f2
+
+    f3
+
+
 
 
 
