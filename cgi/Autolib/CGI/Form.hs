@@ -7,7 +7,7 @@ module Web.Form
 
 ( Form
 , render, local, emit, glue
-, gensym
+, gensym, gensym_pref
 )
 
 where
