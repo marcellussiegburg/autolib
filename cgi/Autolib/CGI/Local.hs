@@ -16,9 +16,9 @@ import Control.Monad.State
 
 type Local a = StateT ( W.Store a )
 
-runLocalT :: Monad m => Local a m b -> m a
+runLocalT :: Monad m => Local a m b -> m (a,b)
 runLocalT f = do
-    ( b, s ) <- runStateT ( do f ; collect ) W.empty
+    ( b, s ) <- runStateT ( do x <- f ; c <- collect; return (c,x) ) W.empty
     return b
 
 -- | add Html element to topmost container

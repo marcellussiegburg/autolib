@@ -6,9 +6,7 @@
 module Web.Form 
 
 ( Form
-, render, local, emit 
-, Web.Form.text 
-, glue, table, row
+, render, local, emit, glue
 , gensym
 )
 
@@ -23,40 +21,32 @@ import qualified Text.XHtml as X
 import Control.Monad.State
 import Control.Monad.Error
 
-
-type Env = [(String,String)]
-
 type Form m = StateT Int
                  ( ErrorT String 
                        ( Local Html m ))
 
-text :: Monad m => String -> Form m ()
-text cs = emit $ X.stringToHtml cs
-
-glue :: [Html] -> Html
-glue = foldr1 (X.+++)
-
-row :: Monad m => Form m a -> Form m a
-row   = local ( glue . map X.td )
-
--- table :: Monad m => Form m a -> Form m a
-table = local ( X.table . glue . map X.tr ) 
-
 local combine action = do
-    lift $ modify $ L.open combine
+    lift $ lift $ modify $ L.open combine
     x <- action
-    lift $ modify $ L.close 
+    lift $ lift $ modify $ L.close 
     return x
 
 emit = lift . lift . L.emit
 
-gensym :: Monad m 
+gensym = gensym_pref "G"
+
+gensym_pref :: Monad m 
        => String 
        -> Form m String
-gensym prefix = do
+gensym_pref prefix = do
     i <- get
     put $ succ i
     return $ prefix ++ show i
+
+
+glue :: [Html] -> Html
+glue = X.concatHtml
+
 
 render :: Monad m 
        => Form m ()
@@ -68,10 +58,12 @@ render ( f0 :: Form m () ) = do
     let f2 :: Local Html m ( Either String ((), Int))
         f2 = runErrorT f1
 
-    let f3 :: m Html
+    let f3 :: m (Html, Either String ((), Int))
         f3 = L.runLocalT $ L.global glue $ f2
 
-    f3
+    ( h, x ) <- f3
+    return $ X.form h X.! [ X.method "POST" , X.enctype "multipart/form-data" ]
+
 
 
 
