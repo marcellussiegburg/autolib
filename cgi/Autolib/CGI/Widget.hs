@@ -6,6 +6,7 @@ module Web.Widget
 , text 
 , table, btable, row
 , textfield, submit
+, menu
 , h3, h2, h1, br, hr
 )
 
@@ -18,7 +19,8 @@ import Happstack.Server hiding ( look )
 import qualified Text.XHtml as X
 import Control.Monad.Reader hiding ( local )
 import Data.ByteString.Lazy.Char8 ( unpack )
-
+import Data.Maybe ( isJust, catMaybes, listToMaybe )
+import Control.Monad ( guard )
 
 newtype Env = Env [(String,String)]
 
@@ -44,12 +46,26 @@ textfield cs = do
 
 submit :: ( ServerMonad m, MonadPlus m ) 
        => String
-       -> Form m ( Maybe String )
+       -> Form m Bool
 submit cs = do
     tag :: String <- gensym
     val :: Maybe String <- lift $ lift $ lift $ look tag
     emit $ X.submit tag cs
-    return val
+    return $ isJust val
+
+menu ::  ( ServerMonad m, MonadPlus m ) 
+       => String 
+       -> [ (String, a) ]
+       -> Form m ( Maybe a )
+menu title options = table $ row $ do
+    text title
+    items <- forM options $ \ ( name, value ) -> do
+        s <- submit name
+        return $ do guard s ; return ( name, value )
+    return $ do
+        ( name, value ) <- listToMaybe $ catMaybes items
+        return value
+
 
 br ::  ( ServerMonad m, MonadPlus m ) 
           => Form m ()
