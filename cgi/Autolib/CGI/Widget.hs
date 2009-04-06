@@ -6,6 +6,7 @@ module Web.Widget
 , text 
 , table, btable, row
 , textfield, submit
+, h3, h2, h1, br, hr
 )
 
 where
@@ -50,6 +51,25 @@ submit cs = do
     emit $ X.submit tag cs
     return val
 
+br ::  ( ServerMonad m, MonadPlus m ) 
+          => Form m ()
+br = emit $ X.br
+
+hr ::  ( ServerMonad m, MonadPlus m ) 
+          => Form m ()
+hr = emit $ X.hr
+
+h3 ::  ( ServerMonad m, MonadPlus m ) 
+          => String -> Form m ()
+h3 cs = emit $ X.h3 $ X.stringToHtml cs
+
+h2 ::  ( ServerMonad m, MonadPlus m ) 
+          => String -> Form m ()
+h2 cs = emit $ X.h2 $ X.stringToHtml cs
+
+h1 ::  ( ServerMonad m, MonadPlus m ) 
+          => String -> Form m ()
+h1 cs = emit $ X.h1 $ X.stringToHtml cs
 
 text :: ( ServerMonad m, MonadPlus m ) 
           => String -> Form m ()
