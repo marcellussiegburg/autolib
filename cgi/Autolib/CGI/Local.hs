@@ -5,6 +5,7 @@ module Web.Local
 
 ( Local, emit, local, global, collect 
 , runLocalT
+, W.open, W.close
 )
 
 where
@@ -30,7 +31,7 @@ emit h = do
 -- | execute a statement in a fresh container,
 -- after execution, apply combination function
 -- and emit result to underlying container
-local :: Monad m 
+local :: ( Monad m )
       => ( [a] -> a ) 
       -> Local a m b
       -> Local a m b
