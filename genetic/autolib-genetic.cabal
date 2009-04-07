@@ -9,6 +9,7 @@ Exposed-modules:
         Autolib.Genetic
         Autolib.Genetic.Config
         Autolib.Genetic.Central
+        Autolib.Genetic.Operator
 hs-source-dirs:	.
 extensions: FlexibleContexts, UndecidableInstances, FlexibleInstances, IncoherentInstances
 build-type: Simple

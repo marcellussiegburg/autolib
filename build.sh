@@ -2,6 +2,7 @@
 
 # in proper order:
 for pack in \
+    cgi \
     todoc tex reader output data reporter \
     algorithm util relation \
     dot fa exp rewriting fta graph lib
