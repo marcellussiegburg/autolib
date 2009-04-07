@@ -1,0 +1,17 @@
+Name:           autolib
+Version:        1.0
+License:        GPL
+Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends:  autolib-todoc, autolib-tex, autolib-reader, autolib-output, autolib-data, 
+		autolib-reporter, autolib-algorithm, autolib-util, autolib-relation, 
+		autolib-dot, autolib-fa, autolib-exp, autolib-rewriting, autolib-fta, autolib-graph 
+Synopsis:       virtual package that depends on autolib-*
+Exposed-modules:
+hs-source-dirs:	.
+extensions: 
+build-type: Simple
+
+
+

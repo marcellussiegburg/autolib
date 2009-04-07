@@ -1,13 +1,28 @@
 #!/bin/bash
 
-pre=autolib
-version=1.0
+version=1.0 # version info must be extracted from individual .cabal files
 
-for cab in */package.cabal
+target=archive
+
+rm -rf $target
+
+for cab in */*.cabal
 do
     base=$(dirname $cab)
-    cp -v $cab archive/$pre-$base.cabal
-    cp -v $base/dist/*.tar.gz archive/
+    name=$(basename $cab .cabal)
+    xcab=$target/$name/$version/$(basename $cab)
+    mkdir -p $(dirname $xcab)
+    cp -v $cab $xcab
+    ball=$target/packages/$name-$version/tarball
+    mkdir -p $(dirname $ball)
+    cp -v $base/dist/$name-$version.tar.gz $ball
 done
 
-tar cvfz 00-index.tar.gz archive/*.cabal
+( cd $target ; tar cvfz 00-index.tar.gz $(find . -name "*.cabal") )
+
+for cab in */*.cabal
+do
+    name=$(basename $cab .cabal)
+    rm -rfv $target/$name
+done
+
