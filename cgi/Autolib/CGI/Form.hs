@@ -1,4 +1,4 @@
-{-# language NoMonomorphismRestriction, ScopedTypeVariables #-}
+{-# language NoMonomorphismRestriction, ScopedTypeVariables, PatternSignatures #-}
 
 -- | produce an HTML document with input forms.
 -- for use in a session, all the state is in the CGI parameters.

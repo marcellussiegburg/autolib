@@ -1,4 +1,4 @@
-{-# language NoMonomorphismRestriction, ScopedTypeVariables #-}
+{-# language NoMonomorphismRestriction, ScopedTypeVariables, PatternSignatures #-}
 
 
 module Autolib.CGI.Widget 
