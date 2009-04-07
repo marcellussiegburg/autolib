@@ -7,7 +7,8 @@ Maintainer:	Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/autolib/
 Category:	Web
 Synopsis:       Dynamic web page generation
-description:	Dynamic web page generation
+description:	Dynamic web page generation.
+	general installation instructions: <http://dfa.imn.htwk-leipzig.de/packages/lib/>
 hs-source-dirs:	.
 build-type: Simple
 Cabal-version: >= 1.2
