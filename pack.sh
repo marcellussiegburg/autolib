@@ -9,6 +9,7 @@ rm -rf $target
 for cab in */*.cabal
 do
     base=$(dirname $cab)
+    ( cd $base ; cabal configure && cabal sdist )
     name=$(basename $cab .cabal)
     xcab=$target/$name/$version/$(basename $cab)
     mkdir -p $(dirname $xcab)
