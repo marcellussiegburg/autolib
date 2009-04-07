@@ -21,6 +21,21 @@ import qualified Text.XHtml as X
 import Control.Monad.State
 import Control.Monad.Error
 
+-- | This is the monad (it should really be abstract).
+--
+-- 'StateT' is needed to count up the widget numbers
+-- (they start with zero for each page, and it is important that
+-- on each page generation, numbers are identical: 
+-- the session state is stored in the input and hidden widgets,
+-- and it needs to be found again)
+--
+-- 'ErrorT' is needed because we want to stop page generation
+-- on error (e.g. if some required input is missing).
+-- 
+-- 'Local' is needed to properly close all HTML elements
+--
+-- the parameter 'm' is a monad (it would typically be the state monad from happstack)
+
 type Form m = StateT Int
                  ( ErrorT String 
                        ( Local Html m ))

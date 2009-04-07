@@ -1,19 +1,20 @@
 Name:           autolib-cgi
-Version:        1.0
+Version:        0.1
 License:        GPL
 License-file:	gpl-2.0.txt
 Author:         Johannes Waldmann
 Maintainer:	Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:	Web
 Synopsis:       Dynamic web page generation
 description:	Dynamic web page generation
 hs-source-dirs:	.
 build-type: Simple
 Cabal-version: >= 1.2
 Library
-    Build-depends:  base,happstack,bytestring,mtl,xhtml,happstack-server,happstack-state
-    Exposed-modules: Autolib.CGI.Widget,Autolib.CGI.Form
-    Other-modules: Autolib.CGI.Local,Autolib.CGI.Container,Autolib.CGI.Store
+    Build-depends:  base,bytestring,mtl,xhtml,happstack-server
+    Exposed-modules: Autolib.CGI,Autolib.CGI.Widget,Autolib.CGI.Form
+                     Autolib.CGI.Local,Autolib.CGI.Container,Autolib.CGI.Store
 Executable Menu_Test
     Build-depends:  base,happstack,bytestring,mtl,xhtml,happstack-server,happstack-state
     Main-is: Menu_Test.hs    

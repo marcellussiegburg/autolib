@@ -1,6 +1,6 @@
 -- | start this executable, then browse to http://localhost:8000
 
-import Autolib.CGI.Widget
+import Autolib.CGI
 import Happstack.Server
 
 main = simpleHTTP nullConf $ render menu_test
