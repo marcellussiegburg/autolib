@@ -1,4 +1,4 @@
-module Web.Store 
+module Autolib.CGI.Store 
 
 ( Store
 , empty, push, open, close, collect
@@ -6,7 +6,7 @@ module Web.Store
 
 where
 
-import Web.Container
+import Autolib.CGI.Container
 
 -- | storage is a stack of containers
 data Store a = Store { contents :: [ Container a ] }

@@ -1,23 +1,47 @@
 {-# language NoMonomorphismRestriction, ScopedTypeVariables #-}
 
-module Web.Widget 
+-- | This module defines functions that let you write code like this:
+-- 
+-- > import Autolib.CGI.Widget
+-- > import Happstack.Server
+-- >
+-- > main = simpleHTTP nullConf $ render menu_test
+-- >
+-- > menu_test = do
+-- >    h3 "menu_test"
+-- >    (n,c) <- table $ do
+-- >        n <- menu "pick a number" [ ("1", 1), ("2", 2), ("3", 3) ]
+-- >        c <- menu "pick a letter" [ ("a", 'a'), ("b", 'b'), ("c", 'c') ]
+-- >        return (n,c)
+-- >   text $ "combined selection:" ++ show (n,c) 
+
+
+module Autolib.CGI.Widget 
 
 ( Form, render, getenv
-, text 
-, table, btable, td, tr, row
+-- * nonblocking input widgets
 , textfield, password, submit
 , textarea
+
+-- * blocking input widgets
 , menu
+-- * formatting combinators
+, table, btable, td, tr, row
+-- * Formatting atoms
+, text 
 , h3, h2, h1, br, hr
--- convenience re-exports
+-- * convenience re-exports
 , ServerMonad, MonadPlus
+-- $intro
 )
+
+
 
 where
 
 import Prelude hiding ( concat )
 
-import Web.Form
+import Autolib.CGI.Form
 
 import Happstack.Server hiding ( look )
 
@@ -47,7 +71,6 @@ look tag = withData $ \ (Env env) -> do
 
 ----------------------------------------------------------------------------------
 
--- * nonblocking input widgets
 
 -- | for one-line input text. with default. input is echoed.
 -- this widget is non-blocking (always successful)
@@ -100,7 +123,10 @@ textarea cs = do
 
 -- | a submit button, with label.
 -- This widget is non-blocking.
--- A blocking effect can be achieved with "do c <- submit "check"; guard c"
+-- A blocking effect can be achieved with 
+-- 
+-- > do c <- submit "check"; guard c
+-- 
 submit :: ( ServerMonad m, MonadPlus m ) 
        => String
        -> Form m Bool
@@ -111,8 +137,6 @@ submit cs = do
     return $ isJust val
 
 
--- * blocking input widgets
-
 -- | if this menu is met for the first time, it blocks
 -- (a selection must be made).
 -- The previous selection is remembered (in a hidden element)
@@ -120,6 +144,7 @@ submit cs = do
 -- This menu is a table row consisting of three table data elements:
 -- the name of the menu, the options, and the chosen option.
 -- The menu should be surrounded by table environment.
+
 menu ::  ( ServerMonad m, MonadPlus m ) 
        => String 
        -> [ (String, a) ]
@@ -139,7 +164,6 @@ menu title options = tr $ do
          _ -> mzero
 
 
--- * Formatting atoms
 
 -- | line break
 br ::  ( ServerMonad m, MonadPlus m ) 
@@ -172,37 +196,33 @@ text :: ( ServerMonad m, MonadPlus m )
 text cs = emit $ X.stringToHtml cs
 
 
--- * formatting combinators
--- these will be applied to monadic actions.
--- each monadic action (possibly) produces an output list
-
 -- | all the output in this group is appended, resulting in one item.
 concat :: ( ServerMonad m, MonadPlus m ) 
           => Form m a -> Form m a
 concat   = local ( glue  )
 
--- | concat all group items and wrap in "table data" element
+-- | concat all group items and wrap in table data element
 td :: ( ServerMonad m, MonadPlus m ) 
           => Form m a -> Form m a
 td   = local ( X.td . glue )
 
--- | concat all group items and wrap in "table row" element
+-- | concat all group items and wrap in table row element
 tr :: ( ServerMonad m, MonadPlus m ) 
           => Form m a -> Form m a
 tr = local ( X.tr . glue ) 
 
--- | for backward compatibility: each item in "table data", concatenation in "table row"
+-- | for backward compatibility: each item in table data, concatenation in table row
 row :: ( ServerMonad m, MonadPlus m ) 
           => Form m a -> Form m a
 row = local ( X.tr . glue . map X.td ) 
 
 
--- | concat all group items and wrap in "table" element
+-- | concat all group items and wrap in table element
 table :: ( ServerMonad m, MonadPlus m ) 
           => Form m a -> Form m a
 table = local ( X.table . glue ) 
 
--- | concat all group items and wrap in "table" element with border
+-- | concat all group items and wrap in table element with border
 btable :: ( ServerMonad m, MonadPlus m ) 
           => Form m a -> Form m a
 btable = local ( ( X.! [ X.border 1 ] ) . X.table . glue ) 

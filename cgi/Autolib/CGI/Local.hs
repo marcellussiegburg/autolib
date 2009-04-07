@@ -1,7 +1,7 @@
 -- | produce an HTML document with input forms.
 -- for use in a session, all the state is in the CGI parameters.
 
-module Web.Local
+module Autolib.CGI.Local
 
 ( Local, emit, local, global, collect 
 , runLocalT
@@ -10,7 +10,7 @@ module Web.Local
 
 where
 
-import qualified Web.Store as W
+import qualified Autolib.CGI.Store as W
 
 import Control.Monad.State
 

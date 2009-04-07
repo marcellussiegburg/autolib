@@ -1,4 +1,4 @@
-module Web.Container 
+module Autolib.CGI.Container 
 
 ( Container, fresh, add, dump )
 

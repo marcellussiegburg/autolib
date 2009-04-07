@@ -3,7 +3,7 @@
 -- | produce an HTML document with input forms.
 -- for use in a session, all the state is in the CGI parameters.
 
-module Web.Form 
+module Autolib.CGI.Form 
 
 ( Form
 , render, local, emit, glue
@@ -12,8 +12,8 @@ module Web.Form
 
 where
 
-import Web.Local ( Local )
-import qualified Web.Local as L
+import Autolib.CGI.Local ( Local )
+import qualified Autolib.CGI.Local as L
 
 import Text.XHtml (Html)
 import qualified Text.XHtml as X

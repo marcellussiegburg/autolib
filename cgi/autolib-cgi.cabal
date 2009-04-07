@@ -1,58 +1,22 @@
-Name:           autolib-util
+Name:           autolib-cgi
 Version:        1.0
 License:        GPL
-Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
+License-file:	gpl-2.0.txt
+Author:         Johannes Waldmann
+Maintainer:	Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
-Category:       Testing
-Build-Depends:  base==4.*, array, process, random, mtl, parsec==2.*,
-		haxr-th>=3000.0.1,haxr>=3000.1.1.3,HaXml>=1.13.3,
-		autolib-data, autolib-todoc, autolib-reader
-Synopsis:       utilities (this package is too large)
-Exposed-modules:
-	Autolib.Ana
-	Autolib.Hash
-	Autolib.Size
-	Autolib.Depth
-	Autolib.Symbol
-	Autolib.Letters
-	Autolib.Prime
-	Autolib.Wort
-	Autolib.Long
-	Autolib.XmlRpc
-	Autolib.FilterBound
-        Autolib.Util
-        Autolib.Util.BFS
-        Autolib.Util.Bild
-        Autolib.Util.Chmod
-        Autolib.Util.Closure
-        Autolib.Util.DPL
-        Autolib.Util.DPL_Set
-        Autolib.Util.Debug
-        Autolib.Util.Doppelte
-        Autolib.Util.Doppler
-        Autolib.Util.Edit
-        Autolib.Util.Factor
-        Autolib.Util.Faktor
-        Autolib.Util.Fix
-        Autolib.Util.Generate
-        Autolib.Util.Hamming
-        Autolib.Util.Hide
-        Autolib.Util.Mehrfache
-        Autolib.Util.Perm
-        Autolib.Util.RandoM
-        Autolib.Util.Seed
-        Autolib.Util.Size
-        Autolib.Util.Sort
-        Autolib.Util.Splits
-        Autolib.Util.Teilfolgen
-        Autolib.Util.Uniq
-        Autolib.Util.Wort
-        Autolib.Util.Zufall
+Synopsis:       Dynamic web page generation
+description:	Dynamic web page generation
 hs-source-dirs:	.
-ghc-options: -fglasgow-exts
-extensions: TypeSynonymInstances, ScopedTypeVariables, FlexibleContexts, 
-	    IncoherentInstances, OverlappingInstances, UndecidableInstances
 build-type: Simple
+Cabal-version: >= 1.2
+Library
+    Build-depends:  base,happstack,bytestring,mtl,xhtml,happstack-server,happstack-state
+    Exposed-modules: Autolib.CGI.Widget,Autolib.CGI.Form
+    Other-modules: Autolib.CGI.Local,Autolib.CGI.Container,Autolib.CGI.Store
+Executable Menu_Test
+    Build-depends:  base,happstack,bytestring,mtl,xhtml,happstack-server,happstack-state
+    Main-is: Menu_Test.hs    
 
 
 
