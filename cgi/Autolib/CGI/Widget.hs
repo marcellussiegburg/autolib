@@ -8,7 +8,7 @@ module Autolib.CGI.Widget
 , textfield, password, submit
 , textarea
 -- * blocking input widgets
-, menu
+, menu, nonblocking_menu
 -- * formatting combinators
 , table, btable, td, tr, row
 -- * Formatting atoms
@@ -54,7 +54,6 @@ look tag = withData $ \ (Env env) -> do
 
 ----------------------------------------------------------------------------------
 
-
 -- | for one-line input text. with default. input is echoed.
 -- this widget is non-blocking (always successful)
 textfield :: ( ServerMonad m, MonadPlus m ) 
@@ -95,8 +94,8 @@ textarea cs = do
                Nothing -> cs
                Just cs -> cs
     let dss = lines ds
-        cols = length dss
-        rows = maximum $ 0 : map length dss
+        rows = length dss
+        cols = maximum $ 0 : map length dss
     emit $ X.textarea ( X.stringToHtml ds )
            X.! [ X.name tag 
                , X.cols $ show (cols + 10)
@@ -113,8 +112,10 @@ textarea cs = do
 submit :: ( ServerMonad m, MonadPlus m ) 
        => String
        -> Form m Bool
-submit cs = do
-    tag :: String <- gensym_pref "S"
+submit cs = submit_pref "S" cs
+
+submit_pref pref cs = do
+    tag :: String <- gensym_pref pref
     val :: Maybe String <- lift $ lift $ lift $ look tag
     emit $ X.submit tag cs
     return $ isJust val
@@ -146,6 +147,28 @@ menu title options = tr $ do
              return $ value
          _ -> mzero
 
+-- | same as above, but nonblocking. 
+-- the first option is the default.
+-- be very careful: the numbering of the widges in the rest of the page
+-- must not depend on the output of this (or any other nonblocking) widget!
+-- TODO: use the type system to enforce this.
+nonblocking_menu ::  ( ServerMonad m, MonadPlus m ) 
+       => String 
+       -> [ (String, a) ]
+       -> Form m a
+nonblocking_menu title options = tr $ do
+    tag <- gensym_pref "H"
+    mprev <- lift $ lift $ lift $ look tag
+    td $ text title
+    items <- td $ forM options $ \ ( name, value ) -> do
+        s <- submit_pref "N" name
+        return $ do guard ( s || Just name == mprev ) ; return ( name, value )
+    case catMaybes ( items ++ map Just options ) of
+         ( name, value ) : _ -> td $ do
+             text name
+             emit $ X.hidden tag name
+             return $ value
+         _ -> mzero
 
 
 -- | line break
