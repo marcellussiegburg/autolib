@@ -1,8 +1,8 @@
 {-# language TypeSynonymInstances #-}
 
-module Web.Edit where
+module Autolib.CGI.Edit where
 
-import Web.Widget
+import Autolib.CGI.Widget
 import Control.Monad (mzero)
 
 class Edit a where 

@@ -14,7 +14,7 @@ build-type: Simple
 Cabal-version: >= 1.2
 Library
     Build-depends:  base,bytestring,mtl,xhtml,happstack-server
-    Exposed-modules: Autolib.CGI,Autolib.CGI.Widget,Autolib.CGI.Form
+    Exposed-modules: Autolib.CGI,Autolib.CGI.Widget,Autolib.CGI.Form,Autolib.CGI.Edit
                      Autolib.CGI.Local,Autolib.CGI.Container,Autolib.CGI.Store
 Executable Menu_Test
     Build-depends:  base,happstack,bytestring,mtl,xhtml,happstack-server,happstack-state

@@ -16,7 +16,6 @@ module Autolib.CGI.Widget
 , h3, h2, h1, br, hr
 -- * convenience re-exports
 , ServerMonad, MonadPlus
--- $intro
 )
 
 
