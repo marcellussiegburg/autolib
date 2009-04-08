@@ -74,10 +74,15 @@ render ( f0 :: Form m () ) = do
         f2 = runErrorT f1
 
     let f3 :: m (Html, Either String ((), Int))
-        f3 = L.runLocalT $ L.global glue $ f2
+        f3 = L.runLocalT $ L.global glue f2 
 
     ( h, x ) <- f3
-    return $ X.form h X.! [ X.method "POST" , X.enctype "multipart/form-data" ]
+    return $ X.form ( h X.+++ X.anchor X.noHtml X.! [ X.name "hotspot" ] )
+           X.! 
+           [ X.action "#hotspot"
+           , X.method "POST" 
+           , X.enctype "multipart/form-data" 
+           ]
 
 
 

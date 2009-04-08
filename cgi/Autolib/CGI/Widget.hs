@@ -5,8 +5,9 @@ module Autolib.CGI.Widget
 
 ( Form, render, getenv
 -- * nonblocking input widgets
-, textfield, password, submit
-, textarea
+, textfield, empty_textfield
+, password, submit
+, textarea, empty_textarea
 -- * blocking input widgets
 , menu, nonblocking_menu
 -- * formatting combinators
@@ -68,6 +69,19 @@ textfield cs = do
     emit $ X.textfield tag X.! [ X.value ds ]
     return ds
 
+empty_textfield :: ( ServerMonad m, MonadPlus m ) 
+          => Int -- ^ size
+          -> Form m String
+empty_textfield s = do
+    tag :: String <- gensym
+    val :: Maybe String <- lift $ lift $ lift $ look tag
+    let ds :: String
+        ds = case val of
+               Nothing -> ""
+               Just cs -> cs
+    emit $ X.textfield tag X.! [ X.value ds, X.size $ show s ]
+    return ds
+
 -- | like textfield, but don't show the entry.
 password :: ( ServerMonad m, MonadPlus m ) 
           => String -> Form m String
@@ -83,7 +97,7 @@ password cs = do
 
 -- | multi-line text input, with default.
 -- the number of rows is slightly larger than the number of lines of the default,
--- the number of columns is slightly larger than the maximun line width of the defaul.
+-- the number of columns is slightly larger than the maximun line width of the default.
 textarea :: ( ServerMonad m, MonadPlus m ) 
           => String -> Form m String
 textarea cs = do
@@ -100,6 +114,24 @@ textarea cs = do
            X.! [ X.name tag 
                , X.cols $ show (cols + 10)
                , X.rows $ show (rows + 2) 
+               ]
+    return ds
+
+empty_textarea :: ( ServerMonad m, MonadPlus m ) 
+          => Int -- ^ rows
+          -> Int -- ^ cols
+          -> Form m String
+empty_textarea rows cols = do
+    tag :: String <- gensym
+    val :: Maybe String <- lift $ lift $ lift $ look tag
+    let ds :: String
+        ds = case val of
+               Nothing -> ""
+               Just cs -> cs
+    emit $ X.textarea ( X.stringToHtml ds )
+           X.! [ X.name tag 
+               , X.cols $ show cols
+               , X.rows $ show rows
                ]
     return ds
 
@@ -162,13 +194,17 @@ nonblocking_menu title options = tr $ do
     td $ text title
     items <- td $ forM options $ \ ( name, value ) -> do
         s <- submit_pref "N" name
-        return $ do guard ( s || Just name == mprev ) ; return ( name, value )
-    case catMaybes ( items ++ map Just options ) of
-         ( name, value ) : _ -> td $ do
+        return ( name, value, s )
+    let clicked = do (n,v,True) <- items ; return (n,v)
+        remembered = do (n,v,s) <- items ; guard $ Just n == mprev ; return (n,v)
+    let ( name, value ) = case ( clicked, remembered ) of
+         ( cl : icks , _ ) -> cl
+         ( [], r : ems ) -> r
+         ( [], [] ) -> head options
+    td $ do
              text name
              emit $ X.hidden tag name
              return $ value
-         _ -> mzero
 
 
 -- | line break
