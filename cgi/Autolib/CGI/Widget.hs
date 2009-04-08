@@ -11,7 +11,7 @@ module Autolib.CGI.Widget
 -- * blocking input widgets
 , menu, nonblocking_menu
 -- * formatting combinators
-, table, btable, td, tr, row
+, table, btable, td, tr, row, p
 -- * Formatting atoms
 , text 
 , h3, h2, h1, br, hr
@@ -252,6 +252,12 @@ td   = local ( X.td . glue )
 tr :: ( ServerMonad m, MonadPlus m ) 
           => Form m a -> Form m a
 tr = local ( X.tr . glue ) 
+
+
+-- | concat all group items and wrap in table paragraph element
+p :: ( ServerMonad m, MonadPlus m ) 
+          => Form m a -> Form m a
+p = local ( X.p . glue ) 
 
 -- | for backward compatibility: each item in table data, concatenation in table row
 row :: ( ServerMonad m, MonadPlus m ) 
