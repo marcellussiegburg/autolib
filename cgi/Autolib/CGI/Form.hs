@@ -77,7 +77,17 @@ render ( f0 :: Form m () ) = do
         f3 = L.runLocalT $ L.global glue f2 
 
     ( h, x ) <- f3
-    return $ X.form ( h X.+++ X.anchor X.noHtml X.! [ X.name "hotspot" ] )
+    let blurb = X.p $ X.concatHtml 
+              [ X.stringToHtml "using "
+              , X.anchor ( X.stringToHtml "happstack" )
+                      X.! [ X.href "http://happstack.com/" ]
+              , X.stringToHtml " web technologies"
+              ]
+
+    return $ X.form ( h 
+                      X.+++ X.anchor X.noHtml X.! [ X.name "hotspot" ] 
+                      X.+++ X.hr X.+++ blurb
+                    )
            X.! 
            [ X.action "#hotspot"
            , X.method "POST" 
