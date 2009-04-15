@@ -15,6 +15,8 @@ module Autolib.CGI.Widget
 -- * Formatting atoms
 , text 
 , h3, h2, h1, br, hr
+-- * directly output XHtml stuff
+, xhtml
 -- * convenience re-exports
 , ServerMonad, MonadPlus
 )
@@ -206,6 +208,10 @@ nonblocking_menu title options = tr $ do
              emit $ X.hidden tag name
              return $ value
 
+-- | direct output of XHtml stuff
+xhtml :: ( ServerMonad m, MonadPlus m ) 
+          => X.Html -> Form m ()
+xhtml = emit
 
 -- | line break
 br ::  ( ServerMonad m, MonadPlus m ) 
