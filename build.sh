@@ -5,7 +5,9 @@ for pack in \
     cgi \
     todoc tex reader output data reporter \
     algorithm util relation \
-    dot fa exp rewriting fta graph lib
+    dot fa exp rewriting fta graph \
+    genetic \
+    lib 
 do
     echo "entering $pack"
     pushd $pack

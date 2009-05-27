@@ -1,14 +1,13 @@
 #!/bin/bash
 
-version=1.0 # version info must be extracted from individual .cabal files
-
 target=archive
 
 rm -rf $target
 
-for cab in */*.cabal
+for cab in $(ls -1 */*.cabal| grep -v template)
 do
     base=$(dirname $cab)
+    version=$(cat $base/autolib-$base.cabal|grep Version:|sed -e 's/[^0-9]*//')
     ( cd $base ; cabal configure && cabal sdist )
     name=$(basename $cab .cabal)
     xcab=$target/$name/$version/$(basename $cab)
