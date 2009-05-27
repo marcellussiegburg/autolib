@@ -10,9 +10,10 @@ where
 
 
 -- import Data.STRef.Lazy
--- import Control.Monad.ST.Lazy
 import Data.STRef.Strict
+-- import Control.Monad.ST.Lazy
 import Control.Monad.ST.Strict
+
 import Autolib.FiniteMap 
 
 import Data.List (inits, tails)
