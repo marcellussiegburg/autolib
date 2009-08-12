@@ -1,0 +1,5 @@
+#! /bin/sh
+cp autolib-derive.cabal derive.cabal
+derive --generate
+mv derive.cabal autolib-derive.cabal
+rm derive.htm

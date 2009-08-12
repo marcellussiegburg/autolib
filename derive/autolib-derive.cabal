@@ -1,0 +1,22 @@
+name:          autolib-derive
+version:       0.0
+license:       GPL
+license-file:  gpl-2.0.txt
+author:        Bertram Felgenhauer
+maintainer:    Bertram Felgenhauer
+homepage:
+category:
+synopsis:      automatic deriving of
+description:   automatic deriving of.
+
+build-type:    Simple
+cabal-version: >= 1.5
+
+library
+    build-depends:
+        base >= 3 && < 3.1,
+        derive >= 2 && < 2.1
+    exposed-modules:
+-- GENERATED START
+        Data.Derive.ToDoc
+-- GENERATED STOP
