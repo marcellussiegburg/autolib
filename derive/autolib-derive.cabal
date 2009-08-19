@@ -18,5 +18,6 @@ library
         derive >= 2 && < 2.1
     exposed-modules:
 -- GENERATED START
+        Data.Derive.Reader
         Data.Derive.ToDoc
 -- GENERATED STOP
