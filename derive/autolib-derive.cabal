@@ -20,11 +20,12 @@ description:
     $(derives [makeToDoc, makeReader] [''Type1, ''Type2]
     @
 build-type:    Simple
-cabal-version: >= 1.4
+cabal-version: >= 1.6
 
 extra-source-files:
     README
     generate
+    examples/*.hs
 
 library
     build-depends:
