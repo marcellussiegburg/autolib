@@ -66,7 +66,7 @@ splice d x | x ~= "reader" = let
     mkOr a b = InfixApp a (qvop "<|>") b
   in
     InfixApp (var "readerParenPrec" `H.App` var "p") (qvop "$") $
-        Lambda undefined [pVar "p"] $
+        Lambda noSrcLoc [pVar "p"] $
             foldr mkOr mkPzero (map mkReadCon (dataDeclCtors (snd d)))
 
 -- parse a single constructor
@@ -81,15 +81,15 @@ mkReadCon c = let
         [Qualifier $ var "return" `H.App` apps (con cn) (map var vars)]
     field v (fn, _)
         | "_info" `isSuffixOf` fn = [
-            Generator undefined (pVar v) (var "parsed_info")
+            Generator noSrcLoc (pVar v) (var "parsed_info")
         ]
         | fields = [
             Qualifier (var "my_reserved" `H.App` strE fn),
             Qualifier (var "my_equals"),
-            Generator undefined (pVar v) (var "readerPrec" `H.App` intE 0)
+            Generator noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 0)
         ]
         | otherwise = [
-            Generator undefined (pVar v) (var "readerPrec" `H.App` intE 9)
+            Generator noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 9)
         ]
     braces b = [Qualifier $ H.InfixApp (var "my_braces") (qvop "$") (Do b)]
     comma = Qualifier $ var "my_comma"
@@ -100,3 +100,6 @@ mkReadCon c = let
         | not . null. ctorDeclFields $ c] ++
         parseCon ++
         (if fields then braces else id) parseFields
+
+noSrcLoc :: SrcLoc
+noSrcLoc = SrcLoc "<generated>" 0 0
