@@ -1,3 +1,4 @@
+{-# LANGUAGE TemplateHaskell #-}
 -- | apply (one-step) rewriting to automata
 
 module Autolib.NFA.Step where
@@ -34,7 +35,7 @@ instance Hash a => Hash ( Zustand a ) where
     hash ( Mitte ( p, q ) ) = hash ( 65 :: Int, p, q )
     hash ( Rechts q ) = hash ( 32 :: Int , q ) 
 
-{-! for Zustand derive: Reader, ToDoc !-}
+$(derives [makeReader, makeToDoc] [''Zustand])
 
 instance (Show a, NFAC c a) => NFAC c (Zustand a)
 

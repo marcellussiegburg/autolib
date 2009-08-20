@@ -5,7 +5,7 @@ Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
 Build-Depends:  base==4.*, array, process, random, mtl, parsec==2.*,
-		haxr-th>=3000.0.1,haxr>=3000.1.1.3,HaXml>=1.13.3,
+		haxr-th>=3000.0.1,haxr>=3000.1.1.3,
 		autolib-data, autolib-todoc, autolib-reader
 Synopsis:       utilities (this package is too large)
 Exposed-modules:

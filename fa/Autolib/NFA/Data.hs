@@ -1,4 +1,5 @@
-{-# OPTIONS -fglasgow-exts -fallow-undecidable-instances #-}
+{-# OPTIONS -fglasgow-exts #-}
+{-# LANGUAGE TemplateHaskell, UndecidableInstances #-}
 
 --   $Id$
 
@@ -26,7 +27,7 @@ import Autolib.Hash
 import Autolib.Symbol
 
 import Control.Monad (guard)
-import Text.XML.HaXml.Haskell2Xml
+-- import Text.XML.HaXml.Haskell2Xml
 import Data.Typeable
 
 -- mal sehen
@@ -66,7 +67,7 @@ data NFAC c s => NFA c s =
 	 }
     deriving Typeable
 
-{-! for NFA derive : ToDoc, Reader !-}
+$(derives [makeToDoc, makeReader] [''NFA])
 
 instance NFAC c s
     => Informed (NFA c s) where

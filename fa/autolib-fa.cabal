@@ -4,7 +4,7 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, HaXml>=1.13.3, mtl,
+Build-Depends:  base==4.*, mtl,
 		autolib-algorithm, autolib-reader, autolib-todoc, autolib-reporter,
 		autolib-data, autolib-relation, autolib-util, autolib-dot
 Synopsis:       finite automata (for words) 

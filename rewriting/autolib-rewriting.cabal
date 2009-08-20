@@ -4,7 +4,7 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, HaXml>=1.13.3, containers, mtl, random, parsec==2.*,
+Build-Depends:  base==4.*, containers, mtl, random, parsec==2.*,
 		autolib-util, autolib-data, autolib-reader, autolib-todoc, autolib-tex, autolib-relation, autolib-fa,
 		autolib-reporter
 Synopsis:       string and term rewriting 

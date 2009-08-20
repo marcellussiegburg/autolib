@@ -1,4 +1,5 @@
 -- -*- mode: haskell -*-
+{-# LANGUAGE TemplateHaskell #-}
 
 module Autolib.TES.Over.Lap where
 
@@ -15,7 +16,7 @@ data TRSC v c => Lap v c =
 	     , s :: Substitution v c
 	     }
 
-{-! for Lap derive: ToDoc !-}
+$(derives [makeToDoc] [''Lap])
 
 instance TRSC v c => Show ( Lap v c ) where
     show = render . toDoc

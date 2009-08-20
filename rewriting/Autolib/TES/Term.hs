@@ -23,13 +23,14 @@ import Autolib.TES.Draw
 
 import Autolib.TES.Xml
 
-import Text.XML.HaXml.Haskell2Xml
+-- import Text.XML.HaXml.Haskell2Xml
 
+{-
 instance ( Haskell2Xml v, Haskell2Xml c ) 
          => Haskell2Xml ( Term v c ) where
     toContents ( Var v ) = return $ mkel "var" $ toContents v 
     toContents ( Node f xs ) = return $ mkel "app"
          $ mkel "fun" ( toContents f )
          : map ( \ x -> mkel "arg" $ toContents x ) xs
-
 mkel name cs = CElem $ Elem name [] cs
+-}

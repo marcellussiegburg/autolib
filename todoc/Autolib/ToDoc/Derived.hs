@@ -1,4 +1,4 @@
-{-# OPTIONS -fallow-overlapping-instances #-}
+{-# LANGUAGE TemplateHaskell, OverlappingInstances #-}
 
 module Autolib.ToDoc.Derived where
 
@@ -6,10 +6,9 @@ module Autolib.ToDoc.Derived where
 
 import Autolib.ToDoc.Class
 import Autolib.ToDoc.Dutch
+import Data.Derive.ToDoc
 
-{-! for Bool derive: ToDoc !-}
-{-! for Maybe derive: ToDoc !-}
-{-! for Either derive: ToDoc !-}
+$(derives [makeToDoc] [''Bool, ''Maybe, ''Either])
 
 -- Local Variables: 
 -- mode: haskell

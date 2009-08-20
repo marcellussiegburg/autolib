@@ -17,7 +17,7 @@ import Autolib.Symbol
 import Autolib.TES.Raw
 import Autolib.TES.Xml
 
-import Text.XML.HaXml.Haskell2Xml
+-- import Text.XML.HaXml.Haskell2Xml
 import Autolib.ToDoc
 import Autolib.Reader
 import Autolib.Hash

@@ -1,4 +1,5 @@
 -- -*- mode: haskell -*-
+{-# LANGUAGE TemplateHaskell, OverlappingInstances #-}
 
 module Autolib.Reader.Derived where
 
@@ -6,8 +7,7 @@ module Autolib.Reader.Derived where
 
 import Autolib.Reader.Class
 import Autolib.Reader.Basic
+import Data.Derive.Reader
 
-{-! for Bool   derive : Reader !-}
-{-! for Maybe  derive : Reader !-}
-{-! for Either derive : Reader !-}
+$(derives [makeReader] [''Bool, ''Maybe, ''Either])
 

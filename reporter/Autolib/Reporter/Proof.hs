@@ -1,4 +1,5 @@
-{-# LANGUAGE TypeSynonymInstances #-} -- -*- mode: haskell -*-
+-- -*- mode: haskell -*-
+{-# LANGUAGE TypeSynonymInstances, TemplateHaskell #-}
 
 module Autolib.Reporter.Proof where
 
@@ -34,7 +35,7 @@ instance Eq Proof where
 instance ToDoc Output where toDoc = Autolib.Output.render
 instance ToDoc Doc where toDoc = id
 
-{-! for Proof derive : ToDoc !-}
+$(derives [makeToDoc] [''Proof])
 
 instance Show Proof where show = Autolib.ToDoc.render . toDoc
 

@@ -1,4 +1,6 @@
-{-# language FlexibleContexts, UndecidableInstances, FlexibleInstances #-} -- -*- mode: haskell -*-
+-- -*- mode: haskell -*-
+{-# LANGUAGE FlexibleContexts, UndecidableInstances, FlexibleInstances,
+             TemplateHaskell #-}
 
 --  $Id$
 
@@ -41,7 +43,7 @@ instance  ( Hash a, ToDoc [a], Reader [a]
       =>   Hash ( Graph a ) where
     hash g = hash ( kanten g , knoten g )
 
-{-! for Graph derive: ToDoc, Reader !-}
+$(derives [makeToDoc, makeReader] [''Graph])
 
 
 				

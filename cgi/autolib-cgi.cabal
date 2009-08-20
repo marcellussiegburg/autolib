@@ -9,9 +9,9 @@ Category:	Web
 Synopsis:       Dynamic web page generation
 description:	Dynamic web page generation.
 	general installation instructions: <http://dfa.imn.htwk-leipzig.de/packages/lib/>
-hs-source-dirs:	.
 build-type: Simple
 Cabal-version: >= 1.2
+
 Library
     Build-depends:  base,bytestring,mtl,xhtml,happstack-server
     Exposed-modules: Autolib.CGI,Autolib.CGI.Widget,Autolib.CGI.Form,Autolib.CGI.Edit

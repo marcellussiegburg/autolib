@@ -1,4 +1,5 @@
 -- -*- mode: haskell -*-
+{-# LANGUAGE TemplateHaskell #-}
 
 module Autolib.NFTA.Type 
 
@@ -103,5 +104,5 @@ instance  NFTAC c s => Letters (NFTA c s) c where
 instance NFTAC c s  => Size ( NFTA c s ) where
     size = cardinality . states
 
-{-! for NFTA derive: Reader, ToDoc !-}
+$(derives [makeToDoc, makeReader] [''NFTA])
 

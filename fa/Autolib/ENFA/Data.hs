@@ -1,4 +1,4 @@
-{-# OPTIONS -fallow-overlapping-instances -fallow-incoherent-instances #-}
+{-# LANGUAGE TemplateHaskell, OverlappingInstances, IncoherentInstances #-}
 
 --   $Id$
 
@@ -29,7 +29,7 @@ import Autolib.Hash
 import Autolib.Symbol
 
 import Control.Monad (guard)
-import Text.XML.HaXml.Haskell2Xml
+-- import Text.XML.HaXml.Haskell2Xml
 import Data.Typeable
 
 type Trans c s =  FiniteMap s ( FiniteMap c ( Set s ))
@@ -87,7 +87,7 @@ tunCollect t = do
 
 {-# DEPRECATE eps #-}
 
-{-! for ENFA derive : ToDoc, Reader !-}
+$(derives [makeReader, makeToDoc] [''ENFA])
 -- derive Haskell2Xml is broken (in DrIFT)
 
 lstates :: NFAC c a => ENFA c a -> [ a ]

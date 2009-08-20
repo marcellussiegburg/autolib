@@ -1,4 +1,5 @@
 -- -*- mode: haskell -*-
+{-# LANGUAGE TemplateHaskell #-}
 
 module Autolib.Rewriting.Path.Data   where
 
@@ -19,7 +20,7 @@ data Data f w t =
 	  , to   :: {-# UNPACK #-} ! t
 	  }
 
-{-! for Data derive: Reader, ToDoc !-}
+$(derives [makeReader, makeToDoc] [''Data])
 
 instance DataC f w t => Show ( Data f w t ) where
     show = render . toDoc

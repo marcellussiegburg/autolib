@@ -1,4 +1,5 @@
 -- -*- mode: haskell -*-
+{-# OPTIONS -fallow-overlapping-instances #-}
 
 -- | long lists (i. e. they won't be clipped when showing)
 
@@ -9,13 +10,13 @@ module Autolib.Long where
 import Autolib.ToDoc
 import Autolib.Reader
 
-import Text.XML.HaXml.Haskell2Xml
+-- import Text.XML.HaXml.Haskell2Xml
 import Data.Typeable
 
 data Long a = Long { unLong :: [a] }
     deriving ( Eq, Ord, Typeable )
 
-{-! for Long derive: Haskell2Xml !-}
+-- {-! for Long derive: Haskell2Xml !-}
 
 instance Reader [a] => Reader (Long a) where
     atomic_reader = fmap Long reader
