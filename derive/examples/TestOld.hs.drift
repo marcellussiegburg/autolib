@@ -1,10 +1,6 @@
 -- {-# OPTIONS_GHC -ddump-splices #-}
-{-# LANGUAGE TemplateHaskell #-}
 
-module Test where
-
-import Data.Derive.Reader
-import Data.Derive.ToDoc
+module TestOld where
 
 import Autolib.Reader
 import Autolib.ToDoc
@@ -21,7 +17,9 @@ data Frotz = A | B Frotz | C { sub :: Frotz } | D { sub :: Frotz, foo :: Frotz }
 data Hard = Aaa | AAa | AAA { aaa :: Hard }
     deriving Eq
 
-$(derives [makeToDoc, makeReader] [''MMaybe, ''Frotz, ''Hard])
+{-! for MMaybe derive: ToDoc, Reader !-}
+{-! for Frotz derive: ToDoc, Reader !-}
+{-! for Hard derive: ToDoc, Reader !-}
 
 t1 :: MMaybe Frotz
 t1 = JJust (D { sub = B A, foo = C { sub = A } })
