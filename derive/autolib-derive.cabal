@@ -16,7 +16,6 @@ description:
     import Data.Derive.ToDoc
     import Data.Derive.Reader
     .
-    $(derive makeToDoc ''Type3])
     $(derives [makeToDoc, makeReader] [''Type1, ''Type2])
     @
 build-type:    Simple

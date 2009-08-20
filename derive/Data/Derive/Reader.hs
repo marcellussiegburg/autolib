@@ -7,7 +7,7 @@
 -- Derive 'Autolib.Reader.Class.Reader' instances. Example:
 --
 -- @
--- $(derive makeReader ''Type)
+-- $(derives [makeReader] [''Type])
 -- @
 --
 -- Features:
@@ -23,7 +23,6 @@ module Data.Derive.Reader (
     -- * Derivations
     makeReader,
     -- * Reexports
-    derive,
     derives
 ) where
 

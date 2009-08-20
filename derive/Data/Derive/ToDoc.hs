@@ -7,7 +7,7 @@
 -- Derive 'Autolib.ToDoc.Class.ToDoc' instances. Example:
 --
 -- @
--- $(derive makeReader ''Type)
+-- $(derives [makeReader] [''Type])
 -- @
 --
 -- Features:
@@ -23,7 +23,6 @@ module Data.Derive.ToDoc (
     -- * Derivations
     makeToDoc,
     -- * Reexports
-    derive,
     derives
 ) where
 
