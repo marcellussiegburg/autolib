@@ -8,16 +8,23 @@ homepage:
 category:      Development
 synopsis:      Automatically derive autolib's ToDoc and Reader.
 description:
-    Automatically derive autolib's ToDoc and Reader.
+    Automatically derive instances for autolib's ToDoc and Reader classes.
     .
     Synopsis:
     .
     @
+    import Data.Derive.ToDoc
+    import Data.Derive.Reader
+    .
     $(derive makeToDoc ''Type3]
     $(derives [makeToDoc, makeReader] [''Type1, ''Type2]
     @
 build-type:    Simple
 cabal-version: >= 1.4
+
+extra-source-files:
+    README
+    generate
 
 library
     build-depends:

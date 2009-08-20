@@ -1,0 +1,18 @@
+Development notes:
+
+* The Data.Derive.* modules contain a comment like
+
+  {-
+  example :: Custom
+  instance Foo a => Foo (Bar a) where
+      bar x = $(bar)
+  -}
+
+  This comment is used by the derive tool to generate a skeleton derivation -
+  this is done using the 'generate.sh' script.
+
+  The skeleton can then be modified by providing a 'custom' function, which
+  may, for example, replace splices like $(bar) by generated code.
+
+  (In simple cases derive can deduce the whole derivation from examples, but
+  ToDoc and Reader are not simple. See the derive sources for examples.)
