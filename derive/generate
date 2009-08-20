@@ -3,4 +3,4 @@ cp autolib-derive.cabal derive.cabal
 derive --generate
 mv derive.cabal autolib-derive.cabal
 rm derive.htm
-rm -f Data/Derive/Instance/*
+rm -f Data/Derive/Instance/* Data/Derive/All.hs
