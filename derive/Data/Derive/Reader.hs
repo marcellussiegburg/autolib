@@ -1,8 +1,31 @@
+-- |
+-- Copyright:   (c) Bertram Felgenhauer 2009
+-- License:     GPL 2.0
+-- Stability:   experimental
+-- Portability: portable
 --
--- derive Reader instances
+-- Derive 'Autolib.Reader.Class.Reader' instances. Example:
+--
+-- @
+-- $(derive makeReader ''Type)
+-- @
+--
+-- Features:
+--
+--  * fields ending \"_info\" are handled by \"parse_info\"
+--
+-- Known bugs:
+--
+--  * infix type constructors are not handled correctly
 --
 
-module Data.Derive.Reader (makeReader, deriveReader) where
+module Data.Derive.Reader (
+    -- * Derivations
+    makeReader,
+    -- * Reexports
+    derive,
+    derives
+) where
 
 import Data.DeriveTH
 import Data.Derive.DSL.HSE
@@ -10,6 +33,8 @@ import Data.List
 import qualified Language.Haskell as H
 
 {-
+import Autolib.Reader
+
 example :: Custom
 instance Reader a => Reader (Sample a) where
     atomic_readerPrec p = $(reader)
@@ -31,6 +56,8 @@ makeReader = derivationCustomDSL "Reader" custom $
     ])])]),App "BDecls" (List [List []])])]])])])]
 -- GENERATED STOP
 
+-- ^ 'Derivation' for deriving 'Reader'
+
 custom = customSplice splice
 
 splice :: FullDataDecl -> Exp -> Exp
@@ -38,14 +65,20 @@ splice d x | x ~= "reader" = let
     mkPzero = var "pzero"
     mkOr a b = InfixApp a (qvop "<|>") b
   in
-    foldr mkOr mkPzero (map mkReadCon (dataDeclCtors (snd d)))
+    InfixApp (var "readerParenPrec" `H.App` var "p") (qvop "$") $
+        Lambda undefined [pVar "p"] $
+            foldr mkOr mkPzero (map mkReadCon (dataDeclCtors (snd d)))
 
+-- parse a single constructor
 mkReadCon :: CtorDecl -> Exp
 mkReadCon c = let
+    cn = ctorDeclName c
     fields = any (not . null . fst) (ctorDeclFields c)
     vars = map (("x"++) . show) [1..length (ctorDeclFields c)]
-    body = concat (intersperse [comma] (zipWith field vars (ctorDeclFields c)))
-        ++ [Qualifier $ H.App (var "return") $ apps (cName c) (map var vars)]
+    parseCon = [Qualifier $ var "my_reserved" `H.App` strE cn]
+    parseFields =
+        concat (intersperse [comma] (zipWith field vars (ctorDeclFields c))) ++
+        [Qualifier $ var "return" `H.App` apps (con cn) (map var vars)]
     field v (fn, _)
         | "_info" `isSuffixOf` fn = [
             Generator undefined (pVar v) (var "parsed_info")
@@ -53,24 +86,17 @@ mkReadCon c = let
         | fields = [
             Qualifier (var "my_reserved" `H.App` strE fn),
             Qualifier (var "my_equals"),
-            Generator undefined (pVar v) (var "readerPrec" `H.App` mkInt 0)
+            Generator undefined (pVar v) (var "readerPrec" `H.App` intE 0)
         ]
         | otherwise = [
-            Generator undefined (pVar v) (var "readerPrec" `H.App` mkInt 9)
+            Generator undefined (pVar v) (var "readerPrec" `H.App` intE 9)
         ]
     braces b = [Qualifier $ H.InfixApp (var "my_braces") (qvop "$") (Do b)]
     comma = Qualifier $ var "my_comma"
   in
-    InfixApp (var "readerParenPrec" `H.App` var "p") (qvop "$") $
-        Lambda undefined [pVar "p"] $ Do $
-            [Qualifier $ var "guard" `H.App`
-                 InfixApp (var "p") (qvop "<") (mkInt 9)] ++
-            if fields then braces body else body
-
-cName :: CtorDecl -> Exp
-cName c = con (ctorDeclName c)
-
-mkInt :: Integer -> Exp
-mkInt = Lit . H.Int
-
-deriveReader = derive makeReader
+    Do $
+        [Qualifier $ var "guard" `H.App`
+             InfixApp (var "p") (qvop "<") (intE 9)
+        | not . null. ctorDeclFields $ c] ++
+        parseCon ++
+        (if fields then braces else id) parseFields
