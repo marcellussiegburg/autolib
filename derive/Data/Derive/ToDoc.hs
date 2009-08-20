@@ -27,12 +27,15 @@ module Data.Derive.ToDoc (
     derives
 ) where
 
-import Data.DeriveTH
-import Data.Maybe
-import Data.List
-import Control.Monad
-import Data.Derive.DSL.HSE
+import Data.DeriveTH    (derive, derives)
+import Data.Maybe       (catMaybes)
+import Data.List        (isSuffixOf)
+import Control.Monad    (guard)
 import qualified Language.Haskell as H
+import Language.Haskell (
+    Exp, CtorDecl, Decl, FullDataDecl,
+    var, strE, intE, qvop, apps, (~=),
+    ctorDeclName, ctorDeclFields, dataDeclCtors)
 
 {-
 import Autolib.ToDoc.Class
@@ -67,6 +70,7 @@ makeToDoc = derivationCustomDSL "ToDoc" custom $
 
 -- ^ 'Derivation' for 'ToDoc'
 
+custom :: FullDataDecl -> [Decl] -> [Decl]
 custom = customSplice splice
 
 splice :: FullDataDecl -> Exp -> Exp
@@ -75,29 +79,30 @@ splice d (H.App x (H.Lit (H.Int y))) | x ~= "toDoc" = let
     c = dataDeclCtors (snd d) !! fromInteger y
   in
     if fields then customRecord c else customData c
+splice _ e = error $ "makeToDoc: unrecognized splice: " ++ show e
 
 customData :: CtorDecl -> Exp
 customData c | null (ctorDeclFields c) = cName c
              | otherwise = apps (var "docParen") [
-    InfixApp (var "p") (qvop ">=") (intE 10),
-    InfixApp (cName c) (qvop "</>") (
+    H.InfixApp (var "p") (qvop ">=") (intE 10),
+    H.InfixApp (cName c) (qvop "</>") (
         var "fsep" `H.App` H.List (
             map (\i -> mkToDocPrec 10 (var ("x" ++ show i)))
                 [1..length (ctorDeclFields c)]))]
 
 customRecord :: CtorDecl -> Exp
 customRecord c = apps (var "docParen") [
-    InfixApp (var "p") (qvop ">=") (intE 10),
-    InfixApp (cName c) (qvop "</>") (
+    H.InfixApp (var "p") (qvop ">=") (intE 10),
+    H.InfixApp (cName c) (qvop "</>") (
         var "dutch_record" `H.App` H.List (
             catMaybes (zipWith singleField [1..] (ctorDeclFields c))))]
   where
     singleField nr (fn, _) = do
          guard $ not $ "_info" `isSuffixOf` fn
-         return $ foldr1 (flip InfixApp (qvop "<+>")) $
+         return $ foldr1 (flip H.InfixApp (qvop "<+>")) $
              [mkText (strE fn),
               var "equals",
-              mkToDocPrec 0 (var ("x" ++ show nr))]
+              mkToDocPrec 0 (var ("x" ++ show (nr :: Int)))]
 
 cName :: CtorDecl -> Exp
 cName c = mkText (strE (ctorDeclName c))
