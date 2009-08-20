@@ -1,16 +1,31 @@
+-- |
+-- Copyright:   (c) Bertram Felgenhauer 2009
+-- License:     GPL 2.0
+-- Stability:   experimental
+-- Portability: portable
 --
--- derive ToDoc instances
+-- Derive 'Autolib.ToDoc.Class.ToDoc' instances. Example:
 --
--- based heavily on Data.Derive.Show
+-- @
+-- $(derive makeReader ''Type)
+-- @
 --
--- FEATURE: components ending "_info" are NOT shown
--- BUG: does not handle infix type constructors.
+-- Features:
 --
--- Author:  Bertram Felgenhauer
--- License: GPL 2.0
+--  * fields ending \"_info\" are omitted
+--
+-- Known bugs:
+--
+--  * infix type constructors are not handled correctly
 --
 
-module Data.Derive.ToDoc (makeToDoc, deriveToDoc) where
+module Data.Derive.ToDoc (
+    -- * Derivations
+    makeToDoc,
+    -- * Reexports
+    derive,
+    derives
+) where
 
 import Data.DeriveTH
 import Data.Maybe
@@ -50,6 +65,8 @@ makeToDoc = derivationCustomDSL "ToDoc" custom $
     "BDecls" (List [List []])]))])])])]
 -- GENERATED STOP
 
+-- ^ 'Derivation' for 'ToDoc'
+
 custom = customSplice splice
 
 splice :: FullDataDecl -> Exp -> Exp
@@ -62,7 +79,7 @@ splice d (H.App x (H.Lit (H.Int y))) | x ~= "toDoc" = let
 customData :: CtorDecl -> Exp
 customData c | null (ctorDeclFields c) = cName c
              | otherwise = apps (var "docParen") [
-    InfixApp (var "p") (qvop ">=") (mkInt 10),
+    InfixApp (var "p") (qvop ">=") (intE 10),
     InfixApp (cName c) (qvop "</>") (
         var "fsep" `H.App` H.List (
             map (\i -> mkToDocPrec 10 (var ("x" ++ show i)))
@@ -70,7 +87,7 @@ customData c | null (ctorDeclFields c) = cName c
 
 customRecord :: CtorDecl -> Exp
 customRecord c = apps (var "docParen") [
-    InfixApp (var "p") (qvop ">=") (mkInt 10),
+    InfixApp (var "p") (qvop ">=") (intE 10),
     InfixApp (cName c) (qvop "</>") (
         var "dutch_record" `H.App` H.List (
             catMaybes (zipWith singleField [1..] (ctorDeclFields c))))]
@@ -78,23 +95,15 @@ customRecord c = apps (var "docParen") [
     singleField nr (fn, _) = do
          guard $ not $ "_info" `isSuffixOf` fn
          return $ foldr1 (flip InfixApp (qvop "<+>")) $
-             [mkText (mkString fn),
+             [mkText (strE fn),
               var "equals",
               mkToDocPrec 0 (var ("x" ++ show nr))]
 
 cName :: CtorDecl -> Exp
 cName c = mkText (strE (ctorDeclName c))
 
-mkInt :: Integer -> Exp
-mkInt = Lit . H.Int
-
-mkString :: String -> Exp
-mkString = Lit . H.String
-
 mkText :: Exp -> Exp
 mkText = (var "text" `H.App`)
 
 mkToDocPrec :: Integer -> Exp -> Exp
-mkToDocPrec p a = var "toDocPrec" `H.App` mkInt p `H.App` a
-
-deriveToDoc = derive makeToDoc
+mkToDocPrec p a = var "toDocPrec" `H.App` intE p `H.App` a
