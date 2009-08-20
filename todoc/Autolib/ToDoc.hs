@@ -8,6 +8,7 @@ module Autolib.ToDoc
 , module Autolib.ToDoc.Dutch
 , module Autolib.ToDoc.Beside
 , module Autolib.ToDoc.Frame
+, module Data.Derive.ToDoc
 , Clip ( Full , Clip )
 )
 
@@ -21,3 +22,4 @@ import Autolib.ToDoc.Derived
 import Autolib.ToDoc.Typeable
 import Autolib.ToDoc.Dutch
 import Autolib.ToDoc.Xml
+import Data.Derive.ToDoc

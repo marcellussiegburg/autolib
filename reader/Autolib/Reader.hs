@@ -5,6 +5,7 @@ module Autolib.Reader
 , module Autolib.Reader.Basic
 , module Autolib.Reader.Instances
 , module Autolib.Reader.Derived
+, module Data.Derive.Reader
 )
 
 where
@@ -16,4 +17,6 @@ import Autolib.Reader.Link
 import Autolib.Reader.Basic
 import Autolib.Reader.Instances
 import Autolib.Reader.Derived
+import Data.Derive.Reader
+
 
