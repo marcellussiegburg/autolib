@@ -36,3 +36,5 @@ library
         Data.Derive.Reader
         Data.Derive.ToDoc
 -- GENERATED STOP
+    other-modules:
+        Data.Derive.Util.Missing

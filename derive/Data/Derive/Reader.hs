@@ -31,9 +31,10 @@ import Data.DeriveTH    (derive, derives)
 import Data.List        (intersperse, isSuffixOf)
 import qualified Language.Haskell as H
 import Language.Haskell (
-    SrcLoc, Exp, CtorDecl, Decl, FullDataDecl,
+    SrcLoc, Exp, CtorDecl, Decl, FullDataDecl, Context,
     var, pVar, con, strE, intE, qvop, apps, (~=),
     ctorDeclName, ctorDeclFields, dataDeclCtors)
+import qualified Data.Derive.Util.Missing as M
 
 {-
 import Autolib.Reader
@@ -62,16 +63,16 @@ makeReader = derivationCustomDSL "Reader" custom $
 -- ^ 'Derivation' for deriving 'Reader'
 
 custom :: FullDataDecl -> [Decl] -> [Decl]
-custom = customSplice splice
+custom f = customSplice splice f . M.customContext' context f
 
 splice :: FullDataDecl -> Exp -> Exp
-splice d x | x ~= "reader" = let
+splice (_, d) x | x ~= "reader" = let
     mkPzero = var "pzero"
     mkOr a b = H.InfixApp a (qvop "<|>") b
   in
     H.InfixApp (var "readerParenPrec" `H.App` var "p") (qvop "$") $
         H.Lambda noSrcLoc [pVar "p"] $
-            foldr mkOr mkPzero (map mkReadCon (dataDeclCtors (snd d)))
+            foldr mkOr mkPzero (map mkReadCon (dataDeclCtors d))
 splice _ e = error $ "makeReader: unrecognized splice: " ++ show e
 
 -- parse a single constructor
@@ -105,6 +106,9 @@ mkReadCon c = let
         | not . null. ctorDeclFields $ c] ++
         parseCon ++
         (if fields then braces else id) parseFields
+
+context :: FullDataDecl -> Context -> Context
+context (_, d) ctx = M.dataDeclContext d ++ ctx
 
 noSrcLoc :: SrcLoc
 noSrcLoc = H.SrcLoc "<generated>" 0 0
