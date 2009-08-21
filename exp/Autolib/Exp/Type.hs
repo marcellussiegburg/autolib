@@ -6,7 +6,6 @@ module Autolib.Exp.Type where
 --  $Id$
 
 import Data.Typeable
--- import Text.XML.HaXml.Haskell2Xml
 
 -- | regular expressions
 --
@@ -34,8 +33,6 @@ data RX c
 	| PowerStar (RX c)
 	| PowerPlus (RX c)
     deriving ( Eq, Ord, Typeable )
-
--- {-! for RX derive: Haskell2Xml !-}
 
 -- | for  backward compatibility
 type Exp = RX Char 

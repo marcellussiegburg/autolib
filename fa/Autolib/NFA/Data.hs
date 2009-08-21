@@ -27,7 +27,6 @@ import Autolib.Hash
 import Autolib.Symbol
 
 import Control.Monad (guard)
--- import Text.XML.HaXml.Haskell2Xml
 import Data.Typeable
 
 -- mal sehen

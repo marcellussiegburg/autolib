@@ -14,18 +14,14 @@ import Autolib.Reader
 import Autolib.Set
 import Autolib.Hash
 
--- import Text.XML.HaXml.Haskell2Xml
-
 class ( Hash a, Ord a
      , ToDoc ( Set (Kante a)), ToDoc ( Set a )
      , Reader ( Set (Kante a)), Reader ( Set a )
---     , Haskell2Xml ( Set a )   , Haskell2Xml ( Set (Kante a ))
      ) => GraphC a
 
 instance ( Hash a, Ord a
      , ToDoc ( Set (Kante a)), ToDoc ( Set a )
      , Reader ( Set (Kante a)), Reader ( Set a )
---     , Haskell2Xml ( Set a )   , Haskell2Xml ( Set (Kante a ))
      ) => GraphC a
 
 
@@ -37,7 +33,6 @@ data GraphC a =>
     deriving ( Eq, Ord )
 
 instance  ( Hash a, ToDoc [a], Reader [a]    
---	  , Haskell2Xml a
           , ToDoc a, Reader a, Ord a
 	  ) 
       =>   Hash ( Graph a ) where

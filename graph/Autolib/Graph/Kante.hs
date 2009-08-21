@@ -10,7 +10,6 @@ import Autolib.ToDoc
 import Autolib.Hash
 
 import Data.Typeable
--- import Text.XML.HaXml.Haskell2Xml
 import Network.XmlRpc.Internals
 import Network.XmlRpc.THDeriveXmlRpcType
 
@@ -41,8 +40,6 @@ kante x y =
     if x < y then Kante { von = x, nach = y }
 	     else Kante { von = y, nach = x }
 
--- {-! for Kante derive: Haskell2Xml !-}
-      
 instance ToDoc a => ToDoc (Kante a) where
     toDocPrec p k = docParen (p >= fcp) 
 		  $ text "kante" <+> 

@@ -29,9 +29,6 @@ import Data.Char
 import Data.Int
 import Data.Typeable
 
--- import Text.XML.HaXml.Haskell2Xml
--- import qualified Text.XML.HaXml.Escape as E
-
 -- | don't derive Eq and Ord since arity should be ignored
 data Identifier = Identifier 
 		{ hash_code :: {-# UNPACK #-} ! Int32
@@ -47,21 +44,6 @@ instance Typeable Identifier where
 instance Hash Identifier where hash = hash_code
 
 instance Size Identifier where size = const 1
-
-{-
-instance Haskell2Xml Identifier where
-    fromContents ( CString _ s : etc ) = ( mkunary s , etc )
-    -- fromContents ( _ : etc ) = fromContents etc
-
-    toContents i = 
-          -- probably not here: E.xmlEscape E.stdXmlEscaper 
-          -- this introduces whitespace between &lt; and =
-          -- [ CString False $ show i ] 
-          -- and this creates a CDATA element
-          -- [ CString True $ show i ] 
-          -- so here comes an UGLY HACK:
-          [ CString False $ escape $ show i ] 
--}
 
 escape [] = []
 escape ( c : cs ) = case c of

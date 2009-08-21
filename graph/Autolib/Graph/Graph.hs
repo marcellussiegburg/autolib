@@ -33,7 +33,6 @@ import Autolib.Xml
 import Autolib.Size
 import Autolib.Hash
 
--- import Text.XML.HaXml.Haskell2Xml
 import Autolib.XmlRpc
 
 import Network.XmlRpc.Internals 
@@ -96,8 +95,7 @@ mkGraph v e = Graph
 	    , show_labels = True
 	    }
 
-class (  -- Haskell2Xml a, Haskell2Xml (Kante a)
-        Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+class ( Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Show a
       , Hash a
       , R.GraphC a
@@ -107,8 +105,7 @@ class (  -- Haskell2Xml a, Haskell2Xml (Kante a)
       ) => GraphC a 
 
 
-instance (  -- Haskell2Xml a, Haskell2Xml (Kante a)
-        Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
+instance ( Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Show a
       , Hash a
       , R.GraphC a
