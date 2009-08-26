@@ -26,7 +26,7 @@ module Data.Derive.ToDoc (
     derives
 ) where
 
-import Data.DeriveTH    (derive, derives)
+import Data.DeriveTH    (derives)
 import Data.Maybe       (catMaybes)
 import Data.List        (isSuffixOf)
 import Control.Monad    (guard)

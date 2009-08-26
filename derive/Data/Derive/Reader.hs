@@ -26,7 +26,7 @@ module Data.Derive.Reader (
     derives
 ) where
 
-import Data.DeriveTH    (derive, derives)
+import Data.DeriveTH    (derives)
 import Data.List        (intersperse, isSuffixOf)
 import qualified Language.Haskell as H
 import Language.Haskell (
