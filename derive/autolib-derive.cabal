@@ -1,5 +1,5 @@
 name:          autolib-derive
-version:       1.0
+version:       1.0.1
 license:       GPL
 license-file:  gpl-2.0.txt
 author:        Bertram Felgenhauer
@@ -8,7 +8,8 @@ homepage:
 category:      Development
 synopsis:      Automatically derive autolib's ToDoc and Reader.
 description:
-    Automatically derive instances for autolib's ToDoc and Reader classes.
+    Automatically derive instances for autolib's ToDoc and Reader classes,
+    and for the Text.JSON.JSON class.
     .
     Synopsis:
     .
@@ -34,6 +35,7 @@ library
 -- GENERATED START
         Data.Derive.Reader
         Data.Derive.ToDoc
+        Data.Derive.JSON
 -- GENERATED STOP
     other-modules:
         Data.Derive.Util.Missing
