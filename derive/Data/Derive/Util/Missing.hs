@@ -9,7 +9,7 @@
 module Data.Derive.Util.Missing where
 
 import Language.Haskell (
-    Context, FullDataDecl, DataDecl, Decl (InstDecl, DataDecl))
+    Context, FullDataDecl, DataDecl, Decl (InstDecl, DataDecl), SrcLoc (SrcLoc))
 
 -- Should be in Language.Haskell.
 dataDeclContext :: DataDecl -> Context
@@ -25,3 +25,6 @@ customContext' custom d = map f
     where
         f (InstDecl sl ctx a b c) = InstDecl sl (custom d ctx) a b c
         f x = x
+
+noSrcLoc :: SrcLoc
+noSrcLoc = SrcLoc "<generated>" 0 0

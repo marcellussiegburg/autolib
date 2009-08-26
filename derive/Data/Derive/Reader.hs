@@ -30,7 +30,7 @@ import Data.DeriveTH    (derives)
 import Data.List        (intersperse, isSuffixOf)
 import qualified Language.Haskell as H
 import Language.Haskell (
-    SrcLoc, Exp, CtorDecl, Decl, FullDataDecl, Context,
+    Exp, CtorDecl, Decl, FullDataDecl, Context,
     var, pVar, con, strE, intE, qvop, apps, (~=),
     ctorDeclName, ctorDeclFields, dataDeclCtors)
 import qualified Data.Derive.Util.Missing as M
@@ -70,7 +70,7 @@ splice (_, d) x | x ~= "reader" = let
     mkOr a b = H.InfixApp a (qvop "<|>") b
   in
     H.InfixApp (var "readerParenPrec" `H.App` var "p") (qvop "$") $
-        H.Lambda noSrcLoc [pVar "p"] $
+        H.Lambda M.noSrcLoc [pVar "p"] $
             foldr mkOr mkPzero (map mkReadCon (dataDeclCtors d))
 splice _ e = error $ "makeReader: unrecognized splice: " ++ show e
 
@@ -86,15 +86,15 @@ mkReadCon c = let
         [H.Qualifier $ var "return" `H.App` apps (con cn) (map var vars)]
     field v (fn, _)
         | "_info" `isSuffixOf` fn = [
-            H.Generator noSrcLoc (pVar v) (var "parsed_info")
+            H.Generator M.noSrcLoc (pVar v) (var "parsed_info")
         ]
         | fields = [
             H.Qualifier (var "my_reserved" `H.App` strE fn),
             H.Qualifier (var "my_equals"),
-            H.Generator noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 0)
+            H.Generator M.noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 0)
         ]
         | otherwise = [
-            H.Generator noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 9)
+            H.Generator M.noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 9)
         ]
     braces b = [H.Qualifier $ H.InfixApp (var "my_braces") (qvop "$") (H.Do b)]
     comma = H.Qualifier $ var "my_comma"
@@ -108,6 +108,3 @@ mkReadCon c = let
 
 context :: FullDataDecl -> Context -> Context
 context (_, d) ctx = M.dataDeclContext d ++ ctx
-
-noSrcLoc :: SrcLoc
-noSrcLoc = H.SrcLoc "<generated>" 0 0
