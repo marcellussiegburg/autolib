@@ -1,4 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses, TypeSynonymInstances #-}
+{-# OPTIONS_GHC -fno-warn-orphans #-}
+
 module Data.Autolib.Transport.HaXR (
     -- instances only
 ) where
@@ -14,26 +16,26 @@ import Data.ByteString (ByteString)
 import Network.XmlRpc.Internals
 
 instance ConvertAtom Value Bool where
-    fromAtom x = do ValueBool x <- return x; return x
+    fromAtom x = do ValueBool x' <- return x; return x'
     toAtom = ValueBool
 
 instance ConvertAtom Value Double where
-    fromAtom x = do ValueDouble x <- return x; return x
+    fromAtom x = do ValueDouble x' <- return x; return x'
     toAtom = ValueDouble
 
 -- FIXME: needs range checks
 instance ConvertAtom Value Integer where
-    fromAtom x = do ValueInt x <- return x; return (toInteger x)
+    fromAtom x = do ValueInt x' <- return x; return (toInteger x')
     toAtom = ValueInt . fromInteger
 
 instance ConvertAtom Value String where
-    fromAtom x = do ValueString x <- return x; return x
+    fromAtom x = do ValueString x' <- return x; return x'
     toAtom = ValueString
 
 instance ConvertAtom Value ByteString where
     fromAtom x = do
-        ValueBase64 x <- return x
-        return $ B.pack . map (fromIntegral . fromEnum) $ x
+        ValueBase64 x' <- return x
+        return $ B.pack . map (fromIntegral . fromEnum) $ x'
     toAtom = ValueBase64 . map (toEnum . fromIntegral) . B.unpack
 
 instance Transport Value Value where

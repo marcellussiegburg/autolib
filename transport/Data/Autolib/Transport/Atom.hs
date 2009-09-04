@@ -1,4 +1,6 @@
-{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, UndecidableInstances #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances,
+  UndecidableInstances #-}
+
 module Data.Autolib.Transport.Atom (
     ConvertAtom(..),
     Atom

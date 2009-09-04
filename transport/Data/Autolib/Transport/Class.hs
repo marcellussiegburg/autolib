@@ -1,4 +1,6 @@
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies, FlexibleContexts #-}
+{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
+    FlexibleContexts #-}
+
 module Data.Autolib.Transport.Class (
     Transport(..),
     Trans(..)
