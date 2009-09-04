@@ -23,7 +23,6 @@ library
         base >= 3 && < 3.1,
         haxr,
         json,
-        containers,
         bytestring,
         base64-string
     exposed-modules:

@@ -8,10 +8,9 @@ module Data.Autolib.Transport.JSON (
 import Data.Autolib.Transport.Atom
 import Data.Autolib.Transport.Class
 
-import qualified Data.Map as M
-import qualified Data.Traversable as T
 import qualified Data.ByteString as B
 import Data.ByteString (ByteString)
+import Control.Arrow (second)
 
 import Text.JSON (
     JSValue (..), fromJSString, toJSString, fromJSObject, toJSObject)
@@ -49,8 +48,11 @@ instance ConvertAtom JSValue ByteString where
 instance Transport JSValue JSValue where
     encode (TrAtom x)    = x
     encode (TrArray xs)  = JSArray $ map encode xs
-    encode (TrObject xs) = JSObject . toJSObject . M.assocs . M.map encode $ xs
+    encode (TrObject xs) = JSObject . toJSObject . map (second encode) $ xs
 
     decode (JSArray xs) = TrArray `fmap` mapM decode xs
-    decode (JSObject o) = TrObject `fmap` T.mapM decode (M.fromList . fromJSObject $ o)
+    decode (JSObject o) = TrObject `fmap` mapM (secondM decode) (fromJSObject o)
     decode x            = TrAtom `fmap` return x
+
+secondM :: Monad m => (a -> m b) -> (x, a) -> m (x, b)
+secondM f (x, a) = f a >>= return . (,) x

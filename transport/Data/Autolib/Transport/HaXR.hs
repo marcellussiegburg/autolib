@@ -8,10 +8,9 @@ module Data.Autolib.Transport.HaXR (
 import Data.Autolib.Transport.Atom
 import Data.Autolib.Transport.Class
 
-import qualified Data.Map as M
-import qualified Data.Traversable as T
 import qualified Data.ByteString as B
 import Data.ByteString (ByteString)
+import Control.Arrow (second)
 
 import Network.XmlRpc.Internals
 
@@ -41,8 +40,11 @@ instance ConvertAtom Value ByteString where
 instance Transport Value Value where
     encode (TrAtom x)    = x
     encode (TrArray xs)  = ValueArray  $ map encode xs
-    encode (TrObject xs) = ValueStruct . M.assocs . M.map encode $ xs
+    encode (TrObject xs) = ValueStruct . map (second encode) $ xs
 
     decode (ValueArray xs)  = TrArray `fmap` mapM decode xs
-    decode (ValueStruct xs) = TrObject `fmap` T.mapM decode (M.fromList xs)
+    decode (ValueStruct xs) = TrObject `fmap` mapM (secondM decode) xs
     decode x                = TrAtom `fmap` return x
+
+secondM :: Monad m => (a -> m b) -> (x, a) -> m (x, b)
+secondM f (x, a) = f a >>= return . (,) x

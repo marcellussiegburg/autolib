@@ -9,12 +9,11 @@ module Data.Autolib.Transport.Class (
 
 import Data.Autolib.Transport.Error
 import Data.Autolib.Transport.Atom
-import qualified Data.Map as M
 
 data Trans atom
     = TrAtom atom
     | TrArray [Trans atom]
-    | TrObject (M.Map String (Trans atom))
+    | TrObject [(String, Trans atom)]
 
 class Atom atom => Transport base atom | base -> atom where
     encode :: Trans atom -> base
