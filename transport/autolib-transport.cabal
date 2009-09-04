@@ -1,0 +1,35 @@
+name:          autolib-transport
+version:       0.9
+license:       GPL
+license-file:  gpl-2.0.txt
+author:        Bertram Felgenhauer
+maintainer:    Bertram Felgenhauer
+homepage:
+category:      Development
+synopsis:      Abstract data representation for transport over various protocols.
+description:
+    Abstract data representation for transport over various protocols.
+    .
+    Currently, JSON and XML-RPC are supported. The design is based on
+    the features of these two protocols and the requirements of the
+    autolib/autotool packages.
+build-type:    Simple
+cabal-version: >= 1.6
+
+extra-source-files:
+
+library
+    build-depends:
+        base >= 3 && < 3.1,
+        haxr,
+        json,
+        containers,
+        bytestring,
+        base64-string
+    exposed-modules:
+        Data.Autolib.Transport
+    other-modules:
+        Data.Autolib.Transport.Class
+        Data.Autolib.Transport.Atom
+        Data.Autolib.Transport.JSON
+        Data.Autolib.Transport.HaXR
