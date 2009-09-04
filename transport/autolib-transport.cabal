@@ -31,5 +31,6 @@ library
     other-modules:
         Data.Autolib.Transport.Class
         Data.Autolib.Transport.Atom
+        Data.Autolib.Transport.Error
         Data.Autolib.Transport.JSON
         Data.Autolib.Transport.HaXR

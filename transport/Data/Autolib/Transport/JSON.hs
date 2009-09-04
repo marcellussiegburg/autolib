@@ -47,10 +47,10 @@ instance ConvertAtom JSValue ByteString where
            . map (toEnum . fromIntegral) . B.unpack
 
 instance Transport JSValue JSValue where
-    encode (Atom x)    = x
-    encode (Array xs)  = JSArray $ map encode xs
-    encode (Object xs) = JSObject . toJSObject . M.assocs . M.map encode $ xs
+    encode (TrAtom x)    = x
+    encode (TrArray xs)  = JSArray $ map encode xs
+    encode (TrObject xs) = JSObject . toJSObject . M.assocs . M.map encode $ xs
 
-    decode (JSArray xs) = Array `fmap` mapM decode xs
-    decode (JSObject o) = Object `fmap` T.mapM decode (M.fromList . fromJSObject $ o)
-    decode x            = return (Atom x)
+    decode (JSArray xs) = TrArray `fmap` mapM decode xs
+    decode (JSObject o) = TrObject `fmap` T.mapM decode (M.fromList . fromJSObject $ o)
+    decode x            = TrAtom `fmap` return x

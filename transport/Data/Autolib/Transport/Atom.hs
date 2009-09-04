@@ -6,10 +6,11 @@ module Data.Autolib.Transport.Atom (
     Atom
 ) where
 
+import Data.Autolib.Transport.Error
 import Data.ByteString (ByteString)
 
 class ConvertAtom a b where
-    fromAtom :: a -> Maybe b
+    fromAtom :: a -> Error b
     toAtom :: b -> a
 
 class (

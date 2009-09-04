@@ -39,10 +39,10 @@ instance ConvertAtom Value ByteString where
     toAtom = ValueBase64 . map (toEnum . fromIntegral) . B.unpack
 
 instance Transport Value Value where
-    encode (Atom x)    = x
-    encode (Array xs)  = ValueArray  $ map encode xs
-    encode (Object xs) = ValueStruct . M.assocs . M.map encode $ xs
+    encode (TrAtom x)    = x
+    encode (TrArray xs)  = ValueArray  $ map encode xs
+    encode (TrObject xs) = ValueStruct . M.assocs . M.map encode $ xs
 
-    decode (ValueArray xs)  = Array `fmap` mapM decode xs
-    decode (ValueStruct xs) = Object `fmap` T.mapM decode (M.fromList xs)
-    decode x                = return (Atom x)
+    decode (ValueArray xs)  = TrArray `fmap` mapM decode xs
+    decode (ValueStruct xs) = TrObject `fmap` T.mapM decode (M.fromList xs)
+    decode x                = TrAtom `fmap` return x
