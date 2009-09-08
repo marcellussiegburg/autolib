@@ -33,6 +33,7 @@ library
         derive >= 2 && < 2.1
     exposed-modules:
 -- GENERATED START
+        Data.Derive.ToTransport
         Data.Derive.Reader
         Data.Derive.ToDoc
         Data.Derive.JSON
