@@ -81,23 +81,25 @@ mkReadCon c = let
     fields = any (not . null . fst) (ctorDeclFields c)
     vars = map (("x"++) . show) [1..length (ctorDeclFields c)]
     parseCon = [H.Qualifier $ var "my_reserved" `H.App` strE cn]
-    parseFields =
-        concat (intersperse [comma] (zipWith field vars (ctorDeclFields c))) ++
-        [H.Qualifier $ var "return" `H.App` apps (con cn) (map var vars)]
-    field v (fn, _)
+    parseFields = parseFields' False vars (ctorDeclFields c)
+    parseFields' c (v:vs) ((fn, _): fs)
         | "_info" `isSuffixOf` fn = [
             H.Generator M.noSrcLoc (pVar v) (var "parsed_info")
-        ]
+        ] ++ parseFields' c vs fs
         | fields = [
+            H.Qualifier (var "my_comma")
+            | c
+        ] ++ [
             H.Qualifier (var "my_reserved" `H.App` strE fn),
             H.Qualifier (var "my_equals"),
             H.Generator M.noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 0)
-        ]
+        ] ++ parseFields' True vs fs
         | otherwise = [
             H.Generator M.noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 9)
-        ]
+        ] ++ parseFields' c vs fs
+    parseFields' _ _ _ =
+        [H.Qualifier $ var "return" `H.App` apps (con cn) (map var vars)]
     braces b = [H.Qualifier $ H.InfixApp (var "my_braces") (qvop "$") (H.Do b)]
-    comma = H.Qualifier $ var "my_comma"
   in
     H.Do $
         [H.Qualifier $ var "guard" `H.App`
