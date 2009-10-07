@@ -21,10 +21,12 @@ extra-source-files:
 library
     build-depends:
         base >= 3 && < 3.1,
+        containers,
         haxr,
         json,
         bytestring,
-        base64-string
+        base64-string,
+        autolib-derive
     exposed-modules:
         Data.Autolib.Transport
     other-modules:
