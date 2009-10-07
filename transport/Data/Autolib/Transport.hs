@@ -47,6 +47,17 @@ instance (Ord a, ToTransport a, ToTransport b) => ToTransport (M.Map a b) where
     fromTransport (TrArray xs) = M.fromList `fmap` mapM fromTransport xs
     fromTransport _ = fail "expected TrArray"
 
+instance (ToTransport a, ToTransport b) => ToTransport (Either a b) where
+    toTransport (Left  a) = TrObject [("Left",  toTransport a)]
+    toTransport (Right b) = TrObject [("Right", toTransport b)]
+    fromTransport (TrObject [("Left",  a)]) = Left  `fmap` fromTransport a
+    fromTransport (TrObject [("Right", b)]) = Right `fmap` fromTransport b
+    fromTransport _ = fail "expected TrObject with a Left or a Right field"
+
+instance ToTransport Int where
+    toTransport = toTransport . toInteger
+    fromTransport x = fromInteger `fmap` fromTransport x
+
 -- instances for atoms
 instance ToTransport Integer where
     toTransport = TrAtom . toAtom
