@@ -33,9 +33,8 @@ instance (ToTransport a, ToTransport b) => ToTransport (a, b) where
     fromTransport _ = fail "expected two-element TrArray"
 
 instance ToTransport a => ToTransport [a] where
-    toTransport = TrArray . map toTransport
-    fromTransport (TrArray xs) = mapM fromTransport xs
-    fromTransport _ = fail "expected TrArray"
+    toTransport = toTransportList
+    fromTransport = fromTransportList
 
 instance (Ord a, ToTransport a) => ToTransport (S.Set a) where
     toTransport = TrArray . map toTransport . S.toList
@@ -69,10 +68,15 @@ instance ToTransport Double where
     fromTransport (TrAtom x) = fromAtom x
     fromTransport _ = fail "expected TrAtom"
 
-instance ToTransport String where
-    toTransport = TrAtom . toAtom
-    fromTransport (TrAtom x) = fromAtom x
-    fromTransport _ = fail "expected TrAtom"
+instance ToTransport Char where
+    toTransport = toTransportList . (:[])
+    fromTransport x = do
+        [c] <- fromTransportList x
+        return c
+
+    toTransportList = TrAtom . toAtom
+    fromTransportList (TrAtom x) = fromAtom x
+    fromTransportList _ = fail "expected TrAtom"
 
 instance ToTransport ByteString where
     toTransport = TrAtom . toAtom

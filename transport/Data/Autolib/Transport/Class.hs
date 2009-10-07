@@ -22,3 +22,16 @@ class Atom atom => Transport base atom | base -> atom where
 class ToTransport a where
     toTransport :: Atom atom => a -> Trans atom
     fromTransport :: Atom atom => Trans atom -> Error a
+
+    toTransportList :: Atom atom => [a] -> Trans atom
+    fromTransportList :: Atom atom => Trans atom -> Error [a]
+
+    toTransportList = toTransportList0
+    fromTransportList = fromTransportList0
+
+toTransportList0 :: (ToTransport a, Atom atom) => [a] -> Trans atom
+toTransportList0 = TrArray . map toTransport
+
+fromTransportList0 :: (ToTransport a, Atom atom) => Trans atom -> Error [a]
+fromTransportList0 (TrArray xs) = mapM fromTransport xs
+fromTransportList0 _ = fail "expected TrArray"
