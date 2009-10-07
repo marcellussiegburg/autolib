@@ -34,8 +34,7 @@ import Autolib.Size
 import Autolib.Hash
 
 import Autolib.XmlRpc
-
-import Network.XmlRpc.Internals 
+import Data.Autolib.Transport
 
 import Data.Typeable
 
@@ -58,18 +57,19 @@ data GraphC a => Graph a  = Graph
 	      } 
     deriving Typeable
 
-instance GraphC a => XmlRpcType ( Graph a ) where
-    toValue g = toValue [ ("knoten"  , toValue $ knoten g )
-                        , ("kanten" , toValue $ kanten g )
-                        ]
-    fromValue ( ValueStruct v ) = do
-                  f <- getField "knoten" v
-                  ff <- fromValue f
-                  s <- getField "kanten" v
-                  ss <- fromValue s
-                  return $ mkGraph ff ss
-    getType _ = TStruct
-
+instance GraphC a => ToTransport ( Graph a ) where
+    toTransport g =
+        TrObject [("Graph",
+                   TrObject [("knoten", toTransport $ knoten g),
+                             ("kanten", toTransport $ kanten g)])]
+    fromTransport (TrObject [("Graph", TrObject gs)]) = do
+        f <- maybe (fail "fromTransport: missing field knoten while decoding \
+                         \a Graph") return $ lookup "knoten" gs
+        ff <- fromTransport f
+        s <- maybe (fail "fromTransport: missing field knoten while decoding \
+                         \a Graph") return $ lookup "kanten" gs
+        ss <- fromTransport s
+        return $ mkGraph ff ss
 
 instance GraphC a =>  Informed ( Graph a) where
     info = graph_info
@@ -100,8 +100,7 @@ class ( Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Hash a
       , R.GraphC a
       , Typeable a
-      , XmlRpcType ( Set a )
-      , XmlRpcType ( Set ( Kante a ))
+      , ToTransport a
       ) => GraphC a 
 
 
@@ -110,8 +109,7 @@ instance ( Ord a, ToDoc a, ToDoc [a], Reader a, Reader [a]
       , Hash a
       , R.GraphC a
       , Typeable a
-      , XmlRpcType ( Set a )
-      , XmlRpcType ( Set ( Kante a ))
+      , ToTransport a
       ) => GraphC a 
 
 

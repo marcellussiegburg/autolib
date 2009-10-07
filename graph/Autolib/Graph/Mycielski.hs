@@ -13,12 +13,11 @@ import Autolib.Boxing.Position
 import Autolib.GVKnoten.Layout
 
 import Autolib.XmlRpc
-import Network.XmlRpc.Internals
 
 -- | Mycielsky construction:
 -- does not introduce triangles
 -- but increases chromatic number by one
-mycielski :: ( GraphC a, XmlRpcType a )
+mycielski :: ( GraphC a )
 	  => Graph a 
           -> Graph Int
 mycielski g = informed ( funni "mycielski" [ info g ] )

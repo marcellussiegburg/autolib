@@ -10,15 +10,14 @@ import Autolib.ToDoc
 import Autolib.Hash
 
 import Data.Typeable
-import Network.XmlRpc.Internals
-import Network.XmlRpc.THDeriveXmlRpcType
-
+import Data.Autolib.Transport
 
 data Kante a  = Kante
 	      { von       :: a
 	      , nach      :: a
 	      } deriving (Eq, Ord, Typeable)
 
+{-
 instance ( Ord a, XmlRpcType a ) =>  XmlRpcType ( Kante a ) where
     toValue k = toValue [ ("von"  , toValue $ von k )
                         , ("nach" , toValue $ nach k )
@@ -29,6 +28,9 @@ instance ( Ord a, XmlRpcType a ) =>  XmlRpcType ( Kante a ) where
                   s <- getField "nach" t
                   return $ kante f s
     getType _ = TStruct
+-}
+
+$(derives [makeToTransport] [''Kante])
 
 instance Hash a => Hash (Kante a) where
     hash k = hash ( von k, nach k )

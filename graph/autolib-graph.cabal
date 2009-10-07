@@ -4,7 +4,7 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, array, containers, random, haxr>=3000.1.1.1, haxr-th==3000.0.1, process,
+Build-Depends:  base==4.*, array, containers, random,process, autolib-transport,
 		autolib-reader, autolib-todoc, autolib-data, autolib-dot, autolib-util
 Synopsis:       graphs
 Exposed-modules:
