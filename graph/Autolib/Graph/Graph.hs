@@ -1,4 +1,4 @@
-{-# language IncoherentInstances, OverlappingInstances, FlexibleContexts, FlexibleInstances, MultiParamTypeClasses, UndecidableInstances, DeriveDataTypeable #-}
+{-# LANGUAGE FlexibleContexts, FlexibleInstances, MultiParamTypeClasses, UndecidableInstances, DeriveDataTypeable #-}
 
 -- | Graph Datenstruktur mit elementaren Klasseninstanzen
 

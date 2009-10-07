@@ -38,8 +38,7 @@ Exposed-modules:
         Autolib.GVKnoten.Parser
         Autolib.GVKnoten.Type
 hs-source-dirs:	.
-ghc-options: -fglasgow-exts
-extensions: MultiParamTypeClasses, FunctionalDependencies, DeriveDataTypeable, FlexibleContexts, UndecidableInstances, FlexibleInstances, IncoherentInstances, OverlappingInstances
+extensions: MultiParamTypeClasses, FunctionalDependencies, DeriveDataTypeable, FlexibleContexts, UndecidableInstances, FlexibleInstances
 build-type: Simple
 
 

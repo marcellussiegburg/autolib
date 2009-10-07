@@ -1,4 +1,4 @@
-{-# language FlexibleInstances, OverlappingInstances, IncoherentInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Autolib.Graph.Display 
 
