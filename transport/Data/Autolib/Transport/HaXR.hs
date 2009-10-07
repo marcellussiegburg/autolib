@@ -22,10 +22,10 @@ instance ConvertAtom Value Double where
     fromAtom x = do ValueDouble x' <- return x; return x'
     toAtom = ValueDouble
 
--- FIXME: needs range checks
+-- Note: We encode integers as strings because XMLRPC limits Ints to 32 bits.
 instance ConvertAtom Value Integer where
-    fromAtom x = do ValueInt x' <- return x; return (toInteger x')
-    toAtom = ValueInt . fromInteger
+    fromAtom x = do ValueString x' <- return x; return (read x')
+    toAtom = ValueString . show
 
 instance ConvertAtom Value String where
     fromAtom x = do ValueString x' <- return x; return x'
