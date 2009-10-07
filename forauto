@@ -1,6 +1,6 @@
 #! /bin/bash
 
-PACKAGES=$(echo {derive,todoc,output,reader,data,tex,reporter,util,algorithm,dot,relation,fa,genetic,rewriting,graph,exp,fta,lib,cgi})
+PACKAGES=$(echo {derive,transport,todoc,output,reader,data,tex,reporter,util,algorithm,dot,relation,fa,genetic,rewriting,graph,exp,fta,lib,cgi})
 
 function usage() {
     cat <<EOF
