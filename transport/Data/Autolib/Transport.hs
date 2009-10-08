@@ -11,8 +11,6 @@ module Data.Autolib.Transport (
 import Data.Autolib.Transport.Class
 import Data.Autolib.Transport.Atom
 import Data.Autolib.Transport.Error
-import Data.Autolib.Transport.JSON ()
-import Data.Autolib.Transport.HaXR ()
 import Data.Derive.ToTransport (makeToTransport, derives)
 
 import Data.ByteString (ByteString)

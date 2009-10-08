@@ -29,9 +29,9 @@ library
         autolib-derive
     exposed-modules:
         Data.Autolib.Transport
+        Data.Autolib.Transport.JSON
+        Data.Autolib.Transport.HaXR
     other-modules:
         Data.Autolib.Transport.Class
         Data.Autolib.Transport.Atom
         Data.Autolib.Transport.Error
-        Data.Autolib.Transport.JSON
-        Data.Autolib.Transport.HaXR
