@@ -30,6 +30,17 @@ instance (ToTransport a, ToTransport b) => ToTransport (a, b) where
         return (a', b')
     fromTransport _ = fail "expected two-element TrArray"
 
+instance (ToTransport a, ToTransport b, ToTransport c)
+    => ToTransport (a, b, c) where
+    toTransport (a, b, c)
+        = TrArray [toTransport a, toTransport b, toTransport c]
+    fromTransport (TrArray [a, b, c]) = do
+        a' <- fromTransport a
+        b' <- fromTransport b
+        c' <- fromTransport c
+        return (a', b', c')
+    fromTransport _ = fail "expected three-element TrArray"
+
 instance ToTransport a => ToTransport [a] where
     toTransport = toTransportList
     fromTransport = fromTransportList
