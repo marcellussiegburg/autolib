@@ -5,7 +5,6 @@ module Autolib.XmlRpc ( ) where
 import Autolib.Set 
 
 import Network.XmlRpc.Internals
-import Network.XmlRpc.THDeriveXmlRpcType
 
 instance XmlRpcType Integer where
     getType _ = TStruct
