@@ -32,7 +32,7 @@ import Data.Autolib.Transport
 example :: Custom
 instance ToTransport a => ToTransport (Sample a) where
     fromTransport (TrObject x) = $(fromTransport)
-    fromTransport _            = fail "..."
+    fromTransport _            = $(failFromTransport)
     toTransport (First)        = $(toTransport 0)
     toTransport (Second x1 x2) = $(toTransport 1)
     toTransport (Third x1)     = $(toTransport 2)
@@ -56,19 +56,18 @@ makeToTransport = derivationCustomDSL "ToTransport" custom $
     )])])]),App "BDecls" (List [List []])]),App "Match" (List [App
     "Ident" (List [String "fromTransport"]),List [App "PWildCard" (
     List [])],App "Nothing" (List []),App "UnGuardedRhs" (List [App
-    "App" (List [App "Var" (List [App "UnQual" (List [App "Ident" (
-    List [String "fail"])])]),App "Lit" (List [App "String" (List [
-    String "..."])])])]),App "BDecls" (List [List []])])]])]),App
-    "InsDecl" (List [App "FunBind" (List [MapCtor (App "Match" (List [
-    App "Ident" (List [String "toTransport"]),List [App "PParen" (List
-    [App "PApp" (List [App "UnQual" (List [App "Ident" (List [CtorName
-    ])]),MapField (App "PVar" (List [App "Ident" (List [Concat (List [
-    String "x",ShowInt FieldIndex])])]))])])],App "Nothing" (List []),
-    App "UnGuardedRhs" (List [App "SpliceExp" (List [App "ParenSplice"
-    (List [App "App" (List [App "Var" (List [App "UnQual" (List [App
-    "Ident" (List [String "toTransport"])])]),App "Lit" (List [App
-    "Int" (List [CtorIndex])])])])])]),App "BDecls" (List [List []])])
-    )])])])]
+    "SpliceExp" (List [App "ParenSplice" (List [App "Var" (List [App
+    "UnQual" (List [App "Ident" (List [String "failFromTransport"])])]
+    )])])]),App "BDecls" (List [List []])])]])]),App "InsDecl" (List [
+    App "FunBind" (List [MapCtor (App "Match" (List [App "Ident" (List
+    [String "toTransport"]),List [App "PParen" (List [App "PApp" (List
+    [App "UnQual" (List [App "Ident" (List [CtorName])]),MapField (App
+    "PVar" (List [App "Ident" (List [Concat (List [String "x",ShowInt
+    FieldIndex])])]))])])],App "Nothing" (List []),App "UnGuardedRhs"
+    (List [App "SpliceExp" (List [App "ParenSplice" (List [App "App" (
+    List [App "Var" (List [App "UnQual" (List [App "Ident" (List [
+    String "toTransport"])])]),App "Lit" (List [App "Int" (List [
+    CtorIndex])])])])])]),App "BDecls" (List [List []])]))])])])]
 -- GENERATED STOP
 
 -- ^ 'Derivation' for 'ToTransport'
@@ -78,6 +77,7 @@ custom = customSplice splice
 
 splice :: FullDataDecl -> Exp -> Exp
 splice d x | x ~= "fromTransport" = mkFrom d
+splice d x | x~= "failFromTransport" = mkFail d
 splice d (H.App x (H.Lit (H.Int y))) | x~= "toTransport" = mkTo d y
 splice _ e = error $ "makeToTransport: unrecognized splice: " ++ show e
 
@@ -92,6 +92,10 @@ mkTo d y = let
   in
     mkObject $ H.List
         [H.Tuple [strE (ctorDeclName c), mkFields (ctorDeclFields c)]]
+
+mkFail :: FullDataDecl -> Exp
+mkFail d = var "fail" `H.App` strE ("malformed encoding for '"
+    ++ H.dataDeclName (snd d) ++ "' (expected Object)")
 
 mkShowPlainFields :: FieldDecl -> Exp
 mkShowPlainFields fs = mkArray $ H.List
