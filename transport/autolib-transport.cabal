@@ -26,7 +26,8 @@ library
         json,
         bytestring,
         base64-string,
-        autolib-derive
+        autolib-derive,
+        utf8-string
     exposed-modules:
         Data.Autolib.Transport
         Data.Autolib.Transport.JSON

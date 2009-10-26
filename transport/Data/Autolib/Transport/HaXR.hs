@@ -12,6 +12,9 @@ import qualified Data.ByteString as B
 import Data.ByteString (ByteString)
 import Control.Arrow (second)
 
+import qualified Data.String.UTF8 as U
+import Data.Word
+
 import Network.XmlRpc.Internals
 
 instance ConvertAtom Value Bool where
@@ -28,8 +31,11 @@ instance ConvertAtom Value Integer where
     toAtom = ValueString . show
 
 instance ConvertAtom Value String where
-    fromAtom x = do ValueString x' <- return x; return x'
-    toAtom = ValueString
+    fromAtom x = do ValueString x' <- return x; return (du x')
+    toAtom = ValueString . eu
+
+du = U.toString . U.fromRep . map (fromIntegral :: Int -> Word8) . map fromEnum
+eu = map toEnum . map (fromIntegral :: Word8 -> Int) . U.toRep . U.fromString 
 
 instance ConvertAtom Value ByteString where
     fromAtom x = do
