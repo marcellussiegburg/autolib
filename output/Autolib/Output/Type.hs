@@ -7,10 +7,12 @@ module Autolib.Output.Type where
 import qualified Autolib.Multilingual.Doc as Pretty
 import Autolib.Multilingual
 
+import Data.ByteString
+
 data Output = Empty
 	    | Doc  Pretty.Doc
 	    | Pre  Pretty.Doc
-	    | Image FilePath -- source
+	    | Image FilePath (IO ByteString) -- source, data
 	    | Link FilePath 
 	    | Named_Link String FilePath 
 	    | Text String
@@ -32,7 +34,7 @@ instance Render Pretty.Doc where
     -- render (Image src) = Pretty.text $ "<img src=" ++ src ++ "/>"
     -- render (Link url) = Pretty.text $ "<a href=" ++ url ++ "/>"
 
-    render (Image src) = Pretty.text "<img>"
+    render (Image src _) = Pretty.text "<img>"
     render (Link url) = Pretty.text "<a href>"
     render (Named_Link name url) = Pretty.text "<a href>"
 

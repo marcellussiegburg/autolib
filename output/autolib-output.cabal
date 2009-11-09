@@ -4,7 +4,7 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, autolib-todoc
+Build-Depends:  base==4.*, bytestring==0.9.*, autolib-todoc
 Synopsis:       abstract output
 Exposed-modules:
         Autolib.Output

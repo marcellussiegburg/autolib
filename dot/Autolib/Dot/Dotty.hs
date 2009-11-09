@@ -17,7 +17,9 @@ import Autolib.Size
 
 import System.IO
 import System.Directory
-import qualified Control.Exception 
+import qualified Control.Exception as CE
+
+import qualified Data.ByteString as B
 
 -- | write output as png to file,
 -- in "current-directory\/..\/pics\/hashcode.{obj,dot,png}"
@@ -35,35 +37,36 @@ peng a = do
         it = toDot a
         pre = pics ++ "/" ++ ( show $ abs $ hash a ) ++ "." ++ ( show $ toDotProgram a )
     let objfile = pre ++ ".obj"
-        dotfile = pre ++ ".dot" 
+        dotfile = pre ++ ".dot"
         pngfile = pre ++ ".png"
-    execute $ do
-        flag <- doesDirectoryExist pics
-        when ( not flag ) $ createDirectory pics
-        done <- do
-	       let debug msg = return ()
-    	       debug $ "looking for: " ++ pngfile
-               ex <- doesFileExist pngfile
-	       when (not ex) $ ioError $ userError "not"
-	       debug $ "looking for: " ++ objfile
-               cs <- readFile objfile
-               debug $ "found      : " ++ objfile
-	       let eq = show a == cs
-	       debug $ "contents ok: " ++ show eq
-               return $ eq
-           `Control.Exception.catch` \ ( any :: Control.Exception.IOException ) -> return False
-        when ( not done ) $ do      
-             writeFileOver objfile $ show a
-             writeFileOver dotfile $ show it ++ "\n\n"
-             system' $ unwords 
-		   [ progname $ toDotProgram a 
-		   , toDotOptions a
-		   , "-Tpng", "-o", pngfile
-		   , dotfile
-		   ]
-             return ()
-         `Control.Exception.catch` \ ( any :: Control.Exception.IOException ) -> return ()
-    output $ Output.Image pngfile
+        action = do
+            flag <- doesDirectoryExist pics
+            when ( not flag ) $ createDirectory pics
+            done <- do
+                let debug msg = return ()
+                debug $ "looking for: " ++ pngfile
+                ex <- doesFileExist pngfile
+                when (not ex) $ ioError $ userError "not"
+                debug $ "looking for: " ++ objfile
+                cs <- readFile objfile
+                debug $ "found      : " ++ objfile
+                let eq = show a == cs
+                debug $ "contents ok: " ++ show eq
+                return $ eq
+             `CE.catch` \ ( any :: CE.IOException ) -> return False
+            when ( not done ) $ do
+                 writeFileOver objfile $ show a
+                 writeFileOver dotfile $ show it ++ "\n\n"
+                 system' $ unwords
+                       [ progname $ toDotProgram a
+                       , toDotOptions a
+                       , "-Tpng", "-o", pngfile
+                       , dotfile
+                       ]
+                 return ()
+             `CE.catch` \ ( any :: CE.IOException ) -> return ()
+    execute action
+    output $ Output.Image pngfile (action >> B.readFile pngfile)
     output $ Output.Beside
 	        ( Output.Doc $ text 
 			     $ "image rendered by " ++ show ( toDotProgram a )
