@@ -21,7 +21,7 @@ data Proof =
 explain :: Proof -> Output
 explain p = foldr1 Above
 	  [ Doc $ text "the value of" 
-		<+> quoted ( toDoc ( formula p ))
+		<+> quoted ( formula p )
 		-- <+> text "(the formula)"
 	  , Doc $ text "is" <+> toDoc ( value p ) <> text ", because"
 	  , Itemize $ reverse $ history p
@@ -33,7 +33,6 @@ instance Eq Proof where
 
 
 instance ToDoc Output where toDoc = Autolib.Output.render
-instance ToDoc Doc where toDoc = id
 
 $(derives [makeToDoc] [''Proof])
 

@@ -127,6 +127,9 @@ instance ToDoc (Clip Char) where
 	  in  text $ show alles
 -}
 
+instance ToDoc Doc where
+    toDoc = text . show . render
+
 putz :: ToDoc [a] => [a] -> IO ()
 -- benutzt implizit  take max_list_length
 putz = putStrLn . render . toDoc 

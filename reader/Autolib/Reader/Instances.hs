@@ -7,6 +7,7 @@ module Autolib.Reader.Instances where
 
 import Autolib.Reader.Class
 import Autolib.Reader.Basic
+import Autolib.ToDoc (Doc, text)
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token
@@ -84,3 +85,5 @@ listify :: Parser a -> Parser [a]
 listify p = my_brackets ( commaSep haskell p )
 
 
+instance Reader Doc where
+    reader = do cs <- reader ; return $ text cs
