@@ -1,11 +1,22 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
+-- |
+-- 'Transport' abstraction layer.
+--
+-- This library provides a common interface for representing data as
+-- JSON or XML-Rpc data. The common structure is captured in the 'Trans'
+-- type.
+--
+-- To use it you'll need one of the backend implementations,
+-- 'Data.Autolib.Transport.JSON' or 'Data.Autolib.Transport.HaXR'.
+
 module Data.Autolib.Transport (
     module Data.Autolib.Transport.Class,
     module Data.Autolib.Transport.Atom,
     module Data.Autolib.Transport.Error,
     module Data.Derive.ToTransport
+    -- and lots of instances
 ) where
 
 import Data.Autolib.Transport.Class

@@ -1,6 +1,11 @@
 {-# LANGUAGE MultiParamTypeClasses, TypeSynonymInstances #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
+-- |
+-- JSON backend
+--
+-- This module provides 'Transport' and 'Atom' instances for JSON.
+
 module Data.Autolib.Transport.JSON (
     -- instances only
 ) where

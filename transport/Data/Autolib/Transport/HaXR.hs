@@ -1,6 +1,11 @@
 {-# LANGUAGE MultiParamTypeClasses, TypeSynonymInstances #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
+-- |
+-- HaXR backend.
+--
+-- This module provides 'Transport' and 'Atom' instances for HaXR.
+
 module Data.Autolib.Transport.HaXR (
     -- instances only
 ) where

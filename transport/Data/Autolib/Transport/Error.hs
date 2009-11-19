@@ -1,3 +1,6 @@
+-- |
+-- Custom Error monad.
+
 module Data.Autolib.Transport.Error (
     Error (..)
 ) where
@@ -5,6 +8,8 @@ module Data.Autolib.Transport.Error (
 import Control.Applicative
 import Control.Monad
 
+-- | 'Error a' is isomorphic to @Either String a@ but could be extended
+-- to encode more error conditions.
 data Error a = Error String | Result a
 
 instance Monad Error where
