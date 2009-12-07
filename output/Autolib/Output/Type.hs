@@ -20,6 +20,7 @@ data Output = Empty
 	    | Beside Output Output
 	    | Itemize [ Output ]
 	    | Nest Output
+	    | Figure Output Output -- contents, caption
 
 class Render r where
       render :: Output -> r
@@ -48,3 +49,4 @@ instance Render Pretty.Doc where
         return ( Pretty.text "*" Pretty.<+> render x )
     render (Nest x) = Pretty.nest 4 $ render x
 
+    render (Figure a b) = render (Above a b)

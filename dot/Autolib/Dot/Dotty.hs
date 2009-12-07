@@ -66,12 +66,13 @@ peng a = do
                  return ()
              `CE.catch` \ ( any :: CE.IOException ) -> return ()
     execute action
-    output $ Output.Image pngfile (action >> B.readFile pngfile)
-    output $ Output.Beside
+    output $ Output.Figure
+        (Output.Image pngfile (action >> B.readFile pngfile))
+        (Output.Beside
 	        ( Output.Doc $ text 
 			     $ "image rendered by " ++ show ( toDotProgram a )
 		               ++ ", see " )
-		( Output.Link $ "http://www.graphviz.org/" )
+		( Output.Link $ "http://www.graphviz.org/" ) )
 
 writeFileOver :: FilePath -> String -> IO ()
 writeFileOver path cs = do
