@@ -25,4 +25,5 @@ instance Monad m => Render ( HTMLMonad.WithHTML m () ) where
 	    () <- HTMLMonad.li ( render x )
 	    return ()
     render (Nest x) = HTMLMonad.blockquote $ render x
+    render (Figure a b) = render (Above a b)
 

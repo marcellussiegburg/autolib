@@ -36,6 +36,7 @@ instance Render Html.Html where
 
     render (Itemize xs) = Html.itemize $ map ( Html.li . render ) xs
     render (Nest x) = Html.blockquote $ render x
+    render (Figure a b) = render (Above a b)
 
 
 breaking :: Output -> Bool
