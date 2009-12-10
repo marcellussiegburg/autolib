@@ -24,7 +24,8 @@ Exposed-modules:
         Autolib.Local
 hs-source-dirs:	.
 extensions: 
-build-type: Simple
+cabal-version: >= 1.6
+build-type: Custom
 
 
 
