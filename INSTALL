@@ -1,0 +1,16 @@
+------------------------------------------------------------------------------
+Prerequisites:
+
+  * ghc-6.10.4
+  * cabal-install
+
+------------------------------------------------------------------------------
+Installation:
+
+The easiest way is to use the forauto script as follows:
+
+  * ./forauto cabal install
+
+possibly followed by options, perhaps
+
+  * ./forauto cabal install --global --root-cmd=sudo
