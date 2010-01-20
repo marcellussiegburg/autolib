@@ -32,8 +32,7 @@ import qualified Language.Haskell as H
 import Language.Haskell (
     Exp, CtorDecl, Decl, FullDataDecl, Context,
     var, pVar, con, strE, intE, qvop, apps, (~=),
-    ctorDeclName, ctorDeclFields, dataDeclCtors)
-import qualified Data.Derive.Util.Missing as M
+    ctorDeclName, ctorDeclFields, dataDeclCtors, dataDeclContext)
 
 {-
 import Autolib.Reader
@@ -62,7 +61,7 @@ makeReader = derivationCustomDSL "Reader" custom $
 -- ^ 'Derivation' for deriving 'Reader'
 
 custom :: FullDataDecl -> [Decl] -> [Decl]
-custom f = customSplice splice f . M.customContext' context f
+custom f = customSplice splice f . customContext context f
 
 splice :: FullDataDecl -> Exp -> Exp
 splice (_, d) x | x ~= "reader" = let
@@ -70,7 +69,7 @@ splice (_, d) x | x ~= "reader" = let
     mkOr a b = H.InfixApp a (qvop "<|>") b
   in
     H.InfixApp (var "readerParenPrec" `H.App` var "p") (qvop "$") $
-        H.Lambda M.noSrcLoc [pVar "p"] $
+        H.Lambda H.sl [pVar "p"] $
             foldr mkOr mkPzero (map mkReadCon (dataDeclCtors d))
 splice _ e = error $ "makeReader: unrecognized splice: " ++ show e
 
@@ -84,7 +83,7 @@ mkReadCon c = let
     parseFields = parseFields' False vars (ctorDeclFields c)
     parseFields' c (v:vs) ((fn, _): fs)
         | "_info" `isSuffixOf` fn = [
-            H.Generator M.noSrcLoc (pVar v) (var "parsed_info")
+            H.Generator H.sl (pVar v) (var "parsed_info")
         ] ++ parseFields' c vs fs
         | fields = [
             H.Qualifier (var "my_comma")
@@ -92,10 +91,10 @@ mkReadCon c = let
         ] ++ [
             H.Qualifier (var "my_reserved" `H.App` strE fn),
             H.Qualifier (var "my_equals"),
-            H.Generator M.noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 0)
+            H.Generator H.sl (pVar v) (var "readerPrec" `H.App` intE 0)
         ] ++ parseFields' True vs fs
         | otherwise = [
-            H.Generator M.noSrcLoc (pVar v) (var "readerPrec" `H.App` intE 9)
+            H.Generator H.sl (pVar v) (var "readerPrec" `H.App` intE 9)
         ] ++ parseFields' c vs fs
     parseFields' _ _ _ =
         [H.Qualifier $ var "return" `H.App` apps (con cn) (map var vars)]
@@ -109,4 +108,4 @@ mkReadCon c = let
         (if fields then braces else id) parseFields
 
 context :: FullDataDecl -> Context -> Context
-context (_, d) ctx = M.dataDeclContext d ++ ctx
+context (_, d) ctx = dataDeclContext d ++ ctx

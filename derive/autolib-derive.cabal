@@ -8,8 +8,8 @@ homepage:
 category:      Development
 synopsis:      Automatically derive autolib's ToDoc and Reader.
 description:
-    Automatically derive instances for autolib's ToDoc and Reader classes,
-    and for the Text.JSON.JSON class.
+    Automatically derive instances for autolib's ToDoc, Reader and
+    ToTransport classes.
     .
     Synopsis:
     .
@@ -29,14 +29,11 @@ extra-source-files:
 
 library
     build-depends:
-        base >= 3 && < 3.1,
-        derive >= 2 && < 2.1
+        base >= 4 && < 4.3,
+        derive >= 2.3 && < 2.4
     exposed-modules:
 -- GENERATED START
         Data.Derive.ToTransport
         Data.Derive.Reader
         Data.Derive.ToDoc
-        Data.Derive.JSON
 -- GENERATED STOP
-    other-modules:
-        Data.Derive.Util.Missing

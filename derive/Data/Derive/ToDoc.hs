@@ -34,8 +34,7 @@ import qualified Language.Haskell as H
 import Language.Haskell (
     Exp, CtorDecl, Decl, FullDataDecl, Context,
     var, strE, intE, qvop, apps, (~=),
-    ctorDeclName, ctorDeclFields, dataDeclCtors)
-import qualified Data.Derive.Util.Missing as M
+    ctorDeclName, ctorDeclFields, dataDeclCtors, dataDeclContext)
 
 {-
 import Autolib.ToDoc.Class
@@ -71,7 +70,7 @@ makeToDoc = derivationCustomDSL "ToDoc" custom $
 -- ^ 'Derivation' for 'ToDoc'
 
 custom :: FullDataDecl -> [Decl] -> [Decl]
-custom f = customSplice splice f . M.customContext' context f
+custom f = customSplice splice f . customContext context f
 
 splice :: FullDataDecl -> Exp -> Exp
 splice d (H.App x (H.Lit (H.Int y))) | x ~= "toDoc" = let
@@ -105,7 +104,7 @@ customRecord c = apps (var "docParen") [
               mkToDocPrec 0 (var ("x" ++ show (nr :: Int)))]
 
 context :: FullDataDecl -> Context -> Context
-context (_, d) ctx = M.dataDeclContext d ++ ctx
+context (_, d) ctx = dataDeclContext d ++ ctx
 
 cName :: CtorDecl -> Exp
 cName c = mkText (strE (ctorDeclName c))

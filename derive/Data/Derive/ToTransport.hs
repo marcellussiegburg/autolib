@@ -24,7 +24,6 @@ import Language.Haskell (
     Exp, Pat, Alt, CtorDecl, Decl, FullDataDecl, FieldDecl, BangType, Stmt,
     (~=), var, pVar, con, strE, strP, apps, qname,
     ctorDeclFields, ctorDeclName, dataDeclCtors)
-import qualified Data.Derive.Util.Missing as M
 
 {-
 import Data.Autolib.Transport
@@ -116,7 +115,7 @@ mkFrom (_, d) = let
   in
     H.Case (var "x") $
     map mkFromCtor (dataDeclCtors d) ++
-    [H.Alt M.noSrcLoc H.PWildCard (H.UnGuardedAlt fromError) (H.BDecls [])]
+    [H.Alt H.sl H.PWildCard (H.UnGuardedAlt fromError) (H.BDecls [])]
 
 mkFromCtor :: CtorDecl -> Alt
 mkFromCtor c = let
@@ -126,21 +125,21 @@ mkFromCtor c = let
     body | hasFields = mkFromRecord cn fs
          | otherwise = mkFromPlain cn fs
   in
-    H.Alt M.noSrcLoc (H.PList [H.PTuple [strP cn, pVar "y"]])
+    H.Alt H.sl (H.PList [H.PTuple [strP cn, pVar "y"]])
          (H.UnGuardedAlt body) (H.BDecls [])
 
 mkFromRecord :: String -> FieldDecl -> Exp
 mkFromRecord cn fs = H.Do $
-    [H.Generator M.noSrcLoc (H.PApp (qname "TrObject") [pVar "z"])
+    [H.Generator H.sl (H.PApp (qname "TrObject") [pVar "z"])
           (var "return" `H.App` var "y")] ++
-    [H.LetStmt $ H.BDecls [H.PatBind M.noSrcLoc (pVar "d") Nothing
+    [H.LetStmt $ H.BDecls [H.PatBind H.sl (pVar "d") Nothing
           (H.UnGuardedRhs $ var "z")
           (H.BDecls [])]] ++
     zipWith (mkFromRecordField cn) (pVars "x" fs) fs ++
     mkFromTrailer cn fs
 
 mkFromRecordField :: String -> Pat -> (String, BangType) -> Stmt
-mkFromRecordField cn xi (fn, _) = H.Generator M.noSrcLoc xi $
+mkFromRecordField cn xi (fn, _) = H.Generator H.sl xi $
     apps (var "maybe") [
         var "fail" `H.App` strE (unwords ["fromTransport: missing field", fn,
                                           "while decoding a", cn]),
@@ -149,13 +148,13 @@ mkFromRecordField cn xi (fn, _) = H.Generator M.noSrcLoc xi $
 
 mkFromPlain :: String -> FieldDecl -> Exp
 mkFromPlain cn fs = H.Do $
-    [H.Generator M.noSrcLoc (H.PApp (qname "TrArray") [H.PList (pVars "x" fs)])
+    [H.Generator H.sl (H.PApp (qname "TrArray") [H.PList (pVars "x" fs)])
         (var "return" `H.App` var "y")] ++
     mkFromTrailer cn fs
 
 mkFromTrailer :: String -> FieldDecl -> [Stmt]
 mkFromTrailer cn fs =
-    [ H.Generator M.noSrcLoc yi (var "fromTransport" `H.App` xi)
+    [ H.Generator H.sl yi (var "fromTransport" `H.App` xi)
     | (xi, yi) <- zip (vars "x" fs) (pVars "y" fs)] ++
     [H.Qualifier $ var "return" `H.App` apps (con cn) (vars "y" fs)]
 
