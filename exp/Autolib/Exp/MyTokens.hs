@@ -1,4 +1,5 @@
 -- -- $Id$
+{-# LANGUAGE NoMonomorphismRestriction #-}
 
 module Autolib.Exp.MyTokens where
 
