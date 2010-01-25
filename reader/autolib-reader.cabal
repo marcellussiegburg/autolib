@@ -4,7 +4,7 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*,parsec==3.*, autolib-todoc, autolib-derive
+Build-Depends:  base,parsec==2.*, autolib-todoc, autolib-derive
 Synopsis:       parsing
 Exposed-modules:
 	Autolib.Reader
