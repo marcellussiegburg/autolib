@@ -45,7 +45,7 @@ instance Nice [a] => Nice (Set a)
 instance ( Typeable a ) =>  Typeable ( Set a ) where
     typeOf s = 
         mkTyConApp
-                ( mkTyCon "Set" )
+                ( mkTyCon "Autolib.Set.Set" )
 		[ typeOf ((undefined :: Set a -> a) s) ]
 
 

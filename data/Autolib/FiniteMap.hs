@@ -20,7 +20,7 @@ import Data.Typeable
 instance ( Typeable a, Typeable b ) => Typeable (FiniteMap a b) where
     typeOf (_ :: FiniteMap a b) = 
         mkTyConApp
-               (mkTyCon "FiniteMap") 
+               (mkTyCon "Autolib.Data.Map.FiniteMap") 
 	       [ typeOf (undefined :: a), typeOf (undefined :: b) ]
 
 

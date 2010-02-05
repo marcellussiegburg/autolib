@@ -34,12 +34,7 @@ data Identifier = Identifier
 		{ hash_code :: {-# UNPACK #-} ! Int32
 		, name	    :: {-# UNPACK #-} ! String
 		, i_arity   :: {-# UNPACK #-} ! Int
-		}
-
-instance Typeable Identifier where
-    typeOf _ = 
-        mkTyConApp
-                   (mkTyCon "Identifier") [] -- ??
+		} deriving Typeable
 
 instance Hash Identifier where hash = hash_code
 
