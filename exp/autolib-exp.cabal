@@ -1,12 +1,18 @@
 Name:           autolib-exp
-Version:        1.0
+Version:        1.1
 License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, parsec==2.*,
-		autolib-todoc, autolib-reader, autolib-reporter, autolib-data, autolib-util,
-		autolib-fa
+Build-Depends:  
+        base >= 4 && < 4.3,
+        parsec >= 2 && < 3,
+        autolib-todoc >= 1.1 && < 1.2,
+        autolib-reader >= 1.1 && < 1.2,
+        autolib-reporter >= 1.1 && < 1.2,
+        autolib-data >= 1.1 && < 1.2,
+        autolib-util >= 1.1 && < 1.2,
+        autolib-fa >= 1.1 && < 1.2
 Synopsis:       regular expressions
 Exposed-modules:
         Autolib.Exp

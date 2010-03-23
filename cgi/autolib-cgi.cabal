@@ -1,5 +1,5 @@
 Name:           autolib-cgi
-Version:        1.1
+Version:        1.2
 License:        GPL
 License-file:	gpl-2.0.txt
 Author:         Johannes Waldmann
@@ -13,11 +13,23 @@ build-type: Simple
 Cabal-version: >= 1.2
 
 Library
-    Build-depends:  base,bytestring,mtl,xhtml,happstack-server
+    Build-depends:  
+            base >= 4 && < 4.3,
+            bytestring >= 0.9 && < 0.10,
+            mtl >= 1.1 && < 1.2,
+            xhtml >= 3000.2 && < 3000.3,
+            happstack-server >= 0.4 && < 0.5
     Exposed-modules: Autolib.CGI,Autolib.CGI.Widget,Autolib.CGI.Form,Autolib.CGI.Edit
                      Autolib.CGI.Local,Autolib.CGI.Container,Autolib.CGI.Store
 Executable Menu_Test
-    Build-depends:  base,happstack,bytestring,mtl,xhtml,happstack-server,happstack-state
+    Build-depends:  
+            base >= 4 && < 4.3,
+            happstack >= 0.4 && < 0.5,
+            bytestring >= 0.9 && < 0.10,
+            mtl >= 1.1 && < 1.2,
+            xhtml >= 3000.2 && < 3000.3,
+            happstack-server >= 0.4 && < 0.5,
+            happstack-state >= 0.4 && < 0.5
     Main-is: Menu_Test.hs    
 
 

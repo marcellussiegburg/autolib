@@ -1,13 +1,26 @@
 Name:           autolib
-Version:        1.1
+Version:        1.2
 License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  autolib-todoc, autolib-tex, autolib-reader, autolib-output, autolib-data, 
-		autolib-reporter, autolib-algorithm, autolib-util, autolib-relation, 
-		autolib-dot, autolib-fa, autolib-exp, autolib-rewriting, autolib-fta, autolib-graph,
-		autolib-genetic >= 1.1
+Build-Depends:  
+        autolib-todoc >= 1.1 && < 1.2,
+        autolib-tex >= 1.1 && < 1.2,
+        autolib-reader >= 1.1 && < 1.2,
+        autolib-output >= 1.1 && < 1.2,
+        autolib-data >= 1.1 && < 1.2,
+        autolib-reporter >= 1.1 && < 1.2,
+        autolib-algorithm >= 1.1 && < 1.2,
+        autolib-util >= 1.1 && < 1.2,
+        autolib-relation >= 1.1 && < 1.2,
+        autolib-dot >= 1.1 && < 1.2,
+        autolib-fa >= 1.1 && < 1.2,
+        autolib-exp >= 1.1 && < 1.2,
+        autolib-rewriting >= 1.1 && < 1.2,
+        autolib-fta >= 1.1 && < 1.2,
+        autolib-graph >= 1.1 && < 1.2,
+        autolib-genetic >= 1.2 && < 1.3
 Synopsis:       virtual package that depends on autolib-*
 Exposed-modules:
 hs-source-dirs:	.

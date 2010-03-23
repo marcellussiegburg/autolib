@@ -1,5 +1,5 @@
 name:          autolib-transport
-version:       0.9
+version:       1
 license:       GPL
 license-file:  gpl-2.0.txt
 author:        Bertram Felgenhauer
@@ -20,14 +20,14 @@ extra-source-files:
 
 library
     build-depends:
-        base >= 4 && < 4.3,
-        containers,
-        haxr >= 3000.5 && < 3000.6,
-        json,
-        bytestring,
-        base64-string,
-        autolib-derive,
-        utf8-string
+            base >= 4 && < 4.3,
+            containers >= 0.2 && < 0.4,
+            haxr >= 3000.5 && < 3000.6,
+            json >= 0.4 && < 0.5,
+            bytestring >= 0.9 && < 0.10,
+            base64-string >= 0.1 && < 0.2,
+            autolib-derive >= 1.1 && < 1.2,
+            utf8-string >= 0.3 && < 0.4
     exposed-modules:
         Data.Autolib.Transport
         Data.Autolib.Transport.JSON

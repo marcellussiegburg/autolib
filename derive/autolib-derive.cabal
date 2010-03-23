@@ -1,5 +1,5 @@
 name:          autolib-derive
-version:       1.0.1
+version:       1.1
 license:       GPL
 license-file:  gpl-2.0.txt
 author:        Bertram Felgenhauer
@@ -29,8 +29,8 @@ extra-source-files:
 
 library
     build-depends:
-        base >= 4 && < 4.3,
-        derive >= 2.3 && < 2.4
+            base >= 4 && < 4.3,
+            derive >= 2.3 && < 2.4
     exposed-modules:
 -- GENERATED START
         Data.Derive.ToTransport

@@ -1,11 +1,19 @@
 Name:           autolib-reporter
-Version:        1.0
+Version:        1.1
 License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, parsec==2.*, containers, mtl, random, 
-		autolib-output, autolib-todoc, autolib-reader, autolib-data
+Build-Depends:  
+        base >= 4 && < 4.3,
+        parsec >= 2 && < 3,
+        containers >= 0.2 && < 0.4,
+        mtl >= 1.1 && < 1.2,
+        random >= 1.0 && < 1.1,
+        autolib-output >= 1.1 && < 1.2,
+        autolib-todoc >= 1.1 && < 1.2,
+        autolib-reader >= 1.1 && < 1.2,
+        autolib-data >= 1.1 && < 1.2
 Synopsis:       reporting 
 Exposed-modules:
         Autolib.Timer
