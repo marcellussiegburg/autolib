@@ -1,9 +1,6 @@
-{-# OPTIONS -fallow-overlapping-instances -fglasgow-exts -fallow-undecidable-instances #-}
+{-# language OverlappingInstances, IncoherentInstances #-}
 
 module Autolib.SRS.Rule where
-
---  $Id$
-
 
 import Autolib.Symbol
 import Autolib.TES.Parsec
