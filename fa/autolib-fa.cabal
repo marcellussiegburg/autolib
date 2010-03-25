@@ -1,12 +1,20 @@
 Name:           autolib-fa
-Version:        1.0
+Version:        1.1
 License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, mtl,
-		autolib-algorithm, autolib-reader, autolib-todoc, autolib-reporter,
-		autolib-data, autolib-relation, autolib-util, autolib-dot
+Build-Depends:  
+        base >= 4 && < 4.3,
+        mtl >= 1.1 && < 1.2,
+        autolib-algorithm >= 1.1 && < 1.2,
+        autolib-reader >= 1.1 && < 1.2,
+        autolib-todoc >= 1.1 && < 1.2,
+        autolib-reporter >= 1.1 && < 1.2,
+        autolib-data >= 1.1 && < 1.2,
+        autolib-relation >= 1.1 && < 1.2,
+        autolib-util >= 1.1 && < 1.2,
+        autolib-dot >= 1.1 && < 1.2
 Synopsis:       finite automata (for words) 
 Exposed-modules:
         Autolib.ENFA

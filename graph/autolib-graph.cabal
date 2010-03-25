@@ -1,11 +1,21 @@
 Name:           autolib-graph
-Version:        1.0
+Version:        1.1
 License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, array, containers, random,process, autolib-transport,
-		autolib-reader, autolib-todoc, autolib-data, autolib-dot, autolib-util
+Build-Depends:  
+        base >= 4 && < 4.3,
+        array >= 0.2 && < 0.4,
+        containers >= 0.2 && < 0.4,
+        random >= 1.0 && < 1.1,
+        process >= 1.0 && < 1.1,
+        autolib-transport >= 1 && < 1.1,
+        autolib-reader >= 1.1 && < 1.2,
+        autolib-todoc >= 1.1 && < 1.2,
+        autolib-data >= 1.1 && < 1.2,
+        autolib-dot >= 1.1 && < 1.2,
+        autolib-util >= 1.1 && < 1.2
 Synopsis:       graphs
 Exposed-modules:
         Autolib.Number

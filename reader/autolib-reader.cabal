@@ -1,10 +1,14 @@
 Name:           autolib-reader
-Version:        1.0
+Version:        1.1
 License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base,parsec==2.*, autolib-todoc, autolib-derive
+Build-Depends:  
+        base >= 4 && < 4.3,
+        parsec >= 2 && < 3,
+        autolib-todoc >= 1.1 && < 1.2,
+        autolib-derive >= 1.1 && < 1.2
 Synopsis:       parsing
 Exposed-modules:
 	Autolib.Reader

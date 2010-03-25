@@ -1,12 +1,23 @@
 Name:           autolib-rewriting
-Version:        1.0
+Version:        1.1
 License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  base==4.*, containers, mtl, random, parsec==2.*,
-		autolib-util, autolib-data, autolib-reader, autolib-todoc, autolib-tex, autolib-relation, autolib-fa,
-		autolib-reporter
+Build-Depends:  
+        base >= 4 && < 4.3,
+        containers >= 0.2 && < 0.4,
+        mtl >= 1.1 && < 1.2,
+        random >= 1.0 && < 1.1,
+        parsec >= 2 && < 3,
+        autolib-util >= 1.1 && < 1.2,
+        autolib-data >= 1.1 && < 1.2,
+        autolib-reader >= 1.1 && < 1.2,
+        autolib-todoc >= 1.1 && < 1.2,
+        autolib-tex >= 1.1 && < 1.2,
+        autolib-relation >= 1.1 && < 1.2,
+        autolib-fa >= 1.1 && < 1.2,
+        autolib-reporter >= 1.1 && < 1.2
 Synopsis:       string and term rewriting 
 Exposed-modules:
        Autolib.Rewriting
