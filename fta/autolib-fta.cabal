@@ -34,6 +34,7 @@ Exposed-modules:
         Autolib.NFTA.Shortest
         Autolib.NFTA.Trim
         Autolib.NFTA.Type
+	Autolib.Rewriting.Automaton
 hs-source-dirs:	.
 extensions: MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, UndecidableInstances, ScopedTypeVariables
 build-type: Simple
