@@ -1,4 +1,5 @@
 {-# OPTIONS -fglasgow-exts -fallow-undecidable-instances -fallow-overlapping-instances #-}
+{-# language IncoherentInstances #-}
 
 module Autolib.TES.Rule where
 
