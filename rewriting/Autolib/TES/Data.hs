@@ -170,7 +170,7 @@ instance Reader TES where
     readerPrec p = do
 	tes <- plain_reader
         return $ check_arities
-	       $ repair_signature
+	       -- $ repair_signature
 	       $ repair_variables 
 	       $ tes { separate = False }
 
@@ -236,7 +236,8 @@ repair_variables trs =
 
 -- | add nullary symbol (if not already there) to avoid confusion later
 -- e. g. if SRS considered as TRS, need Epsilon at the right end,
--- otherwise no state of automaton is productive
+-- otherwise no state of automaton is productive.
+-- FIXME: do we need this? 
 repair_signature :: TES -> TES
 repair_signature trs = 
     let sig = signature trs
