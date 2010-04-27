@@ -36,7 +36,7 @@ instance ConvertAtom Value Integer where
     toAtom = ValueString . show
 
 instance ConvertAtom Value String where
-    fromAtom x = do ValueString x' <- return x; return x' -- (du x')
+    fromAtom x = do ValueString x' <- return x; return (du x')
     toAtom = ValueString . eu
 
 du :: String -> String
