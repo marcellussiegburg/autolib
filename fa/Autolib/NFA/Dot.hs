@@ -58,8 +58,7 @@ instance ( NFAC c a , Show a, Show c )
     toDotOptions a = "-Grankdir=LR" -- "-s"
 
 helper num a = 
-        let 
-            allstates = setToList $ mkSet $ lstates a ++ do
+        let allstates = setToList $ mkSet $ lstates a ++ do
                 (p,c,q) <- unCollect $ trans a
                 [p,q]
 
