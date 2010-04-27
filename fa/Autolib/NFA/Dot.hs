@@ -59,6 +59,9 @@ instance ( NFAC c a , Show a, Show c )
 
 helper num a = 
         let 
+            allstates = setToList $ mkSet $ lstates a ++ do
+                (p,c,q) <- unCollect $ trans a
+                [p,q]
 
 	    tricky cs = 
 	        if take 1 cs `elem` [ "\"", "'" ]  
@@ -68,7 +71,7 @@ helper num a =
 	    quoted cs = "\"" ++ cs ++ "\""
 
 	    -- tatsächliche knoten (zustände)
-	    ns = do p <- lstates a
+	    ns = do p <- allstates
 		    let sh = case p `elementOf` finals a of
 			      True  -> "doublecircle"
 			      False -> "ellipse"
