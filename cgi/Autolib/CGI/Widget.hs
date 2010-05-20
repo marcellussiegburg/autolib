@@ -38,6 +38,12 @@ import Data.Maybe ( isJust, catMaybes, listToMaybe )
 import Control.Monad ( guard, mzero )
 import Data.List ( isPrefixOf )
 
+import qualified Codec.Binary.UTF8.String as CBUS
+
+import qualified Data.ByteString.Lazy.Char8      as L
+import qualified Data.ByteString.Lazy.UTF8       as LU (toString, fromString)
+
+
 newtype Env = Env [(String,String)]
 
 instance FromData Env where
@@ -71,6 +77,7 @@ textfield cs = do
     emit $ X.textfield tag X.! [ X.value ds ]
     return ds
 
+
 empty_textfield :: ( ServerMonad m, MonadPlus m ) 
           => Int -- ^ size
           -> Form m String
@@ -102,17 +109,16 @@ password cs = do
 -- the number of columns is slightly larger than the maximun line width of the default.
 textarea :: ( ServerMonad m, MonadPlus m ) 
           => String -> Form m String
-textarea cs = do
+textarea  cs = do
     tag :: String <- gensym
-    val :: Maybe String <- lift $ lift $ lift $ look tag
-    let ds :: String
-        ds = case val of
+    val <- lift $ lift $ lift $ look tag
+    let ds = case val of
                Nothing -> cs
                Just cs -> cs
     let dss = lines ds
         rows = length dss
         cols = maximum $ 0 : map length dss
-    emit $ X.textarea ( X.stringToHtml ds )
+    emit $ X.textarea ( X.primHtml $ CBUS.decodeString ds )
            X.! [ X.name tag 
                , X.cols $ show (cols + 10)
                , X.rows $ show (rows + 2) 
@@ -130,7 +136,7 @@ empty_textarea rows cols = do
         ds = case val of
                Nothing -> ""
                Just cs -> cs
-    emit $ X.textarea ( X.stringToHtml ds )
+    emit $ X.textarea ( X.primHtml $ CBUS.decodeString ds )
            X.! [ X.name tag 
                , X.cols $ show cols
                , X.rows $ show rows

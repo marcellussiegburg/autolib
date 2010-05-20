@@ -17,19 +17,19 @@ Library
             base >= 4 && < 4.3,
             bytestring >= 0.9 && < 0.10,
             mtl >= 1.1 && < 1.2,
-            xhtml >= 3000.2 && < 3000.3,
-            happstack-server >= 0.4 && < 0.5
+            xhtml >= 3000.2 && < 3000.3, utf8-string,
+            happstack-server
     Exposed-modules: Autolib.CGI,Autolib.CGI.Widget,Autolib.CGI.Form,Autolib.CGI.Edit
                      Autolib.CGI.Local,Autolib.CGI.Container,Autolib.CGI.Store
 Executable Menu_Test
     Build-depends:  
             base >= 4 && < 4.3,
-            happstack >= 0.4 && < 0.5,
+            happstack,
             bytestring >= 0.9 && < 0.10,
             mtl >= 1.1 && < 1.2,
             xhtml >= 3000.2 && < 3000.3,
-            happstack-server >= 0.4 && < 0.5,
-            happstack-state >= 0.4 && < 0.5
+            happstack-server,
+            happstack-state 
     Main-is: Menu_Test.hs    
 
 
