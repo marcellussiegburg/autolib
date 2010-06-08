@@ -43,7 +43,7 @@ du :: String -> String
 du = U.toString . U.fromRep . map (fromIntegral :: Int -> Word8) . map fromEnum
 
 eu :: String -> String
-eu = map toEnum . map (fromIntegral :: Word8 -> Int) . U.toRep . U.fromString 
+eu = map toEnum . map (fromIntegral :: Word8 -> Int) . U.toRep . U.fromString
 
 instance ConvertAtom Value ByteString where
     fromAtom x = do
