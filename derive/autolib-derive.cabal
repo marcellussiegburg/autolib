@@ -29,7 +29,7 @@ extra-source-files:
 
 library
     build-depends:
-            base >= 4 && < 4.3,
+            base >= 4 && < 4.4,
             derive >= 2.3 && < 2.4
     exposed-modules:
 -- GENERATED START

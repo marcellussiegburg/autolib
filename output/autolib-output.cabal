@@ -5,7 +5,7 @@ Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
 Build-Depends:  
-        base >= 4 && < 4.3,
+        base >= 4 && < 4.4,
         bytestring >= 0.9 && < 0.10,
         autolib-todoc >= 1.1 && < 1.2
 Synopsis:       abstract output

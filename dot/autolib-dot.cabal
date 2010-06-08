@@ -5,12 +5,12 @@ Author:         Mirko Rahn, Alf Richter, Johannes Waldmann, Bertram Felgenhauer
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
 Build-Depends:  
-        base >= 4 && < 4.3,
+        base >= 4 && < 4.4,
         random >= 1.0 && < 1.1,
         process >= 1.0 && < 1.1,
         containers >= 0.2 && < 0.4,
         directory >= 1.0 && < 1.1,
-        parsec >= 2 && < 3,
+        parsec >= 3 && < 4,
         bytestring >= 0.9 && < 0.10,
         autolib-todoc >= 1.1 && < 1.2,
         autolib-reader >= 1.1 && < 1.2,

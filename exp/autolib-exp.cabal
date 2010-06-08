@@ -5,8 +5,8 @@ Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
 Build-Depends:  
-        base >= 4 && < 4.3,
-        parsec >= 2 && < 3,
+        base >= 4 && < 4.4,
+        parsec >= 3 && < 4,
         autolib-todoc >= 1.1 && < 1.2,
         autolib-reader >= 1.1 && < 1.2,
         autolib-reporter >= 1.1 && < 1.2,

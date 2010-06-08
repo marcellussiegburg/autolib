@@ -4,7 +4,7 @@ License:        GPL
 Author:         Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Build-Depends:  
-        base >= 4 && < 4.3,
+        base >= 4 && < 4.4,
         autolib-todoc >= 1.1 && < 1.2,
         autolib-data >= 1.1 && < 1.2,
         autolib-util >= 1.1 && < 1.2
