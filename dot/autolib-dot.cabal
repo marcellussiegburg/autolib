@@ -10,7 +10,7 @@ Build-Depends:
         process >= 1.0 && < 1.1,
         containers >= 0.2 && < 0.4,
         directory >= 1.0 && < 1.1,
-        parsec >= 3 && < 4,
+        parsec >= 2 && < 4,
         bytestring >= 0.9 && < 0.10,
         autolib-todoc >= 1.1 && < 1.2,
         autolib-reader >= 1.1 && < 1.2,
