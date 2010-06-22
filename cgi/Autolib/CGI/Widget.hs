@@ -177,13 +177,13 @@ menu title options = tr $ do
     tag <- gensym_pref "H"
     mprev <- lift $ lift $ lift $ look tag
     td $ text title
-    items <- td $ forM options $ \ ( name, value ) -> do
+    items <- td $ forM ( zip [0..] options ) $ \ ( i, ( name, value ) ) -> do
         s <- submit name
-        return $ do guard ( s || Just name == mprev ) ; return ( name, value )
+        return $ do guard ( s || Just ( show i ) == mprev ) ; return ( i, name, value )
     case catMaybes items of
-         [ ( name, value ) ] -> td $ do
+         [ ( i, name, value ) ] -> td $ do
              text name
-             emit $ X.hidden tag name
+             emit $ X.hidden tag ( show i )
              return $ value
          _ -> mzero
 
@@ -200,18 +200,21 @@ nonblocking_menu title options = tr $ do
     tag <- gensym_pref "H"
     mprev <- lift $ lift $ lift $ look tag
     td $ text title
-    items <- td $ forM options $ \ ( name, value ) -> do
+    items <- td $ forM ( zip [0..] ) options $ \ ( i, ( name, value ) ) -> do
         s <- submit_pref "N" name
         return ( name, value, s )
-    let clicked = do (n,v,True) <- items ; return (n,v)
-        remembered = do (n,v,s) <- items ; guard $ Just n == mprev ; return (n,v)
-    let ( name, value ) = case ( clicked, remembered ) of
+    let clicked = do ( n, v, True ) <- items ; return ( i, n, v )
+        remembered = do
+            (n,v,s) <- items
+            guard $ Just ( show i ) == mprev
+            return ( i, n, v )
+    let ( i, name, value ) = case ( clicked, remembered ) of
          ( cl : icks , _ ) -> cl
          ( [], r : ems ) -> r
          ( [], [] ) -> head options
     td $ do
              text name
-             emit $ X.hidden tag name
+             emit $ X.hidden tag ( show i )
              return $ value
 
 -- | direct output of XHtml stuff
