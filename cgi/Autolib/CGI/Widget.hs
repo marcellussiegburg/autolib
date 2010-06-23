@@ -200,18 +200,18 @@ nonblocking_menu title options = tr $ do
     tag <- gensym_pref "H"
     mprev <- lift $ lift $ lift $ look tag
     td $ text title
-    items <- td $ forM ( zip [0..] ) options $ \ ( i, ( name, value ) ) -> do
+    items <- td $ forM ( zip [0..] options ) $ \ ( i, ( name, value ) ) -> do
         s <- submit_pref "N" name
-        return ( name, value, s )
-    let clicked = do ( n, v, True ) <- items ; return ( i, n, v )
+        return ( i, name, value, s )
+    let clicked = do ( i, n, v, True ) <- items ; return ( i, n, v )
         remembered = do
-            (n,v,s) <- items
+            ( i, n, v, s ) <- items
             guard $ Just ( show i ) == mprev
             return ( i, n, v )
     let ( i, name, value ) = case ( clicked, remembered ) of
          ( cl : icks , _ ) -> cl
          ( [], r : ems ) -> r
-         ( [], [] ) -> head options
+         ( [], [] ) -> ( \ ( n, v ) -> ( 0, n, v ) ) $ head options
     td $ do
              text name
              emit $ X.hidden tag ( show i )
