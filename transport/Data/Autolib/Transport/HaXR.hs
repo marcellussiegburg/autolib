@@ -36,8 +36,8 @@ instance ConvertAtom Value Integer where
     toAtom = ValueString . show
 
 instance ConvertAtom Value String where
-    fromAtom x = do ValueString x' <- return x; return (du x')
-    toAtom = ValueString . eu
+    fromAtom x = do ValueString x' <- return x; return x'
+    toAtom = ValueString
 
 du :: String -> String
 du = U.toString . U.fromRep . map (fromIntegral :: Int -> Word8) . map fromEnum
