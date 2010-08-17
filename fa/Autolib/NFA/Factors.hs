@@ -1,13 +1,11 @@
 module Autolib.NFA.Factors where
 
--- -- $Id$
-
 import Autolib.NFA.Type
 import Autolib.NFA.Trim
 
 import Autolib.Set
 
--- bestimme die Sprache aller (zusammenhängenden) Teilwörter
+-- | bestimme die Sprache aller (zusammenhÃ¤ngenden) TeilwÃ¶rter
 
 factors :: NFAC c a
 	=> NFA c a -> NFA c a

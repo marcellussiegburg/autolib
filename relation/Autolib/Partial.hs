@@ -2,14 +2,12 @@
 
 module Autolib.Partial where
 
---   $Id$
-
 import Autolib.Set
 import Control.Monad ( guard )
 import Data.List ( isPrefixOf )
 
 class Partial a where
--- eine von beiden methoden muß implementiert werden
+      -- | eine von beiden methoden muÃŸ implementiert werden
       leq :: a -> a -> Bool
       leq x y = geq y x
 
@@ -47,10 +45,10 @@ instance Partial a => Partial (Set a) where
 	    return $ leq x y
 
 -- | prefix-ordnung (ohne vergleich der elemente)
--- ist natürlich wohlfundiert
+-- ist natÃ¼rlich wohlfundiert
 instance Eq a => Partial [a] where leq = isPrefixOf
 
--- |ein paar einfache instanzen, damit wir beispiele haben
+-- | ein paar einfache instanzen, damit wir beispiele haben
 instance Ord a => Partial a where geq = (>=)
 
  

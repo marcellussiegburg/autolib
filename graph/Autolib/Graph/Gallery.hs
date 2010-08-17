@@ -11,8 +11,8 @@ import Autolib.Dot.Dot
 import Autolib.Util.Zufall
 
 -- | schreibt jeden graph in ein eps-file
--- schreibt ein tex-file, daß alle diese included
--- und ein tex-file mit allen texinfos (gewürfelt)
+-- schreibt ein tex-file, daÃŸ alle diese included
+-- und ein tex-file mit allen texinfos (gewÃ¼rfelt)
 mkQuiz :: GraphC Int
        => FilePath
        -> [ Graph Int ]

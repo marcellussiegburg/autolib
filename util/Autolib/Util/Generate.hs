@@ -1,15 +1,13 @@
 module Autolib.Util.Generate where
 
---  $Id$
-
 import Autolib.Util.Zufall
 import System.Random
 
--- | erzeugt "zufälligen" dinge fixierter größe
+-- | erzeugt "zufÃ¤lligen" dinge fixierter grÃ¶ÃŸe
 type Generator a = Int -> IO ( a )
 
 
--- | annahme: größen verhalten sich additiv
+-- | annahme: grÃ¶ÃŸen verhalten sich additiv
 type Operator a = ( Int, [ a ] -> a )
 
 data Config a = 

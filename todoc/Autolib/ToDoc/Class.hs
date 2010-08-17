@@ -9,8 +9,6 @@ module Autolib.ToDoc.Class
 
 where
 
---  $Id$
-
 -- import Text.PrettyPrint.HughesPJ 
 import Autolib.Multilingual.Doc
 
@@ -48,7 +46,7 @@ docParen :: Bool -> Doc -> Doc
 docParen f = if f then parens else id
 
 -- | zur ausgabe ohne zeilenschaltungen
--- TODO: sollte besser gehen (anderen renderer wählen?)
+-- TODO: sollte besser gehen (anderen renderer wÃ¤hlen?)
 showDoc :: Doc -> String
 showDoc = unwords . words . render
 

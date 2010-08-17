@@ -1,7 +1,5 @@
 module Autolib.Util.BFS 
 
--- -- $Id$
-
 ( meetings
 -- for testing
 , generator
@@ -14,11 +12,11 @@ import Autolib.FiniteMap
 import Data.Maybe
 import Autolib.Set
 
-meetings :: Ord a => Int -- höchstens soviele generieren
-	          -> ( a -> [a] ) -> a -> [(a, a)]
--- compute bfs ordering, emit any duplicates
+-- | compute bfs ordering, emit any duplicates
 -- assume that there are not many of them
 -- or, we stop the program as soon as we have seen only a few
+meetings :: Ord a => Int -- ^ hÃ¶chstens soviele generieren
+	          -> ( a -> [a] ) -> a -> [(a, a)]
 meetings schranke f top = duplicates 
 	       $ take schranke
 	       $ generator f [ top ]

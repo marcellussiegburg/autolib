@@ -5,9 +5,6 @@
 -- autor Georg Martius
 -- mai99dgf@studserv.uni-leipzig.de
 
---  $Id$
-
-
 module Autolib.Graph.Graph ( 
       module  Autolib.Set
       , module Autolib.Informed
@@ -45,10 +42,10 @@ import Data.Typeable
 data GraphC a => Graph a  = Graph
 	      { knoten    :: Set a
 	      , kanten    :: Set (Kante a)
-	      -- neue komponenten (nicht show/read-f‰hig)
+	      -- | neue komponenten (nicht show/read-f√§hig)
 	      , graph_info :: Doc
 	      , graph_texinfo :: String
-	      -- partiell (entspricht pinning in neato)
+	      -- | partiell (entspricht pinning in neato)
 	      , graph_layout  :: FiniteMap a Position
 	      , bounding :: Position
 	      , layout_hints :: [ String ]

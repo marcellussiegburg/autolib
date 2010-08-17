@@ -1,9 +1,6 @@
--- -*- mode: haskell -*-
 {-# LANGUAGE DeriveDataTypeable, TemplateHaskell #-}
 
 module Autolib.Graph.Kante where
-
---  $Id$
 
 import Autolib.Reader
 import Autolib.ToDoc
@@ -35,8 +32,8 @@ $(derives [makeToTransport] [''Kante])
 instance Hash a => Hash (Kante a) where
     hash k = hash ( von k, nach k )
 
--- | ungerichteter Graph => Kanten von klein nach groß ordnen.
--- FIXME: und was ist für gerichtete Graphen?
+-- | ungerichteter Graph => Kanten von klein nach groÃŸ ordnen.
+-- FIXME: und was ist fÃ¼r gerichtete Graphen?
 kante :: Ord a => a -> a -> (Kante a)
 kante x y = 
     if x < y then Kante { von = x, nach = y }

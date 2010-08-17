@@ -1,10 +1,8 @@
 module Autolib.Util.Perm where
 
--- -- $Id$
-
 import System.Random
 
--- | eine zufällige Permutation
+-- | eine zufÃ¤llige Permutation
 permIO :: [a] -> IO [a]
 permIO [   ] = return [   ]
 permIO [ x ] = return [ x ]

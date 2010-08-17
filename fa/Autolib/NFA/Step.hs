@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
+
 -- | apply (one-step) rewriting to automata
 
 module Autolib.NFA.Step where
@@ -63,11 +64,11 @@ klatsch = statemap $ \ p -> case p of
 
 
 
--- | algorithmus: für jeden redex zur regel (l,r)
+-- | algorithmus: fÃ¼r jeden redex zur regel (l,r)
 -- (= pfad in a von zustand p nach q mit beschriftung l)
 -- konstruiere pfad von (Left p) nach (Right q)
--- über [ Mitte (i,1), .. ] mit Beschriftung r
--- bei r = leer ist das ein epsilon-übergang
+-- Ã¼ber [ Mitte (i,1), .. ] mit Beschriftung r
+-- bei r = leer ist das ein epsilon-Ã¼bergang
 
 
 raw_step ::   ( Show a, NFAC c a, NFAC c ( Zustand a ), ToDoc [c] )
@@ -106,7 +107,7 @@ raw_step srs a =
 
     in  foldl add_epsilon b epsilons
 
--- | alle (p,q), für die p ->> q mit w beschriftet ist.
+-- | alle (p,q), fÃ¼r die p ->> q mit w beschriftet ist.
 pairs :: NFAC c a => NFA c a -> [c] -> [(a,a)]
 pairs a w = do
     p <- lstates a

@@ -2,8 +2,6 @@
 
 module Autolib.Graph.Ops where
 
--- -- $Id$
-
 import Autolib.Graph.Graph hiding ( union )
 
 import Autolib.Graph.Basic
@@ -62,7 +60,7 @@ complement g = informed ( funni "co" [ info g ] )
 	     $ texinformed ( "\\overline{" ++ texinfo g ++ "}" )
 	     $ clique ( knoten g ) `unlinks` setToList ( kanten g )
 
--- | klebt zusammen (zeichnet übereinander!)
+-- | klebt zusammen (zeichnet Ã¼bereinander!)
 union0 :: GraphC a => Graph a -> Graph a -> Graph a
 union0 g1 g2 = g1 -- use layout prog and hints from g1
 	    { graph_info = funni "union0" [ info g1, info g2 ] 
@@ -110,11 +108,11 @@ partit xss = foldr1 times0 $ map independent xss
 
 ---------------------------------------------------------------------------
 
+-- | gibt es dafÃ¼r einen namen? 
+-- es ist nicht das lexikografische produkt.
 grid :: ( GraphC a, GraphC b, GraphC (a, b) ) 
      => Graph a -> Graph b
      -> Graph (a, b)
--- gibt es dafür einen namen? 
--- es ist nicht das lexikografische produkt.
 grid l r = informed ( funni "grid" [ info l, info r ] )
 	     $ texinformed (  texinfo l ++ "\\times" ++ texinfo r )
 	 $ let vs = cross (knoten l) (knoten r)

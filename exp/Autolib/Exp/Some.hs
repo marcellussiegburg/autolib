@@ -1,7 +1,5 @@
 module Autolib.Exp.Some where
 
--- -- $Id$
-
 import Autolib.Exp.Type
 import Autolib.Exp.Print
 import Autolib.Exp.Syntax
@@ -19,11 +17,11 @@ import Autolib.ToDoc hiding ( empty )
 import Autolib.Set
 -- import System.Random
 
--- | erzeugt irgendeinen ausdruck  x  über gegebenem alphabet
+-- | erzeugt irgendeinen ausdruck  x  Ã¼ber gegebenem alphabet
 -- mit  size x  <= 2 * s
 -- mit wenigstens zwei sternen
--- mit  DFA-größe >= s
--- tatsächlich rechnen wir gleich den DFA mit aus
+-- mit  DFA-grÃ¶ÃŸe >= s
+-- tatsÃ¤chlich rechnen wir gleich den DFA mit aus
 nontrivial :: ( RandomC m,  NFAC c Int )
 	   => Set c 
 	   -> Int 
@@ -59,7 +57,7 @@ binary alpha s = do
        r @ (xr, ar) <- repeat_until (some alpha sr)
 	    ( \ (xr, ar) -> dist || xr /= xl )
        let x = opx xl xr ; a = opa al ar
-       -- wenn das resultat zu groß ist,
+       -- wenn das resultat zu groÃŸ ist,
        -- dann reicht eines der argumente.
        if size a >  s + 2 
 	  then do

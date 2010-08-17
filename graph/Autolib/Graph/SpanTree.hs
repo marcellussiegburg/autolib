@@ -1,6 +1,6 @@
 --  $Id$
 
--- | (minimale) (auf-)spannende b‰ume nach algorithmus von prim
+-- | (minimale) (auf-)spannende b√§ume nach algorithmus von prim
 
 module Autolib.Graph.SpanTree 
 

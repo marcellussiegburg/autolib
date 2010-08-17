@@ -2,8 +2,6 @@
 
 module Autolib.NFA.Ops where
 
---  $Id$
-
 import Autolib.NFA.Type hiding ( cross, union )
 
 import qualified Autolib.Set  as Sets
@@ -76,7 +74,7 @@ intersection a b =
 
 
 -- | addiere neuen Startzustand,
--- in den keine Pfeile hineinführen
+-- in den keine Pfeile hineinfÃ¼hren
 punkt :: (NFAC c s )
       => s -> NFA c s -> NFA c s
 punkt t a = 
@@ -144,7 +142,7 @@ star :: NFAC c Int => NFA c Int -> NFA c Int
 
 -- BUG: star(empty) = {epsilon} aber star(empty)={} wurde hier berechnet 
 -- FIX: Eine Anfrage hier reinbauen
--- Problem: Die Rückverfolgung über plus führt auf trim und immer
+-- Problem: Die RÃ¼ckverfolgung Ã¼ber plus fÃ¼hrt auf trim und immer
 -- tiefer, deswegen als einfache und schnelle Abhilfe nur hier diesen
 -- Fall betrachten. Voraussetzung: Der Rest haut hin...
 

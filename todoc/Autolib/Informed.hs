@@ -2,15 +2,13 @@
 
 module Autolib.Informed where
 
---   $Id$
-
 import Autolib.ToDoc
 
 class Informed i where
-      -- zeigt Information
+      -- | zeigt Information
       info     :: i -> Doc
 
-      -- ändert Information
+      -- | Ã¤ndert Information
       informed :: Doc -> i -> i
       informed d x = error "Informed.informed not implemented"
 
@@ -21,11 +19,9 @@ class Informed i where
       texinformed cs = informed (text cs)
 
 instance ToDoc i => Informed i where
-    -- default
     info = toDoc
 
-      
+-- | konstruiere info-doc fÃ¼r Funktions-Aufruf
 funni :: String -> [ Doc ] -> Doc
--- konstruiere info-doc für Funktions-Aufruf
 funni f args = parens $ fsep ( text f : args )
 

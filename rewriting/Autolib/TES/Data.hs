@@ -170,7 +170,7 @@ instance Reader TES where
     readerPrec p = do
 	tes <- plain_reader
         return $ check_arities
-	       -- $ repair_signature
+	       --  $ repair_signature
 	       $ repair_variables 
 	       $ tes { separate = False }
 

@@ -68,7 +68,7 @@ nice_list xs =
     then frame $ besides xs
     else frame $ vcat xs
 
--- brauchen wir tats‰chlich, f¸r SQLqueries
+-- brauchen wir tats√§chlich, f√ºr SQLqueries
 instance (ToDoc a, ToDoc b, ToDoc c, ToDoc d, ToDoc e) 
     => ToDoc (a, b, c, d, e) where
     toDocPrec p (x,y,z,q,r) = dutch_tuple
@@ -99,7 +99,7 @@ instance ToDoc (a -> b) where
 instance ToDoc String where
     toDocPrec _ = text . show
 
-{- BUG #132 -> keine Verk¸rzungen mehr, bitte
+{- BUG #132 -> keine Verk√ºrzungen mehr, bitte
     toDocPrec p cs = 
 	  let (kurz, lang) = splitAt max_string_length cs
 	      alles = kurz ++ if null lang then "" else "..."
@@ -120,7 +120,7 @@ instance ToDoc (Clip Char) where
     toDocPrec _ (Full   cs) = text $ show cs
     toDocPrec _ (Clip _ cs) = text $ show cs
 
-{- BUG #132 -> keine Verk¸rzungen mehr, bitte
+{- BUG #132 -> keine Verk√ºrzungen mehr, bitte
     toDocPrec p (Clip n cs) = 
 	  let (kurz, lang) = splitAt n cs
 	      alles = kurz ++ if null lang then "" else "..."

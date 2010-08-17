@@ -6,9 +6,9 @@ module Autolib.FilterBound
 
 where
 
+-- | sobald ein positives Element gefunden,
+-- untersuche nur noch die jeweils  b  nÃ¤chsten
 filterBound :: Int -> (a -> Bool) -> [a] -> [a]
--- sobald ein positives Element gefunden,
--- untersuche nur noch die jeweils  b  nächsten
 filterBound b p xs =
     case dropWhile (not . p) xs of
 	 [] -> []
@@ -17,6 +17,6 @@ filterBound b p xs =
 restFilterBound b p xs =
     let (pre, post) = splitAt b xs
     in	case filter p pre of
-		 [] -> [] -- Schluß
+		 [] -> [] -- SchluÃŸ
 		 ys -> ys ++ restFilterBound b p post
 

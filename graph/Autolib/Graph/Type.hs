@@ -3,7 +3,7 @@
 -- autor Georg Martius
 -- mai99dgf@studserv.uni-leipzig.de
 
--- ge‰nderte ToDoc/Show-Instanzen joe@informatik.uni-leipzig.de
+-- ge√§nderte ToDoc/Show-Instanzen joe@informatik.uni-leipzig.de
 
 module Autolib.Graph.Type (
       module Autolib.Graph.Graph

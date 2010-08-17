@@ -1,7 +1,5 @@
 module Autolib.NFA.Compact where
 
---  $Id$
-
 import Autolib.NFA.Type
 import Autolib.Exp.Type
 import Autolib.Exp.Read
@@ -64,7 +62,7 @@ sequential a =
 	    (p, c, q) <- unCollect $ trans a
 	    return (p, 1)
 
-	-- genau diese zustände wollen wir auch zum schluß sehen
+	-- genau diese zustÃ¤nde wollen wir auch zum schluÃŸ sehen
 	keep = mkSet $ do 
 	    p <- lstates a
 	    guard $  p `elementOf` starts a
@@ -79,7 +77,7 @@ sequential a =
 	      c <- setToList sigma
 	      q <- setToList $ lookupset (trans a) (p, c)
 	      if keeping q
-		 then do -- hier schluß
+		 then do -- hier schluÃŸ
 		      return ( [c], q )
 		 else do -- weiter
 		      ( cs, r ) <- paths q

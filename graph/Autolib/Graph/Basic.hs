@@ -1,7 +1,5 @@
 module Autolib.Graph.Basic where
 
--- -- $Id$
-
 import Autolib.Graph.Graph hiding ( union )
 import Autolib.Graph.Display
 
@@ -17,8 +15,8 @@ import Autolib.ToDoc hiding ( empty )
 independent :: GraphC a => Set a -> Graph a
 independent = independent0 . setToList
 
+-- | klebt zusammen (zeichnet Ã¼bereinander!)
 independent0 :: GraphC a => [a] -> Graph a
--- klebt zusammen (zeichnet übereinander!)
 independent0 xs = Graph 
     { graph_info = text $ "E_" ++ show (length xs)
     , show_labels = False

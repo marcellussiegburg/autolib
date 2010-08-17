@@ -1,5 +1,3 @@
--- -- $Id$
-
 module Autolib.Exp.Syntax where
 
 import Autolib.Exp.Type
@@ -61,7 +59,7 @@ constructors =
 
 star_height :: (Num a, Ord a) => Exp -> a
 star_height x = case x of
-    Ref n -> 0 -- gefährlich
+    Ref n -> 0 -- gefÃ¤hrlich
     Letter c -> 0
 
     Dot          l r -> max (star_height l) (star_height r)

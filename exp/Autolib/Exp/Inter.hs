@@ -1,5 +1,3 @@
---  $Id$
-
 module Autolib.Exp.Inter
 
 ( inter
@@ -49,10 +47,10 @@ std =  E.make
 -- | standard environment for specified alphabet
 -- binds Eps, Empty, Sigma, All
 
--- All ist zwar bequem, könnte aber bei der sternhöhe
+-- All ist zwar bequem, kÃ¶nnte aber bei der sternhÃ¶he
 -- den falschen eindruck erzeugen:
--- sieht aus wie Sigma^* = sternhöhe eins,
--- ist aber äq. zu  complement(Empty) = sternhöhe null
+-- sieht aus wie Sigma^* = sternhÃ¶he eins,
+-- ist aber Ã¤q. zu  complement(Empty) = sternhÃ¶he null
 -- andererseits haben wir kein komplement,
 -- deswegen nehmen wir All doch mit auf.
 

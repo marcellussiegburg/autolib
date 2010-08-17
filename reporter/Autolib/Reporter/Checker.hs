@@ -2,8 +2,6 @@
 
 module Autolib.Reporter.Checker where
 
---  $Id$
-
 import Autolib.Reporter.Type
 import Autolib.ToDoc
 import Data.Maybe ( isJust )
@@ -37,7 +35,7 @@ eval c g =
     let ( mr, _ :: Doc ) = export $ investigate c g
     in	isJust mr
 
--- | beides ausführen, 
+-- | beides ausfÃ¼hren, 
 -- aber kurznamen nur vom rechten anzeigen
 and_then :: Type a -> Type a
      -> Type a

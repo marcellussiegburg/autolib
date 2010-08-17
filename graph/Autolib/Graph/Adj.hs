@@ -66,7 +66,7 @@ warshall = generic_floyd_warshall update
 	    | and [ m ! (i,k) == 1 , m ! (k,j) == 1 ] = m // [((i,j),1)]
 	    | otherwise                               = m
 
--- | matrix der länge der kürzesten wege via floyd-warshall: O(n^3)
+-- | matrix der lÃ¤nge der kÃ¼rzesten wege via floyd-warshall: O(n^3)
 floyd_warshall :: GraphC a => Graph a -> AdjMatrix
 floyd_warshall = generic_floyd_warshall update
     where update m (k,i,j)

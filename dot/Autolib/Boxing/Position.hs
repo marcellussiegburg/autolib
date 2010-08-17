@@ -15,7 +15,7 @@ instance ToDoc Position where
 instance Show Position where 
     show = render . toDoc
 
--- in dot-format
+-- | in dot-format
 zeige :: Position -> String
 zeige p = 
     let xform r = show $ ( r * 100 )
@@ -36,7 +36,7 @@ instance Num Position where
     d + e = Position { width = width d + width e 
 		      , height = height d + height e 
 		      }
-    --  damit wir  2 * p  schreiben können:
+    --  damit wir  2 * p  schreiben kÃ¶nnen:
     fromInteger i = Position { width = fromInteger i, height = 0 }
     Position { width = f, height = 0 } * e 
           = Position { width = width e * f, height = height e * f }
@@ -49,7 +49,7 @@ instance Num Position where
 		      }
 
 instance Fractional Position where
-    -- damit wir 0.5 * p schreiben können
+    -- damit wir 0.5 * p schreiben kÃ¶nnen
     fromRational r = Position { width = fromRational r, height = 0 }
     recip ( Position { width = f, height = 0 } ) = 
 	    Position { width = recip f, height = 0 }

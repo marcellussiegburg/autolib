@@ -10,7 +10,7 @@ import Autolib.Util.Zufall
 import Autolib.ToDoc
 import Autolib.Set
 
--- | erzeugt irgendeinen NFA mit s zuständen
+-- | erzeugt irgendeinen NFA mit s zustÃ¤nden
 some :: NFAC c Int
      => Set c -> Int 
      -> IO (NFA c Int)

@@ -10,8 +10,6 @@ module Autolib.Dot.Dot
 
 where
 
---  $Id$
-
 import qualified Autolib.Dot.Graph
 import Control.Monad ( when )
 import System.Random
@@ -43,7 +41,7 @@ progname p = case p of
 class ToDot a where 
       toDot :: a -> Autolib.Dot.Graph.Type
       toDotProgram :: a -> Layout_Program
-      -- default für gerichtete graphen:
+      -- default fÃ¼r gerichtete graphen:
       toDotProgram a = Dot
       toDotOptions :: a -> String
       toDotOptions a = "-Grankdir=LR"
@@ -52,8 +50,7 @@ instance ToDot a => ToDot [a] where
     toDotProgram xs = toDotProgram ( head xs )
     toDot xs = Autolib.Dot.Graph.besides $ map toDot xs
 
--- gleicher argument/resultat-typ wie Graph.Viz.getGraphviz
-
+-- | gleicher argument/resultat-typ wie Graph.Viz.getGraphviz
 mkDot :: ToDot a 
       => a -> Layout_Program -> String -> FilePath 
       -> IO ( FilePath, String, ExitCode )

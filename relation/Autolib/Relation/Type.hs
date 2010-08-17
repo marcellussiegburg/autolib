@@ -1,10 +1,8 @@
 module Autolib.Relation.Type
 
---   $Id$
-
 ( module Autolib.Relation.Type
 
--- damit unsere freunde nichts extra schreiben müssen
+-- damit unsere freunde nichts extra schreiben mÃ¼ssen
 , module Autolib.Set
 , module Autolib.FiniteMap
 )
@@ -20,8 +18,8 @@ import Autolib.Hash
 import Autolib.ToDoc
 import Autolib.Reader
 
--- | pforsicht: source und target später hinzugefügt,
--- ist noch nicht konsequent berücksichtigt
+-- | pforsicht: source und target spÃ¤ter hinzugefÃ¼gt,
+-- ist noch nicht konsequent berÃ¼cksichtigt
 
 data Type a b = Make { source :: Set a
 		     , target :: Set b

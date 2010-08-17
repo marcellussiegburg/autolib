@@ -1,5 +1,3 @@
--- -- $Id$
-
 module Autolib.NFA.Dot
 
 ( module Autolib.Dot.Dot
@@ -46,9 +44,9 @@ toDot_layered a xss = do
 -}
 
     
--- | zust‰nde werden mit [0 .. ] durchnumeriert
--- akzeptierende zust‰nde bekommen doppelkreis drumrum
--- startzust‰nde bekommen pfeil dran,
+-- | zust√§nde werden mit [0 .. ] durchnumeriert
+-- akzeptierende zust√§nde bekommen doppelkreis drumrum
+-- startzust√§nde bekommen pfeil dran,
 -- dieser kommt aus unsichtbarem zustand mit idents U0, U1, ..
 
 instance ( NFAC c a , Show a, Show c )
@@ -69,7 +67,7 @@ helper num a =
 		else cs
 	    quoted cs = "\"" ++ cs ++ "\""
 
-	    -- tats‰chliche knoten (zust‰nde)
+	    -- tats√§chliche knoten (zust√§nde)
 	    ns = do p <- allstates
 		    let sh = case p `elementOf` finals a of
 			      True  -> "doublecircle"
@@ -82,14 +80,14 @@ helper num a =
 			            "" -> Nothing ; cs -> Just sh
 			   }
 
-	    -- unsichtbare knoten (f¸r start-pfeile)
+	    -- unsichtbare knoten (f√ºr start-pfeile)
 	    uns = do p <- lstarts a
 		     return $ Autolib.Dot.Node.blank
 			   { Autolib.Dot.Node.ident = "U" ++ num p 
 			   , Autolib.Dot.Node.node_style = Just "invis"
 			   }
     
-	    -- tats‰chliche zustands¸berg‰nge
+	    -- tats√§chliche zustands√ºberg√§nge
 	    es = do ( p, x, q ) <- unCollect $ trans a
 		    return $ Autolib.Dot.Edge.blank
 			   { Autolib.Dot.Edge.from  = num p

@@ -22,7 +22,7 @@ import qualified Autolib.Dot.Graph
 import System.Random
 import System.Cmd
 
--- | in der eingabe kˆnnen einige knoten schon gepinnt sein
+-- | in der eingabe k√∂nnen einige knoten schon gepinnt sein
 -- dazu benutze graph.graph_layout
 
 layout :: ( GraphC a ) 
@@ -82,8 +82,8 @@ layered_layout :: ( GraphC a , ToDoc [a] )
 	       => Graph a -> [ Set a ] 
 	       -> IO ( FiniteMap a B.Position )
 -- idee: mit layers [ l1, l2, .. ]
--- erst layout nur f¸r teilgraphen auf l1,
--- dann diese punkte fixieren, und layout f¸r l2, usw.
+-- erst layout nur f√ºr teilgraphen auf l1,
+-- dann diese punkte fixieren, und layout f√ºr l2, usw.
 -- d. h.  layered_layout g [knoten g] == layout g   (alle auf einmal)
 
 layered_layout g layers = do
@@ -107,5 +107,5 @@ invert fm = addListToFM_C (error "GVKnoten.Layout.invert") emptyFM $ do
 
 
 look :: Ord a => FiniteMap a b -> a -> b
--- argument muﬂ drin sein
+-- argument mu√ü drin sein
 look fm = fromMaybe ( error "GVKnoten.Layout.look" ) . lookupFM fm

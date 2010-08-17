@@ -44,8 +44,8 @@ schichten_internal f schon jetzt =
 
 -------------------------------------------------------------------------------
 
--- | gibt immer unendliche liste, berücksichtigt keine schleifen, also
--- | enthält das i-te element die menge der nachfolger, die in genau i
+-- | gibt immer unendliche liste, berÃ¼cksichtigt keine schleifen, also
+-- | enthÃ¤lt das i-te element die menge der nachfolger, die in genau i
 -- | schritten erreichbar sind
 
 schichten_with_loops  :: Ord a => (a -> Set a) -> a -> [ Set a ]

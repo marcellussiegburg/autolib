@@ -1,7 +1,5 @@
 module Autolib.NFA.Normalize where
 
--- -- $Id$
-
 import Autolib.NFA.Type
 
 import Autolib.Set
@@ -17,5 +15,5 @@ normalize n =
     in	a { nfa_info = funni "normalize" [ info n ] }
 
 -- GOTCHA: ohne das " :: Int " kann hugs-november-2002 
--- den record-update nicht ausführen!
+-- den record-update nicht ausfÃ¼hren!
 

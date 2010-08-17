@@ -9,7 +9,7 @@ class Iso a where
   iso :: a -> a -> Bool
 
 
--- Instanzen für die Standart-Datentypen: Int, Integer, Char, () , []
+-- Instanzen fÃ¼r die Standart-Datentypen: Int, Integer, Char, () , []
  
 instance Iso Int where
   iso a b = a == b

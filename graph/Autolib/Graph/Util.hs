@@ -47,13 +47,13 @@ kantensetId a b = (anzKanten a) == (anzKanten b)
 
 
 -- | ueberprueft, ob es alle Knoten gibt, auf die die Kanten zeigen
--- gibt den ersten Knoten zur¸ck, den es nicht in der Knotenmenge gibt
+-- gibt den ersten Knoten zur√ºck, den es nicht in der Knotenmenge gibt
 kantenPassenZuKnoten :: (GraphC a) => Graph a -> (Bool, Maybe a)
 kantenPassenZuKnoten graph =
 	xxand $ map (gibtEsKnotenDerKante graph) (kantenliste graph)
 
--- | pr¸ft, ob die beiden Knoten der Kante im Graph exsistieren
--- gibt zus‰tlich vieleicht den ersten nicht exsistierenden Knoten zur¸ck
+-- | pr√ºft, ob die beiden Knoten der Kante im Graph exsistieren
+-- gibt zus√§tlich vieleicht den ersten nicht exsistierenden Knoten zur√ºck
 gibtEsKnotenDerKante :: GraphC a => Graph a -> Kante a -> (Bool, Maybe a)
 gibtEsKnotenDerKante graph kante =
 	xand
@@ -61,10 +61,10 @@ gibtEsKnotenDerKante graph kante =
 	, ((elementOf (nach kante) (knoten graph)), nach kante)
 	]
 
--- | macht eine logische AND Verkn¸pfung ¸ber eine Liste aus Tupeln
+-- | macht eine logische AND Verkn√ºpfung √ºber eine Liste aus Tupeln
 -- ein Tupel besteht aus dem Boolschen Wert und einem beliebigen Datum,
 -- welches anzeigen soll, was hier falsch oder richtig ist
--- zur¸ckgegeben wird entweder (True, Nothing), wenn nix falsch war
+-- zur√ºckgegeben wird entweder (True, Nothing), wenn nix falsch war
 -- oder (False, Just a) wobei a das erste falsche Datum ist
 xand :: [(Bool, a)] -> (Bool, Maybe a)
 xand [] = (True, Nothing)
@@ -174,21 +174,21 @@ mapG fi f g = Graph
      , kanten = mapSet ( \ k -> ka (f (von k)) (f (nach k)) ) ( kanten g )
      }
 
-abz‰hl :: Ord a => Graph a -> Graph Integer
-abz‰hl g = 
+abz√§hl :: Ord a => Graph a -> Graph Integer
+abz√§hl g = 
     let fm  = listToFM $ zip ( knotenl g ) [ 1 .. ]
-        f   = lookupWithDefaultFM fm (error "abz‰hl") 
+        f   = lookupWithDefaultFM fm (error "abz√§hl") 
     in  mapG id f g
 
-gef‰hrliche_summe :: Ord a => Graph a -> Graph a -> Graph a
-gef‰hrliche_summe g1 g2 = 
+gef√§hrliche_summe :: Ord a => Graph a -> Graph a -> Graph a
+gef√§hrliche_summe g1 g2 = 
     Graph { tafel = plusFM (tafel g1) (tafel g2)
 	  , kanten = kanten g1 `union` kanten g2
 	  }
 
 summe :: (Ord a, Ord b) => Graph a -> Graph b -> Graph (Either a b)
 summe g1 g2 =
-    mapG ('L' :) Left g1 `gef‰hrliche_summe` mapG ('R' :) Right g2
+    mapG ('L' :) Left g1 `gef√§hrliche_summe` mapG ('R' :) Right g2
 
 -----------------------------------------------------------------------------
 
@@ -208,17 +208,17 @@ entferneKante g x y = mapK (`minusSet` mkSet [ ka x y ]) g
 entferneKante_symmetrisch :: Ord a => Graph a -> a -> a -> Graph a
 entferneKante_symmetrisch g x y = entferneKante (entferneKante g x y) y x
 
-r¸ckw‰rts :: Ord a => Graph a -> Graph a
-r¸ckw‰rts = mapK (mapSet ( \ k -> ka (nach k) (von k) ))
+r√ºckw√§rts :: Ord a => Graph a -> Graph a
+r√ºckw√§rts = mapK (mapSet ( \ k -> ka (nach k) (von k) ))
 
 symmetrisch :: Ord a => Graph a -> Graph a
-symmetrisch g = mapK (`union` kanten (r¸ckw‰rts g)) g
+symmetrisch g = mapK (`union` kanten (r√ºckw√§rts g)) g
 
 reflexiv :: Ord a => Graph a -> Graph a
 reflexiv g = mapK (`union` mkSet [ ka x x | x<-(knotenl g) ]) g
 
-unabh‰ngig_auf :: Ord a => [ a ] -> Graph a
-unabh‰ngig_auf xs = 
+unabh√§ngig_auf :: Ord a => [ a ] -> Graph a
+unabh√§ngig_auf xs = 
     Graph { kanten = emptySet
 	  , tafel  = listToFM [ (k, kn k "") | k <- xs ]
 	  }
@@ -235,7 +235,7 @@ komplement g =
 	 }
 
 clique_auf :: Ord a => [ a ] -> Graph a
-clique_auf = komplement . unabh‰ngig_auf
+clique_auf = komplement . unabh√§ngig_auf
 
 voll_auf :: Ord a => [ a ] -> Graph a
 voll_auf = reflexiv . clique_auf
@@ -246,7 +246,7 @@ runde_auf xs = zip xs (tail xs ++ [head xs])
 kreis_auf :: Ord a => [ a ] -> Graph a
 kreis_auf xs =
     foldr ( \ (x,y) g -> verbinde g x y) 
-          (unabh‰ngig_auf xs) (runde_auf xs)
+          (unabh√§ngig_auf xs) (runde_auf xs)
 
 istWeg :: Ord a => Graph a -> [ a ] -> Bool
 istWeg g xs = isEmptySet (mkSet (map ( \ (x,y) -> ka x y ) (zip xs (tail xs)))
@@ -254,8 +254,8 @@ istWeg g xs = isEmptySet (mkSet (map ( \ (x,y) -> ka x y ) (zip xs (tail xs)))
 
 -------------------------------------------------------------------------------
 
-vorg‰nger :: Eq a => (Graph a) -> a -> [ a ]
-vorg‰nger g x = do
+vorg√§nger :: Eq a => (Graph a) -> a -> [ a ]
+vorg√§nger g x = do
 	  k @ Kante { } <- setToList $ kanten g
 	  guard $ nach k == x
 	  return $ von k
@@ -267,7 +267,7 @@ nachfolger g x = do
 	  return $ nach k
 
 ein_grad, aus_grad, grad :: Eq a => (Graph a) -> a -> Int
-ein_grad g k = length $ vorg‰nger g k
+ein_grad g k = length $ vorg√§nger g k
 aus_grad g k = length $ nachfolger g k
 grad g k = ein_grad g k + aus_grad g k
 

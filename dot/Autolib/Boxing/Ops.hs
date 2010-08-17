@@ -1,7 +1,5 @@
 module Autolib.Boxing.Ops where
 
---   $Id$
-
 import Autolib.Boxing.Position
 import Autolib.Boxing.Class
 
@@ -9,9 +7,9 @@ import Data.List ( inits, transpose )
 
 
 
+-- | koordinaten einfach Ã¼bernehmen
+-- und bbox drumbauen, z. b. fÃ¼r graphen
 pack_tight :: Boxing c => [ (Position, c) ] -> c
--- koordinaten einfach übernehmen
--- und bbox drumbauen, z. b. für graphen
 pack_tight pcs = 
     let ( ul, or ) = minimax $ do
 	     ( p, c ) <- pcs
@@ -19,8 +17,8 @@ pack_tight pcs =
 	-- assume unten links = (0,0) 
     in  set_bounding_box or $ pack pcs
 
+-- | rahmen drum
 fbox :: Boxing c => Double -> c -> c
--- rahmen drum
 fbox d c = 
     let off = Position { width = d, height = d }
 	dim = bounding_box c + 2 * off
@@ -44,8 +42,8 @@ column = foldr1 above
 
 ---------------------------------------------------------
 
+-- | paarweise maxima, ansonsten elemente selbst
 zipmax :: (Ord a, Num a) => [a] -> [a] -> [a]
--- paarweise maxima, ansonsten elemente selbst
 zipmax xs ys = zipWith max xs ( ys ++ repeat 0 )
 
 partsum :: (Ord a, Num a) => [a] -> [a]

@@ -9,8 +9,6 @@ module Autolib.Genetic.Central
 
 where
 
---  $Id$
-
 import Autolib.Util.Sort
 import Autolib.Util.Uniq
 import Autolib.Util.Perm
@@ -180,7 +178,7 @@ einsM xs = do x <- eins xs ; x
     
 
 
--- | entferne k zufällig gewählte elemente
+-- | entferne k zufÃ¤llig gewÃ¤hlte elemente
 remove :: Int -> [a] -> IO [a]
 remove k xs = do
     ys <- permIO xs
