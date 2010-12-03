@@ -8,7 +8,7 @@ Build-Depends:
         base >= 4 && < 4.4,
         parsec >= 2 && < 4,
         containers >= 0.2 && < 0.4,
-        mtl >= 1.1 && < 1.2,
+        mtl,
         random >= 1.0 && < 1.1,
         autolib-output >= 1.1 && < 1.2,
         autolib-todoc >= 1.1 && < 1.2,

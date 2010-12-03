@@ -9,7 +9,7 @@ Build-Depends:
         array >= 0.2 && < 0.4,
         process >= 1.0 && < 1.1,
         random >= 1.0 && < 1.1,
-        mtl >= 1.1 && < 1.2,
+        mtl,
         parsec >= 2 && < 4,
         haxr >= 3000.7 && < 3000.8,
         autolib-data >= 1.1 && < 1.2,
