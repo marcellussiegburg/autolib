@@ -4,15 +4,9 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        parsec >= 2 && < 4,
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-reader >= 1.1 && < 1.2,
-        autolib-reporter >= 1.1 && < 1.2,
-        autolib-data >= 1.1 && < 1.2,
-        autolib-util >= 1.1 && < 1.2,
-        autolib-fa >= 1.1 && < 1.2
+Build-Depends: base == 4.* , parsec == 3.* , autolib-todoc ,
+               autolib-reader , autolib-reporter , autolib-data , autolib-util ,
+               autolib-fa
 Synopsis:       regular expressions
 Exposed-modules:
         Autolib.Exp
@@ -32,6 +26,5 @@ Exposed-modules:
 hs-source-dirs:	.
 extensions: DeriveDataTypeable, FlexibleContexts, UndecidableInstances, Rank2Types
 build-type: Simple
-
 
 

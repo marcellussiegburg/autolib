@@ -4,11 +4,8 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        containers >= 0.2 && < 0.4,
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-reader >= 1.1 && < 1.2
+Build-Depends: base == 4.* , containers , autolib-todoc ,
+               autolib-reader
 Synopsis:       wrapper for old Set and FiniteMap API 
 Exposed-modules:
         Autolib.Set
@@ -18,6 +15,5 @@ Exposed-modules:
 hs-source-dirs:	.
 extensions: 
 build-type: Simple
-
 
 
