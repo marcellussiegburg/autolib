@@ -5,10 +5,7 @@ Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
 Build-Depends: base == 4.* , array , process , random , mtl ,
-               parsec == 3.* , 
-	       haxr ==3000.7 , 
-	       autolib-data , autolib-todoc ,
-               autolib-reader
+               parsec , haxr , autolib-data , autolib-todoc , autolib-reader
 Synopsis:       utilities (this package is too large)
 Exposed-modules:
 	Autolib.Ana

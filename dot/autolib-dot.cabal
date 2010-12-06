@@ -5,9 +5,8 @@ Author:         Mirko Rahn, Alf Richter, Johannes Waldmann, Bertram Felgenhauer
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
 Build-Depends: base == 4.* , random , process , containers ,
-               directory , parsec == 3.* , bytestring , autolib-todoc ,
-               autolib-reader , autolib-data , autolib-util , autolib-output ,
-               autolib-reporter
+               directory , parsec , bytestring , autolib-todoc , autolib-reader ,
+               autolib-data , autolib-util , autolib-output , autolib-reporter
 Synopsis:       interface to dot (graphviz language)
 Exposed-modules:
         Autolib.Boxing

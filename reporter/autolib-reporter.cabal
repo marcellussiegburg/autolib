@@ -4,9 +4,8 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends: base == 4.* , parsec == 3.* , containers , mtl ,
-               random , autolib-output , autolib-todoc , autolib-reader ,
-               autolib-data
+Build-Depends: base == 4.* , parsec , containers , mtl , random ,
+               autolib-output , autolib-todoc , autolib-reader , autolib-data
 Synopsis:       reporting 
 Exposed-modules:
         Autolib.Timer
