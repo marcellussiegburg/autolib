@@ -3,7 +3,9 @@
 import Autolib.CGI
 import Happstack.Server
 
-main = simpleHTTP nullConf $ render menu_test
+main = simpleHTTP nullConf $ do
+    decodeBody ( defaultBodyPolicy "/tmp/" 4096 4096 4096 )
+    render menu_test
 
 menu_test = do
    h3 "menu_test"

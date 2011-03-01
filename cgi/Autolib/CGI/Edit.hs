@@ -3,10 +3,12 @@
 module Autolib.CGI.Edit where
 
 import Autolib.CGI.Widget
-import Control.Monad (mzero)
+import Happstack.Server ( HasRqData, ServerMonad )
+import Control.Monad (mzero )
+import Control.Monad.IO.Class
 
 class Edit a where 
-    edit :: ( ServerMonad m, MonadPlus m ) 
+    edit ::  ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
          => a
          -> Form m a
     
