@@ -1,6 +1,6 @@
 {-# OPTIONS -fglasgow-exts #-}
 
-module Autolib.Reporter.Type 
+module Autolib.Reporter.Classic.Type 
 
 where
 

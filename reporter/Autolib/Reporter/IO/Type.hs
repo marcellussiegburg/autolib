@@ -4,7 +4,7 @@ module Autolib.Reporter.IO.Type where
 
 import Control.Monad.Trans.Writer.Lazy
 import Control.Monad.Trans.Maybe
-import Control.Monad.Trans (lift )
+import Control.Monad.Trans (lift, liftIO )
 import Data.Monoid
 
 import Autolib.Output
@@ -36,31 +36,63 @@ output o = do
 inform :: Doc -> Reporter ()
 inform = output . Doc
 
-reject :: Doc -> Reporter ()
+newline :: Reporter ()
+newline = inform ( text " " )
+
+reject :: Doc -> Reporter a
 reject d = do 
     output $ Doc d
     Reporter $ return Nothing
-    return () 
 
 nested :: Int -> Reporter a -> Reporter a
 nested d ( Reporter r ) = 
-    Reporter $ mapMaybeT ( censor  Nest ) r
+    Reporter $ censor  Nest  r
 
 -- | a reporter who always returns
 wrap :: Reporter a -> Reporter ( Maybe a )
-wrap ( Reporter r ) = Reporter $ 
-    mapMaybeT undefined r -- FIXME
+wrap ( Reporter r ) = Reporter $ do
+    x <- r
+    return $ Just x
 
 -- | wenn ok, dann nichts sagen, sonst fehler melden
 silent :: Reporter a -> Reporter a
-silent r = r -- FIXME
+silent ( Reporter r ) = Reporter $ pass $ do
+    x <- r
+    return $ case x of
+        Nothing -> ( Nothing, id )
+        Just a  -> ( Just a, const mempty )
+
+{-# deprecated export "Autolib.Reporter.IO.Type has no pure export" #-}
+export = 
+    error "Autolib.Reporter.IO.Type has no pure export"
+    
+{-# deprecated result "Autolib.Reporter.IO.Type has no pure result"  #-}
+result = 
+    error "Autolib.Reporter.IO.Type has no pure result"
+    
+{-# deprecated kommentar  "Autolib.Reporter.IO.Type has no pure kommentar" #-}
+kommentar = 
+    error "Autolib.Reporter.IO.Type has no pure kommentar"
+    
+{-# deprecated runs  "Autolib.Reporter.IO.Type has no runs" #-}         
+runs = 
+    error "Autolib.Reporter.IO.Type has no runs"
+
+{-# deprecated action  "Autolib.Reporter.IO.Type.action must be run" #-}
+action = 
+    error "Autolib.Reporter.IO.Type.action must be run"
+
+assert :: Bool -> Doc -> Reporter ()
+assert p doc = do
+    inform doc
+    nested 4 $
+         if p then inform $ multitext 
+                          [ (DE, "Ja."), (UK, "Yes.") ]
+              else reject $ multitext 
+                          [ (DE, "Nein."), (UK, "No.") ]
 
 
-export = error "Autolib.Reporter.IO.Type has no pure export"
-kommentar = error "Autolib.Reporter.IO.Type has no pure kommentar"
 
-
-action = error "Autolib.Reporter.IO.Type.action must be run"
-
-execute a = Reporter $ lift a
-
+execute a = Reporter $ do
+   liftIO a
+   return $ Just ()

@@ -23,6 +23,8 @@ Exposed-modules:
         Autolib.Reporter.Set
         Autolib.Reporter.Stream
         Autolib.Reporter.Type
+        Autolib.Reporter.IO.Type
+        Autolib.Reporter.Classic.Type
 hs-source-dirs:	.
 ghc-options: -fglasgow-exts
 extensions: TypeSynonymInstances
