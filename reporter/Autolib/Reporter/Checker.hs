@@ -30,10 +30,10 @@ run c g = do
     inform $ condition c
     nested 4 $ investigate c g
 
-eval :: Type a -> a -> Bool
-eval c g = 
-    let ( mr, _ :: Doc ) = export $ investigate c g
-    in	isJust mr
+eval :: Type a -> a -> Reporter Bool
+eval c g = do
+    mr <- wrap $ investigate c g
+    return $ isJust mr
 
 -- | beides ausführen, 
 -- aber kurznamen nur vom rechten anzeigen

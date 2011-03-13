@@ -2,6 +2,8 @@
 
 module Autolib.Reporter.IO.Type where
 
+import qualified Autolib.Reporter.Classic.Type as Classic
+
 import Control.Monad.Trans.Writer.Lazy
 import Control.Monad.Trans.Maybe
 import Control.Monad.Trans (lift, liftIO )
@@ -24,10 +26,11 @@ instance Monad Reporter where
             Nothing -> return Nothing
             Just x   -> let Reporter s = f x in s
 
-
-run ( Reporter r ) = do
-    ( a, o ) <- runWriterT r
-    return ( a, render o )
+lift :: Classic.Reporter a -> Reporter a
+lift r = Reporter $ do
+    ( r, o ) <- liftIO $ Classic.run r
+    tell o
+    return r
 
 output :: Output -> Reporter ()
 output o = do
@@ -62,25 +65,25 @@ silent ( Reporter r ) = Reporter $ pass $ do
         Nothing -> ( Nothing, id )
         Just a  -> ( Just a, const mempty )
 
-{-# deprecated export "Autolib.Reporter.IO.Type has no pure export" #-}
-export = 
-    error "Autolib.Reporter.IO.Type has no pure export"
+run :: Reporter a -> IO ( Maybe a, Output )
+run ( Reporter r ) = runWriterT r
+        
+result r = do
+    (m, o ) <- run r
+    return m
     
-{-# deprecated result "Autolib.Reporter.IO.Type has no pure result"  #-}
-result = 
-    error "Autolib.Reporter.IO.Type has no pure result"
-    
-{-# deprecated kommentar  "Autolib.Reporter.IO.Type has no pure kommentar" #-}
-kommentar = 
-    error "Autolib.Reporter.IO.Type has no pure kommentar"
-    
-{-# deprecated runs  "Autolib.Reporter.IO.Type has no runs" #-}         
-runs = 
-    error "Autolib.Reporter.IO.Type has no runs"
+kommentar r = do
+    (m, o ) <- run r
+    return o
 
-{-# deprecated action  "Autolib.Reporter.IO.Type.action must be run" #-}
-action = 
-    error "Autolib.Reporter.IO.Type.action must be run"
+capture :: Reporter a 
+        -> Reporter ( Maybe a, Output )
+capture ( Reporter r ) = Reporter $ do
+    (a, w) <- listen r
+    return $ Just (a,w)
+    
+    
+
 
 assert :: Bool -> Doc -> Reporter ()
 assert p doc = do

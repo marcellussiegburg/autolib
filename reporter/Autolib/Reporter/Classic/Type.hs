@@ -109,10 +109,10 @@ wrap r = r { result = Just $ result r }
 export :: Render r => Reporter a -> ( Maybe a, r )
 export r = ( result r, render $ kommentar r )
 
-run :: Render r => Reporter a -> IO ( Maybe a, r )
+run :: Reporter a -> IO ( Maybe a, Output )
 run r = do
     action r
-    return $ export r
+    return ( result r, kommentar r )
 
 runs :: Reporter a -> ( Maybe a, Reporter_State )
 runs r =
