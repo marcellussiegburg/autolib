@@ -4,9 +4,7 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        autolib-todoc >= 1.1 && < 1.2
+Build-Depends: base == 4.* , autolib-todoc
 Synopsis:       generic latex interface
 Exposed-modules:
         Autolib.Tex
@@ -15,6 +13,5 @@ Exposed-modules:
 hs-source-dirs:	.
 extensions: FlexibleInstances, UndecidableInstances, IncoherentInstances
 build-type: Simple
-
 
 

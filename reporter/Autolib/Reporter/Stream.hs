@@ -29,9 +29,7 @@ import Autolib.Reporter.Proof
 -- of the boolean connectives.
 data Type
      = Cons { cons_info :: Doc
-	    , message :: Output
-	    , activity :: IO () -- ^ could be any monad
-	    , continue :: Continue
+	    , continue :: Reporter Continue
 	    }
 
 data Continue
@@ -41,26 +39,22 @@ data Continue
 
 exec :: Type -> Reporter ( Either Output Proof )
 exec x = do
-     output  $ message  x
-     execute $ activity x
-     case continue x of
+     c <- continue x
+     case c of
 	  Fail msg -> return $ Left msg
 	  Result p -> return $ Right p
  	  Next n   -> exec n
 
 -- | the stream of outputs of the iterator (lazily)
 make :: Doc -> Iterator Proof -> Type
-make d ( Iterator doc prod step ) =
-    let ( mx, rep ) = runs $ do
+make d ( Iterator doc prod step ) = Cons 
+          { cons_info = d
+	  , continue = do
 	    start <- prod
             inform $ text "execute one step for iterator" $$ nest 4 doc
-            res <- nested 4 $ step start
+            res <- nested 4 $ wrap $ step start
             inform $ text "... one step for iterator" $$ nest 4 doc
-	    return res
-    in  Cons { cons_info = d
-	  , message = kommentar rep
-	  , activity = action rep
-	  , continue = case mx of
+            return $ case res of
 	           Nothing -> Fail $ Above (Doc $ text "failed:") 
 					   (Nest $ Doc doc)
 		   Just x -> case x of
@@ -73,34 +67,38 @@ make d ( Iterator doc prod step ) =
 
 
 nicht :: Doc -> Type -> Type
-nicht doc x = x { continue = case continue x of
-    Fail msg -> Fail msg
-    Result p -> Result $ Proof 
-		{ value = not $ value p
-		, formula = doc
-		, reason = explain p
-		, history = [] -- history p
-		}
-    Next n -> Next $ nicht doc $ n
+nicht doc x = x { continue = do
+    c <- continue x
+    return $ case c of 
+        Fail msg -> Fail msg
+        Result p -> Result $ Proof 
+            	{ value = not $ value p
+            	, formula = doc
+            	, reason = explain p
+            	, history = [] -- history p
+            	}
+        Next n -> Next $ nicht doc $ n
    }
 
 -- | report True in case of success
 -- and False (not Fail) in case of failure
 erfolg :: Doc -> Type -> Type
-erfolg doc x = x { continue = case continue x of
-    Fail msg -> Result $ Proof 
-		{ value = False
-		, formula = doc
-		, reason = msg
-		, history = [] 
-		}
-    Result p -> Result $ Proof 
-		{ value = True
-		, formula = doc
-		, reason = explain p
-		, history = [] -- history p
-		}
-    Next n -> Next $ erfolg doc $ n
+erfolg doc x = x { continue = do
+    c <- continue x
+    return $ case c of
+        Fail msg -> Result $ Proof 
+            	{ value = False
+            	, formula = doc
+            	, reason = msg
+            	, history = [] 
+            	}
+        Result p -> Result $ Proof 
+            	{ value = True
+            	, formula = doc
+            	, reason = explain p
+            	, history = [] -- history p
+            	}
+        Next n -> Next $ erfolg doc $ n
    }
 
 und, oder :: Doc -> [ Type ] -> Type
@@ -123,15 +121,13 @@ oder doc = helper doc ( Just $ Proof { value = False
 before :: Doc -> [ Type ] -> Type
 before doc [] = 
     Cons { cons_info = doc
-	 , message = Empty
-         , activity = return ()
-	 , continue = Fail Empty -- FIXME
+	 , continue = return $ Fail Empty -- FIXME
          }
 before doc (x : xs) = 
     Cons { cons_info = doc
-	 , message = message x
-	 , activity = activity x
-	 , continue = case continue x of
+	 , continue = do
+            c <- continue x
+            return $ case c of
 	       Fail msg -> Next -- FIXME: collect msg
 	             $ before doc xs
 	       Result p -> 
@@ -162,37 +158,36 @@ erster doc = helper doc Nothing False -- impure
 helper :: Doc -> Maybe Proof -> Bool -> [ Type ] -> Type
 helper doc  direction pure [] = 
     Cons { cons_info = doc
-	 , message = Empty
-         , activity = return ()
 	 , continue = case ( direction, pure ) of
 	      ( Just d, True ) -> 
-	          Result $ Proof 
+	          return $ Result $ Proof 
 			 { value = value d
 			 , formula = doc
 			 , reason = explain d
 			 , history = [] -- history d
 			 }
-	      _  -> Fail Empty -- ??
+	      _  -> return $ Fail Empty -- ??
 	 }
 
-helper doc direction pure xxs @ (x : xs) = 
-    Cons { cons_info = doc
-	 , message = message x
-	 , activity = activity x
-	 , continue = case continue x of
-	       Fail msg -> Next -- FIXME: collect msg
-	             $ helper doc direction  False xs -- make impure
-	       Result p -> 
-	 	   if Just p /= direction -- use Eq instance
-		   then  Result $ Proof
-				{ value = value p
-				, formula = doc
-				, reason = explain p
-				, history = [] -- history p
-				}
-		   else  Next $ helper doc direction --  collect ( reason p ) )
-			         pure   xs
-	       Next n -> Next $ helper doc direction pure $ xs ++ [ n ]
-	 }
+helper doc direction pure xxs @ (x : xs) = Cons 
+       { cons_info = doc 
+       , continue = do 
+         c <- continue x 
+         return $ case c of
+               Fail msg -> Next -- FIXME: collect msg
+                     $ helper doc direction  False xs -- make impure
+               Result p -> 
+                   if Just p /= direction -- use Eq instance
+                   then  Result $ Proof
+                                { value = value p
+                                , formula = doc
+                                , reason = explain p
+                                , history = [] -- history p
+                                }
+                   else  Next $ helper doc direction --  collect ( reason p ) )
+                                 pure   xs
+               Next n -> Next $ helper doc direction pure $ xs ++ [ n ]
+
+       }
 
 

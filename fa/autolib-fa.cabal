@@ -4,17 +4,9 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        mtl >= 1.1 && < 1.2,
-        autolib-algorithm >= 1.1 && < 1.2,
-        autolib-reader >= 1.1 && < 1.2,
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-reporter >= 1.1 && < 1.2,
-        autolib-data >= 1.1 && < 1.2,
-        autolib-relation >= 1.1 && < 1.2,
-        autolib-util >= 1.1 && < 1.2,
-        autolib-dot >= 1.1 && < 1.2
+Build-Depends: base == 4.* , mtl , autolib-algorithm ,
+               autolib-reader , autolib-todoc , autolib-reporter , autolib-data ,
+               autolib-relation , autolib-util , autolib-dot
 Synopsis:       finite automata (for words) 
 Exposed-modules:
         Autolib.ENFA
@@ -57,6 +49,5 @@ hs-source-dirs:	.
 extensions: ScopedTypeVariables, FlexibleContexts, FlexibleInstances, MultiParamTypeClasses, OverlappingInstances,
 	    DeriveDataTypeable, IncoherentInstances
 build-type: Simple
-
 
 

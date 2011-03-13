@@ -19,7 +19,7 @@ instance XmlRpcType ( ) where
     fromValue v = return ()
     getType _ = TStruct
 
-
+{-
 instance ( XmlRpcType a, XmlRpcType b ) =>  XmlRpcType ( a, b ) where
     toValue (a,b) = toValue [ ("first"  , toValue a )
                         , ("second" , toValue b )
@@ -31,7 +31,7 @@ instance ( XmlRpcType a, XmlRpcType b ) =>  XmlRpcType ( a, b ) where
                   ss <- fromValue s
                   return (ff, ss)
     getType _ = TStruct
-
+-}
 
 instance ( Ord a, XmlRpcType [a] ) => XmlRpcType ( Set a ) where
     getType _ = TStruct

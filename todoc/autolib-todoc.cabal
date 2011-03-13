@@ -4,12 +4,8 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        pretty >= 1.0 && < 1.1,
-        containers,
-        xhtml >= 3000.2 && < 3000.3,
-        autolib-derive >= 1.1 && < 1.2
+Build-Depends: base == 4.* , pretty , containers , xhtml ,
+               autolib-derive
 Synopsis:       formatting
 Exposed-modules:
 	Autolib.Informed
@@ -30,6 +26,5 @@ hs-source-dirs:	.
 ghc-options: -fglasgow-exts
 extensions: IncoherentInstances
 build-type: Simple
-
 
 

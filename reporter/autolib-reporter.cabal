@@ -4,16 +4,8 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        parsec >= 2 && < 4,
-        containers,
-        mtl >= 1.1 && < 1.2,
-        random >= 1.0 && < 1.1,
-        autolib-output >= 1.1 && < 1.2,
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-reader >= 1.1 && < 1.2,
-        autolib-data >= 1.1 && < 1.2
+Build-Depends: base == 4.* , parsec , containers , mtl , random , transformers,
+               autolib-output , autolib-todoc , autolib-reader , autolib-data
 Synopsis:       reporting 
 Exposed-modules:
         Autolib.Timer
@@ -31,10 +23,11 @@ Exposed-modules:
         Autolib.Reporter.Set
         Autolib.Reporter.Stream
         Autolib.Reporter.Type
+        Autolib.Reporter.IO.Type
+        Autolib.Reporter.Classic.Type
 hs-source-dirs:	.
 ghc-options: -fglasgow-exts
 extensions: TypeSynonymInstances
 build-type: Simple
-
 
 

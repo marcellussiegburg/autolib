@@ -4,17 +4,8 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        array >= 0.2 && < 0.4,
-        process >= 1.0 && < 1.1,
-        random >= 1.0 && < 1.1,
-        mtl >= 1.1 && < 1.2,
-        parsec >= 2 && < 4,
-        haxr >= 3000.7 && < 3000.8,
-        autolib-data >= 1.1 && < 1.2,
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-reader >= 1.1 && < 1.2
+Build-Depends: base == 4.* , array , process , random , mtl ,
+               parsec , haxr , autolib-data , autolib-todoc , autolib-reader
 Synopsis:       utilities (this package is too large)
 Exposed-modules:
 	Autolib.Ana
@@ -61,6 +52,5 @@ ghc-options: -fglasgow-exts
 extensions: TypeSynonymInstances, ScopedTypeVariables, FlexibleContexts, 
 	    IncoherentInstances, OverlappingInstances, UndecidableInstances
 build-type: Simple
-
 
 

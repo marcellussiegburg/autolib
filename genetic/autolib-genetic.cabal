@@ -3,11 +3,8 @@ Version:        1.2
 License:        GPL
 Author:         Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
-Build-Depends:  
-        base >= 4 && < 4.4,
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-data >= 1.1 && < 1.2,
-        autolib-util >= 1.1 && < 1.2
+Build-Depends: base == 4.* , autolib-todoc , autolib-data ,
+               autolib-util
 Synopsis:       evolutionary algorithms
 Exposed-modules:
         Autolib.Genetic
@@ -17,6 +14,5 @@ Exposed-modules:
 hs-source-dirs:	.
 extensions: FlexibleContexts, UndecidableInstances, FlexibleInstances, IncoherentInstances
 build-type: Simple
-
 
 

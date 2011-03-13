@@ -14,13 +14,14 @@ timed_run :: Render r
 	  -> Reporter a -- ^ default reporter
 	  -> Reporter a -- ^ time-consuming reporter
 	  -> IO ( Maybe a, r )
-timed_run d def r = 
-    timed d ( export def) $ run r
+timed_run d def r = do
+    (a,o) <- timed d ( run  def) $ run r
+    return ( a, render o )
 
 -- | TODO: das ist eventuell zu lazy?
 -- wenn die action einen nicht ganz ausgewerteten wert schreibt?
 
-timed :: Int -> a -> IO a -> IO a
+timed :: Int -> IO a -> IO a -> IO a
 timed d def action = do
     ch <- newChan
 
@@ -30,7 +31,8 @@ timed d def action = do
 
     tpid <- forkIO $ do
          sleep d
-	 writeChan ch def
+         y <- def
+	 writeChan ch y
 
     x <- readChan ch
     let ignore act = catch act ( \ _ -> return () ) 

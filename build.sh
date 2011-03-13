@@ -2,7 +2,7 @@
 
 # in proper order:
 for pack in \
-    cgi \
+    derive \
     todoc tex reader output data reporter \
     algorithm util relation \
     dot fa exp rewriting fta graph \
@@ -11,7 +11,7 @@ for pack in \
 do
     echo "entering $pack"
     pushd $pack
-    cabal clean
+    # cabal clean
     # cabal build
     cabal install --global --root-cmd=sudo
     cabal sdist

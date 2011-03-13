@@ -4,19 +4,10 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        mtl >= 1.1 && < 1.2,
-        array >= 0.2 && < 0.4,
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-reader >= 1.1 && < 1.2,
-        autolib-algorithm >= 1.1 && < 1.2,
-        autolib-relation >= 1.1 && < 1.2,
-        autolib-util >= 1.1 && < 1.2,
-        autolib-rewriting >= 1.1 && < 1.2,
-        autolib-data >= 1.1 && < 1.2,
-        autolib-dot >= 1.1 && < 1.2,
-        autolib-fa >= 1.1 && < 1.2
+Build-Depends: base == 4.* , mtl , array , autolib-todoc ,
+               autolib-reader , autolib-algorithm , autolib-relation ,
+               autolib-util , autolib-rewriting , autolib-data , autolib-dot ,
+               autolib-fa
 Synopsis:       finite tree automata
 Exposed-modules:
         Autolib.NFTA
@@ -38,6 +29,5 @@ Exposed-modules:
 hs-source-dirs:	.
 extensions: MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, UndecidableInstances, ScopedTypeVariables
 build-type: Simple
-
 
 

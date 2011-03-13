@@ -14,24 +14,24 @@ Cabal-version: >= 1.2
 
 Library
     Build-depends:  
-            base >= 4 && < 4.4,
-            bytestring >= 0.9 && < 0.10,
-            mtl >= 1.1 && < 1.2,
-            xhtml >= 3000.2 && < 3000.3,
-            utf8-string >= 0.3 && < 0.4,
-            happstack-server >= 0.4 && < 0.6
+            base == 4.*,
+            bytestring,
+            transformers,
+            xhtml,
+            utf8-string,
+            happstack-server
     Exposed-modules: Autolib.CGI,Autolib.CGI.Widget,Autolib.CGI.Form,Autolib.CGI.Edit
                      Autolib.CGI.Local,Autolib.CGI.Container,Autolib.CGI.Store
 Executable Menu_Test
     Build-depends:  
-            base >= 4 && < 4.4,
-            happstack >= 0.4 && < 0.6,
-            bytestring >= 0.9 && < 0.10,
-            mtl >= 1.1 && < 1.2,
-            xhtml >= 3000.2 && < 3000.3,
-            happstack-server >= 0.4 && < 0.6,
-            happstack-state >= 0.4 && < 0.6
+            base == 4.*,
+            happstack,
+            bytestring,
+            mtl,
+            transformers,
+            xhtml,
+            happstack-server,
+            happstack-state
     Main-is: Menu_Test.hs    
-
 
 

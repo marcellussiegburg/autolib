@@ -4,20 +4,9 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann, Bertram Felgenhauer
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        random >= 1.0 && < 1.1,
-        process >= 1.0 && < 1.1,
-        containers,
-        directory >= 1.0 && < 1.1,
-        parsec >= 2 && < 4,
-        bytestring >= 0.9 && < 0.10,
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-reader >= 1.1 && < 1.2,
-        autolib-data >= 1.1 && < 1.2,
-        autolib-util >= 1.1 && < 1.2,
-        autolib-output >= 1.1 && < 1.2,
-        autolib-reporter >= 1.1 && < 1.2
+Build-Depends: base == 4.* , random , process , containers ,
+               directory , parsec , bytestring , autolib-todoc , autolib-reader ,
+               autolib-data , autolib-util , autolib-output , autolib-reporter
 Synopsis:       interface to dot (graphviz language)
 Exposed-modules:
         Autolib.Boxing
@@ -37,6 +26,5 @@ hs-source-dirs:	.
 extensions: 
 cabal-version: >= 1.6
 build-type: Custom
-
 
 

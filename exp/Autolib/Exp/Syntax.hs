@@ -57,7 +57,7 @@ constructors =
     mkSet . map constructor . subtrees 
 
 
-star_height :: (Num a, Ord a) => Exp -> a
+star_height :: (Num a, Ord a) => RX c -> a
 star_height x = case x of
     Ref n -> 0 -- gefährlich
     Letter c -> 0

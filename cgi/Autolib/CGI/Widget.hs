@@ -48,8 +48,10 @@ newtype Env = Env [(String,String)]
 
 instance FromData Env where
     fromData = do 
-        ( env, cook ) <- ask ; 
-        return $ Env $ until_submit $ do (s,i) <- env ; return (s, unpack $ inputValue i)
+        ( env, bodies, cookies ) <- askRqEnv ; 
+        return $ Env $ until_submit $ do 
+             (s , i @ Input { inputValue = Right bs }) <- env ++ bodies
+             return (s, unpack bs)
 
 until_submit pairs = 
     let ( pre , post ) = span ( \ (tag,val) -> not $ "S" `isPrefixOf` tag ) pairs
@@ -65,7 +67,7 @@ look tag = withData $ \ (Env env) -> do
 
 -- | for one-line input text. with default. input is echoed.
 -- this widget is non-blocking (always successful)
-textfield :: ( ServerMonad m, MonadPlus m ) 
+textfield :: ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
           => String -> Form m String
 textfield cs = do
     tag :: String <- gensym
@@ -78,7 +80,7 @@ textfield cs = do
     return ds
 
 
-empty_textfield :: ( ServerMonad m, MonadPlus m ) 
+empty_textfield :: ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
           => Int -- ^ size
           -> Form m String
 empty_textfield s = do
@@ -92,7 +94,7 @@ empty_textfield s = do
     return ds
 
 -- | like textfield, but don't show the entry.
-password :: ( ServerMonad m, MonadPlus m ) 
+password :: ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
           => String -> Form m String
 password cs = do
     tag :: String <- gensym
@@ -107,7 +109,7 @@ password cs = do
 -- | multi-line text input, with default.
 -- the number of rows is slightly larger than the number of lines of the default,
 -- the number of columns is slightly larger than the maximun line width of the default.
-textarea :: ( ServerMonad m, MonadPlus m ) 
+textarea :: ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
           => String -> Form m String
 textarea  cs = do
     tag :: String <- gensym
@@ -125,7 +127,7 @@ textarea  cs = do
                ]
     return ds
 
-empty_textarea :: ( ServerMonad m, MonadPlus m ) 
+empty_textarea ::  ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
           => Int -- ^ rows
           -> Int -- ^ cols
           -> Form m String
@@ -149,7 +151,7 @@ empty_textarea rows cols = do
 -- 
 -- > do c <- submit "check"; guard c
 -- 
-submit :: ( ServerMonad m, MonadPlus m ) 
+submit ::  ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
        => String
        -> Form m Bool
 submit cs = submit_pref "S" cs
@@ -169,7 +171,7 @@ submit_pref pref cs = do
 -- the name of the menu, the options, and the chosen option.
 -- The menu should be surrounded by table environment.
 
-menu ::  ( ServerMonad m, MonadPlus m ) 
+menu ::  ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
        => String 
        -> [ (String, a) ]
        -> Form m a
@@ -192,7 +194,7 @@ menu title options = tr $ do
 -- be very careful: the numbering of the widges in the rest of the page
 -- must not depend on the output of this (or any other nonblocking) widget!
 -- TODO: use the type system to enforce this.
-nonblocking_menu ::  ( ServerMonad m, MonadPlus m ) 
+nonblocking_menu ::  ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
        => String 
        -> [ (String, a) ]
        -> Form m a

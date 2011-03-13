@@ -8,6 +8,7 @@ import qualified Autolib.Multilingual.Doc as Pretty
 import Autolib.Multilingual
 
 import Data.ByteString
+import Data.Monoid
 
 data Output = Empty
 	    | Doc  Pretty.Doc
@@ -21,6 +22,10 @@ data Output = Empty
 	    | Itemize [ Output ]
 	    | Nest Output
 	    | Figure Output Output -- contents, caption
+
+instance Monoid Output where
+    mempty = Empty
+    mappend = Above
 
 class Render r where
       render :: Output -> r

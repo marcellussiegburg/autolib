@@ -4,13 +4,8 @@ License:        GPL
 Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends:  
-        base >= 4 && < 4.4,
-        autolib-algorithm >= 1.1 && < 1.2,
-        autolib-data >= 1.1 && < 1.2,
-        autolib-reader >= 1.1 && < 1.2,
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-util >= 1.1 && < 1.2
+Build-Depends: base == 4.* , autolib-algorithm , autolib-data ,
+               autolib-reader , autolib-todoc , autolib-util
 Synopsis:       relations
 Exposed-modules:
         Autolib.Relation
@@ -21,6 +16,5 @@ Exposed-modules:
 hs-source-dirs:	.
 extensions: FlexibleContexts, UndecidableInstances, FlexibleInstances, IncoherentInstances
 build-type: Simple
-
 
 
