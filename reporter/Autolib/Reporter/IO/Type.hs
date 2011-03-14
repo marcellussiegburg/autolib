@@ -6,6 +6,7 @@ import qualified Autolib.Reporter.Classic.Type as Classic
 
 import Control.Monad.Trans.Writer.Lazy
 import Control.Monad.Trans.Maybe
+import Control.Monad.IO.Class
 import Control.Monad.Trans (lift, liftIO )
 import Data.Monoid
 
@@ -25,6 +26,9 @@ instance Monad Reporter where
         case m of
             Nothing -> return Nothing
             Just x   -> let Reporter s = f x in s
+
+instance MonadIO Reporter where
+    liftIO a = Reporter $ do x <- liftIO a ; return $ Just x
 
 lift :: Classic.Reporter a -> Reporter a
 lift r = Reporter $ do
