@@ -15,6 +15,8 @@ instance Render Html.Html where
 	Html.anchor ( Html.tt Html.<< ref  ) Html.! [ Html.href ref ]
     render (Named_Link name ref) =  
 	Html.anchor ( Html.tt Html.<< name ) Html.! [ Html.href ref ]
+    render (HRef url contents) = 
+        Html.anchor ( render contents ) Html.! [ Html.href url ]
     render (Empty)  = Html.noHtml
 
     render (Above x Empty) = render x

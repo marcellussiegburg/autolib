@@ -16,6 +16,7 @@ data Output = Empty
 	    | Image FilePath (IO ByteString) -- source, data
 	    | Link FilePath 
 	    | Named_Link String FilePath 
+            | HRef FilePath Output
 	    | Text String
 	    | Above  Output Output
 	    | Beside Output Output
@@ -43,6 +44,7 @@ instance Render Pretty.Doc where
     render (Image src _) = Pretty.text "<img>"
     render (Link url) = Pretty.text "<a href>"
     render (Named_Link name url) = Pretty.text "<a href>"
+    render (HRef url contents) = render contents
 
     render (Empty)  = Pretty.empty
 

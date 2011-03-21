@@ -1,7 +1,7 @@
 module Autolib.Reader.Basic 
 
 ( 
-  my_parens, my_braces, my_brackets
+  my_parens, my_braces, my_brackets, my_angles
 , my_comma, my_semi, my_dot, my_star
 , my_reserved, my_equals
 , my_commaSep, my_semiSep
@@ -33,6 +33,8 @@ my_brackets :: Parser a -> Parser a
 my_brackets = brackets haskell
 my_braces :: Parser a -> Parser a
 my_braces = braces haskell
+my_angles :: Parser a -> Parser a
+my_angles = angles haskell
 
 my_comma :: Parser String
 my_comma = comma haskell
