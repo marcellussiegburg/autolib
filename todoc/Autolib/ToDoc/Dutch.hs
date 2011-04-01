@@ -70,5 +70,6 @@ quoted :: Doc -> Doc
 quoted d = char '`' <> d <> char '\''
 
 (</>) :: Doc -> Doc -> Doc
-l </> r = l $+$ nest 4 r
+-- l </> r = l $+$ nest 4 r
+l </> r = l $$ nest 4 r
 
