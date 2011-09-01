@@ -34,7 +34,7 @@ import Happstack.Server hiding ( look )
 import qualified Text.XHtml as X
 import Control.Monad.Reader hiding ( local )
 import Data.ByteString.Lazy.Char8 ( unpack )
-import Data.Maybe ( isJust, catMaybes, listToMaybe )
+import Data.Maybe ( isJust, catMaybes, listToMaybe, fromMaybe )
 import Control.Monad ( guard, mzero )
 import Data.List ( isPrefixOf )
 
@@ -50,7 +50,8 @@ instance FromData Env where
     fromData = do 
         ( env, bodies, cookies ) <- askRqEnv ; 
         return $ Env $ until_submit $ do 
-             (s , i @ Input { inputValue = Right bs }) <- env ++ bodies
+             (s , i @ Input { inputValue = Right bs }) <- 
+                  env ++ fromMaybe [] bodies
              return (s, unpack bs)
 
 until_submit pairs = 
