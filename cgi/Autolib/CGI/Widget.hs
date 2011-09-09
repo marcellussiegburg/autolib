@@ -77,8 +77,9 @@ textfield cs = do
         ds = case val of
                Nothing -> cs
                Just cs -> cs
-    emit $ X.textfield tag X.! [ X.value ds ]
-    return ds
+    emit $ X.textfield tag 
+           X.! [ X.value $ CBUS.decodeString ds ]
+    return $ CBUS.decodeString ds
 
 
 empty_textfield :: ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
@@ -91,8 +92,9 @@ empty_textfield s = do
         ds = case val of
                Nothing -> ""
                Just cs -> cs
-    emit $ X.textfield tag X.! [ X.value ds, X.size $ show s ]
-    return ds
+    emit $ X.textfield tag
+         X.! [ X.value $ CBUS.decodeString ds, X.size $ show s ]
+    return $ CBUS.decodeString ds
 
 -- | like textfield, but don't show the entry.
 password :: ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
@@ -126,7 +128,7 @@ textarea  cs = do
                , X.cols $ show (cols + 10)
                , X.rows $ show (rows + 2) 
                ]
-    return ds
+    return $ CBUS.decodeString ds
 
 empty_textarea ::  ( MonadPlus m, MonadIO m, HasRqData m, ServerMonad m ) 
           => Int -- ^ rows
@@ -144,7 +146,7 @@ empty_textarea rows cols = do
                , X.cols $ show cols
                , X.rows $ show rows
                ]
-    return ds
+    return $ CBUS.decodeString ds
 
 -- | a submit button, with label.
 -- This widget is non-blocking.
