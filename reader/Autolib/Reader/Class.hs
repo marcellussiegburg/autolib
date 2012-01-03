@@ -3,7 +3,8 @@
 module Autolib.Reader.Class 
 
 ( module Autolib.Reader.Class
-, module Text.ParserCombinators.Parsec 
+-- , module Text.ParserCombinators.Parsec hiding ( label, State )
+, module Export_Trickery
 , guard
 )
 
@@ -13,6 +14,9 @@ where
 
 import Text.ParserCombinators.Parsec 
         hiding ( label, State )
+
+import Text.ParserCombinators.Parsec as Export_Trickery
+        hiding ( label, State ) 
 
 import Control.Monad ( guard )
 import Autolib.Reader.Basic ( my_parens )
