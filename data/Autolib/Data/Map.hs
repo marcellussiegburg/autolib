@@ -36,8 +36,8 @@ addToFM fm k a = insert k a fm
 addToFM_C fun m k a = insertWith fun k a m
 
 
-addListToFM m pairs = foldr (\ (k,a) -> insert k a) m pairs
-addListToFM_C fun m pairs = foldr (\ (k, a) -> insertWith fun k a) m pairs
+addListToFM m pairs = Prelude.foldr (\ (k,a) -> insert k a) m pairs
+addListToFM_C fun m pairs = Prelude.foldr (\ (k, a) -> insertWith fun k a) m pairs
 
 -- better performance according to <http://www.haskell.org/pipermail/libraries/2005-February/003341.html>
 -- BUT these are not equivalent!
