@@ -56,7 +56,7 @@ peng a = do
              `CE.catch` \ ( any :: CE.IOException ) -> return False
             when ( not done ) $ do
                  writeFileOver objfile $ show a
-                 writeFileOver dotfile $ show it ++ "\n\n"
+                 writeFileOver dotfile $ show ( toDoc it ) ++ "\n\n"
                  system' $ unwords
                        [ progname $ toDotProgram a
                        , toDotOptions a

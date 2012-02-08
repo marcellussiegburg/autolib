@@ -19,7 +19,7 @@ data Reactor w a t =
 	     , todo :: Set ( w, a )
 	     , tags :: Set t
 	     }
-     deriving Show
+     -- deriving Show
 
 class (Ord w, Ord a, Ord t ) => ReactorC w a t
 instance (Ord w, Ord a, Ord t ) => ReactorC w a t

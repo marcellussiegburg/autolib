@@ -21,6 +21,9 @@ instance ToDoc c => ToDoc ( Letter c ) where
     toDoc ( Epsilon )  = text "eps"
     toDoc ( Single c ) = toDoc c
 
+instance ToDoc c => Show ( Letter c ) where
+    show = render . toDoc
+    
 instance Reader ( Letter c ) -- dummy
 
 instance Hash c => Hash ( Letter c ) where

@@ -57,7 +57,7 @@ mkDot :: ToDot a
 mkDot a prog fmt path = do
 
     let dotfile = path ++ ".dot"
-    writeFile dotfile $ show $ toDot a
+    writeFile dotfile $ render $ toDoc $ toDot a
 
     let fmtfile = path ++ "." ++ fmt
 
@@ -87,7 +87,7 @@ mot :: ToDot a => String -> String -> FilePath -> a -> IO FilePath
 mot opt ext fname a = do
     let dotfile = fname ++ ".dot"
     let extfile = fname ++ ext
-    writeFile dotfile $ show $ toDot $ a
+    writeFile dotfile $ show $ toDoc $ toDot $ a
     system' $ unwords 
 	   [ progname $ toDotProgram a 
 	   , opt

@@ -88,6 +88,9 @@ mkusig fs = mkSet $ do
     f <- fs
     return $ mkunary f
 
+instance Show Identifier where
+    show = render . toDoc
+
 instance ToDoc Identifier where 
     toDoc = text . name
 instance Reader Identifier where 

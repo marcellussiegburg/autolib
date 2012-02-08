@@ -39,8 +39,10 @@ instance Show a => ToDoc a where
     toDocPrec p x = text ( showsPrec p x "" )
 -}
 
-instance ToDoc a => Show a where 
-    showsPrec p x cs = render ( toDocPrec p x ) ++ cs
+-- ghc-7.4.1 does not like this because Data.Set is in "safe" mode
+-- so we can't overlap their Show instance:
+-- instance ToDoc a => Show a where 
+--    showsPrec p x cs = render ( toDocPrec p x ) ++ cs
 
 docParen :: Bool -> Doc -> Doc
 docParen f = if f then parens else id

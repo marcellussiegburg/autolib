@@ -10,6 +10,9 @@ import Autolib.Symbol
 import Autolib.ToDoc
 import Autolib.ToTex
 
+instance ToDoc (Term v c) => Show (Term v c ) where
+    show = render . toDoc
+
 instance ( Symbol c, ToDoc v ) => ToDoc (Term v c) where
     toDocPrec _ ( Var v ) = toDoc v
     toDocPrec p ( Node t xs ) = 

@@ -7,8 +7,6 @@
 -- no graph attributes
 -- resp. fixed defaults only
 
---  $Id$
-
 
 module Autolib.Dot.Graph where
 

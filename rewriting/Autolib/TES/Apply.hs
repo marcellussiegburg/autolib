@@ -13,7 +13,9 @@ import Data.Maybe
 
 
 -- | replace variables by variables
-applyvar :: ( TRSC a c, TRSC b c, ToDoc (FiniteMap a b ) )
+applyvar :: ( TRSC a c, TRSC b c, ToDoc (FiniteMap a b ) 
+            , ToDoc ( Term a c)
+            )
 	 => FiniteMap a b 
          -> Term a c -> Term b c
 applyvar fm t = vmap 
