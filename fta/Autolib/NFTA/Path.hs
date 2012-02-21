@@ -8,8 +8,6 @@
 
 module Autolib.NFTA.Path where
 
---  $Id$
-
 import qualified Autolib.NFTA.Type as T -- trees
 import qualified Autolib.NFA.Type as W -- words
 
@@ -55,6 +53,8 @@ instance ( ToDoc c, ToDoc s ) => ToDoc (Node c s) where
     toDoc ( Transition (q, c, qs) ) = toDoc c
     toDoc ( State s ) = toDoc s
 
+instance ( ToDoc c, ToDoc s ) => Show (Node c s) where
+     show = render . toDoc
 instance Reader (Node c s)
 
 instance ( Hash c, Hash s ) => Hash ( Node c s ) where
@@ -68,6 +68,8 @@ data Edge = Edge Int
 instance ToDoc Edge where
     toDoc (Edge i) = toDoc i
     toDoc Nil = empty
+
+instance Show Edge where show = render . toDoc
 
 instance Reader Edge
 

@@ -1,4 +1,3 @@
--- -*- mode: haskell -*-
 {-# LANGUAGE TemplateHaskell #-}
 
 module Autolib.NFTA.Type 
@@ -9,8 +8,6 @@ module Autolib.NFTA.Type
 )
 
 where
-
---  $Id$
 
 import Autolib.Set
 import Autolib.Letters
@@ -106,3 +103,5 @@ instance NFTAC c s  => Size ( NFTA c s ) where
 
 $(derives [makeToDoc, makeReader] [''NFTA])
 
+instance NFTAC c s => Show ( NFTA c s) where
+     show = render . toDoc
