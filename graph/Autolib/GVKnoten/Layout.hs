@@ -1,7 +1,5 @@
 module Autolib.GVKnoten.Layout where
 
--- -- $Id$
-
 import Autolib.Graph.Graph
 import Autolib.Graph.Display
 import Autolib.Graph.Ops ( restrict )
@@ -40,7 +38,7 @@ layout graph = do
 	infile = prefix ++ ".in"
 	outfile = prefix ++ ".out"
 
-    writeFile infile $ show gn
+    writeFile infile $ show $ toDoc gn
     system $ unwords [ "neato", "-s", "-o", outfile , infile ]
     system $ unwords [ "rm", infile ]
     pos <- get_positions outfile
