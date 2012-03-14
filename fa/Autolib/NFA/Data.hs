@@ -68,6 +68,8 @@ data NFAC c s => NFA c s =
 
 $(derives [makeToDoc, makeReader] [''NFA])
 
+instance NFAC c s => Show (NFA c s) where show = render . toDoc
+
 instance NFAC c s
     => Informed (NFA c s) where
     info = nfa_info
