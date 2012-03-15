@@ -127,6 +127,8 @@ instance GraphC a => ToDoc ( Graph a ) where
         toDocPrec p g = toDocPrec p 
 		      $ pack g
 
+instance GraphC a => Show (Graph a) where show = render . toDoc
+
 instance GraphC a => Eq ( Graph a ) where
     g == h = pack g == pack h
 

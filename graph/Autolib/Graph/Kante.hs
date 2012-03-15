@@ -44,6 +44,9 @@ instance ToDoc a => ToDoc (Kante a) where
 		  $ text "kante" <+> 
 		    sep ( map ( toDocPrec fcp )  [ von k, nach k ] )
 
+instance ToDoc a => Show ( Kante a ) where
+    show = render . toDoc
+  
 instance (Ord a, Reader a) => Reader (Kante a) where
     atomic_readerPrec d = do 
            guard $ d < 9
