@@ -6,8 +6,8 @@ import qualified Autolib.Reporter.Classic.Type as Classic
 
 import Control.Monad.Trans.Writer.Lazy
 import Control.Monad.Trans.Maybe
-import Control.Monad.IO.Class
-import Control.Monad.Trans (lift, liftIO )
+import Control.Monad.IO.Class 
+import Control.Monad.Trans (lift )
 import Data.Monoid
 
 import Autolib.Output
