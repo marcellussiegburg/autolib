@@ -22,7 +22,7 @@ library
     build-depends:
             base >= 4,
             containers,
-            haxr,
+            haxr==3000.8.*,
             json,
             bytestring,
             base64-string,
