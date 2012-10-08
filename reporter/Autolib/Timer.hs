@@ -1,12 +1,11 @@
 module Autolib.Timer where
 
---   $Id$
-
-import Control.Concurrent
 import Autolib.Reporter.Type
 import Autolib.Output
+import Control.Concurrent
+import Control.Exception
 
--- if timer expires,
+-- | if timer expires,
 -- insert default result
 
 timed_run :: Render r
@@ -35,7 +34,8 @@ timed d def action = do
 	 writeChan ch y
 
     x <- readChan ch
-    let ignore act = catch act ( \ _ -> return () ) 
+    let ignore act = Control.Exception.catch act 
+          $ \ ( _ :: SomeException) -> return () 
     ignore $ killThread apid 
     ignore $ killThread tpid 
     return x
