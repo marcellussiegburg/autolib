@@ -1,0 +1,18 @@
+Name:           autolib-foa
+Version:        1.1
+License:        GPL
+Author:         Johannes Waldmann
+Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
+Category:       Testing
+Build-Depends: base == 4.* , mtl , autolib-algorithm ,
+               autolib-reader , autolib-todoc , autolib-reporter , autolib-data ,
+               autolib-relation , autolib-util , autolib-dot
+Synopsis:       finite automata (for omega words) 
+Exposed-modules:
+
+hs-source-dirs:	.
+extensions: ScopedTypeVariables, FlexibleContexts, FlexibleInstances, MultiParamTypeClasses, OverlappingInstances,
+	    DeriveDataTypeable, IncoherentInstances
+build-type: Simple
+
+
