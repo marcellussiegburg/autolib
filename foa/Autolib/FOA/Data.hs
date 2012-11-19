@@ -39,6 +39,10 @@ data FOAC c s => FOA c s = FOA
 data Transitions c s = 
      Transitions ( FiniteMap c ( R.Type s s ) )
 
+transitions_for c a = 
+    let Transitions m = transitions a
+    in  m M.! c
+
 data (Ord s) => Acceptance s 
     = Muller (Set (Set s))
     | Buchi (Set s)
@@ -55,6 +59,19 @@ ex55 = FOA
         , (1, 'b', 1), (1, 'a', 0)
         ]
     , acceptance = Muller $ S.singleton $ S.singleton 0
+    }
+
+-- | Fig 2.2
+ex43 :: FOA Char Int
+ex43 = FOA
+    { alphabet = S.fromList "ab"
+    , states = S.fromList [0,1]
+    , starts = S.fromList [0]
+    , transitions = collect 
+        [ (0, 'a', 0), (0, 'b', 0)
+        , (0, 'b', 1), (1, 'b', 1)
+        ]
+    , acceptance = Buchi $ S.singleton 1
     }
 
 collect ts = Transitions $ M.fromListWith R.plus $ do
