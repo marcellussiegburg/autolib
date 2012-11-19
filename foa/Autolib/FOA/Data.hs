@@ -1,6 +1,9 @@
 {-# language DeriveDataTypeable #-}
-{-# language ConstraintKinds #-}
+{-# language MultiParamTypeClasses #-}
+{-# language FlexibleInstances #-}
+{-# language DatatypeContexts #-}
 {-# language UndecidableInstances #-}
+{-# language TemplateHaskell #-}
 
 module Autolib.FOA.Data where
 
@@ -13,22 +16,46 @@ import Autolib.ToDoc
 import Autolib.Reader
 import Data.Typeable
 
-type FOAC c s = ( Ord c, Ord s
+class ( Ord c, Ord s
                 , Reader c, Reader s
                 , ToDoc c, ToDoc s  
-                ) 
+                ) => FOAC c s
 
-data FOA c s = FOA 
+instance ( Ord c, Ord s
+                , Reader c, Reader s
+                , ToDoc c, ToDoc s  
+                ) => FOAC c s
+
+
+data FOAC c s => FOA c s = FOA 
     { foa_info :: Doc
     , alphabet :: Set c
     , states :: Set s
     , starts :: Set s
-    , acceptance :: Acceptance s
     , transitions :: Transitions c s
+    , acceptance :: Acceptance s
     } deriving Typeable
 
 data Transitions c s = 
      Transitions ( FiniteMap c ( R.Type s s ) )
+
+data (Ord s) => Acceptance s 
+    = Muller (Set (Set s))
+    | Buchi (Set s)
+
+-- | http://www.informatik.uni-bremen.de/tdki/lehre/ws09/automata/
+
+ex55 :: FOA Char Int
+ex55 = FOA
+    { alphabet = S.fromList "ab"
+    , states = S.fromList [0,1]
+    , starts = S.fromList [0]
+    , transitions = collect 
+        [ (0, 'a', 0), (0, 'b', 1)
+        , (1, 'b', 1), (1, 'a', 0)
+        ]
+    , acceptance = Muller $ S.singleton $ S.singleton 0
+    }
 
 collect ts = Transitions $ M.fromListWith R.plus $ do
     (p,c,q) <- ts
@@ -52,9 +79,11 @@ instance (FOAC c s)
      toDoc t = 
          text "collect" <+> toDoc ( unCollect t )
 
-data Acceptance s 
-    = Muller (Set (Set s))
-    | Buchi (Set s)
+$(derives [makeToDoc, makeReader] [''FOA, ''Acceptance])
+
+instance ToDoc (FOA c s) => Show (FOA c s) where
+    show = render . toDoc
+
 
 
 
