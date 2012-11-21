@@ -27,6 +27,7 @@ subtrees x = x : case x of
 
     PowerStar x -> subtrees x
     PowerPlus x -> subtrees x
+    PowerOmega x -> subtree s
     Power i x -> subtrees x
 
 instance Size (RX c) where size = length . subtrees
@@ -49,6 +50,7 @@ constructor x = case x of
 
     PowerStar x -> "PowerStar"
     PowerPlus x -> "PowerPlus"
+    PowerOmega x -> "PowerOmega"
     Power i x -> "Power"
 
 
