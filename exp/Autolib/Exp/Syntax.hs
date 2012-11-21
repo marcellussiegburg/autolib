@@ -27,7 +27,7 @@ subtrees x = x : case x of
 
     PowerStar x -> subtrees x
     PowerPlus x -> subtrees x
-    PowerOmega x -> subtree s
+    PowerOmega x -> subtrees x
     Power i x -> subtrees x
 
 instance Size (RX c) where size = length . subtrees
