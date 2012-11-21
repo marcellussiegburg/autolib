@@ -16,6 +16,30 @@ import qualified Data.Map as M
 import qualified Data.Set as S
 import Control.Monad ( guard )
 
+power_omega :: N.NFAC c s  
+      => N.NFA c s -> FOA c s
+power_omega a = 
+    FOA { foa_info = text "power_omega"
+            $$ toDoc ( N.nfa_info a )
+        , alphabet = N.alphabet a
+        , states = N.states a
+        , starts = N.starts a
+        , transitions = collect 
+            $ N.unCollect ( N.trans a )
+            ++ do (p, c, q) <- N.unCollect $ N.trans a
+                  guard $ S.member q $ N.finals a
+                  r <- N.lstarts a
+                  return (p,c,r)
+        , acceptance = Muller $ S.fromList 
+            $ filter ( not . S.null ) $ map S.fromList
+            $ subwords $ N.lstates a
+        }    
+
+subwords [] = return []
+subwords (x:xs) = do
+    rest <- subwords xs
+    [ x : rest, rest ]
+
 times :: (N.NFAC c s, FOAC c t
          , Hash t, Show t
          )
@@ -24,25 +48,27 @@ times :: (N.NFAC c s, FOAC c t
 times a b = 
     let l = N.statemap Left a
         r = statemap Right b
-        l_accepts_epsilon = not $ S.null
-           $ S.intersection (N.starts l) (N.finals l)
     in  FOA { foa_info = text "times" 
                $$ vcat [ N.nfa_info a, foa_info b ]
             , alphabet =  S.union (N.alphabet a)
                                  (alphabet b)
             , states = S.union (N.states l)(states r)
             , starts = S.union (N.starts l) 
-                $ if l_accepts_epsilon
+                $ if accepts_epsilon l
                   then starts r else S.empty
             , transitions = collect 
                 $ N.unCollect (N.trans l)
                 ++ unCollect (transitions r)
                 ++ do (p,c,q) <- 
                           N.unCollect (N.trans l)
-                      r <- S.toList $ states r
+                      guard $ S.member q $ N.finals l
+                      r <- S.toList $ starts r
                       return (p,c,r)
                 , acceptance = acceptance r      
             }                     
+
+accepts_epsilon a = not $ S.null
+     $ S.intersection (N.starts a) (N.finals a)
 
 union :: (FOAC c s, FOAC c t) 
       => FOA c s -> FOA c t
