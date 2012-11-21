@@ -1,8 +1,4 @@
--- -- $Id$
-
 module Autolib.Exp.Sanity where
-
---   $Id$
 
 import Autolib.Exp.Env
 import Autolib.Exp.Type

@@ -1,7 +1,5 @@
 module Autolib.Exp.Read where
 
--- -- $Id$
-
 import Autolib.Exp.Type
 import Autolib.Symbol
 
@@ -14,8 +12,7 @@ import Text.ParserCombinators.Parsec.Expr
 
 import Autolib.Exp.MyTokens
 
---------------------------------------------------------------------------
-
+----------------------------------------------------
 express :: Symbol c
 	=> Parser (RX c, String)
 express = do 
@@ -57,6 +54,7 @@ monomial = do
 		 <|> do symbol  "*" ; return $ PowerStar   
 		 <|> do e <- natural; return $ Power e
 		     -- TODO: "hoch mod n"
+                 <|> do symbol "w" ; return $ PowerOmega    
 		 ) 
     return $ foldl (.) id (reverse fs) $ x
 

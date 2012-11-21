@@ -48,6 +48,7 @@ doc p x @ (Dot          l r) =
 
 doc p (PowerStar x) = powered p (char '*') x
 doc p (PowerPlus x) = powered p (char '+') x
+doc p (PowerOmega x) = powered p (char 'w') x
 doc p (Power e x) = powered p (integer e) x
 
 klammer :: Int -> Int -> Doc -> Doc

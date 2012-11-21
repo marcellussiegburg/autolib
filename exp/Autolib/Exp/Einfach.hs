@@ -1,7 +1,5 @@
 module Autolib.Exp.Einfach where
 
--- -- $Id$
-
 import Autolib.Exp.Type
 import Autolib.Exp.Syntax
 

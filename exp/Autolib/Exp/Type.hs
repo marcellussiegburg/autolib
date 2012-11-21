@@ -1,9 +1,6 @@
--- -*- mode: haskell -*-
 {-# LANGUAGE TemplateHaskell #-}
 
 module Autolib.Exp.Type where
-
---  $Id$
 
 import Data.Typeable
 
@@ -32,6 +29,7 @@ data RX c
 	| Power Integer (RX c) 
 	| PowerStar (RX c)
 	| PowerPlus (RX c)
+        | PowerOmega (RX c)
     deriving ( Eq, Ord, Typeable )
 
 -- | for  backward compatibility
