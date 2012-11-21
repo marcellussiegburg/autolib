@@ -51,7 +51,8 @@ data (Ord s) => Acceptance s
 
 ex55 :: FOA Char Int
 ex55 = FOA
-    { alphabet = S.fromList "ab"
+    { foa_info = text "ex55"
+    , alphabet = S.fromList "ab"
     , states = S.fromList [0,1]
     , starts = S.fromList [0]
     , transitions = collect 
@@ -64,7 +65,8 @@ ex55 = FOA
 -- | Fig 2.2
 ex43 :: FOA Char Int
 ex43 = FOA
-    { alphabet = S.fromList "ab"
+    { foa_info = text "ex43"
+    , alphabet = S.fromList "ab"
     , states = S.fromList [0,1]
     , starts = S.fromList [0]
     , transitions = collect 
