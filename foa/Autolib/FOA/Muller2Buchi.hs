@@ -8,4 +8,4 @@ module Autolib.FOA.Muller2Buchi where
 import Autolib.FOA.Data
 
 m2b a | Muller m <- acceptance a =
-    
+    undefined

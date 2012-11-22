@@ -1,5 +1,8 @@
 -- | see http://www.cse.unsw.edu.au/~cs4151/lecture7a.pdf
 
+-- | see improvement cited here:
+-- http://en.wikipedia.org/wiki/Linear_temporal_logic_to_B%C3%BCchi_automaton#Gerth_et_al._algorithm
+
 module Autolib.LTL.LocalEventual where
 
 import Autolib.LTL.Type
