@@ -6,6 +6,8 @@ module Autolib.FOA.Op where
 import qualified Autolib.NFA as N
 import Autolib.FOA.Data
 
+import Autolib.FOA.Safra
+
 import qualified Autolib.Relation as R
 
 import Autolib.ToDoc
@@ -15,6 +17,17 @@ import Autolib.Hash
 import qualified Data.Map as M
 import qualified Data.Set as S
 import Control.Monad ( guard )
+
+complement :: FOAC c s => FOA c s -> FOA c (Tree s)
+complement a = 
+    let b = safra a
+        Muller acc = acceptance b
+        all = S.fromList $ map S.fromList 
+            $ subwords $ S.toList $ states b
+    in  b { acceptance = Muller $ S.difference all all 
+          , foa_info = text "complement" $$ foa_info a
+          }
+                      
 
 power_omega :: N.NFAC c s  
       => N.NFA c s -> FOA c s

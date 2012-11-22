@@ -6,7 +6,7 @@ import Autolib.ToDoc
 
 instance ToDoc Formula where
     toDocPrec p f = case f of
-        Variable v -> text v
+        Variable v -> toDoc v
         Nullary nop -> toDoc nop
         Unary uop g -> 
             toDoc uop <+> toDocPrec 10 g
@@ -15,6 +15,9 @@ instance ToDoc Formula where
             Until    -> binary p 3 4 bop g h
             Or       -> binary p 5 6 bop g h
             And      -> binary p 7 8 bop g h
+
+instance ToDoc Name where
+    toDoc (Name n) = text n
 
 instance ToDoc Nop where
     toDoc (Constant b) = toDoc b

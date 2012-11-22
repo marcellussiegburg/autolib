@@ -15,6 +15,7 @@ import qualified Autolib.Relation as R
 import Autolib.ToDoc
 import Autolib.Reader
 import Data.Typeable
+import Autolib.Size
 
 class ( Ord c, Ord s
                 , Reader c, Reader s
@@ -35,6 +36,9 @@ data FOAC c s => FOA c s = FOA
     , transitions :: Transitions c s
     , acceptance :: Acceptance s
     } deriving Typeable
+
+instance FOAC c s => Size (FOA c s) where
+    size = S.size . states
 
 data Transitions c s = 
      Transitions ( FiniteMap c ( R.Type s s ) )

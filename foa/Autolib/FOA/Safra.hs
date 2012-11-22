@@ -110,7 +110,7 @@ finals states = S.fromList $ do
     return $ S.fromList ts
 
 safra :: FOAC c s
-      => FOA c s -- ^ Buchi
+      => FOA c s -- ^ Buchi nondeterministic
       -> FOA c (Tree s) -- ^ Muller deterministic
 safra a | Buchi f <- acceptance a =
     let 
@@ -133,6 +133,7 @@ safra a | Buchi f <- acceptance a =
             , transitions = collect trs 
             , acceptance = 
                 Muller $ finals $ S.toList sts
+            , foa_info = text "safra" $$ foa_info a    
             }
 
 

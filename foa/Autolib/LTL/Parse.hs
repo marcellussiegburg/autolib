@@ -29,10 +29,13 @@ unary = foldr1 ( <|> ) $ do
    u <- uops
    return $ do my_reserved ( show u ) ; return u
 
-atom = my_parens formula <|> variable
+atom = my_parens formula 
+    <|> do v <- reader ; return $ Variable v
 
-variable = do 
-    n <- my_identifier 
-    guard $ not $ elem n 
-          $ map show uops ++ map show bops
-    return $ Variable n
+instance Reader Name where
+    reader = do 
+        n <- my_identifier
+        guard $ not $ elem n 
+              $ map show uops ++ map show bops
+        return $ Name n
+
