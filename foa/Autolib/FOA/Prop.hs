@@ -28,7 +28,7 @@ runs :: FOAC c s => FOA c s -> [ Run c ]
 runs a = do
     let empties = do 
             p <- S.toList $ states a
-            return $ Link { footprint = S.empty
+            return $ Link { footprint = S.singleton p
                           , example = []
                           , from = p, to = p   
                           }

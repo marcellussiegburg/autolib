@@ -20,6 +20,7 @@ subtrees :: Formula -> [ Formula ]
 subtrees f = f : case f of
     Unary _ g -> subtrees g
     Binary _ g h -> [g,h] >>= subtrees
+    _ -> []
 
 variables :: Formula -> [ Name ]
 variables f = nub $ do 
