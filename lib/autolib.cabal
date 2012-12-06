@@ -5,22 +5,22 @@ Author:         Mirko Rahn, Alf Richter, Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
 Build-Depends:  
-        autolib-todoc >= 1.1 && < 1.2,
-        autolib-tex >= 1.1 && < 1.2,
-        autolib-reader >= 1.1 && < 1.2,
-        autolib-output >= 1.1 && < 1.2,
-        autolib-data >= 1.1 && < 1.2,
-        autolib-reporter >= 1.1 && < 1.2,
-        autolib-algorithm >= 1.1 && < 1.2,
-        autolib-util >= 1.1 && < 1.2,
-        autolib-relation >= 1.1 && < 1.2,
-        autolib-dot >= 1.1 && < 1.2,
-        autolib-fa >= 1.1 && < 1.2,
-        autolib-exp >= 1.1 && < 1.2,
-        autolib-rewriting >= 1.1 && < 1.2,
-        autolib-fta >= 1.1 && < 1.2,
-        autolib-graph >= 1.1 && < 1.2,
-        autolib-genetic >= 1.2 && < 1.3
+        autolib-todoc >= 1.1,
+        autolib-tex >= 1.1,
+        autolib-reader >= 1.1,
+        autolib-output >= 1.1,
+        autolib-data >= 1.1,
+        autolib-reporter >= 1.1,
+        autolib-algorithm >= 1.1,
+        autolib-util >= 1.1,
+        autolib-relation >= 1.1,
+        autolib-dot >= 1.1,
+        autolib-fa >= 1.1,
+        autolib-exp >= 1.2,
+        autolib-rewriting >= 1.1,
+        autolib-fta >= 1.1,
+        autolib-graph >= 1.1,
+        autolib-genetic >= 1.2
 Synopsis:       virtual package that depends on autolib-*
 Exposed-modules:
 hs-source-dirs:	.
