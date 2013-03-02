@@ -10,7 +10,9 @@ normalize :: NFAC c s
 	  => NFA c s -> NFA c Int
 normalize n = 
     let fm = listToFM $ zip (lstates n) [ 1 :: Int .. ]
-	fun = lookupWithDefaultFM fm (error "Normalize")
+	fun p = case lookupFM fm p of
+               Nothing -> error $ unwords [ "Normalize", show p ]
+               Just q -> q
 	a = statemap fun n
     in	a { nfa_info = funni "normalize" [ info n ] }
 
