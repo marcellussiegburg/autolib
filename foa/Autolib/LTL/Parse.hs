@@ -16,8 +16,10 @@ formula =
    in  buildExpressionParser
     [ [ op And AssocLeft ]
     , [ op Or AssocLeft ]
-    , [ op Until AssocLeft ]
-    , [ op Implies AssocRight ]
+    , [ op Until AssocNone 
+      , op Implies AssocNone 
+      , op Iff AssocNone 
+      ]
     ] application
 
 application = do

@@ -11,10 +11,11 @@ instance ToDoc Formula where
         Unary uop g -> 
             toDoc uop <+> toDocPrec 10 g
         Binary bop g h -> case bop of
-            Implies  -> binary p 2 1 bop g h
-            Until    -> binary p 3 4 bop g h
-            Or       -> binary p 5 6 bop g h
-            And      -> binary p 7 8 bop g h
+            Iff      -> binary p 3 4 4 bop g h
+            Implies  -> binary p 3 4 4 bop g h
+            Until    -> binary p 3 4 4 bop g h
+            Or       -> binary p 6 5 6 bop g h
+            And      -> binary p 8 7 8 bop g h
 
 instance ToDoc Name where
     toDoc (Name n) = text n
@@ -25,12 +26,11 @@ instance ToDoc Nop where
 instance ToDoc Uop where
     toDoc uop = case uop of
          Not -> text "not"
-         Always -> text "always"
-         Eventually -> text "eventually"
-         Next -> text "next"
+         Always -> text "G"
+         Eventually -> text "F"
+         Next -> text "X"
 
-binary context l r bop g h = 
-    let me = min l r in
+binary context me l r bop g h = 
     ( if context > me then parens else id )
     $ toDocPrec l g <+> toDoc bop <+> toDocPrec r h
 
@@ -39,7 +39,8 @@ instance ToDoc Bop where
         And -> text "&&"
         Or  -> text "||"
         Implies -> text "=>"
-        Until -> text "until"
+        Iff -> text "<=>"
+        Until -> text "U"
 
 instance Show Formula where show = render . toDoc
 instance Show Nop where show = render . toDoc

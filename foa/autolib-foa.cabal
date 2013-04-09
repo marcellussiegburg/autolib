@@ -4,12 +4,23 @@ License:        GPL
 Author:         Johannes Waldmann
 Homepage:       http://dfa.imn.htwk-leipzig.de/auto/
 Category:       Testing
-Build-Depends: base == 4.* , mtl , autolib-algorithm ,
+Build-Depends: base == 4.* , mtl , parsec,
+	       autolib-algorithm , containers,
                autolib-reader , autolib-todoc , autolib-reporter , autolib-data ,
-               autolib-relation , autolib-util , autolib-dot, autolib-fa, autolib-exp >= 1.2
+               autolib-relation , autolib-util , autolib-dot, autolib-fa, autolib-exp >= 1.3
 Synopsis:       finite automata (for omega words) 
 Exposed-modules:
-
+    Autolib.ORW.Type
+    Autolib.LTL.Type
+    Autolib.LTL.Assign
+    Autolib.LTL.Eval.ORW
+Other-modules:
+    Autolib.ORW.Data
+    Autolib.ORW.Print
+    Autolib.ORW.Read
+    Autolib.LTL.Data
+    Autolib.LTL.Parse
+    Autolib.LTL.Print
 hs-source-dirs:	.
 extensions: ScopedTypeVariables, FlexibleContexts, FlexibleInstances, MultiParamTypeClasses, OverlappingInstances,
 	    DeriveDataTypeable, IncoherentInstances

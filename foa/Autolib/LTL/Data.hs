@@ -3,11 +3,14 @@
 module Autolib.LTL.Data where
 
 import Autolib.Size
+import Autolib.Hash
 import Data.Typeable
 import Data.List ( nub )
 
 newtype Name = Name String
     deriving ( Eq, Ord )
+
+instance Hash Name where hash (Name s) = hash s
 
 data Formula 
     = Variable Name
@@ -40,7 +43,8 @@ data Uop = Not
 uops :: [ Uop ]
 uops = [ minBound .. maxBound ]
 
-data Bop = And | Or | Implies | Until
+data Bop = And | Or | Implies | Iff
+         | Until
     deriving (Typeable, Eq, Ord, Enum, Bounded )
 
 bops :: [ Bop ]
