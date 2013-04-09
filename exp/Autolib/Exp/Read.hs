@@ -54,7 +54,7 @@ monomial = do
 		 <|> do symbol  "*" ; return $ PowerStar   
 		 <|> do e <- natural; return $ Power e
 		     -- TODO: "hoch mod n"
-                 <|> do symbol "w" ; return $ PowerOmega    
+                 <|> do symbol "omega" ; return $ PowerOmega    
 		 ) 
     return $ foldl (.) id (reverse fs) $ x
 
