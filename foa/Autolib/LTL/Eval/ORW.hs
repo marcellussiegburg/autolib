@@ -61,7 +61,7 @@ always g os = case os of
 eventually g os = case os of
     [] -> return False
     o : os -> 
-       ite (eval (g,o)) (return True) (always g os) 
+       ite (eval (g,o)) (return True) (eventually g os)
 
 until g h os = case os of
     [] -> return False

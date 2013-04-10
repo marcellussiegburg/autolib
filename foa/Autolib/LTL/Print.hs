@@ -46,3 +46,4 @@ instance Show Formula where show = render . toDoc
 instance Show Nop where show = render . toDoc
 instance Show Uop where show = render . toDoc
 instance Show Bop where show = render . toDoc
+

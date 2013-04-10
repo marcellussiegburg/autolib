@@ -41,3 +41,10 @@ instance Reader Name where
               $ map show uops ++ map show bops
         return $ Name n
 
+instance Reader Uop where
+    reader = foldr1 ( <|> ) 
+           $ map ( \ u -> do my_symbol (show u); return u) uops
+
+instance Reader Bop where
+    reader = foldr1 ( <|> ) 
+           $ map ( \ u -> do my_symbol (show u); return u) bops
