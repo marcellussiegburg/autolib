@@ -21,7 +21,9 @@ import Text.ParserCombinators.Parsec as Export_Trickery
 import Control.Monad ( guard )
 import Autolib.Reader.Basic ( my_parens )
 import Text.ParserCombinators.Parsec.Token ( whiteSpace )
-import Text.ParserCombinators.Parsec.Language ( haskell )
+
+-- import Text.ParserCombinators.Parsec.Language ( haskell )
+import Autolib.Reader.Basic ( haskell )
 
 -- | @atomic_reader@ or @atomic_readerPrec@ must be implemented.
 -- it can start parsing right away.

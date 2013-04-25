@@ -11,7 +11,7 @@ import Autolib.ToDoc (Doc, text)
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token
-import Text.ParserCombinators.Parsec.Language ( haskell )
+-- import Text.ParserCombinators.Parsec.Language ( haskell )
 
 import Data.Int
 import Data.Ratio

@@ -10,6 +10,8 @@ module Autolib.Reader.Basic
 , my_stringLiteral
 , my_whiteSpace
 , parsed_info
+
+, haskell
 )
 
 where
@@ -21,11 +23,14 @@ where
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token
-import Text.ParserCombinators.Parsec.Language ( haskell )
+import qualified Text.ParserCombinators.Parsec.Language as TPCL
 
 import qualified Autolib.ToDoc as Pretty
 
 import Control.Monad ( guard )
+
+haskell = makeTokenParser
+        $ TPCL.haskellStyle { commentStart   = "{- " }
 
 my_parens :: Parser a -> Parser a
 my_parens = parens haskell

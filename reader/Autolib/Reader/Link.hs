@@ -9,7 +9,7 @@ import Autolib.Reader.Basic
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Token
-import Text.ParserCombinators.Parsec.Language ( haskell )
+-- import Text.ParserCombinators.Parsec.Language ( haskell )
 
 import Control.Monad
 
