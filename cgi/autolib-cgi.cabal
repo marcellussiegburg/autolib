@@ -31,7 +31,8 @@ Executable Menu_Test
             transformers,
             xhtml,
             happstack-server,
-            happstack-state
+            -- happstack-state
+            acid-state
     Main-is: Menu_Test.hs    
 
 
