@@ -65,7 +65,7 @@ peng a = do
                        ]
                  return ()
              `CE.catch` \ ( any :: CE.IOException ) -> return ()
-    execute action
+    -- execute action -- WHAT?
     output $ Output.HRef pngfile
            $ Output.Image pngfile (action >> B.readFile pngfile)
 
