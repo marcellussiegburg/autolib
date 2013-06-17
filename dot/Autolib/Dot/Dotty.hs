@@ -15,7 +15,7 @@ import Autolib.Dot.Dot
 import qualified Autolib.Dot.Graph
 import Autolib.Size
 
-import System.IO
+import qualified System.IO.Strict as SIO
 import System.Directory
 import qualified Control.Exception as CE
 
@@ -48,7 +48,7 @@ peng a = do
                 ex <- doesFileExist pngfile
                 when (not ex) $ ioError $ userError "not"
                 debug $ "looking for: " ++ objfile
-                cs <- readFile objfile
+                cs <- SIO.run $ SIO.readFile objfile
                 debug $ "found      : " ++ objfile
                 let eq = show a == cs
                 debug $ "contents ok: " ++ show eq
