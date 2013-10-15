@@ -8,7 +8,7 @@ import Autolib.Logic.Formula
 -- | input: arbitrary; 
 -- output: equivalent formula without FO variables.
 -- implementation: each FO variable is replaced by a singleton SO variable.
-mso2mso0 :: Formula -> Formula
+mso2mso0 :: Formula FOName SOName -> Formula Void SOName
 mso2mso0 f = case f of
 
     SuccFO (Unlift l) (Unlift r) -> SuccSO l r

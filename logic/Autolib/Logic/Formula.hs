@@ -1,5 +1,6 @@
 {-# language OverloadedStrings, GeneralizedNewtypeDeriving #-}
-{-# language FlexibleInstances, TypeSynonymInstances #-}
+{-# language FlexibleInstances, FlexibleContexts, UndecidableInstances #-}
+{-# language GADTs #-}
 
 module Autolib.Logic.Formula where
 
@@ -16,21 +17,28 @@ data FOName = FOName String
 
 instance IsString FOName where fromString = FOName
 
-newtype SOName = SOName String 
+newtype SOName = SOName String deriving (Ord, Eq)
 
 instance IsString SOName where fromString = SOName
 
-data Formula 
-    = SuccFO FOName FOName | LessFO FOName FOName
-    | Apply SOName FOName
-    | Subseteq SOName SOName | Singleton SOName | SuccSO SOName SOName
-    | Not Formula | Or Formula Formula | And Formula Formula | Implies Formula Formula
-    | ForallFO ( FOName -> Formula )
-    | ForallSO ( SOName -> Formula )
-    | ExistsFO ( FOName -> Formula )
-    | ExistsSO ( SOName -> Formula )
+data Formula fo so where
+    SuccFO :: fo -> fo -> Formula fo so
+    LessFO :: fo -> fo -> Formula fo so
+    Apply  :: so -> fo -> Formula fo so
+    Subseteq :: so -> so -> Formula fo so
+    Singleton :: so -> Formula fo so
+    SuccSO :: so -> so -> Formula fo so
+    Not :: Formula fo so -> Formula fo so
+    Or :: Formula fo so -> Formula fo so -> Formula fo so
+    And :: Formula fo so -> Formula fo so -> Formula fo so
+    Implies :: Formula fo so -> Formula fo so -> Formula fo so
+    ForallFO :: (fo -> Formula fo so) -> Formula fo so
+    ForallSO :: (so -> Formula fo so) -> Formula fo so
+    ExistsFO :: (fo -> Formula fo so) -> Formula fo so
+    ExistsSO :: (so -> Formula fo so) -> Formula fo so
 
-f1 :: Formula
+
+f1 :: Formula FOName SOName
 f1 = ForallFO $ \ x -> Implies ( Apply "A" x ) 
    $ ExistsFO $ \ y -> And (SuccFO x y) (Apply "Z" y)
 
@@ -40,12 +48,31 @@ instance ToDoc FOName where
         Unlift u -> hsep [ "Unlift", toDoc u ]
 
 instance ToDoc SOName where toDoc (SOName s) = text s
+instance Show SOName where show = render . toDoc
+
+instance Reader SOName where reader = error "Reader SOName"
 
 -- should be in Autolib.ToDoc
 instance IsString Doc where fromString = text
 
-instance ToDoc Formula where toDocPrec p f = formula (fonames, sonames) p f
-instance Show Formula where show = render . toDoc
+instance ToDoc (Formula FOName SOName) where 
+    toDocPrec p f = formula (fonames, sonames) p f
+instance Show (Formula FOName SOName) where 
+    show = render . toDoc
+
+data Void
+
+instance ToDoc Void 
+
+instance ToDoc (Formula Void Int) where
+    toDocPrec p f = formula ( undefined, [0..] ) p f
+instance Show (Formula Void Int) where
+    show = render . toDoc
+
+instance ToDoc (Formula Void SOName) where
+    toDocPrec p f = formula ( undefined, sonames ) p f
+instance Show (Formula Void SOName) where
+    show = render . toDoc
 
 formula fs @ (fonames,sonames) p f = case f of
     SuccFO l r -> parens $ hsep [ toDoc l, "<1", toDoc r ]
