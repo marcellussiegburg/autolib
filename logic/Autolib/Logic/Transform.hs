@@ -3,24 +3,24 @@
 
 module Autolib.Logic.Transform where
 
-import Autolib.Logic.Formula
+import qualified Autolib.Logic.Formula.FO as FO
+import qualified Autolib.Logic.Formula.SO as SO
 
 -- | input: arbitrary; 
 -- output: equivalent formula without FO variables.
 -- implementation: each FO variable is replaced by a singleton SO variable.
-mso2mso0 :: Formula FOName SOName -> Formula Void SOName
-mso2mso0 f = case f of
+fo2mso0 :: FO.Formula -> SO.Formula 
+fo2mso0 (FO.Formula f) = convert f
 
-    SuccFO (Unlift l) (Unlift r) -> SuccSO l r
-    Apply s (Unlift u) -> Subseteq u s
+convert :: FO.Form Int -> SO.Formula
+convert f = case f of
+    FO.Succ l r -> SO.Succ l r
+    FO.Less l r -> SO.Less l r
+    FO.Apply f a -> SO.Subseteq a f
 
-    Or l r -> Or (mso2mso0 l) (mso2mso0 r)
-    And l r -> And (mso2mso0 l) (mso2mso0 r)
-    Implies l r -> Implies (mso2mso0 l) (mso2mso0 r)
+    FO.Or l r -> SO.Or (convert l) (convert r)
+    FO.And l r -> SO.And (convert l) (convert r)
+    FO.Implies l r -> SO.Implies (convert l) (convert r)
 
-    ForallFO fun -> ForallSO $ \ n -> Implies (Singleton n) (mso2mso0 $ fun $ Unlift n )
-    ExistsFO fun -> ExistsSO $ \ n -> And (Singleton n) (mso2mso0 $ fun $ Unlift n )
-    ForallSO fun -> ForallSO $ \ n -> mso2mso0 $ fun n
-    ExistsSO fun -> ExistsSO $ \ n -> mso2mso0 $ fun n
-
-    _ -> error $ "mso2mso0: " ++ show f
+    FO.Forall fun -> SO.Forall $ \ n -> SO.Implies (SO.Singleton n) (convert $ fun  n )
+    FO.Exists fun -> SO.Exists $ \ n -> SO.And (SO.Singleton n) (convert $ fun  n )
