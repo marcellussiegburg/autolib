@@ -10,12 +10,12 @@ import Autolib.Logic.Formula.Name
 import Autolib.ToDoc
 import Autolib.Reader
 
--- TODO : use PHOAS (as in FO.hs)
+-- | TODO : use PHOAS (as in FO.hs)
 data Formula where
-    Succ :: Int -> Int -> Formula
+    Succ :: Int -> Int -> Formula 
     Less :: Int -> Int -> Formula
     
-    Subseteq :: Int -> Name -> Formula
+    Letter :: Name -> Int -> Formula
     Singleton :: Int -> Formula
 
     Not :: Formula -> Formula
@@ -36,7 +36,7 @@ formula names p f = case f of
     Succ l r -> parens $ hsep [ toDoc l, "<1", toDoc r ]
     Less l r -> parens $ hsep [ toDoc l, "<", toDoc r ]
 
-    Subseteq l r -> parens $ hsep [ "Subseteq", toDoc l, toDoc r ]
+    Letter l r -> parens $ hsep [ "Letter", toDoc l, toDoc r ]
     Singleton l -> parens $ hsep [ "Singleton", toDoc l ]
 
     Not f -> hsep [ "not" , parens $ formula names p f ]

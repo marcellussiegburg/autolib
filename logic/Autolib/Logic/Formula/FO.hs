@@ -15,7 +15,7 @@ import Data.String
 data Form n where
     Succ :: n -> n -> Form n
     Less :: n -> n -> Form n
-    Apply :: Name -> n -> Form n
+    Letter :: Name -> n -> Form n
     Not :: Form n -> Form n
     Or :: Form n -> Form n -> Form n
     And :: Form n -> Form n -> Form n
@@ -27,8 +27,8 @@ data  Formula = Formula ( forall n . Form n )
 
 f1 :: Formula 
 f1 = Formula
-   $ Forall $ \ x -> Implies ( Apply "A" x ) 
-   $ Exists $ \ y -> And (Succ x y) (Apply "Z" y)
+   $ Forall $ \ x -> Implies ( Letter "A" x ) 
+   $ Exists $ \ y -> And (Succ x y) (Letter "B" y)
 
 
 instance ToDoc Formula where 
@@ -43,7 +43,7 @@ formula names p f = case f of
         parens $ hsep [ toDoc l, "<1", toDoc r ]
     Less l r -> 
         parens $ hsep [ toDoc l, "<", toDoc r ]
-    Apply s f -> 
+    Letter s f -> 
         hsep [ toDoc s, parens $ toDoc f ]
 
     Not f -> 
