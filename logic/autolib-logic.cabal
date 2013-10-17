@@ -15,10 +15,17 @@ build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
 
-executable autolib-logic
-  -- main-is:             
-  -- other-modules:       
-  -- other-extensions:    
-  build-depends:       base >=4.6 && <4.7
-  -- hs-source-dirs:      
-  default-language:    Haskell2010
+
+exposed-modules: 
+      Autolib.Logic.Formula.FO
+      Autolib.Logic.Formula.Name
+      Autolib.Logic.Formula.FO.Reader
+      Autolib.Logic.Formula.FO.Data
+      Autolib.Logic.Formula.FO.ToDoc
+      Autolib.Logic.Formula.SO
+      Autolib.Logic.Formula.Doc
+      Autolib.Logic.NFA
+      Autolib.Logic.Transform
+
+build-depends: base, 	       containers, parsec,
+	       autolib-util, autolib-reader, autolib-todoc, autolib-fa
