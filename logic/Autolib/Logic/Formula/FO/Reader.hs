@@ -14,6 +14,7 @@ import Text.Parsec.Prim ( sysUnExpectError )
 import qualified Data.Set as S
 import qualified Data.Map as M
 
+formula :: Parser Formula
 formula = do
     f <- expr S.empty
     return $ Formula $ convert undefined f 
