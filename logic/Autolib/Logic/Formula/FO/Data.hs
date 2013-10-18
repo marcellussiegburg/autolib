@@ -2,6 +2,7 @@
 {-# language FlexibleInstances, FlexibleContexts, UndecidableInstances #-}
 {-# language GADTs #-}
 {-# language Rank2Types #-}
+{-# language DeriveDataTypeable #-}
 
 module Autolib.Logic.Formula.FO.Data where
 
@@ -9,6 +10,8 @@ import Autolib.Logic.Formula.Name
 
 import Autolib.Reader
 import Autolib.Size
+
+import Data.Typeable
 
 data Form n where
     Succ :: n -> n -> Form n
@@ -22,6 +25,7 @@ data Form n where
     Exists :: (n -> Form n) -> Form n
 
 data  Formula = Formula ( forall n . Form n )
+    deriving Typeable
 
 f1 :: Formula 
 f1 = Formula
