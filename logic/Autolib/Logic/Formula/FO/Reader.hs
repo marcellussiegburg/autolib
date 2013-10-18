@@ -14,6 +14,8 @@ import Text.Parsec.Prim ( sysUnExpectError )
 import qualified Data.Set as S
 import qualified Data.Map as M
 
+instance Reader Formula where reader = formula
+
 formula :: Parser Formula
 formula = do
     f <- expr S.empty
