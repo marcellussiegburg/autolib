@@ -40,7 +40,7 @@ extend env name val = \ v ->
 
 data E = ELess Name Name
        | ESucc Name Name
-       | ELetter Name Name
+       | ELetter Char Name
        | ENot E | EAnd E E | EOr E E | EImplies E E
        | EForall Name E | EExists Name E
     deriving ( Show )
@@ -73,9 +73,11 @@ basic bound = name >>= \ x ->
           <|> ( my_symbol "<"  >> return ELess )
         y <- reference bound
         return $ s x y
-    else do 
-        y <- my_parens (reference bound)
-        return $ ELetter x y
+    else case show x of
+        [c] -> do
+            y <- my_parens (reference bound)
+            return $ ELetter c y
+        s -> fail $ "not a letter: " ++ s
 
 name = fmap Name my_identifier
 

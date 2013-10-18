@@ -24,8 +24,8 @@ formula names p f = case f of
         parens $ hsep [ toDoc l, "<1", toDoc r ]
     Less l r -> 
         parens $ hsep [ toDoc l, "<", toDoc r ]
-    Letter s f -> 
-        hsep [ toDoc s, parens $ toDoc f ]
+    Letter c f -> 
+        hsep [ text [c], parens $ toDoc f ]
 
     Not f -> 
         hsep [ "not" , parens $ formula names p f ]

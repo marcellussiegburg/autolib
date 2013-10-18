@@ -19,7 +19,7 @@ convert :: FO.Form Int -> SO.Formula
 convert f = case f of
     FO.Succ l r -> SO.Succ l r
     FO.Less l r -> SO.Less l r
-    FO.Letter f a -> SO.Letter f a
+    FO.Letter c a -> SO.Letter c a
 
     FO.Or l r -> SO.Or (convert l) (convert r)
     FO.And l r -> SO.And (convert l) (convert r)

@@ -26,6 +26,8 @@ exposed-modules:
       Autolib.Logic.Formula.Doc
       Autolib.Logic.NFA
       Autolib.Logic.Transform
+      Autolib.Logic
+
 
 build-depends: base, 	       containers, parsec,
 	       autolib-util, autolib-reader, autolib-todoc, autolib-fa

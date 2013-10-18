@@ -20,8 +20,8 @@ import Control.Monad ( guard )
 -- | input: MSO_0 formula,
 -- output: equivalent automaton
 
-type Alpha = [ Name ]
-type Letter = ( Name, [ Bool ] )
+type Alpha = [ Char ]
+type Letter = ( Char, [ Bool ] )
 type Auto = NFA Letter Int
 
 instance Size Bool where size _  = 1

@@ -15,7 +15,7 @@ data Formula where
     Succ :: Int -> Int -> Formula 
     Less :: Int -> Int -> Formula
     
-    Letter :: Name -> Int -> Formula
+    Letter :: Char -> Int -> Formula
     Singleton :: Int -> Formula
 
     Not :: Formula -> Formula
@@ -36,7 +36,7 @@ formula names p f = case f of
     Succ l r -> parens $ hsep [ toDoc l, "<1", toDoc r ]
     Less l r -> parens $ hsep [ toDoc l, "<", toDoc r ]
 
-    Letter l r -> parens $ hsep [ "Letter", toDoc l, toDoc r ]
+    Letter c r -> parens $ hsep [ "Letter", text [c], toDoc r ]
     Singleton l -> parens $ hsep [ "Singleton", toDoc l ]
 
     Not f -> hsep [ "not" , parens $ formula names p f ]
