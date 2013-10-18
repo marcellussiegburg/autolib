@@ -67,6 +67,7 @@ to_nfa alpha vars f = case f of
                             [(0,x,0), (1,x,1), (2,x,2)]
                         (True,False) -> [ (0,x,1) ]
                         (False,True) -> [ (1,x,2) ]
+                        (True,True) -> []
                 }
 
     Letter c n -> 

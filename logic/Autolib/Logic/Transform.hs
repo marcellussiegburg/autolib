@@ -20,7 +20,8 @@ convert f = case f of
     FO.Succ l r -> SO.Succ l r
     FO.Less l r -> SO.Less l r
     FO.Letter c a -> SO.Letter c a
-
+    
+    FO.Not l -> SO.Not (convert l)
     FO.Or l r -> SO.Or (convert l) (convert r)
     FO.And l r -> SO.And (convert l) (convert r)
     FO.Implies l r -> SO.Implies (convert l) (convert r)
