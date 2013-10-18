@@ -37,9 +37,9 @@ formula names p f = case f of
         [ formula names p l, "=>", formula names p r ]
 
     Forall f -> with_name names $ \ n names' -> 
-             hsep [ "forall" , toDoc n, parens $ formula names' p $ f n ]
+             hsep [ "forall" , toDoc n, ":", parens $ formula names' p $ f n ]
     Exists f -> with_name names $ \ n names' -> 
-             hsep [ "exists" , toDoc n, parens $ formula names' p $ f n ]
+             hsep [ "exists" , toDoc n, ":", parens $ formula names' p $ f n ]
 
 -- | these are used only for printing (?)
 
