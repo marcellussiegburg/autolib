@@ -17,6 +17,7 @@ Build-Depends:
         autolib-dot >= 1.1,
         autolib-fa >= 1.1,
         autolib-exp >= 1.2,
+        autolib-logic >= 0,
         autolib-rewriting >= 1.1,
         autolib-fta >= 1.1,
         autolib-graph >= 1.1,
