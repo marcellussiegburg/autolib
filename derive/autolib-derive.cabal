@@ -30,7 +30,7 @@ extra-source-files:
 library
     build-depends:
             base >= 4,
-            derive
+            derive == 2.5.11
     exposed-modules:
 -- GENERATED START
         Data.Derive.ToTransport
