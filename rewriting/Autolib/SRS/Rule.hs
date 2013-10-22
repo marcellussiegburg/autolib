@@ -8,7 +8,7 @@ import Autolib.TES.Parsec
 import Autolib.ToDoc
 import Autolib.Reader
 
-type Rule c = ( [c], [c] )
+data Rule c = Rule { lhs :: [c], rhs :: [c] }
 
 instance ( Symbol c ) => Reader ( Rule c ) where
     readerPrec p = do
@@ -16,13 +16,13 @@ instance ( Symbol c ) => Reader ( Rule c ) where
 	reservedOp trs "->"
 	rhs <- many $ readerPrec 0
 	option "" $ my_comma -- use maximum munch
-	return ( lhs, rhs )
+	return $ Rule lhs rhs 
 
 instance Symbol c => ToDoc ( Rule c ) where
-    toDoc (lhs, rhs) = hsep 
-        [ toDoc_list lhs
+    toDoc u = hsep 
+        [ toDoc_list $ lhs u
 	, text "->"
-	, toDoc_list rhs
+	, toDoc_list $ rhs u
        	-- TODO: , ToDoc.comma 
 	]
 
