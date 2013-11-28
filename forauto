@@ -1,7 +1,7 @@
 #! /bin/bash
 
-# PACKAGES=$(echo {derive,transport,todoc,output,reader,data,tex,reporter,util,algorithm,dot,relation,fa,genetic,rewriting,graph,exp,logic,fta,lib,cgi})
-PACKAGES=$(echo {dot,relation,fa,genetic,rewriting,graph,exp,fta,foa,lib})
+PACKAGES=$(echo {derive,transport,todoc,output,reader,data,tex,reporter,util,algorithm,dot,relation,fa,genetic,rewriting,graph,exp,logic,fta,foa,lib,cgi})
+# PACKAGES=$(echo {dot,relation,fa,genetic,rewriting,graph,exp,fta,foa,lib})
 
 function usage() {
     cat <<EOF
