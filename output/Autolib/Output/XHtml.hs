@@ -8,9 +8,9 @@ import qualified Autolib.Multilingual.Html as Html
 instance Render Html.Html where
     render (Text t) = Html.stringToHtml t
     render (Doc d)  = 
-        Html.pre $ Html.primHtml $ fmap show  d 
+        Html.pre $ Html.stringToHtml $ show  d 
     render (Pre d)  = 
-        Html.pre $ Html.primHtml $ fmap show  d 
+        Html.pre $ Html.stringToHtml $ show  d 
     render (Image src _) = 
 	Html.image Html.! [ Html.src src, Html.alt src ]
     render (Link ref) =  
