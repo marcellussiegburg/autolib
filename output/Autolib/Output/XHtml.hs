@@ -52,7 +52,8 @@ breaking ( Empty ) = True -- ??
 breaking ( Itemize _ ) = True
 breaking ( Nest _ ) = True
 breaking ( Doc _ ) = True
-breaking ( Above x y ) = breaking x
-breaking ( Beside x y ) = breaking x
+breaking ( Pre _ ) = True
+breaking ( Above x y ) = breaking y
+breaking ( Beside x y ) = breaking y
 breaking _ = False
 
